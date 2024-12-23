@@ -1,0 +1,30 @@
+\section{Riassunto della riunione}
+Questa riunione si è svolta per discutere con il gruppo di quanto emerso nel corso della riunione SAL avvenuta con l’azienda proponente pochi minuti prima e per allineare tutti i membri riguardo gli avanzamenti che sono stati effettuati.\\
+Da quanto è stato discusso sono emerse le seguenti decisioni:
+\begin{itemize}
+    \item Dopo la visione dei progressi ottenuti nella realizzazione del PoC, sono stati individuati i punti prioritari da sviluppare:
+    \begin{itemize}
+        \item Implementazione di un filtro per il prompt, necessario per impedire l'inserimento di domande che trattano argomenti proibiti o inadatti, oltre a evitare richieste troppo generiche che potrebbero compromettere le query generate;
+        \item Sviluppo delle query nel database, con l'obiettivo di estrarre il contesto necessario per il funzionamento del modello LLM;
+        \item Passaggio del contesto estratto dal database al modello LLM, dopo averlo reso adeguato per l'elaborazione da parte del modello LLM;
+        \item Suddivisione dei documenti in blocchi più piccoli (chunk), per migliorare la gestione dei dati e il loro utilizzo durante l'elaborazione da parte del modello LLM.
+    \end{itemize}
+    \item Dopo aver riassunto lo stato di avanzamento della documentazione, sono stati decisi i prossimi passi da svolgere per proseguirne la stesura:
+    \begin{itemize}
+        \item Piano di Progetto: redazione della retrospettiva del 2° periodo e del preventivo del 3° periodo;
+        \item Norme di Progetto: redazione della sezione "Configuration Management", ed in particolare delle sottosezioni relative alla repo ed al sistema di ticketing;
+        \item Piano di Qualifica: redazione della sezione relativa al "Testing", inserendo anche le percentuali di coverage minime richieste dal proponente e specificate nel capitolato;
+        \item Analisi dei Requisiti: integrazione delle sezioni "Casi d'Uso" e "Requisiti";
+        \item Glossario: inserimento di termini che necessitano di una definizione esplicita presenti nelle Norme di Progetto, nel Piano di Progetto, nell'Analisi dei Requisiti e nel Piano di Qualifica. 
+    \end{itemize}
+    \item Sebbene il codice del PoC non richieda attività di testing immediate, si è deciso di avviare un’attività di training per la realizzazione di test, così da essere pronti al momento del superamento dell’RTB;
+    \item Si è deciso di effettuare delle prove per la realizzazione di una GitHub Action che consenta l'automazione del processo di compilazione e caricamento dei documenti che sono stati soggetti ad approvazione.
+    \item Sono state fissate le date per le riunioni interne che si svolgeranno durante il periodo natalizio e le riunioni esterne che avverranno dopo il termine di quest'ultimo, oltre alla deta per cui viene stimata la presentazione della canditatura per l'RTB:
+    \begin{itemize}
+        \item 28 dicembre 2024 - Riunione interna;
+        \item 3 gennaio 2025 - Riunione interna;
+        \item 7 gennaio 2025 - Possibile data per una riunione SAL con l'azienda proponente, ma necessita ancora di conferma;
+        \item 14 gennaio 2025 - Riunione SAL con l'azienda proponente e presentazione del lavoro svolto e del PoC;
+        \item 17 gennaio 2025 - Presentazione della canditatura per l'RTB.
+    \end{itemize}
+\end{itemize}
