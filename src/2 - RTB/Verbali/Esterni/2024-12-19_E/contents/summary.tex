@@ -14,25 +14,26 @@ in questo periodo:
         \item Tommaso Zocche - Verificatore.
     \end{itemize}
 \item \textbf{Panoramica ad ampio spettro}:
-abbiamo riportato gli avanzamenti della documentazione, casi d'uso, analisi dei requisiti; discusso delle tecnologie frontend e backend, discusso dei dubbi e difficoltà riscontrate nell'indicizzazione e nell'embedding.
+vengono riportati gli avanzamenti della documentazione, casi d'uso e analisi dei requisiti.
+Vengono discusse le tecnologie frontend e backend, oltre a dei dubbi e difficoltà riscontrate nell'indicizzazione e nell'embedding.
 
  \item \textbf{Attività completate ed in corso}: 
- La documentazione è stata aggiornata e si continua a lavorarci, abbiamo iniziato il PoC. Il progettista e il Programmatore hanno iniziato ad unire le tecnologie studiate e fare i primi test.
+ La documentazione è stata aggiornata e si continua a lavorarci, \`e stato iniziato il PoC. Il progettista e il programmatore hanno iniziato ad unire le tecnologie studiate e fare i primi test.
  Sono state riscontrate delle difficoltà in:
  \begin{itemize}
-        \item Gestione di domande generiche rispetto a domande specifiche.
-        \item Utilizzo di embedding per contestualizzare i dati.
+        \item Gestione di domande generiche rispetto a domande specifiche;
+        \item Utilizzo di embedding per contestualizzare i dati;
         \item Problemi con Docker e LM Studio:
        \begin{itemize}
-                    \item Errori relativi alla configurazione delle directory.
+                    \item Errori relativi alla configurazione delle directory;
                     \item Divisione dei servizi in container separati (Postgres, Flask, LM Studio).
         \end{itemize}  
-        \end{itemize}
-\item \textbf{Prossime attività da svolgere}: nel prossimo periodo si è deciso di:
- \begin{itemize}
+\end{itemize}
+\item \textbf{Prossime attività da svolgere}:
+\begin{itemize}
         \item PoC (Proof of Concept):
          \begin{itemize}
-            \item Iniziato per dimostrare il funzionamento base.
+            \item Iniziato per dimostrare il funzionamento base;
             \item Completamento richiesto per l’RTB.
         \end{itemize}
         \item RTB (Relazione Tecnica di Base): Previsto tra il 15 gennaio e il 15 febbraio.
@@ -49,7 +50,7 @@ abbiamo riportato gli avanzamenti della documentazione, casi d'uso, analisi dei 
 Abbiamo creato un Docker Compose con tre container separati: Postgres (con estensione vettoriale), Flask e LM Studio. Attualmente, stiamo lavorando per migliorare l'integrazione e studiare come esporre meglio le API. Alcune difficoltà riguardano la configurazione dell'ambiente e la documentazione incompleta per LM Studio.\\
 
 \textbf{Qual è la strategia per trattare domande specifiche e generiche dell'utente?}\\
-Il sistema implementa un pre-filtraggio delle domande dell'utente. In caso di domande generiche (es. "parlami dei termostati"), il chatbot richiederà ulteriori dettagli. Per domande specifiche, verranno utilizzati embedding per identificare i dati pertinenti. In futuro, si pensa di implementare un sistema per confrontare prodotti o gestire domande relative a contesti precedenti.\\
+Il sistema implementa un pre-filtraggio delle domande dell'utente. In caso di domande generiche (es. ``parlami dei termostati"), il chatbot richiederà ulteriori dettagli. Per domande specifiche, verranno utilizzati embedding per identificare i dati pertinenti. In futuro, si pensa di implementare un sistema per confrontare prodotti o gestire domande relative a contesti precedenti.\\
 
 
 \end{itemize}
