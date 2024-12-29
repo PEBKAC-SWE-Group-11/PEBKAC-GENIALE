@@ -1,1 +1,140 @@
 \section{Strategie di testing}
+Per dimostare che i requisiti individuati dagli analisti ed elencati nella sezione omonima dell'Analisi dei Requisiti siano soddisfatti, è necessario che vengano realizzati dei test appositi che verranno eseguiti sul prodotto sia in fase di codifica che in fase di verifica e revisione.\\
+I test realizzabili possono essere suddivisi in quattro categorie principali:
+\begin{itemize}
+    \item \textbf{Test di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
+    \item \textbf{Test di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
+    \item \textbf{Test di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i requisiti funzionali e non funzionali, assicurandosi di valutare il sistema nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
+    \item \textbf{Test End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
+    \item \textbf{Test di accettazione}: verificano se un sistema o una parte di esso soddisfa i requisiti e le aspettative degli utenti o del cliente, venendo eseguiti prima del rilascio del software per confermare che il prodotto finale sia pronto per l'uso e conforme alle specifiche concordate.
+\end{itemize}
+
+\subsection{Notazione dei test}
+\'E stato decisa come notazione per identificare univocamente i test la seguente:
+\begin{center}
+    \textbf{T[Tipologia][Numero]}
+\end{center}
+\textbf{Tipologia} indica la tipologia del test:
+\begin{itemize}
+    \item \textbf{U}: di unità;
+    \item \textbf{I}: di integrazione;
+    \item \textbf{S}: di sistema;
+    \item \textbf{E}: End-to-End;
+    \item \textbf{A}: di accettazione.
+\end{itemize}
+Ogni test si trova in uno \textbf{Stato}, che può essere:
+\begin{itemize}
+    \item \textbf{V}: verificato. Questo stato indica che il test ha fornito un esito positivo;
+    \item \textbf{NV}: non verificato. Questo stato indica che il test ha fornito un esito negativo;
+    \item \textbf{NI}: non implementato.Questo stato indica che il test non è ancora stato implementato, e quindi non fornisce nessun esito.
+\end{itemize}
+
+\subsection{Test di unità}
+I test di unità sono una tipologia di test utilizzata per verificare singoli componenti o unità di codice in isolamento, al fine di garantire che funzionino correttamente. Un'unità di codice può essere una funzione, un metodo, una classe o un modulo, a seconda del livello di granularità scelto. I test di unità vengono solitamente scritti dagli sviluppatori durante o immediatamente dopo la scrittura del codice e vengono utilizzati per:
+\begin{itemize}
+    \item Validare il comportamento del codice, assicurandosi che ogni unità fornisca risultati corretti per un determinato insieme di input;
+    \item Facilitare la manutenzione del software, individuando rapidamente errori introdotti da modifiche;
+    \item Promuovere la modularità, progettando concettualmente componenti indipendenti e riutilizzabili.
+\end{itemize}
+Per la realizzazione di questa categoria di test per questo progetto saranno utilizzati i framework Pytest e unittest per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del backend.\\
+I test di unità, insieme ai test di integrazione, come richiesto nel capitolato, devono avere un coverage minimo pari al 75\% (opzionalmente un coverage minimo pari al 90\%).
+%TODO: Inserire i test
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
+        \hline
+        TU-1 &  & NI \\
+        \hline
+        TU-2 &  & NI \\
+        \hline
+        TU-3 &  & NI \\
+    \end{tabularx}
+    \caption{Stato dei test di unità}
+\end{table}
+
+\subsection{Test di integrazione}
+I test di integrazione sono una tipologia di test progettata per verificare la capacità di diversi componenti o moduli di un sistema di funzionare insieme. I test di integrazione non mirano a testare singoli moduli in modo indipendente, come fa il test di unità, che si concentra su unità di codice isolate. Le caratteristiche principali dei test di integrazione sono:
+\begin{itemize}
+    \item Monitorare i problemi di comunicazione tra moduli;
+    \item Garantire la corretta configurazione e gestione delle dipendenze tra moduli;
+    Testare il sistema in condizioni più vicine a quelle reali rispetto a quanto avviene con i test di unità.
+\end{itemize}
+I test di integrazione, insieme ai test di unità, come richiesto nel capitolato, devono avere un coverage minimo pari al 75\% (opzionalmente un coverage minimo pari al 90\%).
+%TODO: Inserire i test
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
+        \hline
+        TI-1 &  & NI \\
+        \hline
+        TI-2 &  & NI \\
+        \hline
+        TI-3 &  & NI \\
+    \end{tabularx}
+    \caption{Stato dei test di integrazione}
+\end{table}
+
+\subsection{Test di sistema}
+I test di sistema sono una tipologia di test attraverso la quale vengono testati il comportamento e la funzionalità di un sistema completo nel suo insieme. Viene eseguito dopo che tutti i componenti o moduli sono stati integrati e serve a garantire che il sistema soddisfi i requisiti funzionali e non funzionali specificati. I test di sistema valutano il software in un ambiente il più possibile vicino a quello reale, simulando gli utenti di tale software. Le caratteristiche chiave dei test di sistema sono:
+\begin{itemize}
+    \item Verifica dei requisiti funzionali: assicurarsi che il sistema fornisca le funzionalità previste;
+    \item Verifica dei requisiti non funzionali: verifica di prestazioni, sicurezza, usabilità, scalabilità...
+    \item Test End-to-End: valutazione di flussi di lavoro completi, inclusa l'interazione con altri sistemi o applicazioni esterne;
+    \item Valutazione della conformità: garantire che il sistema aderisca a specifici standard o regolamenti.
+\end{itemize}
+%TODO: Inserire i test
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Requisito} & \textbf{Stato} \\
+        \hline
+        TS-1 &  &  & NI \\
+        \hline
+        TS-2 &  &  & NI \\
+        \hline
+        TS-3 &  &  & NI \\
+    \end{tabularx}
+    \caption{Stato dei test di sistema}
+\end{table}
+
+\subsection{Test End-to-End}
+I test End-to-End sono una tipologia di test che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di test riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i requisiti funzionali e contribuisca a una buona esperienza utente.
+I test End-to-End, come richiesto nel capitolato, devono avere un coverage minimo pari all'80\%.
+%TODO: Inserire i test
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
+        \hline
+        TE-1 &  &  & NI \\
+        \hline
+        TE-2 &  &  & NI \\
+        \hline
+        TE-3 &  &  & NI \\
+    \end{tabularx}
+    \caption{Stato dei test End-to-End}
+\end{table}
+
+\subsection{Test di accettazione}
+I test di accettazione sono una tipologia di test che verifica che un sistema o un'applicazione soddisfi requisiti ed aspettative concordate con il cliente o contro l'utente finale. Normalmente, questi test sono condotti sul ciclo finale del processo di sviluppo, prima della pubblicazione o della consegna del prodotto. Questi test hanno l'obiettivo di:
+\begin{itemize}
+    \item Confermare la conformità ai requisiti funzionali: verificare che il sistema realizzi le funzionalità richieste;
+    \item Verificare che sia appropriato per l'utilizzo nel mondo reale: assicurarsi che il sistema sia pronto per un ambiente di produzione.
+    \item Dare all'ente proprietario la capacità di approvare o rifiutare il sistema: un test di accettazione di successo è proprio l'ultimo passo di approvazione per il rilascio.
+\end{itemize}
+%TODO: Inserire i test
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
+        \hline
+        TA-1 &  &  & NI \\
+        \hline
+        TA-2 &  &  & NI \\
+        \hline
+        TA-3 &  &  & NI \\
+    \end{tabularx}
+    \caption{Stato dei test di accettazione}
+\end{table}
