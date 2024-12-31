@@ -1,0 +1,32 @@
+{
+    "id": "01400",
+    "title": "Alimentatore 230V~ 29Vdc 400mA",
+    "description": "Alimentatore con uscita 29 V d.c. 400 mA, alimentazione 230 V~ 50/60 Hz, con bobina di disaccoppiamento, installazione su guida DIN (60715 TH35), occupa 2 moduli da 17,5 mm",
+    "price": "\u20ac 163,20 (NR 1) listino 25.00 (iva esclusa)",
+    "technical_data": {
+        "Gruppo": "Sistemi di bus per impianti",
+        "Classe": "Alimentatore per per bus system",
+        "Sistema bus EIB/KNX": "No",
+        "Sistema bus radio KNX": "No",
+        "Sistema bus radio": "S\u00ec",
+        "Sistema bus LON": "No",
+        "Sistema bus Powernet": "No",
+        "Altri sistemi bus": "Altro",
+        "Tipo di montaggio": "Altro",
+        "Numero moduli DIN": "2",
+        "Con indicatore a LED": "No",
+        "Tensione bus bufferabile": "No",
+        "Numero di bobine integrate": "1",
+        "Numero di linee alimentabili": "2",
+        "Corrente d\u2019uscita max.": "400,00 mA"
+    },
+    "images": [
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/2DIMAGESIZE_PNG8/DI_01400.88075.PNG",
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/2DIMAGEREAR_PNG8/VP_01400.88069.PNG",
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/3DIMAGE_PNG8/EA_01400.88063.PNG"
+    ],
+    "documentation": [
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/DOCUMENT/13_Controlloaccessi_IT.63802.pdf",
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/DOCUMENT/ZIS_49400588B0_FI.100414.pdf"
+    ]
+}

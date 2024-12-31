@@ -1,0 +1,31 @@
+{
+    "id": "19755.3",
+    "title": "Due mezzi tasti 1M dimmer grigio",
+    "description": "Due mezzi tasti intercambiabili 1 modulo, simboli dimmer, grigio",
+    "price": "\u20ac 2,44 (NR 1) listino 25.00 (iva esclusa)",
+    "technical_data": {
+        "Gruppo": "Sistemi di bus per impianti",
+        "Classe": "Tasto a bilanciere per sistema bus",
+        "Sistema bus EIB/KNX": "No",
+        "Sistema bus radio KNX": "No",
+        "Sistema bus radio": "No",
+        "Sistema bus LON": "No",
+        "Sistema bus Powernet": "No",
+        "Altri sistemi bus": "Altro",
+        "Radio bidirezionale": "S\u00ec",
+        "Accoppiamento bus incluso": "No",
+        "Materiale": "Plastica",
+        "Qualit\u00e0 del materiale": "Materiale termoplastico",
+        "Protezione della superficie": "Non trattato",
+        "Tipo superficie": "Opaco",
+        "Colore": "Grigio",
+        "Codice RAL (simile)": "7015",
+        "Trasparente": "No"
+    },
+    "images": [
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/2DIMAGESIZE_PNG8/DI_19755.99925.3.PNG",
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/2DIMAGEREAR_PNG8/VP_19755.99875.3.PNG",
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/3DIMAGE_PNG8/EA_19755.99825.3.PNG"
+    ],
+    "documentation": []
+}

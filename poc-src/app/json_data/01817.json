@@ -1,0 +1,20 @@
+{
+    "id": "01817",
+    "title": "Carta a transponder Mifare",
+    "description": "Carta a transponder Mifare",
+    "price": "\u20ac 7,20 (NR 1) listino 25.00 (iva esclusa)",
+    "technical_data": {
+        "Gruppo": "Sistemi di allarme, chiamate di emergenza e di segnalazione",
+        "Classe": "Quadro per sistema di rilevamento accessi",
+        "Attivazione elettronica": "S\u00ec",
+        "Attivazione meccanica": "No",
+        "Attivazione biometrica": "No",
+        "Visualizzazione dello stato di attivazione": "No",
+        "Sistema radio": "S\u00ec",
+        "Materiale": "Plastica"
+    },
+    "images": [],
+    "documentation": [
+        "https://www.vimar.com/irj/go/km/docs/z_catalogo/VIDEO/Controllo-accessi-smart-per-strutture-ricettive-Vimar-2.93617.mp4"
+    ]
+}
