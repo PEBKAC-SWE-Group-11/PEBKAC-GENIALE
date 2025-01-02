@@ -1,5 +1,6 @@
-\begin{table}[H]
-    \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
+
+
+\begin{longtable}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
         \hline
         \textbf{ID requisito} & \textbf{Descrizione} & \textbf{Importanza} & \textbf{Fonti}  \\
         \hline
@@ -17,8 +18,122 @@
         \hline
         RF.P.7 & Il sistema deve fornire un'interfaccia con menu e sottomenù per costruire richieste specifiche in conversazioni guidate & Opzionale & Capitolato\\
         \hline
-        RF.O.8 & Il sistema deve consentire solo conversazioni pertinendi ai prodotti Vimar e bloccare conversazioni su argomenti proibiti & Obbligatorio & Capitolato \\
+        RF.D.8 & Il componente di interrogazione deve prevedere un controllo sull’output
+        per verificare che il contenuto non vada in conflitto con argomenti proibiti & Desiderabile & Capitolato \\
         \hline
-        \end{tabular}
+        RF.O.9 & L’utente deve poter fare richieste testuali limitate a un certo numero di caratteri & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.10 & L’utente deve poter visualizzare uno storico dei messaggi nella stessa
+        conversazione & Obbligatorio & Capitolato \\
+        \hline
+        RF.D.11 & L’utente può fare richieste in più lingue.
+         & Desiderabile & Capitolato \\
+         \hline
+         RF.O.12 & Le conversazioni avute possono essere salvate al termine della sessione & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.13 & Le conversazioni devono poter essere cancellate. & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.14 & Ogni utente dovrà avere un limite massimo di conversazioni
+         & Obbligatorio & Capitolato \\
+        \hline
+        RF.P.15 & numero totale di richieste con conversazione libera o guidata
+         & Opzionale & Capitolato \\
+        \hline
+        RF.P.16 & statistiche sul numero di termini usati nelle richieste
+         & Opzionale & Capitolato \\
+        \hline
+        RF.P.17 & statistiche sulle parole più usate nelle richieste
+         & Opzionale & Capitolato \\
+        \hline
+        RF.P.18 & grafico con andamento giornaliero dell’utilizzo dell’applicativo
+         & Opzionale & Capitolato \\
+        \hline
+        RF.D.19 & numero di risposte positive o negative dal sistema di feedback
+         & Desiderabile & Capitolato \\
+        \hline
+        RF.O.20 &  L’applicativo deve prevedere un sistema di estrazione e raccolta delle informazioni dal sito web
+         & Obbligatorio & Capitolato \\
+        \hline
+         RF.O.21 & Il sistema deve essere in grado di navigare un elenco di prodotti, estrarre le informazioni utili e immagazzinare le informazioni correlandole in modo opportuno.
+         & Obbligatorio & Capitolato \\
+        \hline
+         RF.D.22 & scaricare file istruzioni in formato PDF
+         & Desiderabile & Capitolato \\
+        \hline
+         RF.D.23 & ricavare le informazioni utili dal PDF ed estrarre le immagini degli schemi elettrici
+         & Desiderabile & Capitolato \\
+        \hline
+         RF.O.24 & Il sistema deve impiegare un database per collezionare le informazioni relative ai prodotti
+         & Obbligatorio & Capitolato \\
+        \hline
+         RF.O.25 & Il sistema deve essere realizzato sotto-forma di pipeline e automatizzato
+         & Obbligatorio & Capitolato \\
+        \hline
+         RF.O.26 & L’applicativo deve prevedere un sistema di indicizzazione delle informazioni a partire dal
+        database in cui sono stati salvati i dati precedentemente estratti dal sito web
+         & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.27 & Il componente di interrogazione deve fornire in output la risposta del modello.
+         & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.28 & AI (LLM) deve saper dare una risposta a domande sui prodotti di impianti Smart
+         & Obbligatorio & Capitolato \\
+        \hline
+        RF.O.29 & AI (LLM) deve saper dare una risposta a domande sui prodotti di impianti Domotici
+         & Obbligatorio & Capitolato \\
+        \hline
+        RF.D.30 & AI (LLM) deve saper dare una risposta a domande sui prodotti di impianti Tradizionali
+         & Desiderabile & Capitolato \\
+        \hline
+        RF.D.31 & L’utente deve poter visualizzare il numero della pagina del documento relativo alla risposta
+         & Desiderabile & Capitolato \\
+        \hline
+        RF.D.32 & L’utente deve poter visualizzare il nome del documento relativo alla
+        risposta
+         & Desiderabile & Capitolato \\
+        \hline
+        RF.O.33 & L’utente deve poter confermare l'eliminazione della conversazione con il chatbot
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.34 & L’utente deve poter visualizzare la lista delle
+        sessioni di conversazione col chatbot attive
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.35 & L’utente deve poter creare una nuova sessione di conversazione col chatbot
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.36 & L’utente deve ricevere una risposta di cortesia quando pone una domanda ad dei contenuti proibiti
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.36 & L’utente deve ricevere una risposta di cortesia quando pone una domanda ad dei contenuti non presenti
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.37 & L’utente deve poter digitare la domanda da porgere al chatbot tramite tastiera.
+         & Obbligatorio & Interno \\
+        \hline
+        RF.O.38 & L’utente deve poter inviare le domande da porgere al chatbot.
+         & Obbligatorio & Interno \\
+        \hline
+        RF.P.39 & L’utente può ricercare una chat salvata in precedenza
+         & Opzionale & Interno \\
+        \hline
+        RF.P.40 & L’utente può visualizzare la data di invio di un messaggio
+         & Opzionale & Interno \\
+        \hline
+        RF.P.40 & L’utente può visualizzare l'ora di invio di un messaggio
+         & Opzionale & Interno \\
+        \hline
+        RF.P.41 & L’utente deve poter visualizzare il contenuto del documento di interesse.
+         & Opzionale & Interno \\
+        \hline
+        RF.P.42 & L'Admin può azzerare la conta dei feedback positivi
+         & Opzionale & Interno \\
+        \hline
+        RF.P.43 & L'Admin può azzerare la conta dei feedback negativi
+         & Opzionale & Interno \\
+        \hline
+        
+        
 
-\end{table}
+
+\end{longtable}
