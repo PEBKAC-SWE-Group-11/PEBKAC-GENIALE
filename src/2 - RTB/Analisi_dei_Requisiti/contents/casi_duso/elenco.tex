@@ -141,14 +141,8 @@
     \item L’installatore accede all’interfaccia web di Vimar GENIALE;
     \item Inserisce una domanda o una parola chiave relativa ad un prodotto specifico;
     \item Il sistema esegue la ricerca nel database le informazioni necessarie a fornire sufficiente contesto al LLM.
-    \item LLM elabora la risposta;
-    \item L’installatore visualizza la risposta.
     \end{enumerate}
-    \item \textbf{Estensioni}: 
-        \begin{itemize}
-            \item UC 7 - Superamento limite caratteri del messaggio
-            \item UC 8 - Assenza di informazioni sul prodotto ricercato
-        \end{itemize}
+    
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -631,5 +625,34 @@
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC17.png}
 \caption{UC17 - Richiesta di uno schema o immagine}
+% \label{fig:UC1a}
+\end{figure}
+
+
+\uc{ Digitazione della Domanda}{digita_domanda}
+\begin{itemize}
+    \item \textbf{Attori coinvolti}: Installatore;
+    \item \textbf{Descrizione}: L’installatore inserisce una domanda;
+    \item \textbf{Precondizioni}: 
+        \begin{itemize}
+            \item L’installatore ha accesso all’interfaccia web del sistema;
+        \end{itemize}
+    \item \textbf{Postcondizioni}: L'installatore invia la domanda al sistema;
+    \item \textbf{Scenario principale}:
+    \begin{enumerate}
+    \item L’installatore accede all’interfaccia web di Vimar GENIALE;
+    \item Inserisce una domanda;
+    \item Il sistema riceve la domanda ed inizia ad elaborarla;
+    \end{enumerate}
+    \item \textbf{Estensioni}: 
+        \begin{itemize}
+            \item UC 7 - Superamento limite caratteri del messaggio
+            \item UC 8 - Assenza di informazioni sul prodotto ricercato
+        \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC18.png}
+\caption{UC18- Digitazione della Domanda}
 % \label{fig:UC1a}
 \end{figure}
