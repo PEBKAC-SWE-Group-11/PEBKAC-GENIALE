@@ -7,7 +7,6 @@ In questa sezione vengono presentate le attività svolte da PEBKAC per il proces
     \item Registrare lo stato degli elementi e delle richieste di modifica;
     \item Garantire la completezza, la coerenza e la correttezza degli elementi.
 \end{itemize}
-
 \subsubsection{Configuration control}
 \subsubsubsection{Descrizione}
 Il processo di configuration control è finalizzato a garantire il controllo e la coerenza delle configurazioni del sistema, assicurando che tutte le modifiche apportate a software, artefatti e documenti siano tracciate, gestite e allineate agli obiettivi e ai requisiti del progetto.
@@ -64,5 +63,46 @@ Le dipendenze tra i vari ticket possono essere visualizzate tramite linee di col
 Un'altra informazione mostrata nella timeline sono le versioni e, in particolare, quando sono state fissate le loro date di scadenza. Le versioni sono rappresentate graficamente come delle linee verticali posizionate proprio sulla data di scadenza corrispondente.\\
 \'E inoltre possibile visualizzare gli sprint definiti all'interno di Jira nell'area superiore della timeline, permettendo così di determinare quali attività sono state svolte durante ciascuno sprint.\\
 Infine, è utile notare che nella timeline e possibile effettuare delle operazioni di filtraggio dei ticket visualizzati, permettendo così di visualizzare anche l'organizzazione di specifici gruppi di attività.
-\subsubsubsubsection{Automazione della chiusura dei ticket}
-TODO: continuare da qui
+\subsubsubsection{Pull Request}
+Le pull request sono un meccanismo per la gestione controllata delle modifiche nei rilasci del prodotto. Quando un membro del team propone modifiche al repository, esse vengono raggruppate in una pull request, che consente ai verificatori di analizzarle prima di integrarle nel repository.\\
+Il processo può essere riassunto nei seguenti passaggi:
+\begin{itemize}
+    \item \textbf{Creazione della pull request}: Non appena le modifiche vengono apportate in un branch dedicato, il contributore apre una pull request per proporre la loro integrazione nel branch develop o in un altro branch di destinazione;
+    \item \textbf{Revisione}: I verificatori esaminano le modifiche proposte direttamente all'interno della pull request, visualizzando i dettagli di ciò che è stato modificato e avendo la possibilità di commentare su una singola riga o su più righe/sezioni. Se le modifiche richieste sono minime, il verificatore può correggerle direttamente eseguendo una commit sul branch in cui sono state suggerite le modifiche;
+    \item \textbf{Feedback e suggerimenti}: Se le modifiche sono significative, i verificatori solitamente forniscono suggerimenti per miglioramenti, evidenziano possibili errori ed elencano tutte le modifiche necessarie per allineare il lavoro agli standard e alle linee guida del progetto;
+    \item \textbf{Applicazione delle correzioni}: Il contributore che ha creato la pull request risponde al feedback ricevuto ed apporta le modifiche necessarie. Successivamente, la pull request viene aggiornata con le modifiche revisionate;
+    \item \textbf{Decisione finale}: Quando i verificatori approvano la proposta, o quando tutte le questioni sollevate da questi ultimi sono state risolte, la pull request può essere considerata accettata e viene "unita" al branch di destinazione, garantendo che solo contributi di alta qualità facciano parte del progetto.
+\end{itemize}
+\subsubsection{Configuration status accounting}
+\subsubsubsection{Scopo}
+Il configuration status accounting è il processo di documentazione e monitoraggio di verifiche e cambiamenti alle caratteristiche del prodotto software. Grazie ad esso si ha una visione complessiva della sua evoluzione e della sua aderenza ai requisiti e agli standard.
+\subsubsubsection{Version control}
+Il sistema di version control adottato dal gruppo per tracciare l'evoluzione del software segue la seguqnte convenzione di numerazione delle versioni: [x].[y].[z]([build]). Si tratta di un sistema di versionamento a quattro componenti, ognuna delle quali ha un significato specifico:
+\begin{itemize}
+    \item \textbf{x}: Rappresenta la versione principale del software, e il suo valore viene incrementato per ogni fase significativa di revisione o avanzamento del progetto;
+    \item \textbf{y}: Rappresenta cambiamenti significativi o aggiunte di nuove funzionalità, e il suo valore viene incrementato ogni volta che vengono apportati cambiamenti considerati rilevanti per il prodotto;
+    \item \textbf{z}: Rappresenta piccole modifiche o correzioni di bug, e viene incrementato quando vengono svolte azioni come l'aggiornamento della documentazione o la correzione di errori minori;
+    \item \textbf{build}: Indica il numero delle build eseguite per una determinata versione, e viene incrementato ogni volta che vengono apportate delle modifiche alla documentazione.
+\end{itemize}
+Il sistema prevede che la numerazione inizi dalla versione "0.0.1(0)". Ogni volta che il valore di x, y o z aumenta, tutti i valori alla sua destra vengono resettati a "0".
+\subsubsection{Configuration evaluation}
+\subsubsubsection{Scopo}
+Il processo di configuration evaluation serve a garantire la correttezza, la coerenza e la conformità della configurazione del sistema, del software e dell'infrastruttura rispetto ai requisiti definiti.
+\subsubsubsection{Tracciamento dei requisiti}
+Il team PEBKAC ha deciso di tracciare i requisiti direttamente nel codice del prodotto software. Questo approccio offre un collegamento diretto e verificabile tra i requisiti di progettazione e il codice che soddisfa tali requisiti. Il tracciamento viene effettuato includendo un commento specifico prima di ogni blocco di codice che implementa un determinato requisito. Il commento contiene l'ID univoco del requisito, in modo da facilitare l'associazione tra i requisiti e le corrispondenti implementazioni nel codice.
+\subsubsection{Release Management}
+\subsubsubsection{Scopo}
+Il processo di release management serve a pianificare, coordinare e gestire il rilascio, per far sì che qualsiasi nuova versione di un prodotto venga distribuita dal sistema in modo controllato.
+\subsubsubsection{Automazione compilazione documenti}
+Il gruppo si è dotato di una GitHub Action che provvede all'automazione della generazione e trasferimento di documenti LaTeX in PDF.\\
+Essa si attiva quando viene unita una Pull Request nel branch develop e funziona nel seguente modo: 
+\begin{enumerate}
+    \item Prepara l'ambiente ed installa gli strumenti necessari;
+    \item Esplora la directory contenente i documenti LaTeX;
+    \item Converte eventuali immagini in PDF e compila i file LaTeX;
+    \item Carica i PDF generati in una cartella organizzata;
+    \item Trasferisce la cartella sul branch main;
+    \item Sposta i PDF nella cartella principale e li aggiunge mediante un commit automatico.
+\end{enumerate}
+Il componente del gruppo che si è occupato della redazione di un documento dovrà semplicemente occuparsi di aprire un Pull Request verso il branch develop. Essa verrà verificata dal membro del gruppo che ricopre attualmente il ruolo di verificatore e, in seguito, verrà approvata dal membro del gruppo che ricopre attualmente il ruolo di responsabile, che, infine, chiuderà la Pull Request, eseguendo l'automazione.\\
+Questa automazione permette di eliminare il lavoro manuale ripetitivo e permette al team di concentrarsi sul contenuto invece che sulla gestione tecnica dei file.
