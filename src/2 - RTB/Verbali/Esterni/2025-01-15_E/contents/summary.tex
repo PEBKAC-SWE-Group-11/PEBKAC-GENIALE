@@ -1,0 +1,39 @@
+\section{Riassunto della riunione}
+Diversamente dalle riunioni SAL, in questa riunione si è seguito il seguente ordine del giorno:
+\begin{itemize}
+    \item \textbf{Presentazione del lavoro svolto}: i membri del gruppo hanno esposto una presentazione che ha trattato i seguenti punti relativi al progetto:
+    \begin{itemize}
+        \item Un breve riassunto del capitolato proposto dall'azienda;
+        \item Le milestone passate e future, per il completamento del progetto, rappresentate tramite una linea del tempo;
+        \item L'organizzazione temporale dello svolgimento delle attività svolte fino ad oggi, rappresentate tramite un diagramma di Gantt;
+        \item Il modello di sviluppo utilizzato (metodologia agile Scrum);
+        \item Una breve presentazione di ciascun ruolo con i suoi relativi compiti e dei principi alla base della loro rotazione;
+        \item La quantità di ore produttive impiegate per ogni ruolo fino ad oggi, in confronto a quelle previste per il completamento del progetto;
+        \item Gli strumenti utilizzati sia per lo sviluppo sia per la comunicazione;
+        \item Una prima architettura ad alto livello del progetto, che verrà sviluppata più nel dettaglio a seguito dell'RTB;
+        \item Le tecnologie utilizzate per la realizzazione di ciascun componente rappresentato nell'architettura, con particolare attenzione ai modelli LLM utilizzati sia per l'embedding (Nomic) sia per le interrogazioni da parte dell'utente (Llama 3.2 1b);
+        \item Le difficoltà che sono state incontrate in questi primi mesi di svolgimento del progetto, e in particolare:
+        \begin{itemize}
+            \item Il problema del peso enorme dei modelli LLM più performanti che sarebbe necessario utilizzare nella realizzazione del progetto;
+            \item Il problema della rotazione dei ruoli frequente all'interno del gruppo, che porta ogni membro ad abbandonare ciò che ha imparato a svolgere nelle settimane precedenti per iniziare ad imparare un compito nuovo, rallentando così l'avanzamento del progetto.
+        \end{itemize}
+        \item Il frontend realizzato fino ad oggi, utilizzando Angular;
+        \item I container, realizzati utilizzando Docker con il principio \textit{infrastructure as code} per rendere il codice facilmente replicabile e mantenibile;
+        \item Il database, che contiene tutti i dati raccolti tramite l'operazione di scraping effettuata sulla documentazione dei prodotti Vimar, realizzato con Postgre e l'utilizzo della sua estensione Vector.
+    \end{itemize}
+    \item \textbf{Domande e osservazioni fatte dai rappresentanti dell'azienda}: a seguito della presentazione del progetto da parte dei membri del gruppo, sono stati discussi i seguenti temi evidenziati dai rappresentanti dell'azienda:
+    \begin{itemize}
+        \item Durante lo sviluppo dell'architettura, rappresentata con il modello C4, sarà necessario mettere dei riquadri per definire adeguatamente le diverse aree in cui sono divisi i componenti;
+        \item \'E necessario studiare e misurare l'influenza del chunking sulla pesantezza del modello LLM, dato che potrebbe influire negativamente, nonostate si stia prestando particolare cura alla parte di chunking ed efficienza proprio perché si sta cercando di far funzionare l'applicativo con un modello poco performante;
+        \item Se si ritiene necessario l'utilizzo di AWS per la realizzazione del progetto, questa scelta deve essere argomentata accuratamente e supportata da dei dati precisi e chiari. Nel frattempo, una soluzione interessante per simulare l'esecuzione su AWS potrebbe essere quella di utilizzare i 200\$ messi a nostra disposizione grazie al GitHub Student Pack per affittare un server ed effettuare delle prove;
+        \item Durante il periodo di attesa per il completamento dell'RTB si è previsto di compiere tutti i test necessari per verificare e raccogliere dati relativamente a quanto emerso nei due punti precedenti;
+        \item \'E stato chiarito come le ore previste totali per ogni ruolo sono state calcolate in maniera approssimativa a causa della nostra inesperienza nella gestione a lungo termine di un progetto;
+        \item \'E stato chiarito come, una volta superata l'RTB, l'architettura verrà approfondita e riprogettata più a basso livello, dato che il professor Vardanega ha previsto che le attività di progettazione sarebbero cominciate dopo il superamento dell'RTB, anche se si sta notando che questo ritardo nella progettazione sta portando a problemi e difficoltà nella realizzazione del codice del PoC;
+        \item Sono state chiarite quali sono le principali attività da svolgere per correggere gli errori nel PoC, che verranno svolte per ottenere un PoC funzionante per la consegna per l'RTB;
+        \item \'E stato chiarito che i test sulle varie componenti del PoC, prima che avvenisse l'integrazione, sono stati svolti emulando le rispettive componenti con cui ogni componente doveva interfacciarsi;
+        \item Si è parlato di come, secondo la maggior parte dei membri del gruppo, la separazione dei ruoli prevista comporta delle limitazioni riguardo le conoscenze dei membri del gruppo, dato che non è ancora stata terminata la prima rotazione completa e non tutti sono a precisamente a conoscenza di ciò che è stato fatto dai membri che ricoprivano altri ruoli. Si è inoltr discusso di come questo problema potrebbe essere alimentato da un problema di comunicazione all'interno del gruppo, che dovrà essere risolto il prima possibile;
+        \item Osservando il problema del modello LLM utilizzato per l'interrogazione da parte dell'utente (Llama 3.2 1b) di esprimersi correttamente in lingua italiana, si è deciso, in accordo con l'azienda, di realizzare la comunicazione nella chat in inglese se non dovesse essere risolvibile il problema. Per prendere una decisione definitiva si è deciso di effettuare dei test in entrambe le lingue su modelli diversi per individuare il migliore, ovvero quello che consuma poche risorse e che impiega meno tempo per svolgere il suo compito;
+        \item \'E stato stabilito che l'organizzazione del gruppo va bene per come è stata effettuata fino ad ora, nonostante i problemi citati precedentememte;
+        \item  \'E necessario individuare uno standard dei requisiti minimi necessari perché un computer possa eseguire l'applicazione, inviduando in particolare di quante risorse avrà bisogno il modello LLM.
+    \end{itemize}
+\end{itemize}
