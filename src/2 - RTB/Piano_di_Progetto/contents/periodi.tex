@@ -429,6 +429,153 @@ Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettis
 
 \paragraph{Consuntivo} \hspace{1cm} 
 \\ \hspace{1cm} \\
+In questo periodo il lavoro è proseguito correttamente ma, poiché la stesura della documentazione e la progettazione del PoC$_G$ hanno una grandezza importante, si prevede di ultimarli nel prossimo periodo. Tuttavia, sono stati completati:
+\begin{itemize}
+    \item Stesura e correzione del documento di Analisi dei Requisiti;
+    \item Prove pratiche con il modello LLM$_G$;
+    \item Studio dei framework$_G$ Flask$_G$ e Angular$_G$ 
+\end{itemize}
+
+
+\paragraph{Prospetto orario} \hspace{1cm}
+\begin{table}[H]
+\centering
+\resizebox{1.0\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+         \textbf{} & \textbf{Re.} &  \textbf{Am.} &  \textbf{Ve.} &  \textbf{An.} & \textbf{Pg.} &  \textbf{Pr.} & \textbf{Totale per persona}\\
+         \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Benin}} & 5 & 0 & 0 & 6 & 0 & 0 & 11\\
+        \hline
+           \textbf{Bourosu} & 0 & 0 & 0 & 3 & 0 & 0 & 3\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Gerardin}} & 0 & 4 & 0 & 6 & 0 & 0 & 10\\
+        \hline 
+           \textbf{Gusatto} & 0 & 0 & 0 & 0 & 7 & 6 & 13\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Martinelli}} & 0 & 0 & 12 & 0 & 0 & 0 & 12\\
+        \hline 
+           \textbf{Piron} & 0 & 0 & 0 & 0 & 10 & 0 & 10\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Zocche}} & 0 & 0 & 11 & 0 & 0 & 0 & 11\\
+        \hline 
+           \textbf{Totale per ruolo} & 5 & 4(-1) & 23(+19) & 15(+10) & 17(+12) & 6(-3) & 70(+37) \\
+        \hline
+    \end{tabular}
+}
+\caption{Consuntivo dell'impegno orario di ciascun membro durante il periodo III}
+\end{table}
+
+\paragraph{Prospetto economico} \hspace{1cm}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+            \hline
+             \textbf{Ruolo} &  \textbf{Ore} &  \textbf{Costo} &  \textbf{Differenza}  \\
+             \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Responsabile}} & 5 & 150€ & (+0€) \\
+            \hline
+               \textbf{Amministratore} & 4(-1) & 80€ & (-20€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Verificatore}} & 23(+19) & 345€ & (+285€) \\
+            \hline 
+               \textbf{Analista} & 15(+10) & 375€ & (+250€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Progettista}} & 17(+12) & 425€ & (+300€) \\
+            \hline 
+               \textbf{Programmatore} & 6(-3) & 90€ & (-45€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Totale preventivo}} & 33 & 735€ & - \\
+            \hline 
+               \textbf{Totale consuntivo} & 70(+37) & 1465€ & (+730€) \\
+            \hline
+        \end{tabular}
+    \caption{Aggiornamenti economici del progetto al termine del periodo III, riflettendo le variazioni tra preventivo ed ore effettive di lavoro}
+\end{table} 
+
+\paragraph{Rischi occorsi, impatto e la loro mitigazione} \hspace{1cm} 
+\\ \hspace{1cm} \\
+Durante il terzo periodo il gruppo ha affrontato sia problematiche legate alla documentazione sia problmeatiche legate al codice. Per le prime, i problemi più rilevanti che sono stati incontrati sono la mancanza di conoscenza riguardo agli argomenti trattati nei vari documenti e su come stenderli. Il problema si è risolto semplicemente organizzando piccole riunioni di riallineamento tra specifici ruoli cosí da uniformare le conoscenze. \\
+Le problematiche legate alla scrittura di codice sono state diverse. Per prime incontriamo quelle relative alla containerizzazione dell'applicativo in Docker. Il processo di containerizzazione non è stato banale data la complessita dell'applicativo richiesto. Tuttavia il problema è stato aggirato investendo del tempo in più per lo studio della sopra citata tecnologia. In seguito, il requisito posto dal proponente di costruire un applicativo che funzioni completamente in locale, non ha agevolato il nostro lavoro. Essendo, il nostro, un prodotto che richiede l'utilizzo di modelli LLM$_G$, in questo periodo abbiamo avuto il bisogno di testarne uno. La sopra detta tecnologia è notoriamente dispendiosa a livello di risorse e prestazioni e nessuno di noi dispone di un hardware$_G$ adatto ai test di un modello. La soluzione al problema è stata optatare per un modello relativamente leggero, in modo da riuscire a incontrare le specifiche dei dispositivi meno performanti. Tuttavia, proprio perchè leggero, non garantisce le aspettative di precisione richieste. Ció nonostante il proponente, in merito a questa problematica, sta cercando di mettere a disposizione un server dedicato.
+
+\paragraph{Retrospettiva} \hspace{1cm} 
+\\ \hspace{1cm} \\
+Dopo un'attenta analisi del periodo trascorso possiamo identificare alcuni elementi migliorabili per il prossimo periodo:
+\begin{itemize}
+    \item Organizzazione di riunioni più focalizzate sulla risoluzione dei problemi;
+    \item Considerare la possibilità di affittare dei server per effettuare dei test.
+\end{itemize}
+
+\subsubsection{Periodo IV}
+
+\begin{itemize}
+    \item Inizio: 2024-12-28
+    \item Fine prevista: 2025-01-11
+    \item Fine attuale: 2025-01-??
+\end{itemize}
+\paragraph{Pianificazione} \hspace{1cm}
+\\ \hspace{1cm} \\
+Durante il quarto periodo il gruppo pianfica di continuare e completare la stesura della documentazione, che ora comprende tutti i documenti utili all'intero progetto. La verifica e il rilascio saranno poi necessari in vista di un possibile RTB$_G$ a fine gennaio. Oltre alla documentazione, un altro aspetto da curare sarà il PoC$_G$. Nello scorso periodo il gruppo ha iniziato ad implementare le prime funzionalità, in questo, invece, cercheremo di ultimare lo studio delle tecnologie utilizzate e la loro implementazione. Tra queste troviamo il componente principale del nostro sistema, ovvero un modello di LLM$_G$, la comunicazione tra database$_G$ e implementazione di un'interfaccia grafica. 
+
+Ciò detto, i compiti previsti per questo periodo possono essere riassunti come segue:  
+\begin{itemize}
+    \item Completamento della stesura ed eventuale correzione dell documento di Analisi dei Requisiti;
+    \item Completamento della stesura ed eventuale correzione dell documento di Norme di Progetto;
+    \item Continuazione della stesura del glossario;
+    \item Studio ed inizio della scrittura di un'interfaccia grafica in Angular$_G$;
+    \item Studio e implementazione di API$_G$ in Flask$_G$;
+    \item Implementazione di chunking semantico per miglior comunicazione con modello AI$_G$;
+    \item Scrittura e pianficazione  dell'attuale periodo e stesura del consuntivo del precedente nel Piano di Progetto;
+    \item Continuazione stesura Piano di Qualifica;
+\end{itemize}
+
+\paragraph{Rischi attesi}  
+In questo periodo, si prevede che possano emergere diversi rischi, in particolare:
+
+\begin{itemize}
+    \item \textbf{\hyperlink{RT1}{RT1 - Inesperienza}}
+    \item \textbf{\hyperlink{RT2}{RT2 - Problemi con software di terze parti}}
+    \item \textbf{\hyperlink{RT3}{RT3 - Basse prestazioni hardware}}
+    \item \textbf{\hyperlink{RO1}{RO1 - Imprecisioni nella pianificazione}}
+    \item \textbf{\hyperlink{RG1}{RG1 - Problemi di comunicazione interna}}
+\end{itemize}
+
+I rischi sopra descritti riguardano prevalentemente la parte di progettazione e costruzione del Poc$_G$. Molte delle tecnologie utilizzate sono, da una parte, state prese in considerazione nel periodo precedente, dall'altra non abbiamo ancora molta esperienza su di esse. Ciò nonostante, l'utilizzo di un modello LLM$_G$ richiede risorse e prestazioni non trascurabili, pertanto non alla portata di tutti.
+
+\paragraph{Preventivo} \hspace{1cm} 
+\\ \hspace{1cm} \\
+Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettista.
+\begin{table}[H]
+\centering
+\resizebox{1.0\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+         \textbf{} & \textbf{Re.} &  \textbf{Am.} &  \textbf{Ve.} &  \textbf{An.} & \textbf{Pg.} &  \textbf{Pr.} & \textbf{Totale per persona}\\
+         \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Benin}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline
+           \textbf{Bourosu} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Gerardin}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Gusatto} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Martinelli}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Piron} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Zocche}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Totale per ruolo} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline
+    \end{tabular}
+}
+\caption{Preventivo dell'impegno orario di ciascun membro durante il periodo IV}
+\end{table}
+
+\paragraph{Consuntivo} \hspace{1cm} 
+\\ \hspace{1cm} \\
 
 
 \paragraph{Prospetto orario} \hspace{1cm}
@@ -457,7 +604,7 @@ Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettis
         \hline
     \end{tabular}
 }
-\caption{Consuntivo dell'impegno orario di ciascun membro durante il periodo III}
+\caption{Consuntivo dell'impegno orario di ciascun membro durante il periodo IV}
 \end{table}
 
 \paragraph{Prospetto economico} \hspace{1cm}
@@ -485,14 +632,135 @@ Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettis
                \textbf{Totale consuntivo} & 0 & 0€ & (+0€) \\
             \hline
         \end{tabular}
-    \caption{Aggiornamenti economici del progetto al termine del periodo III, riflettendo le variazioni tra preventivo ed ore effettive di lavoro}
-\end{table} 
+    \caption{Aggiornamenti economici del progetto al termine del periodo IV, riflettendo le variazioni tra preventivo ed ore effettive di lavoro}
+\end{table}
 
 \paragraph{Rischi occorsi, impatto e la loro mitigazione} \hspace{1cm} 
 \\ \hspace{1cm} \\
+
 
 \paragraph{Retrospettiva} \hspace{1cm} 
 \\ \hspace{1cm} \\
 
 
-\subsubsection{Periodo IV}
+\subsubsection{Periodo V}
+
+\begin{itemize}
+    \item Inizio:
+    \item Fine prevista:
+    \item Fine attuale:
+\end{itemize}
+\paragraph{Pianificazione} \hspace{1cm}
+\\ \hspace{1cm} \\
+
+I compiti previsti per questo periodo possono essere riassunti come segue:  
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\paragraph{Rischi attesi}  
+In questo periodo, si prevede che possano emergere diversi rischi, in particolare:
+
+\begin{itemize}
+    \item \textbf{\hyperlink{RT}{RT - }}
+\end{itemize}
+
+
+\paragraph{Preventivo} \hspace{1cm} 
+\\ \hspace{1cm} \\
+Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettista.
+\begin{table}[H]
+\centering
+\resizebox{1.0\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+         \textbf{} & \textbf{Re.} &  \textbf{Am.} &  \textbf{Ve.} &  \textbf{An.} & \textbf{Pg.} &  \textbf{Pr.} & \textbf{Totale per persona}\\
+         \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Benin}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline
+           \textbf{Bourosu} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Gerardin}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Gusatto} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Martinelli}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Piron} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Zocche}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Totale per ruolo} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline
+    \end{tabular}
+}
+\caption{Preventivo dell'impegno orario di ciascun membro durante il periodo V}
+\end{table}
+
+\paragraph{Consuntivo} \hspace{1cm} 
+\\ \hspace{1cm} \\
+
+
+\paragraph{Prospetto orario} \hspace{1cm}
+\begin{table}[H]
+\centering
+\resizebox{1.0\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+         \textbf{} & \textbf{Re.} &  \textbf{Am.} &  \textbf{Ve.} &  \textbf{An.} & \textbf{Pg.} &  \textbf{Pr.} & \textbf{Totale per persona}\\
+         \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Benin}} & 5 & 0 & 0 & 0 & 0 & 0 & 5\\
+        \hline
+           \textbf{Bourosu} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Gerardin}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Gusatto} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Martinelli}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Piron} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline \colorrow
+           \cellcolor{lightgray}{\textbf{Zocche}} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline 
+           \textbf{Totale per ruolo} & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        \hline
+    \end{tabular}
+}
+\caption{Consuntivo dell'impegno orario di ciascun membro durante il periodo V}
+\end{table}
+
+\paragraph{Prospetto economico} \hspace{1cm}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+            \hline
+             \textbf{Ruolo} &  \textbf{Ore} &  \textbf{Costo} &  \textbf{Differenza}  \\
+             \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Responsabile}} & 0 & 0€ & (+0€) \\
+            \hline
+               \textbf{Amministratore} & 0 & 0€ & (+0€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Verificatore}} & 0 & 0€ & (+0) \\
+            \hline 
+               \textbf{Analista} & 0 & 0€ & (+0€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Progettista}} & 0 & 0€ & (+0€) \\
+            \hline 
+               \textbf{Programmatore} & 0 & 0€ & (+0€) \\
+            \hline \colorrow
+               \cellcolor{lightgray}{\textbf{Totale preventivo}} & 0 & 0€ & - \\
+            \hline 
+               \textbf{Totale consuntivo} & 0 & 0€ & (+0€) \\
+            \hline
+        \end{tabular}
+    \caption{Aggiornamenti economici del progetto al termine del periodo V, riflettendo le variazioni tra preventivo ed ore effettive di lavoro}
+\end{table}
+
+\paragraph{Rischi occorsi, impatto e la loro mitigazione} \hspace{1cm} 
+\\ \hspace{1cm} \\
+
+
+\paragraph{Retrospettiva} \hspace{1cm} 
+\\ \hspace{1cm} \\
