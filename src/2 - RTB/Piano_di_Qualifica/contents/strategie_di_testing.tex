@@ -90,11 +90,52 @@ I test di sistema sono una tipologia di test attraverso la quale vengono testati
     \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
         \textbf{Codice} & \textbf{Descrizione} & \textbf{Requisito} & \textbf{Stato} \\
         \hline
-        TS-1 &  &  & NI \\
+TS-1 & Il sistema deve permettere al modulo AI di interrogare il database in modo efficace per recuperare informazioni sui prodotti. Le informazioni restituite devono essere corrette, coerenti e aggiornate, garantendo che gli utenti ottengano risposte utili per le loro domande. & RF.O.026, RF.O.027 & NI \\
+\hline
+TS-2 & Deve essere garantita l'integrazione fluida tra il frontend e il backend, con l'elaborazione delle richieste degli utenti tramite GUI e la restituzione di risposte tempestive e accurate nella stessa interfaccia. & UC1, UC6 & NI \\
+\hline
+TS-3 & Quando l'utente inserisce una domanda che supera il limite di caratteri predefinito, il sistema deve gestire questa situazione restituendo un messaggio di errore chiaro e comprensibile. & RF.O.009, UC7 & NI \\
+\hline
+TS-4 & La pipeline di estrazione automatizzata dei dati dal sito Vimar deve raccogliere e indicizzare in modo efficiente le informazioni, rendendole disponibili per le interrogazioni degli utenti. & RF.O.020, RF.O.025 & NI \\
+\hline
+TS-5 & Il sistema deve essere avviabile tramite Docker Compose e garantire che tutti i componenti dell'infrastruttura containerizzata funzionino correttamente in un ambiente scalabile e portabile. & RV.O.002, RV.O.007 & NI \\
+\hline
+TS-6 & La dashboard amministrativa deve fornire agli amministratori una panoramica chiara e aggiornata sull'utilizzo del sistema, incluse statistiche dettagliate sulle richieste effettuate dagli utenti. & RF.O.003, UC14 & NI \\
+\hline
+TS-7 & La pipeline di indicizzazione automatizzata deve operare senza interventi manuali, consentendo l'aggiornamento continuo delle informazioni nel database in base ai nuovi dati raccolti. & RF.O.025, RF.O.026 & NI \\
+\hline
+TS-8 & Deve essere possibile estrarre correttamente informazioni utili dai file PDF, inclusi schemi elettrici e manuali tecnici, rendendoli disponibili per la consultazione e il download. & RF.O.023, RF.D.022 & NI \\
+\hline
+TS-9 & Il sistema deve identificare e gestire richieste relative a argomenti proibiti, restituendo un messaggio appropriato che informa l'utente della restrizione. & RF.O.005, UC15 & NI \\
+\hline
+\end{tabularx}
+ \end{table}
+ \begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Requisito} & \textbf{Stato} \\
         \hline
-        TS-2 &  &  & NI \\
-        \hline
-        TS-3 &  &  & NI \\
+TS-10 & L'infrastruttura del sistema deve supportare la scalabilità, consentendo l'esecuzione simultanea su più nodi senza compromettere le prestazioni o l'affidabilità. & RQ.O.002, RV.O.007 & NI \\
+\hline
+TS-11 & Il sistema deve funzionare correttamente su tutti i browser compatibili specificati, garantendo un'esperienza utente coerente e priva di errori. & RV.O.012 - RV.O.016 & NI \\
+\hline
+TS-12 & Le API devono essere protette con meccanismi di autenticazione adeguati, come le API-Key, per garantire accessi sicuri e controllati ai servizi del sistema. & RV.O.006, RF.O.027 & NI \\
+\hline
+TS-13 & Il database deve essere aggiornabile con nuove informazioni sui prodotti in modo che il sistema possa fornire risposte aggiornate e precise agli utenti. & RF.O.021, RF.O.024 & NI \\
+\hline
+TS-14 & La dashboard deve mostrare statistiche aggiornate in tempo reale, consentendo agli amministratori di monitorare l'utilizzo del sistema con una visione dinamica e dettagliata. & RF.P.016, UC14.3 & NI \\
+\hline
+TS-15 & Il sistema deve supportare sessioni multiple di utenti simultanei, garantendo l'isolamento delle sessioni e l'integrità dei dati per ciascun utente. & RQ.D.001, UC1 & NI \\
+\hline
+TS-16 & Il sistema deve essere in grado di rispondere accuratamente a domande poste in lingua italiana, utilizzando il modello AI per generare risposte appropriate. & RF.O.001, UC16 & NI \\
+\hline
+TS-17 & Le sessioni di conversazione devono poter essere salvate e recuperate senza perdita di dati, consentendo agli utenti di riprendere le interazioni da dove erano state interrotte. & RF.O.012, UC3 & NI \\
+\hline
+TS-18 & Le risposte del sistema devono includere immagini o schemi tecnici, quando richiesto, garantendo la loro corretta visualizzazione nell'interfaccia utente. & RF.O.027, UC17 & NI \\
+\hline
+TS-19 & La dashboard amministrativa deve fornire statistiche dettagliate sui feedback ricevuti dagli utenti, inclusi conteggi di risposte positive e negative. & RF.D.019, UC14.5 & NI \\
+\hline
+TS-20 & Gli utenti devono poter ricercare e recuperare conversazioni salvate in precedenza, garantendo l'accesso a tutte le informazioni contenute nelle conversazioni archiviate. & RF.P.040, UC9 & NI \\
     \end{tabularx}
     \caption{Stato dei test di sistema}
 \end{table}
@@ -130,11 +171,61 @@ I test di accettazione sono una tipologia di test che verifica che un sistema o 
     \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
         \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
         \hline
-        TA-1 &  &  & NI \\
+        TA-1 & Il sistema deve consentire a un installatore di inserire una richiesta tramite conversazione libera e ricevere informazioni dettagliate, incluse descrizioni dei prodotti, schemi elettrici e manuali tecnici. & UC6 & NI \\
+\hline
+
+       TA-2 & Un amministratore deve poter accedere alla dashboard inserendo credenziali corrette, garantendo l'accesso solo a utenti autorizzati. & UC12 & NI \\
+\hline
+TA-3 & Gli utenti devono poter fornire feedback sull'accuratezza delle risposte ricevute, e il sistema deve registrare correttamente tali feedback. & UC11 & NI \\  
+\hline
+TA-4 & Il sistema deve consentire agli utenti di salvare le conversazioni e confermare che il salvataggio sia avvenuto con successo. & UC3 & NI \\
+\hline
+TA-5 & Le richieste relative a argomenti non pertinenti devono essere bloccate, e il sistema deve restituire un messaggio di cortesia senza fornire ulteriori risposte. & UC15 & NI \\
+\hline
+TA-6 & Gli utenti devono poter visualizzare lo storico delle conversazioni in corso, con tutte le risposte mostrate in ordine cronologico. & UC9 & NI \\
+\hline
+TA-7 & Deve essere possibile eliminare una conversazione salvata, con conferma visibile dell'avvenuta cancellazione. & UC5 & NI \\
+\hline
+TA-8 & Nel caso in cui venga superato il limite massimo di conversazioni consentite, il sistema deve notificare l'utente con un messaggio chiaro. & UC2 & NI \\
+\hline
+\end{tabularx}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
         \hline
-        TA-2 &  &  & NI \\
+TA-9 & Gli amministratori devono poter accedere a statistiche di utilizzo tramite la dashboard, con informazioni dettagliate su tutte le richieste effettuate. & UC14 & NI \\
+\hline
+TA-10 & Gli amministratori devono poter visualizzare il numero di richieste effettuate tramite conversazione libera, direttamente dalla dashboard. & UC14.1 & NI \\
+\hline
+TA-11 & Gli utenti devono confermare l'eliminazione delle conversazioni salvate prima che queste vengano definitivamente rimosse dal sistema. & UC5 & NI \\
+\hline
+TA-12 & Il sistema deve fornire risposte dettagliate e accurate relative a prodotti appartenenti agli impianti Smart, su richiesta dell'utente. & UC6 & NI \\
+\hline
+TA-13 & Gli utenti devono ricevere risposte chiare e precise per prodotti relativi agli impianti Domotici, con tutte le informazioni pertinenti. & UC6 & NI \\
+\hline
+TA-14 & Il sistema deve estrarre automaticamente informazioni dal sito di Vimar e indicizzarle correttamente per consentire interrogazioni rapide. & UC6 & NI \\
+\hline
+TA-15 & Deve essere garantita la gestione di richieste per prodotti non presenti, con un messaggio di cortesia che informa l'utente dell'assenza di dati. & UC8 & NI \\
+\hline
+TA-16 & Gli utenti devono poter scaricare documenti PDF, come manuali tecnici, direttamente dal sistema. & UC17 & NI \\
+\hline
+TA-17 & Nel caso di superamento del limite massimo di caratteri consentiti in una domanda, il sistema deve notificare l'errore in modo chiaro. & UC7 & NI \\
+\hline
+\end{tabularx}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
         \hline
-        TA-3 &  &  & NI \\
+TA-18 & Utilizzando un menù guidato, gli utenti devono poter accedere facilmente alle informazioni sui prodotti di loro interesse. & UC18 & NI \\
+\hline
+TA-19 & Il sistema deve restituire risposte che includano immagini, come schemi elettrici, garantendo la loro corretta visualizzazione nell'interfaccia utente. & UC17 & NI \\
+\hline
+TA-20 & Gli amministratori devono avere accesso a statistiche relative ai feedback positivi ricevuti, visualizzandole nella dashboard in modo dettagliato. & UC14.4 & NI \\
+
     \end{tabularx}
     \caption{Stato dei test di accettazione}
 \end{table}
