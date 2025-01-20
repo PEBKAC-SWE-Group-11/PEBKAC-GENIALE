@@ -5,7 +5,7 @@ I test realizzabili possono essere suddivisi in quattro categorie principali:
     \item \textbf{Test di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
     \item \textbf{Test di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
     \item \textbf{Test di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i requisiti funzionali e non funzionali, assicurandosi di valutare il sistema nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
-    \item \textbf{Test End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
+%    \item \textbf{Test End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
     \item \textbf{Test di accettazione}: verificano se un sistema o una parte di esso soddisfa i requisiti e le aspettative degli utenti o del cliente, venendo eseguiti prima del rilascio del software per confermare che il prodotto finale sia pronto per l'uso e conforme alle specifiche concordate.
 \end{itemize}
 
@@ -19,14 +19,14 @@ I test realizzabili possono essere suddivisi in quattro categorie principali:
     \item \textbf{U}: di unità;
     \item \textbf{I}: di integrazione;
     \item \textbf{S}: di sistema;
-    \item \textbf{E}: End-to-End;
+%    \item \textbf{E}: End-to-End;
     \item \textbf{A}: di accettazione.
 \end{itemize}
 Ogni test si trova in uno \textbf{Stato}, che può essere:
 \begin{itemize}
     \item \textbf{V}: verificato. Questo stato indica che il test ha fornito un esito positivo;
     \item \textbf{NV}: non verificato. Questo stato indica che il test ha fornito un esito negativo;
-    \item \textbf{NI}: non implementato.Questo stato indica che il test non è ancora stato implementato, e quindi non fornisce nessun esito.
+    \item \textbf{NI}: non implementato. Questo stato indica che il test non è ancora stato implementato, e quindi non fornisce nessun esito.
 \end{itemize}
 
 \subsection{Test di unità}
@@ -136,27 +136,58 @@ TS-18 & Le risposte del sistema devono includere immagini o schemi tecnici, quan
 TS-19 & La dashboard amministrativa deve fornire statistiche dettagliate sui feedback ricevuti dagli utenti, inclusi conteggi di risposte positive e negative. & RF.D.019, UC14.5 & NI \\
 \hline
 TS-20 & Gli utenti devono poter ricercare e recuperare conversazioni salvate in precedenza, garantendo l'accesso a tutte le informazioni contenute nelle conversazioni archiviate. & RF.P.040, UC9 & NI \\
+\hline
+\end{tabularx}
+ \end{table}
+ \begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
+        \textbf{Codice} & \textbf{Descrizione} & \textbf{Requisito} & \textbf{Stato} \\
+\hline
+TS-21 & Il sistema deve gestire la situazione in maniera corretta e mostrare un messaggio di errore chiaro e dettagliato nel caso in cui un utente tenti di salvare una conversazione senza che ne sia stata creata alcuna. & UC4, RF.O.034 & NI \\
+\hline
+TS-22 & Il sistema deve consentire all'installatore di visualizzare la data e l'ora di invio di ogni messaggio nella cronologia delle conversazioni. & RF.P.041, RF.P.042 & NI \\
+\hline
+TS-23 & Il sistema deve consentire agli amministratori di azzerare il conteggio dei feedback positivi e negativi ricevuti, mostrando un messaggio di conferma. & RF.P.044, RF.P.045 & NI \\
+\hline
+TS-24 & Il sistema supporta correttamente la creazione di nuove sessioni di conversazione, garantendo che siano archiviate e accessibili successivamente. & RF.O.035, UC1 & NI \\
+\hline
+TS-25 & Il sistema consente agli utenti di accedere al contenuto dei documenti di interesse direttamente dalla risposta fornita. & RF.P.043, UC17 & NI \\
+\hline
+TS-26 & L'interfaccia utente del sistema deve essere completamente responsive, adattandosi a diversi dispositivi senza errori di layout. & RQ.D.001 & NI \\
+\hline
+TS-27 & Il sistema deve inviare un avviso in caso di errore durante l'indicizzazione automatica dei dati provenienti dal sito Vimar. & RF.O.025, RF.O.026 & NI \\
+\hline
+TS-28 & Il sistema deve includere una funzione di "ripristino" per le sessioni interrotte a causa di errori tecnici, garantendo che nessun dato venga perso. & UC3, RF.O.012 & NI \\
+\hline
+TS-29 & Il sistema deve mostrare un messaggio chiaro quando l'utente cerca di accedere alla dashboard con credenziali errate. & UC13 & NI \\
+\hline
+TS-30 & Il sistema deve restituire un messaggio specifico quando non esistono messaggi pregressi nella cronologia della conversazione selezionata. & UC10 & NI \\
+\hline
+TS-31 & Il sistema deve restituire un messaggio chiaro e dettagliato quando si tenta di accedere a una funzionalità riservata agli amministratori senza aver effettuato l'accesso. & UC12 & NI \\
+\hline
+TS-32 & Il sistema deve garantire che, durante la ricerca di informazioni, vengano restituiti solo prodotti pertinenti alla categoria selezionata dall’installatore. & UC6 & NI \\
     \end{tabularx}
     \caption{Stato dei test di sistema}
 \end{table}
 
-\subsection{Test End-to-End}
-I test End-to-End sono una tipologia di test che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di test riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i requisiti funzionali e contribuisca a una buona esperienza utente.
-I test End-to-End, come richiesto nel capitolato, devono avere un coverage minimo pari all'80\%.
+%\subsection{Test End-to-End}
+%I test End-to-End sono una tipologia di test che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di test riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i requisiti funzionali e contribuisca a una buona esperienza utente.
+%I test End-to-End, come richiesto nel capitolato, devono avere un coverage minimo pari all'80\%.
 %TODO: Inserire i test
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
-        \hline
-        TE-1 &  &  & NI \\
-        \hline
-        TE-2 &  &  & NI \\
-        \hline
-        TE-3 &  &  & NI \\
-    \end{tabularx}
-    \caption{Stato dei test End-to-End}
-\end{table}
+%\begin{table}[H]
+%    \centering
+%    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
+%        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
+%        \hline
+%        TE-1 &  &  & NI \\
+%        \hline
+%        TE-2 &  &  & NI \\
+%        \hline
+%        TE-3 &  &  & NI \\
+%    \end{tabularx}
+%    \caption{Stato dei test End-to-End}
+%\end{table}
 
 \subsection{Test di accettazione}
 I test di accettazione sono una tipologia di test che verifica che un sistema o un'applicazione soddisfi requisiti ed aspettative concordate con il cliente o contro l'utente finale. Normalmente, questi test sono condotti sul ciclo finale del processo di sviluppo, prima della pubblicazione o della consegna del prodotto. Questi test hanno l'obiettivo di:
@@ -225,7 +256,16 @@ TA-18 & Utilizzando un menù guidato, gli utenti devono poter accedere facilment
 TA-19 & Il sistema deve restituire risposte che includano immagini, come schemi elettrici, garantendo la loro corretta visualizzazione nell'interfaccia utente. & UC17 & NI \\
 \hline
 TA-20 & Gli amministratori devono avere accesso a statistiche relative ai feedback positivi ricevuti, visualizzandole nella dashboard in modo dettagliato. & UC14.4 & NI \\
-
+\hline
+TA-21 & Gli installatori devono ricevere un messaggio di conferma visibile quando forniscono feedback sul sistema. & UC11 & NI \\
+\hline
+TA-22 & Gli installatori devono poter recuperare una lista delle loro conversazioni salvate, con possibilità di visualizzare il contenuto completo di ciascuna. & UC9 & NI \\
+\hline
+TA-23 & Gli amministratori devono poter visualizzare il numero di richieste effettuate tramite conversazione libera, direttamente dalla dashboard. & UC14.2 & NI \\
+\hline
+TA-24 & Gli utenti devono poter interrompere una conversazione guidata e tornare al menu principale senza perdere lo storico delle interazioni effettuate fino a quel momento. & UC5 & NI \\
+\hline
+TA-25 & Gli amministratori devono poter visualizzare le statistiche aggiornate sul numero di parole utilizzate nelle richieste, direttamente dalla dashboard. & UC14.3 & NI \\
     \end{tabularx}
     \caption{Stato dei test di accettazione}
 \end{table}
