@@ -38,11 +38,10 @@ Per ogni periodo vengono riportati di solito le seguenti informazioni:
     \item Retrospettiva del periodo per capire cosa mantenere, cosa cambiare e cosa migliorare in futuro
 \end{itemize}
 
-I periodi vengono a loro volta divisi in 3 macroperiodi che corrispondono alle revisioni di avanzamento del progetto:
+I periodi vengono a loro volta divisi in due macroperiodi che corrispondono alle revisioni di avanzamento del progetto:
 \begin{itemize}
     \item RTB (Requirement and Technology Baseline)
     \item PB (Product Baseline)
-    \item CA (Customer Acceptance)
 \end{itemize}
 Alla fine di ogni collettivo si trovano una revisione del calendario rimanente e un aggiornamento della stima dei costi finali, oltre ad un riepilogo del lavoro svolto.
 \subsection{RTB}
@@ -512,7 +511,8 @@ Dopo un'attenta analisi del periodo trascorso possiamo identificare alcuni eleme
 \begin{itemize}
     \item Inizio: 2024-12-28
     \item Fine prevista: 2025-01-11
-    \item Fine attuale: 2025-01-??
+    \item Fine attuale: 2025-01-21
+    \item Giorni di ritardo: (+10)
 \end{itemize}
 \paragraph{Pianificazione} \hspace{1cm}
 \\ \hspace{1cm} \\
@@ -576,7 +576,14 @@ Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettis
 
 \paragraph{Consuntivo} \hspace{1cm} 
 \\ \hspace{1cm} \\
-
+In questo periodo il lavoro è proseguito correttamente anche se la creazione del PoC$_G$ e la preparazione alla preparazione del SAL con il Proponente del 2025-01-15 hanno richiesto più tempo del previsto, quindi di prevede si terminare il PoC$_G$ e i documenti nella prima parte del prossimo periodo. Ciò nonostante, sono stati completati:
+\begin{itemize}
+    \item Stesura finale del documento Analisi dei Requisiti;
+    \item Stesura finale del documento Norme di Progetto;
+    \item Creazione di un'interfaccia grafica in Angular\textsubscript{G};
+    \item Implementazione di chunking semantico nel PoC\textsubscript{G};
+    \item Continuazione stesura Piano di Qualifica;
+\end{itemize}
 
 \paragraph{Prospetto orario} \hspace{1cm}
 \begin{table}[H]
@@ -638,33 +645,55 @@ Ruoli coinvolti: Responsabile, Amministratore, Verificatore, Analista, Progettis
 \paragraph{Rischi occorsi, impatto e la loro mitigazione} \hspace{1cm} 
 \\ \hspace{1cm} \\
 
-
+Nella durata di questo periodo, il gruppo si è trovato ad affrontare delle situazioni che hanno rallentato leggermente l’avanzamento del progetto e aumentato i costi per la sua realizzazione. 
+Per prima cosa l'errato preventivo e l'errata pianificazione per il lavoro sul codice del PoC\textsubscript{G}: il lavoro di codifica è stato svolto in modo poco organizzato e per niente efficiente, questo ha portato a dover consumare più risorse del previsto. 
+L'automento dei costi è stato coadiuvato anche dalla scarsa conoscenza di Flask per la creazione di API per la comunicazione tra backend e frontend, che necessitava di più studio prima dell'utilizzo.
+Per far fronte a questi problemi il gruppo ha dovuto allungare i tempi previsti e usare più risorse del dovuto, cercando di arginare i problemi con frequenti riunioni tra le persone che lavoravano al codice per stabilire delle sotto-task specifiche, risolvere tempestivamente i problemi collaborando e allineando le conoscenze.
+Un secondo problema affrontato è stata la richiesta da parte del Proponente di un SAL\textsubscript{G} in presenza presso la sede per esporre tutto il lavoro svolto sino a quel momento, richiesta che è arrivata con pochi giorni di anticipo e per essere esaudita ha richiesto lo spostamento di alcune risorse prima impegnate negli obiettivi già previsti. Nonostante tutto però sia il gruppo che il Proponente\textsubscript{G} sono soddisfatti di come è stata completato questo compito.
 \paragraph{Retrospettiva} \hspace{1cm} 
 \\ \hspace{1cm} \\
 
+Analizzando il periodo è possibile delineare alcuni punti su cui il gruppo di deve impegnare a migliorare:
+\begin{itemize}
+    \item Per quanto riguarda l'organizzazione della codifica del codice il gruppo dovrà impegnarsi a trovare strategie efficaci ed efficenti, per utilizzare in modo utile le risorse;
+    \item La condivisione delle conoscenze, nel senso di mettere al corrente tutti i membri interessati del lavoro svolto o di evenetuali difficoltà deve essere un punto cardine per non allungare i tempi necessari allo svolgimento dei compiti;
+    \item Per la pianificazione del lavoro è necessario tornare al regime "virtuoso" dei primi periodi.
+    
+\end{itemize}
 
 \subsubsection{Periodo V}
 
 \begin{itemize}
-    \item Inizio:
-    \item Fine prevista:
+    \item Inizio: 2025-01-22
+    \item Fine prevista: 2025-02-04
     \item Fine attuale:
 \end{itemize}
 \paragraph{Pianificazione} \hspace{1cm}
 \\ \hspace{1cm} \\
 
+In questo periodo il gruppo prevede di candidarsi per la prima revisione RTB\textsubscript{G} per questo il principale obiettivo della prima metà del periodo sarò l'ultimazione del PoC\textsubscript{G} e della documentazione necessaria alla candidatura. La seconda parte del periodo si concentrerà sulla preparazione alla RTB e allo studio di quanto emerso nel corso dell'ultimo SAL\textsubscript{G} con il Proponente\textsubscript{G} (2025-01-15) per quanto riguardo lo studio dell'efficenza dei modelli di LLM su risorse hardware contenute, per ottenere dei requisiti hardware minimi e/o dei nuovi requisiti per il prodotto finale.
 I compiti previsti per questo periodo possono essere riassunti come segue:  
 \begin{itemize}
-    \item 
+    \item Verifica finale in vista della RTB del documento Analisi dei Requisiti;
+    \item Verifica finale in vista della RTB del documento Norme di Progetto;
+    \item Terminazione scrittura del documento Piano di Qualifica;
+    \item Verifica finale in vista della RTB del documento Piano di Qualifica;
+    \item Messa a punto del PoC\textsubscript{G};
+    \item Candidatura alla revisione RTB;
+    \item Scrittura e pianficazione  dell'attuale periodo e stesura del consuntivo del precedente nel Piano di Progetto;
+    \item Verifica finale in vista della RTB del documento Piano di Progetto;
+    \item Effettuare degli studi e dei test per determinare le cause del mancato supporto dei modelli LLM troppo pesanti ed individuare eventuali soluzioni (come da Verbale Esterno 2025-01-15\_E\_V1.0.0);
+    
 \end{itemize}
 
 \paragraph{Rischi attesi}  
-In questo periodo, si prevede che possano emergere diversi rischi, in particolare:
-
+In questo periodo si prevede che verranno corsi diversi rischi, in particolare:
 \begin{itemize}
-    \item \textbf{\hyperlink{RT}{RT - }}
+    \item \textbf{\hyperlink{RT1}{RT1 - Inesperienza}}
+    \item \textbf{\hyperlink{RO1}{RO1 - Imprecisione nella pianificazione}}
+    \item \textbf{\hyperlink{RO2}{RO2 - Impegni personali (e accademici)}}
+    \item \textbf{\hyperlink{RG1}{RG1 - Problemi di comunicazione interna}}
 \end{itemize}
-
 
 \paragraph{Preventivo} \hspace{1cm} 
 \\ \hspace{1cm} \\
