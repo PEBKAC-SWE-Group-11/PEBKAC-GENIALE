@@ -64,7 +64,8 @@ jobs:
               pdf_name=$(basename "$main_tex" .tex).pdf
               final_output_path="$output_dir/$(dirname "$relative_path")"
               mkdir -p "$final_output_path"
-              mv "$pdf_name" "$GITHUB_WORKSPACE/$final_output_path/$(basename "$project_dir").pdf"
+              renamed_pdf_name="$(basename "$main_tex" .tex)_V1.0.0.pdf"
+              mv "$pdf_name" "$GITHUB_WORKSPACE/$final_output_path/$renamed_pdf_name"
             fi
 
             cd "$GITHUB_WORKSPACE"
@@ -79,7 +80,7 @@ jobs:
 
       # Upload PDFs as artifact
       - name: Upload PDFs as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pdf-artifact
           path: PDF/
@@ -98,19 +99,27 @@ jobs:
 
       # Download PDFs artifact
       - name: Download PDFs artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: pdf-artifact
 
       # Move content to root
-      - name: Move PDFs to root
+      # Move PDFs to root with versioning
+      - name: Move PDFs to root with version
         run: |
           if [ -d "PDF" ]; then
-            mv PDF/* ./ 
+            for pdf in PDF/*; do
+              if [ -f "$pdf" ]; then
+                # Add _V1.0.0 to the PDF name
+                renamed_pdf="$(basename "$pdf" .pdf)_V1.0.0.pdf"
+                mv "$pdf" "$renamed_pdf"
+              fi
+            done
             rm -rf PDF
           else
             echo "No PDF directory found."
           fi
+
 
       # Commit and push changes to main
       - name: Commit and push to main
