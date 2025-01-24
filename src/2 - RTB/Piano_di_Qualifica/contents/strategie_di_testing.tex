@@ -2,7 +2,7 @@
 Per dimostare che i requisiti individuati dagli analisti ed elencati nella sezione omonima dell'Analisi dei Requisiti siano soddisfatti, è necessario che vengano realizzati dei test appositi che verranno eseguiti sul prodotto sia in fase di codifica che in fase di verifica e revisione.\\
 I test realizzabili possono essere suddivisi in quattro categorie principali:
 \begin{itemize}
-    \item \textbf{Test di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
+    \item \textbf{Test di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input\textsubscript{G}, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
     \item \textbf{Test di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
     \item \textbf{Test di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i requisiti funzionali e non funzionali, assicurandosi di valutare il sistema nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
 %    \item \textbf{Test End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
@@ -36,7 +36,7 @@ I test di unità sono una tipologia di test utilizzata per verificare singoli co
     \item Facilitare la manutenzione del software, individuando rapidamente errori introdotti da modifiche;
     \item Promuovere la modularità, progettando concettualmente componenti indipendenti e riutilizzabili.
 \end{itemize}
-Per la realizzazione di questa categoria di test per questo progetto saranno utilizzati i framework Pytest e unittest per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del backend.\\
+Per la realizzazione di questa categoria di \textit{test\textsubscript{G}} per questo progetto saranno utilizzati i \textit{framework Pytest\textsubscript{G}} e \textit{unittest\textsubscript{G}} per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del \textit{backend\textsubscript{G}}.\\
 I test di unità, insieme ai test di integrazione, come richiesto nel capitolato, devono avere un coverage minimo pari al 75\% (opzionalmente un coverage minimo pari al 90\%).
 %TODO: Inserire i test
 %\begin{table}[H]
@@ -92,15 +92,15 @@ I test di sistema sono una tipologia di test attraverso la quale vengono testati
         \hline
 TS-1 & Il sistema deve permettere al modulo AI di interrogare il database in modo efficace per recuperare informazioni sui prodotti. Le informazioni restituite devono essere corrette, coerenti e aggiornate, garantendo che gli utenti ottengano risposte utili per le loro domande. & RF.O.026, RF.O.027 & NI \\
 \hline
-TS-2 & Deve essere garantita l'integrazione fluida tra il frontend e il backend, con l'elaborazione delle richieste degli utenti tramite GUI e la restituzione di risposte tempestive e accurate nella stessa interfaccia. & UC1, UC6 & NI \\
+TS-2 & Deve essere garantita l'integrazione fluida tra il frontend e il backend, con l'elaborazione delle richieste degli utenti tramite GUI\textsubscript{G} e la restituzione di risposte tempestive e accurate nella stessa interfaccia. & UC1, UC6 & NI \\
 \hline
 TS-3 & Quando l'utente inserisce una domanda che supera il limite di caratteri predefinito, il sistema deve gestire questa situazione restituendo un messaggio di errore chiaro e comprensibile. & RF.O.009, UC7 & NI \\
 \hline
-TS-4 & La pipeline di estrazione automatizzata dei dati dal sito Vimar deve raccogliere e indicizzare in modo efficiente le informazioni, rendendole disponibili per le interrogazioni degli utenti. & RF.O.020, RF.O.025 & NI \\
+TS-4 & La pipeline\textsubscript{G} di estrazione automatizzata dei dati dal sito Vimar deve raccogliere e indicizzare in modo efficiente le informazioni, rendendole disponibili per le interrogazioni degli utenti. & RF.O.020, RF.O.025 & NI \\
 \hline
-TS-5 & Il sistema deve essere avviabile tramite Docker Compose e garantire che tutti i componenti dell'infrastruttura containerizzata funzionino correttamente in un ambiente scalabile e portabile. & RV.O.002, RV.O.007 & NI \\
+TS-5 & Il sistema deve essere avviabile tramite Docker Compose\textsubscript{G} e garantire che tutti i componenti dell'infrastruttura containerizzata funzionino correttamente in un ambiente scalabile e portabile. & RV.O.002, RV.O.007 & NI \\
 \hline
-TS-6 & La dashboard amministrativa deve fornire agli amministratori una panoramica chiara e aggiornata sull'utilizzo del sistema, incluse statistiche dettagliate sulle richieste effettuate dagli utenti. & RF.O.003, UC14 & NI \\
+TS-6 & La dashboard\textsubscript{G} amministrativa deve fornire agli amministratori una panoramica chiara e aggiornata sull'utilizzo del sistema, incluse statistiche dettagliate sulle richieste effettuate dagli utenti. & RF.O.003, UC14 & NI \\
 \hline
 TS-7 & La pipeline di indicizzazione automatizzata deve operare senza interventi manuali, consentendo l'aggiornamento continuo delle informazioni nel database in base ai nuovi dati raccolti. & RF.O.025, RF.O.026 & NI \\
 \hline
@@ -119,7 +119,7 @@ TS-10 & L'infrastruttura del sistema deve supportare la scalabilità, consentend
 \hline
 TS-11 & Il sistema deve funzionare correttamente su tutti i browser compatibili specificati, garantendo un'esperienza utente coerente e priva di errori. & RV.O.012 - RV.O.016 & NI \\
 \hline
-TS-12 & Le API devono essere protette con meccanismi di autenticazione adeguati, come le API-Key, per garantire accessi sicuri e controllati ai servizi del sistema. & RV.O.006, RF.O.027 & NI \\
+TS-12 & Le \textit{API\textsubscript{G}} devono essere protette con meccanismi di autenticazione adeguati, come le API-Key, per garantire accessi sicuri e controllati ai servizi del sistema. & RV.O.006, RF.O.027 & NI \\
 \hline
 TS-13 & Il database deve essere aggiornabile con nuove informazioni sui prodotti in modo che il sistema possa fornire risposte aggiornate e precise agli utenti. & RF.O.021, RF.O.024 & NI \\
 \hline
@@ -148,7 +148,7 @@ TS-21 & Il sistema deve gestire la situazione in maniera corretta e mostrare un 
 \hline
 TS-22 & Il sistema deve consentire all'installatore di visualizzare la data e l'ora di invio di ogni messaggio nella cronologia delle conversazioni. & RF.P.041, RF.P.042 & NI \\
 \hline
-TS-23 & Il sistema deve consentire agli amministratori di azzerare il conteggio dei feedback positivi e negativi ricevuti, mostrando un messaggio di conferma. & RF.P.044, RF.P.045 & NI \\
+TS-23 & Il sistema deve consentire agli amministratori di azzerare il conteggio dei \textit{feedback\textsubscript{G}} positivi e negativi ricevuti, mostrando un messaggio di conferma. & RF.P.044, RF.P.045 & NI \\
 \hline
 TS-24 & Il sistema supporta correttamente la creazione di nuove sessioni di conversazione, garantendo che siano archiviate e accessibili successivamente. & RF.O.035, UC1 & NI \\
 \hline
