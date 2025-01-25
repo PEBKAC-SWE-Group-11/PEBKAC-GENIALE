@@ -1,44 +1,44 @@
 \section{Descrizione del Prodotto}
 \subsection{Obiettivo fissato}
-L’obiettivo del progetto è sviluppare un’app in grado di fornire supporto in tempo reale agli installatori di dispositivi offerti dall’azienda allo scopo di agevolare e velocizzare la raccolta di informazioni richieste. Per rendere efficiente e veloce la raccolta di informazioni, l’azienda sceglie di basare la ricerca principalmente sull’interrogazione di LLM. La soluzione potrà essere realizzata tramite un sistema di chat dove l’utente, tramite linguaggio naturale, fa delle richieste ed ottiene delle risposte da un’intelligenza artificiale.
+L’obiettivo del progetto è sviluppare un’app in grado di fornire supporto in tempo reale agli installatori di dispositivi offerti dall’azienda allo scopo di agevolare e velocizzare la raccolta di informazioni richieste. Per rendere efficiente e veloce la raccolta di informazioni, l’azienda sceglie di basare la ricerca principalmente sull’interrogazione di \textit{LLM}\textsubscript{G}. La soluzione potrà essere realizzata tramite un \textit{sistema}\textsubscript{G} di chat dove l’utente, tramite linguaggio naturale, fa delle richieste ed ottiene delle risposte da un’intelligenza artificiale.
 
 \subsection{Funzioni del prodotto}
-Il software deve essere in grado di recuperare informazioni dal sito web di Vimar e indicizzarle in un database vettoriale\textsubscript{G} dal quale un LLM possa ricavare le informazioni per rispondere alle domande poste dagli installatori.
-Secondariamente il software deve permettere la gestione di queste chat.
+Il \textit{software}\textsubscript{G} deve essere in grado di recuperare informazioni dal sito web di \textit{Vimar}\textsubscript{G} e indicizzarle in un \textit{database}\textsubscript{G} vettoriale\textsubscript{G} dal quale un \textit{LLM}\textsubscript{G} possa ricavare le informazioni per rispondere alle domande poste dagli installatori.
+Secondariamente il \textit{software}\textsubscript{G} deve permettere la gestione di queste chat.
 
 \subsection{Tecnologie  e analisi della struttura di progetto} 
 \subsubsection{Vincoli tecnologici}
 I vincoli tecnologici sono i seguenti:
 \begin{itemize}
-    \item L’infrastruttura Cloud deve usare Docker con docker-compose al fine di far valere il
+    \item L’infrastruttura \textit{Cloud}\textsubscript{G} deve usare \textit{Docker}\textsubscript{G} con \textit{docker-compose}\textsubscript{G} al fine di far valere il
     principio di infrastructure as code.
-    \item Il repository di lavoro deve essere versionato tramite Git e deve essere pubblicamente
+    \item Il \textit{repository}\textsubscript{G} di lavoro deve essere versionato tramite \textit{Git}\textsubscript{G} e deve essere pubblicamente
     accessibile e per i sorgenti la licenza dovrà essere open
     source
-    \item La parte di intelligenza artificiale dovrà fare uso dell’approccio RAG e usare un modello LLM
+    \item La parte di intelligenza artificiale dovrà fare uso dell’approccio \textit{RAG}\textsubscript{G} e usare un modello \textit{LLM}\textsubscript{G}
 \end{itemize}
 Inoltre vengono suggerite le seguenti tecnologie da utilizzare:
 \begin{itemize}
-    \item A livello di applicativo web responsive, si consigliano framework come Flask (Python), Angular
-    (TypeScript) o VueJS per lo sviluppo front-end.
-    \item Per lo sviluppo (es. API, business-logic) è fortemente consigliato l’utilizzo di Python come
+    \item A livello di applicativo \textit{Web Responsive}\textsubscript{G} , si consigliano \textit{framework}\textsubscript{G} come Flask (\textit{Python}\textsubscript{G}), \textit{Angular}\textsubscript{G}
+    (\textit{Typescript}\textsubscript{G}) o \textit{VueJS}\textsubscript{G} per lo sviluppo front-end.
+    \item Per lo sviluppo (es. \textit{API}\textsubscript{G}, business-logic) è fortemente consigliato l’utilizzo di \textit{Python}\textsubscript{G} come
     linguaggio di programmazione, vista la semplicità di utilizzo e di apprendimento.
     \item Per il componente di estrazione e reperimento delle informazioni dal sito web, si consigliano
-    librerie di Web Scraping e OCR, come ad esempio Scrapy e OCRmyPDF.
-    \item A livello di database, si consiglia l’utilizzo di database relazionali come PostgreSQL per
+    librerie di \textit{Web Scraping}\textsubscript{G}  e OCR, come ad esempio \textit{Scrapy}\textsubscript{G} e \textit{OCRmyPDF}\textsubscript{G}.
+    \item A livello di \textit{database}\textsubscript{G}, si consiglia l’utilizzo di \textit{database}\textsubscript{G} relazionali come \textit{PostgreSQL}\textsubscript{G} per
     immagazzinare i dati, unito all’uso dell’estensione pgvector per realizzare indici vettoriali (cfr.
-    embeddings \#1, embeddings \#2) da sfruttare col componente di interrogazione. In alternativa si
-    possono utilizzare database NoSQL come TimescaleDB o InfluxDB.
-    \item Per il componente di interrogazione si consiglia di lavorare con modelli open source di LLM come
-    ad esempio Llama 3.1, Mistral, Bert o Phi. Il sito di HuggingFace riporta anche una lista di LLM
-    (sotto al tab Retrieval) che usino il RAG.
-    \item In ottica di soluzione a container con sviluppo su AWS, si consiglia di utilizzare il servizio AWS
-    LightSail (ref. guida a LightSail Containers) oppure AWS EC2 (Elastic Compute Cloud).
-    \item Nell’ambito del software development lifecycle, si raccomanda l’utilizzo di una CI (es. GitHub
+    \textit{embeddings}\textsubscript{G} \#1, \textit{embeddings}\textsubscript{G} \#2) da sfruttare col componente di interrogazione. In alternativa si
+    possono utilizzare \textit{database}\textsubscript{G} \textit{NoSQL}\textsubscript{G} come \textit{TimescaleDB}\textsubscript{G} o \textit{InfluxDB}\textsubscript{G}.
+    \item Per il componente di interrogazione si consiglia di lavorare con modelli \textit{Open Source}\textsubscript{G} di \textit{LLM}\textsubscript{G} come
+    ad esempio \textit{Llama 3.1}\textsubscript{G}, \textit{Mistral}\textsubscript{G}, \textit{Bert}\textsubscript{G} o \textit{Phi}\textsubscript{G}. Il sito di HuggingFace riporta anche una lista di \textit{LLM}\textsubscript{G}
+    (sotto al tab \textit{Retrieval}\textsubscript{G}) che usino il \textit{RAG}\textsubscript{G}.
+    \item In ottica di soluzione a \textit{container}\textsubscript{G} con sviluppo su \textit{AWS}\textsubscript{G}, si consiglia di utilizzare il servizio \textit{AWS}\textsubscript{G}
+    LightSail (ref. guida a \textit{LightSail Containers}\textsubscript{G}) oppure \textit{AWS EC2}\textsubscript{G} (Elastic Compute \textit{Cloud}\textsubscript{G}).
+    \item Nell’ambito del \textit{Software Development Lifecycle}\textsubscript{G}, si raccomanda l’utilizzo di una CI (es. \textit{GitHub}\textsubscript{G}
     Runners) per automatizzare l’esecuzione di test e l’analisi statica del codice.
-    \item Nell’ambito dello sviluppo software, si consiglia l’utilizzo di GitHub Copilot (vedi GitHub Student
-    Pack) o Amazon Q (versione gratuita).
+    \item Nell’ambito dello sviluppo \textit{software}\textsubscript{G}, si consiglia l’utilizzo di \textit{GitHub}\textsubscript{G} Copilot (vedi \textit{GitHub}\textsubscript{G} Student
+    Pack) o \textit{Amazon Q}\textsubscript{G} (versione gratuita).
 \end{itemize}
 
 \subsection{Caratteristiche utente}
-Gli utenti principali di questo prodotto software sono gli installatori, professionisti che si occupano della progettazione, messa in funzione e manutenzione di un impianto elettrico e domotico, che andranno a interrogare il chatbot per reperire informazioni testuali e grafiche sui prodotti Vimar presenti all'interno del sito ufficiale. 
+Gli utenti principali di questo prodotto \textit{software}\textsubscript{G} sono gli installatori, professionisti che si occupano della progettazione, messa in funzione e manutenzione di un impianto elettrico e domotico, che andranno a interrogare il \textit{chatbot}\textsubscript{G} per reperire informazioni testuali e grafiche sui prodotti \textit{Vimar}\textsubscript{G} presenti all'interno del sito ufficiale. 
