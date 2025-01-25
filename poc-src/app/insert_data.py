@@ -17,11 +17,20 @@ def insert():
     file_path = os.path.join(JSON_DIR, 'data_reduced.json')
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
+
+    file_path_chunk = os.path.join(JSON_DIR, 'chunksfile.json')
+    with open(file_path_chunk, 'r', encoding='utf-8') as f:
+        chunk_data = json.load(f)
            
     try:
         for product in data['vimar_datas']:
             print(f"Inserting product {product['id']}...")
             insert_product(cursor, product)
+            connection.commit()
+
+        for chunk in chunk_data['chunks']:
+            print(f"Inserting chunk for product {chunk['id']}...")
+            insert_chunk(cursor, chunk)
             connection.commit()
 
     except Exception as e:
@@ -40,8 +49,8 @@ def get_database_connection():
         database="postgres",
         user="postgres",
         password="pebkac",
-        host="localhost",
-        port="54321"
+        host="db",
+        port="5432"
     )
 
 def get_embedding(product):
@@ -68,7 +77,7 @@ def insert_product(cursor, product):
         f"'{escape_single_quotes(product['technical_data'].get('Gruppo'))}', '{escape_single_quotes(product['technical_data'].get('Classe'))}', '{escape_single_quotes(get_embedding(product))}') "
         f"ON CONFLICT (product_id) DO NOTHING;"
     )
-    print(query)
+    # print(query)
     cursor.execute(query)
     print(f"Product {product['id']} inserted successfully.")
     
@@ -93,6 +102,25 @@ def insert_product(cursor, product):
             VALUES (%s, %s);
         """, (product['id'], doc))
 
+def insert_chunk(cursor, chunk_product):
+    query= (
+        f"INSERT INTO Chunk (product_id, titolo_doc, chunk, embedding) VALUES "
+        f"('{escape_single_quotes(chunk_product['id'])}', "
+        f"'{escape_single_quotes(chunk_product['title'])}', "
+        f"'{escape_single_quotes(chunk_product['chunk'])}', "
+        f"'{escape_single_quotes(chunk_product['vector'])}') "
+        f"ON CONFLICT (id) DO NOTHING;"
+    )
+    # print(query)
+    cursor.execute(query)
+    print(f"Chunk {chunk_product['id']} inserted successfully.")
+    
+    # Inserisci i chunk
+    for chunk,vector in chunk_product.get('chunks', []):
+        cursor.execute("""
+            INSERT INTO Chunk (product_id, chunk, embedding)
+            VALUES (%s, %s, %s);
+        """, (chunk_product['id'], chunk, vector))
 
 if __name__ == "__main__":
     insert()

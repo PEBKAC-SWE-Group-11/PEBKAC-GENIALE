@@ -14,8 +14,8 @@ try:
         database="postgres",
         user="postgres",
         password="pebkac",
-        host="localhost",
-        port="54321"
+        host="db",
+        port="5432"
     )
     cursor = connection.cursor()
 
@@ -78,9 +78,50 @@ try:
         ''')
     logging.info(f"Tabella DOCUMENTATION creata con successo.")
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Chunk(
+        id SERIAL PRIMARY KEY,
+        product_id VARCHAR(50) REFERENCES Product(product_id),
+        titolo_doc VARCHAR(200),
+        chunk TEXT NOT NULL,
+        embedding vector(768)
+        );
+        ''')
+    logging.info(f"Tabella CHUNK creata con successo.")
+
+    cursor.execute('''
+         CREATE TABLE IF NOT EXISTS Session (
+        session_id TEXT PRIMARY KEY,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        ''')
+    logging.info(f"Tabella SESSION creata con successo.")
+
+    cursor.execute('''
+       CREATE TABLE IF NOT EXISTS Conversation (
+        conversation_id SERIAL PRIMARY KEY,
+        session_id TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (session_id) REFERENCES Session (session_id) ON DELETE CASCADE
+        );
+        ''')
+    logging.info(f"Tabella CONVERSATION creata con successo.")
+
+    cursor.execute('''
+       CREATE TABLE IF NOT EXISTS Message (
+        message_id SERIAL PRIMARY KEY,
+        conversation_id INTEGER NOT NULL,
+        sender TEXT CHECK(sender IN ('user', 'assistant', 'system')),
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (conversation_id) REFERENCES Conversation (conversation_id) ON DELETE CASCADE
+        );
+        ''')
+    logging.info(f"Tabella MESSAGE creata con successo.")
+    
     connection.commit()
 
-    logging.info(f"Tabelle creata con SUCCESSO.")
+    logging.info(f"TABELLE creata con SUCCESSO.")
 except Exception as e:
     logging.error(f"Errore durante la connessione o la creazione della tabella: {e}", exc_info=True)
 finally:

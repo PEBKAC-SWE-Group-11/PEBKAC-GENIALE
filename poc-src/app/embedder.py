@@ -11,8 +11,8 @@ def get_database_connection():
         database="postgres",
         user="postgres",
         password="pebkac",
-        host="localhost",
-        port="54321"
+        host="db",
+        port="5432"
     )
 
 def search_similar_products(query_vector, top_k=1): # restituisce i primi k prodotti piu' simili al query_vector
@@ -21,9 +21,9 @@ def search_similar_products(query_vector, top_k=1): # restituisce i primi k prod
         cursor = connection.cursor()
 
         query = """
-            SELECT id, text_content, vector <-> %s::vector AS distance
-            FROM test_table
-            ORDER BY vector <-> %s::vector
+            SELECT id, chunk, embedding <-> %s::vector AS distance
+            FROM chunk
+            ORDER BY embedding <-> %s::vector
             LIMIT %s;
         """     # "vector <-> query_vector" significa "distanza tra vector e query_vector"
         cursor.execute(query, (query_vector, query_vector, top_k))
