@@ -1,0 +1,104 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{svg}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+\usepackage{enumitem}
+\usepackage[italian]{babel}
+\usepackage{lastpage}  % Pacchetto per ottenere il numero totale delle pagine
+\usepackage{fancyhdr}  % Pacchetto per personalizzare l'intestazione e il piè di pagina
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{ {images/} {../shared/images/} }
+\definecolor{unipd}{HTML}{B5121B}
+
+\addto\captionsitalian{\renewcommand{\contentsname}{Indice}}
+
+
+\pagestyle{fancy}% Imposta lo stile di pagina su "fancy"
+\fancyhf{}% Cancella intestazioni e piè di pagina
+\fancyfoot[C]{\thepage{} di \pageref{LastPage}} % Imposta il piè di pagina centrale come "numero pagina di totale pagine"
+\renewcommand{\headrulewidth}{0pt} % Imposta la larghezza della linea di intestazione a 0 punti
+
+% COMANDI PER CONTATORI
+\newcounter{uccounter}
+\newcommand{\uc}[2]{%
+  \refstepcounter{uccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}\ - #1}}%
+}
+
+\newcounter{subuccounter}[uccounter]
+\newcommand{\subuc}[2]{%
+  \refstepcounter{subuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}\ - #1}}%
+}
+
+\newcounter{subsubuccounter}[subuccounter]
+\newcommand{\subsubuc}[2]{%
+  \refstepcounter{subsubuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}\ - #1}}%
+}
+
+\newcounter{subsubsubuccounter}[subsubuccounter]
+\newcommand{\subsubsubuc}[2]{%
+  \refstepcounter{subsubsubuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}\ - #1}}%
+}
+
+% \newcommand{\data}{GG mese AAAA}
+\newcommand{\titolo}{Analisi dei Requisiti}
+% \newcommand{\responsabile}{Responsabile}
+\newcommand{\verificatore}{
+    & Davide Martinelli \\
+    & Nome2 Cognome2 \\
+    & Nome3 Cognome3 \\
+}
+\newcommand{\redattore}{
+    & Nome1 Cognome1 \\
+    & Nome2 Cognome2 \\
+    & Nome3 Cognome3 \\
+}
+% \newcommand{\uso}{Interno/Esterno}
+\newcommand{\destinatari }{
+    & Tullio Vardanega \\
+    & Riccardo Cardin \\
+    & Vimar S.p.A. \\
+    & Gruppo PEBKAC
+}
+\newcommand{\abstractcontent}{abstract ...}
+
+\begin{document}
+
+\input{contents/header}
+\input{contents/title}
+\input{contents/document_info}
+\newpage
+\input{contents/versioning}
+\newpage
+\tableofcontents
+\newpage
+%LISTA FIGURE
+\listoffigures 
+\newpage
+%LISTA TABELLE
+\listoftables
+\newpage
+\input{contents/introduzione}
+\newpage
+\input{contents/descrizione_del_prodotto}
+\newpage
+\input{contents/casi_duso/casi_duso}
+\newpage
+\input{contents/requisiti}
+\newpage
+\input{contents/tracciamento_requisiti}
+\newpage
+\end{document}

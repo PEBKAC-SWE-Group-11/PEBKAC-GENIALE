@@ -1,0 +1,17 @@
+\section{Riassunto della riunione}
+Questa riunione si è svolta per allineare il gruppo in previsione dell'imminente riunione SAL che avverrà con l’azienda proponente a seguito della richiesta del referente di anticiparla, in quanto impossibilitato nella giornata concordata durante la precedente riunione SAL. Il gruppo ha stabilito come nuova data giovedì 19 dicembre alle ore 15:00.
+Da quanto è stato discusso sono emerse le seguenti decisioni:
+\begin{itemize}
+    \item Dopo la visione dei progressi ottenuti nella realizzazione della base del PoC, sono emerse le seguenti domande che si è deciso di porre al rappresentante dell'azienda proponente:
+    \begin{enumerate}
+        \item I prodotti hanno caratteristiche diverse. \`E possibile suddividerli in categorie per facilitare il subtyping oppure è necessario utilizzare una struttura tabellare unica che rappresenti tutti i campi JSON come attributi? Se è possibile, si potrebbero avere dei chiarimenti riguardo a come realizzare la prima proposta?
+        \item Per fornire il contesto necessario a un LLM, è possibile eseguire query mirate sul database PostgreSQL che restituiscano solo i dati rilevanti per ogni richiesta, oppure è necessario estrarre tutti i dati relativi ai prodotti per elaborarli in un secondo momento? Se è possibile, si potrebbero avere dei chiarimenti riguardo a come realizzare la prima proposta?
+        \item Qual è l'approccio più efficace per generare embedding utili per le operazioni di ricerca e contestualizzazione con un LLM? \`E preferibile creare un vettore embedding per ogni prodotto, un vettore embedding per ogni attributo del prodotto oppure un vettore embedding per gruppi specifici di attributi?
+        \item Qual è l'approccio più efficace per indicizzare i dati nel database? \`E preferibile utilizzare indici creati direttamente nel database o affidarsi a un modello LLM per generare mappe di parole chiave dai dati dei prodotti, da usare come indici?
+    \end{enumerate}
+    Inoltre, dato che si stanno terminando le prove delle tecnologie e ci si sta avviando verso la realizzazione del PoC vero e proprio, si è deciso di iniziare a caricare la base di quest'ultimo nella repository principale, per mantenere traccia del versionamento;
+    \item Si è deciso di effettuare una prima ricerca generale di informazioni riguardo un nuovo modello LLM proposto di recente dal proponente, per valutare se può rientrare tra le opzioni già considerate in precedenza;
+    \item Dopo il termine del precedente sprint, le Norme di Progetto e l'Analisi dei Requisiti hanno subito integrazioni sostanziali, e, dunque, prima di proseguire con la loro redazione, si è deciso di sottoporre questi documenti ad una verifica;
+    \item A seguito dell'emersione di alcuni dubbi ed incertezze relativi all'analisi dei casi d'uso, si è deciso di prenotare un ricevimento con il professor Cardin per chiarire queste perplessità;
+    \item Si è deciso di eseguire un'ulteriore analisi approfondita delle tecnologie disponibili per il frontend, riconsiderando anche Vue.js (opzione precedentemente scartata) confrontando le loro caratteristiche, vantaggi e limitazioni, al fine di individuare definitivamente la soluzione più adatta alle esigenze del progetto.
+\end{itemize}

@@ -1,0 +1,109 @@
+\subsection{Sviluppo}
+\subsubsection{Scopo}
+Il processo di sviluppo rappresenta la serie di attività svolte dal team PEBKAC al fine di implementare il prodotto software, rispettando le scadenze e i requisiti concordati col Proponente. 
+Il processo è suddiviso nelle seguenti attività:
+\begin{itemize}
+    \item Analisi dei requisiti,
+    \item Progettazione;
+    \item Codifica;
+    \item Testing;
+    \item Integrazione software.
+\end{itemize}
+
+\subsubsection{Analisi dei Requisiti}
+\subsubsubsection{Scopo}
+Lo scopo dell'analisi dei requisiti è comprendere e definire in modo chiaro e completo le necessità e le aspettative del Proponente e degli utenti relativamente al prodotto software.
+\subsubsubsection{Implementazione}
+L'analisi dei requisiti, raccolta nel documento Analisi dei Requisiti V1.0.0, viene svolta secondo le seguenti fasi:
+\begin{enumerate}
+    \item Studio del capitolato e delle esigenze del Proponente;
+    \item Individuazione dei casi d'uso e dei requisiti;
+    \item Confronto con il Proponente su quanto prodotto;
+    \item Divisione dei requisiti nelle categorie individuate e applicazione dei quanto emerso nella discussione col Proponente.
+\end{enumerate}
+
+L'attività di analisi può essere svolta in modo incrementale, quindi le sue fasi possono essere svolte più volte durante lo sviluppo del progetto. 
+\\
+L'Analisi dei Requisiti V1.0.0 contiene:
+\begin{itemize}
+    \item \textbf{Introduzione}: descrive lo scopo del documento, del prodotto e i riferimenti utilizzati;
+    \item \textbf{Descrizione}: esplicita le funzionalità attese del prodotto;
+    \item \textbf{Attori}: descrive gli utilizzatori del prodotto;
+    \item \textbf{Casi d'uso}: individua le possibili interazioni tra gli attori e il sistema\textsubscript{G};
+    \item \textbf{Requisiti}: elenca le caratteristiche da soddisfare;
+\end{itemize}
+\subsubsubsection{Casi d'uso}
+I casi d’uso sono strutturati nel seguente modo:
+\begin{itemize}
+    \item \textbf{Attore}\textsubscript{G}: l’attore\textsubscript{G} che intende compiere lo scopo rappresentato dal caso d’uso;
+    \item \textbf{Precondizioni}: stato in cui il sistema\textsubscript{G} si deve trovare prima dell’avvio della funzionalità rappresentata dal caso d’uso;
+    \item \textbf{Postcondizioni}: stato in cui il sistema\textsubscript{G} si troverà dopo che l'utente avrà terminato lo scopo rappresentato dal caso d’uso;
+    \item \textbf{Scenario principale}: descrizione della funzionalità rappresentata dal caso d’uso;
+    \item \textbf{Scenari secondari} (se necessario);
+    \item \textbf{Estensioni} (se presenti);
+    \item \textbf{Specializzazioni} (se presenti).
+\end{itemize}
+\subsubsubsubsection{Notazione}
+i casi d'uso seguono la seguente notazione: \textbf{UC[Codice] - [Titolo]} in cui:
+\begin{itemize}
+    \item \textbf{UC} sta per Use Case\textsubscript{G};
+    \item \textbf{[Codice]} è l'identificativo univoco del caso d'uso. Si tratta di un numero intero progressivo assegnato in base all'ordine di descrizione, se il caso d'uso non ha padre, altrimenti se si tratta di un sottocaso d'uso si segue la notazione\textbf{ [Codice\_padre]-[Numero\_figlio]}, ricorsivamente senza porre limite alla profondità della gerarchia;
+    \item \textbf{[Titolo]} è il titolo del caso d'uso.
+\end{itemize}
+
+\subsubsubsubsection{Diagrammi UML\textsubscript{G}}
+Un diagramma dei casi d’uso è uno strumento di modellazione che rappresenta visivamente le funzionalità di un sistema e le modalità con cui gli utenti interagiscono con esso. È particolarmente utile nella progettazione di sistemi poiché offre una rappresentazione intuitiva delle dinamiche operative e delle interazioni tra attori e sistema, senza entrare nei dettagli implementativi.
+I componenti principali di un diagramma dei casi d'uso sono: 
+\begin{enumerate}
+    \item \textbf{Attori}\textsubscript{G}: gli attori\textsubscript{G} rappresentano entità esterne (umane o meno) che interagiscono con il sistema e sono raffigurati con un’icona stilizzata e un’etichetta identificativa. Possono essere generalizzati: un attore generico può avere attori più specifici che ne ereditano le funzionalità e aggiungono comportamenti contestuali;
+    \item \textbf{Casi d'uso}: un caso d’uso descrive un'operazione che un utente può compiere attraverso il sistema. Ogni caso d’uso ha un'identificazione univoca e una breve descrizione della funzione. Può includere sequenze di azioni che illustrano le possibili interazioni con il sistema ed è collegato agli attori autorizzati tramite linee continue.
+\end{enumerate}
+Nei diagrammi in questione poi possono comparire delle relazioni:
+\begin{enumerate}
+    \item \textbf{Generalizzazioni}: le generalizzazioni possono riguardare sia gli attori che i casi d’uso. Gli attori o i casi figli ereditano le funzionalità dei genitori, aggiungendo aspetti specifici. La relazione è rappresentata con una freccia continua e un triangolo vuoto bianco;
+    \item \textbf{Inclusioni}: si verificano quando un caso d’uso ne richiama un altro in modo obbligatorio. Questo favorisce la riduzione della duplicazione e il riutilizzo delle strutture. La relazione è indicata con una freccia tratteggiata e l’etichetta “include”;
+    \item \textbf{Estensioni}: rappresentano relazioni condizionali in cui un caso d’uso aggiuntivo viene eseguito solo in circostanze particolari, interrompendo temporaneamente il flusso principale. La relazione è raffigurata con una freccia tratteggiata e l’etichetta “extend”.
+\end{enumerate}
+
+\subsubsubsection{Requisiti}
+\subsubsubsubsection{Notazione}
+Ogni requisito analizzato  sarà identificato univocamente da una signa del tipo \\ \textbf{R[Tipo].[Importanza].[Codice]} nella quale:
+\begin{itemize}
+    \item \textbf{[R]} sta per Requisito\textsubscript{G};
+    \item \textbf{[Tipo]} può essere:
+    \begin{itemize}
+        \item \textbf{F} per Funzionale;
+        \item \textbf{Q} per Qualità;
+        \item \textbf{V} per Vincolo.
+    \end{itemize}
+    \item \textbf{[importanza]} classifica i requisiti in:
+    \begin{itemize}
+        \item \textbf{O} per Obbligatorio;
+        \item \textbf{D} per Desiderabile;
+        \item \textbf{P} per Opzionale.
+    \end{itemize}
+    \item \textbf{[Codice]} identifica univocamente i requisiti per ogni tipologia. È un numero intero progressivo univoco assegnato in ordine di importanza se il requisito non ha padre, se invece si tratta di un sotto-requisito segue il formato \textbf{[Codice\_padre].[Numero\_figlio]} e trattandosi di una struttura ricorsiva non c'è limite alla profondità della gerarchia.
+\end{itemize}
+
+\subsubsubsubsection{Suddivisione}
+\begin{enumerate}
+    \item \textbf{Requisiti Funzionali}: descrivono le funzionalità del sistema\textsubscript{G}, le azioni che il sistema può compiere e le informazioni che il sistema può fornire. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RF.O - Requisito Funzionale Obbligatorio;
+        \item RF.D - Requisito Funzionale Desiderabile;
+        \item RF.P - Requisito Funzionale Opzionale;
+    \end{itemize}
+     \item \textbf{Requisiti di Qualità}: descrivono come un sistema\textsubscript{G} deve essere, o come il sistema deve essere visualizzato, per soddisfare le esigenze dell’utente. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RQ.O - Requisito di Qualità Obbligatorio;
+        \item RQ.D - Requisito di Qualità Desiderabile;
+        \item RQ.P - Requisito di Qualità Opzionale;
+    \end{itemize}
+     \item \textbf{Requisiti Funzionali}: descrivono i limiti e le restrizioni normative/legislative che un
+    sistema\textsubscript{G} deve rispettare per soddisfare le esigenze dell’utente. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RV.O - Requisito di Vincolo Obbligatorio;
+        \item RV.D - Requisito di Vincolo Desiderabile;
+        \item RV.P - Requisito di Vincolo Opzionale;
+    \end{itemize}
+\end{enumerate}
