@@ -14,8 +14,8 @@ COPY app/ .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./start.sh /start.sh
-RUN dos2unix /start.sh && chmod +x /start.sh
+RUN chmod +x /start.sh && dos2unix /start.sh
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD ["/start.sh"]
