@@ -2,25 +2,25 @@
 \subsection{Metriche di qualità del processo}
 \subsubsection{Fornitura}
 \begin{itemize}
-    \item \textbf{CV (Cost Variance):} Misura la deviazione dei costi rispetto al budget, se il costo è negativo significa che si è sforato il limite del budget(SPI \( > \) 1: in anticipo rispetto ai tempi pianificati, SPI \( < \) 1: in ritardo rispetto ai tempi pianificati).
-    \\CV = EV - AC.
+    \item \textbf{CV (Cost Variance):} Misura la deviazione dei costi rispetto al \textit{budget}\textsubscript{G}, se il costo è negativo significa che si è sforato il limite del \textit{budget}\textsubscript{G}(\textit{SPI}\textsubscript{G} \( > \) 1: in anticipo rispetto ai tempi pianificati, \textit{SPI}\textsubscript{G} \( < \) 1: in ritardo rispetto ai tempi pianificati).
+    \\CV = \textit{EV}\textsubscript{G} - AC.
     \item \textbf{PV (Planed Value):} Il valore pianificato, ovvero il costo stimato del lavoro previsto in un determinato momento del progetto.
-    \item \textbf{EV (Earned Value):} Rappresenta il valore guadagnato, che rappresenta il costo stimato del lavoro effettivamente completato in quel momento.
+    \item \textbf{\textit{EV}\textsubscript{G} (Earned Value):} Rappresenta il valore guadagnato, che rappresenta il costo stimato del lavoro effettivamente completato in quel momento.
     \item \textbf{AC (Actual Cost):} Rappresenta il costo effettivo, cioè quanto è stato realmente speso fino a quel punto.
-    \item \textbf{CPI (Cost Performance Index):} Indica se il progetto sta spendendo meno o più del previsto (CPI \( > \) 1: sotto budget, CPI \( < \) 1: sopra budget). \\ La formula è \( \text{CPI} = \frac{\text{EV}}{\text{AC}} \).
+    \item \textbf{CPI (Cost Performance Index):} Indica se il progetto sta spendendo meno o più del previsto (CPI \( > \) 1: sotto \textit{budget}\textsubscript{G}, CPI \( < \) 1: sopra \textit{budget}\textsubscript{G}). \\ La formula è \( \text{CPI} = \frac{\text{\textit{EV}\textsubscript{G}}}{\text{AC}} \).
     \item \textbf{SPI (Schedule Performance Index):} Rappresenta l'efficienza temporale con cui il lavoro pianificato è stato completato rispetto a quanto programmato.
-    \\ La formula è \( \text{SPI} = \frac{\text{EV}}{\text{PV}} \).
-    \item \textbf{BAC (Budget At Completion):} Rappresenta il budget totale pianificato per il completamento del progetto.
-    \item \textbf{EAC (Estimated At Completion):} Rappresenta l'aggiornamento della stima del valore per la realizzazione del progetto, ovvero il BAC ricalcolato in base allo stato attuale del progetto.
-    La formula è \( \text{EAC} = \frac{\text{BAC}}{\text{CPI}} \).
-    \item \textbf{VAC (Variance At Completion):} Rappresenta la differenza tra il budget previsto e quello attuale alla fine del progetto.\\
-    La formula è VAC = BAC - EAC.
+    \\ La formula è \( \text{\textit{SPI}\textsubscript{G}} = \frac{\text{\textit{EV}\textsubscript{G}}}{\text{\textit{PV}\textsubscript{G}}} \).
+    \item \textbf{\textit{BAC}\textsubscript{G} (Budget At Completion):} Rappresenta il \textit{budget}\textsubscript{G} totale pianificato per il completamento del progetto.
+    \item \textbf{EAC (Estimated At Completion):} Rappresenta l'aggiornamento della stima del valore per la realizzazione del progetto, ovvero il \textit{BAC}\textsubscript{G} ricalcolato in base allo stato attuale del progetto.
+    La formula è \( \text{\textit{EAC}\textsubscript{G}} = \frac{\text{\textit{BAC}\textsubscript{G}}}{\text{CPI}} \).
+    \item \textbf{VAC (Variance At Completion):} Rappresenta la differenza tra il \textit{budget}\textsubscript{G} previsto e quello attuale alla fine del progetto.\\
+    La formula è VAC = \textit{BAC}\textsubscript{G} - \textit{EAC}\textsubscript{G}.
     \item \textbf{ETC (Estimated To Completion):} Rappresenta la valutazione del costo supplementare richiesto per portare a termine il progetto.\\
-    La formula è ETC = EAC - AC.
+    La formula è ETC = \textit{EAC}\textsubscript{G} - AC.
     \item \textbf{SV (Schedule Variance):} Indica se le attività pianificate del progetto sono in linea, anticipate o in ritardo rispetto alla programmazione.\\
-    La formula è SV = EV - PV.
-    \item \textbf{BV (Budget Variance):} Indica se, alla data attuale, le spese sostenute sono superiori o inferiori rispetto a quanto originariamente previsto nel budget.\\
-    La formula è BV = PV - AC.
+    La formula è SV = \textit{EV}\textsubscript{G} - \textit{PV}\textsubscript{G}.
+    \item \textbf{BV (Budget Variance):} Indica se, alla data attuale, le spese sostenute sono superiori o inferiori rispetto a quanto originariamente previsto nel \textit{budget}\textsubscript{G}.\\
+    La formula è BV = \textit{PV}\textsubscript{G} - AC.
 \end{itemize}
 \newpage
 \subsubsection{Sviluppo}
@@ -45,8 +45,8 @@
         \item \textbf{81-95:} Testo facile.
         \item \textbf{95-100:} Testo molto facile.
     \end{itemize}
-    Per calcolarlo viene utilizzato un software online: \url{https://farfalla-project.org/readability_static/}
-    \item \textbf{CO (Correttezza Ortografica):} Rappresenta il numero di errori grammaticali ed ortografici che presenta un documento.
+    Per calcolarlo viene utilizzato un \textit{software}\textsubscript{G} online: \url{https://farfalla-project.org/readability_static/}
+    %\item \textbf{CO (Correttezza Ortografica):} Rappresenta il numero di errori grammaticali ed ortografici che presenta un documento.
 \end{itemize}
 \subsubsection{Gestione delle qualità}
 \begin{itemize}
@@ -74,10 +74,10 @@
 
 \subsubsection{Manutenibilità}
 \begin{itemize}
-    \item \textbf{SFIN (Structure Fan IN):} Rappresenta la quantità di moduli o componenti che interagiscono direttamente o dipendono da un modulo o una funzione specifica. Un valore elevato suggerisce che molte parti del sistema fanno affidamento su quel particolare modulo.
-    \item \textbf{SFOUT (Structure Fan Out):} Rappresenta la quantità di connessioni o relazioni che un componente o modulo ha con altri elementi del sistema. Questa misura riflette il numero di moduli che interagiscono o su cui si basa un determinato modulo. Un fan-out elevato può segnalare che un modulo è fortemente dipendente da molti altri.
+    \item \textbf{SFIN (Structure Fan IN):} Rappresenta la quantità di moduli o componenti che interagiscono direttamente o dipendono da un modulo o una funzione specifica. Un valore elevato suggerisce che molte parti del \textit{sistema}\textsubscript{G} fanno affidamento su quel particolare modulo.
+    \item \textbf{SFOUT (Structure Fan Out):} Rappresenta la quantità di connessioni o relazioni che un componente o modulo ha con altri elementi del \textit{sistema}\textsubscript{G}. Questa misura riflette il numero di moduli che interagiscono o su cui si basa un determinato modulo. Un fan-out elevato può segnalare che un modulo è fortemente dipendente da molti altri.
 \end{itemize}
 \subsubsection{Efficienza}
 \begin{itemize}
-    \item \textbf{TDE (Tempo di Elaborazione):} Rappresenta il tempo di risposta dal momento in cui vengono inseriti dati all'interno del prodotto software al momento in cui vengono visualizzati dall'utente in questo caso l'installatore.
+    \item \textbf{TDE (Tempo di Elaborazione):} Rappresenta il tempo di risposta dal momento in cui vengono inseriti dati all'interno del prodotto \textit{software}\textsubscript{G} al momento in cui vengono visualizzati dall'utente in questo caso l'installatore.
 \end{itemize}
