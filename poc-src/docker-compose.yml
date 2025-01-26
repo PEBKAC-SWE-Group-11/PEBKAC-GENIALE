@@ -1,11 +1,10 @@
-# copiato da Matteo e Derek
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5001:5000"
+      - "5001:5001"
     environment:
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
@@ -30,6 +29,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./pgvector/vector_extension.sql:/docker-entrypoint-initdb.d/0-vector_extension.sql
-
+  angular:
+    build:
+      dockerfile: Dockerfile.angular
+    ports: 
+      - "4200:4200"
+      
 volumes:
   postgres_data:
