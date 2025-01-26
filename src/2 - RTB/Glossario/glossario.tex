@@ -1,0 +1,112 @@
+
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{svg}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+\usepackage{enumitem}
+\usepackage[italian]{babel}
+\usepackage{lastpage}  % Pacchetto per ottenere il numero totale delle pagine
+\usepackage{fancyhdr}  % Pacchetto per personalizzare l'intestazione e il piè di pagina
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{ {images/} {../shared/images/} }
+\definecolor{unipd}{HTML}{B5121B}
+
+\addto\captionsitalian{\renewcommand{\contentsname}{Indice}}
+
+
+\pagestyle{fancy}% Imposta lo stile di pagina su "fancy"
+\fancyhf{}% Cancella intestazioni e piè di pagina
+\fancyfoot[C]{\thepage{} di \pageref{LastPage}} % Imposta il piè di pagina centrale come "numero pagina di totale pagine"
+\renewcommand{\headrulewidth}{0pt} % Imposta la larghezza della linea di intestazione a 0 punti
+
+%\newcommand{\data}{GG mese AAAA}
+\newcommand{\titolo}{Glossario}
+%\newcommand{\responsabile}{Responsabile}
+\newcommand{\verificatore}{
+    & Matteo Gerardin
+}
+\newcommand{\redattore}{
+    & Alessandro Benin \\
+    & Matteo Piron \\
+    & Tommaso Zocche
+}
+\newcommand{\uso}{Esterno}
+\newcommand{\destinatari }{
+    & Tullio Vardanega  \\
+    & Riccardo Cardin \\  
+    & Vimar S.p.A.
+}
+\newcommand{\abstractcontent}{abstract ...}
+
+\begin{document}
+\input{contents/header}
+\input{contents/title}
+\input{contents/document_info}
+\newpage
+\input{contents/versioning}
+\newpage
+\tableofcontents
+\newpage
+\input{contents/introduzione}
+\newpage
+\input{contents/alfabet/a}
+\newpage
+\input{contents/alfabet/b}
+\newpage
+\input{contents/alfabet/c}
+\newpage
+\input{contents/alfabet/d}
+\newpage
+\input{contents/alfabet/e}
+\newpage
+\input{contents/alfabet/f}
+\newpage
+\input{contents/alfabet/g}
+\newpage
+\input{contents/alfabet/h}
+\newpage
+\input{contents/alfabet/i}
+\newpage
+\input{contents/alfabet/j}
+\newpage
+\input{contents/alfabet/k}
+\newpage
+\input{contents/alfabet/l}
+\newpage
+\input{contents/alfabet/m}
+\newpage
+\input{contents/alfabet/n}
+\newpage
+\input{contents/alfabet/o}
+\newpage
+\input{contents/alfabet/p}
+\newpage
+\input{contents/alfabet/q}
+\newpage
+\input{contents/alfabet/r}
+\newpage
+\input{contents/alfabet/s}
+\newpage
+\input{contents/alfabet/t}
+\newpage
+\input{contents/alfabet/u}
+\newpage
+\input{contents/alfabet/v}
+\newpage
+\input{contents/alfabet/w}
+\newpage
+\input{contents/alfabet/x}
+\newpage
+\input{contents/alfabet/y}
+\newpage
+\input{contents/alfabet/z}
+\newpage
+
+
+\end{document}
