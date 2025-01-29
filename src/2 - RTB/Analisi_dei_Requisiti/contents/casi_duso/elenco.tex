@@ -142,7 +142,11 @@
     \item Inserisce una domanda o una parola chiave relativa ad un prodotto specifico;
     \item Il \textit{sistema}\textsubscript{G} esegue la ricerca nel \textit{database}\textsubscript{G} le informazioni necessarie a fornire sufficiente contesto al \textit{LLM}\textsubscript{G}.
     \end{enumerate}
-    
+    \item \textbf{Inclusioni}:
+    \begin{itemize}
+        \item UC18 - Digitare la domanda
+    \end{itemize}
+
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -281,11 +285,6 @@
     \item L’installatore visualizza le informazioni fornite e, dopo aver verificato la correttezza delle informazioni ricevute, fornisce un \textit{feedback}\textsubscript{G} sulla risposta al \textit{sistema}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} registra il \textit{feedback}\textsubscript{G} ricevuto dall’installatore.
     \end{enumerate}
-    \item \textbf{Inclusioni} (Le inclusioni hanno senso se verranno svolte azioni aggiuntive rispetto alla sola registrazione del \textit{feedback}\textsubscript{G}): 
-        \begin{itemize}
-            \item UC 11.1 - Fornitura di \textit{feedback}\textsubscript{G} positivo sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione
-            \item UC 11.2 - Fornitura di \textit{feedback}\textsubscript{G} negativo sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione
-        \end{itemize}
 \end{itemize}
 
 \subuc{Fornitura di \textit{feedback}\textsubscript{G} positivo sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}{feedback_positivo}
@@ -307,6 +306,7 @@
     \item L’installatore visualizza le informazioni fornite e, dopo aver verificato la correttezza delle informazioni ricevute, fornisce un \textit{feedback}\textsubscript{G} positivo sulla risposta al \textit{sistema}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} registra il \textit{feedback}\textsubscript{G} ricevuto dall’installatore.
     \end{enumerate}
+    \item \textbf{Generalizzazioni}: UC11 - Fornitura di feedback$_G$ sulla risposta del sistema ad interrogazione.
 \end{itemize}
 
 \subuc{Fornitura di \textit{feedback}\textsubscript{G} negativo sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}{feedback_negativo}
@@ -328,6 +328,8 @@
     \item L’installatore visualizza le informazioni fornite e, dopo aver verificato la correttezza delle informazioni ricevute, fornisce un \textit{feedback}\textsubscript{G} negativo sulla risposta al \textit{sistema}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} registra il \textit{feedback}\textsubscript{G} ricevuto dall’installatore.
     \end{enumerate}
+    \item \textbf{Generalizzazioni}: UC11 - Fornitura di feedback$_G$ sulla risposta del sistema ad interrogazione.
+
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -446,7 +448,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
     \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
@@ -468,7 +469,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
     \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
@@ -490,7 +490,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
     \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
@@ -512,7 +511,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
     \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
@@ -534,7 +532,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
     \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 \begin{figure}[H]
@@ -563,7 +560,7 @@
     \item Il \textit{sistema}\textsubscript{G} elabora la richiesta e fornisce una risposta che spiega la causa dell'errore riscontrato;
     \item L’installatore visualizza le informazioni sull’errore che si è verificato;
     \end{enumerate}
-     \item \textbf{Generalizzazioni}: UC 8 - Assenza di informazioni sul prodotto ricercato.
+     \item \textbf{Inclusioni}: UC 6 - Ricerca informazioni sui prodotti con conversazione libera.
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -647,7 +644,6 @@
     \item \textbf{Estensioni}: 
         \begin{itemize}
             \item UC 7 - Superamento limite caratteri del messaggio
-            \item UC 8 - Assenza di informazioni sul prodotto ricercato
         \end{itemize}
 \end{itemize}
 \begin{figure}[H]
