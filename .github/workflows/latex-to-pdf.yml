@@ -31,10 +31,10 @@ jobs:
           tlmgr --version || echo "tlmgr cannot run"
 
       # Process LaTeX projects and generate PDFs
-      - name: Process all LaTeX projects
+      - name: Process LaTeX projects in Verbali/Interni
         run: |
-          base_dir="src/2 - RTB"
-          output_dir="PDF/2 - RTB"
+          base_dir="src/2 - RTB/Verbali/Interni"
+          output_dir="PDF/2 - RTB/Verbali/Interni"
           mkdir -p "$output_dir"
 
           # Function to process a LaTeX project
@@ -71,11 +71,9 @@ jobs:
             cd "$GITHUB_WORKSPACE"
           }
 
-          # Process Verbali (Interni, Esterni)
-          for type in "Interni" "Esterni"; do
-            for sub_dir in "$base_dir/Verbali/$type"/*; do
-              [ -d "$sub_dir" ] && process_latex_project "$sub_dir"
-            done
+          # Process only Verbali/Interni
+          for sub_dir in "$base_dir"/*; do
+            [ -d "$sub_dir" ] && process_latex_project "$sub_dir"
           done
 
       # Upload PDFs as artifact
@@ -119,7 +117,6 @@ jobs:
           else
             echo "No PDF directory found."
           fi
-
 
       # Commit and push changes to main
       - name: Commit and push to main
