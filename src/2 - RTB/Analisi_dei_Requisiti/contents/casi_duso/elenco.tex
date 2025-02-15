@@ -12,7 +12,7 @@
     \item Il \textit{sistema}\textsubscript{G} esegue la creazione della nuova conversazione nella modalità desiderata dall’utente;
     \item  L’installatore accede alla nuova conversazione.
     \end{enumerate}
-    \item \textbf{Estensioni}: UC 2 - Raggiungimento limite di conversazioni;
+    \item \textbf{Estensioni}: UC2 - Raggiungimento limite di conversazioni;
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -39,11 +39,7 @@
     \item L’installatore visualizza le informazioni sull’errore che si è verificato.
     \end{enumerate}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC2.png}
-\caption{UC2 - Raggiungimento limite di conversazioni}
-\end{figure}
+
 
 
 \uc{Salvataggio conversazione}{salvataggio_conv}
@@ -63,7 +59,7 @@
     \item Il \textit{sistema}\textsubscript{G} effettua il salvataggio e fornisce una risposta che conferma il completamento dell’operazione;
     \item L’installatore visualizza il messaggio di conferma dell’avvenuto salvataggio.
     \end{enumerate}
-    \item \textbf{Estensioni}: UC 4 - Assenza di conversazioni durante il salvataggio
+    \item \textbf{Estensioni}: UC4 - Salvataggio conversazione vuota
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -72,10 +68,10 @@
 % \label{fig:UC1a}
 \end{figure}
 
-\uc{Assenza di conversazioni durante il salvataggio}{assenza_conv}
+\uc{Salvataggio conversazione vuota}{assenza_conv}
 \begin{itemize}
     \item \textbf{Attori coinvolti}: Installatore;
-    \item \textbf{Descrizione}: L’installatore tenta di salvare una o più conversazioni senza, però, che ce ne sia alcuna;
+    \item \textbf{Descrizione}: L’installatore tenta di salvare una o più conversazioni vuote;
     \item \textbf{Precondizioni}: 
         \begin{itemize}
             \item L’installatore ha accesso all’\textit{interfaccia web}\textsubscript{G} del \textit{sistema}\textsubscript{G};
@@ -91,12 +87,7 @@
     \item L’installatore visualizza le informazioni sull’errore che si è verificato.
     \end{enumerate}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC4.png}
-\caption{UC4 - Assenza di conversazioni durante il salvataggio}
-% \label{fig:UC1a}
-\end{figure}
+
 
 
 \uc{Cancellazione conversazione}{cancellazione_conv}
@@ -144,7 +135,12 @@
     \end{enumerate}
     \item \textbf{Inclusioni}:
     \begin{itemize}
-        \item UC18 - Digitare la domanda
+        \item UC18 - Digitare la domanda.
+    \end{itemize}
+    \item \textbf{Estensioni}: 
+    \begin{itemize}
+        \item UC8 - Assenza di informazioni sul prodotto ricercato;
+        \item UC15 - Richiesta di argomento proibito
     \end{itemize}
 
 \end{itemize}
@@ -174,12 +170,6 @@
     \item L’installatore visualizza le informazioni sull’errore che si è verificato.
     \end{enumerate}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC7.png}
-\caption{UC7 - Superamento limite caratteri del messaggio}
-% \label{fig:UC1a}
-\end{figure}
 
 
 \uc{Assenza di informazioni sul prodotto ricercato}{assenza_info_prodotto}
@@ -229,7 +219,7 @@
     \end{enumerate}
     \item \textbf{Estensioni}: 
         \begin{itemize}
-            \item UC 10 - Mancanza messaggi pregressi nella conversazione
+            \item UC10 - Mancanza messaggi pregressi nella conversazione
         \end{itemize}
 \end{itemize}
 \begin{figure}[H]
@@ -258,12 +248,7 @@
     \item L’installatore visualizza il messaggio che indica l’assenza di messaggi pregressi.
     \end{enumerate}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC10.png}
-\caption{UC10 - Mancanza messaggi pregressi nella conversazione}
-% \label{fig:UC1a}
-\end{figure}
+
 
 
 \uc{Fornitura di \textit{feedback}\textsubscript{G} sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}{fornitura_feedback}
@@ -286,6 +271,12 @@
     \item Il \textit{sistema}\textsubscript{G} registra il \textit{feedback}\textsubscript{G} ricevuto dall’installatore.
     \end{enumerate}
 \end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC11.png}
+\caption{UC11 - Fornitura di \textit{feedback}\textsubscript{G} sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}
+% \label{fig:UC1a}
+\end{figure}
 
 \subuc{Fornitura di \textit{feedback}\textsubscript{G} positivo sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}{feedback_positivo}
 \begin{itemize}
@@ -331,12 +322,6 @@
     \item \textbf{Generalizzazioni}: UC11 - Fornitura di feedback$_G$ sulla risposta del sistema ad interrogazione.
 
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC11.png}
-\caption{UC11 - Fornitura di \textit{feedback}\textsubscript{G} sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}
-% \label{fig:UC1a}
-\end{figure}
 
 \uc{Accesso al \textit{cruscotto informativo}\textsubscript{G}}{accesso_cruscotto}
 \begin{itemize}
@@ -355,10 +340,10 @@
     \item Il \textit{sistema}\textsubscript{G} riceve la richiesta di accesso e \textit{verifica}\textsubscript{G} le credenziali;
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Estensioni}: UC 13 - Inserimento \textit{username}\textsubscript{G} o \textit{password}\textsubscript{G} errati
+    \item \textbf{Estensioni}: UC13 - Inserimento \textit{username}\textsubscript{G} o \textit{password}\textsubscript{G} errati
     \item \textbf{Inclusioni}: 
         \begin{itemize}
-            \item UC 12.1 - Inserimento \textit{username}\textsubscript{G} e \textit{password}\textsubscript{G}
+            \item UC12.1 - Inserimento \textit{username}\textsubscript{G} e \textit{password}\textsubscript{G}
         \end{itemize}
 \end{itemize}
 
@@ -427,8 +412,22 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}: UC 12 - Accesso al \textit{cruscotto informativo}\textsubscript{G}
+    \item \textbf{Inclusioni}: 
+    \begin{itemize}
+        \item UC12 - Accesso al \textit{cruscotto informativo}\textsubscript{G};
+        \item UC14.1 - Visualizzazione numero richieste con \textit{conversazione libera}\textsubscript{G};
+        \item UC14.2 - Visualizzazione numero richieste con \textit{conversazione guidata}\textsubscript{G};
+        \item UC14.3 - Visualizzazione classifica di parole più utilizzate;
+        \item UC14.4 - Visualizzazione numero risposte positive dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G};
+        \item UC14.5 - Visualizzazione numero negative positive dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G}.
+    \end{itemize}
 \end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC14.png}
+\caption{UC14 - Visualizzazione informazioni \textit{dashboard}\textsubscript{G}}
+% \label{fig:UC1a}
+\end{figure}
 
 \subuc{Visualizzazione numero richieste con \textit{conversazione libera}\textsubscript{G}}{visualizzazione_richieste_libere}
 \begin{itemize}
@@ -448,7 +447,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
 \subuc{Visualizzazione numero richieste con \textit{conversazione guidata}\textsubscript{G}}{visualizzazione_richieste_guidate}
@@ -469,19 +467,18 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
-\subuc{Visualizzazione statistiche sul numero di parole usate nelle richieste}{visualizzazione_statistiche_parole}
+\subuc{Visualizzazione classifica di parole più utilizzate}{visualizzazione_statistiche_parole}
 \begin{itemize}
     \item \textbf{Attori coinvolti}: \textit{Amministratore}\textsubscript{G};
-    \item \textbf{Descrizione}: Un \textit{amministratore}\textsubscript{G} desidera visualizzare dal \textit{cruscotto informativo}\textsubscript{G} le statistiche sul numero di parole utilizzate;
+    \item \textbf{Descrizione}: Un \textit{amministratore}\textsubscript{G} desidera visualizzare dal \textit{cruscotto informativo}\textsubscript{G} la classifica delle parole più utilizzate con relativa percentuale rispetto al numero totale delle parole utilizzate nelle richieste;
     \item \textbf{Precondizioni}: 
         \begin{itemize}
             \item L’\textit{amministratore}\textsubscript{G} ha accesso all’\textit{interfaccia web}\textsubscript{G} del \textit{sistema}\textsubscript{G};
             \item L’\textit{amministratore}\textsubscript{G} è dotato dell’accesso alla \textit{dashboard}\textsubscript{G};
         \end{itemize}
-    \item \textbf{Postcondizioni}: Il \textit{sistema}\textsubscript{G} raccoglie le informazioni relative alle statistiche sul numero di termini utilizzati nelle richieste e le mostra nella \textit{dashboard}\textsubscript{G};
+    \item \textbf{Postcondizioni}: Il \textit{sistema}\textsubscript{G} raccoglie le informazioni relative alla classifica delle parole più utilizzate nelle richieste e la mostra nella \textit{dashboard}\textsubscript{G};
     \item \textbf{Scenario principale}:
     \begin{enumerate}
     \item L’\textit{amministratore}\textsubscript{G} accede all’\textit{interfaccia web}\textsubscript{G} di Vimar GENIALE;
@@ -490,7 +487,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
 \subuc{Visualizzazione numero risposte positive dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G}}{visualizzazione_risposte_positive}
@@ -511,7 +507,6 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
 
 \subuc{Visualizzazione numero risposte negative dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G}}{visualizzazione_risposte_negative}
@@ -532,14 +527,8 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} mostra le informazioni richieste sul \textit{cruscotto informativo}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Generalizzazioni}: UC 14 - Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC14.png}
-\caption{UC14 - Visualizzazione informazioni \textit{dashboard}\textsubscript{G}}
-% \label{fig:UC1a}
-\end{figure}
+
 
 
 \uc{Richiesta di argomento proibito}{argomento_proibito}
@@ -560,7 +549,7 @@
     \item Il \textit{sistema}\textsubscript{G} elabora la richiesta e fornisce una risposta che spiega la causa dell'errore riscontrato;
     \item L’installatore visualizza le informazioni sull’errore che si è verificato;
     \end{enumerate}
-     \item \textbf{Inclusioni}: UC 6 - Ricerca informazioni sui prodotti con conversazione libera.
+     \item \textbf{Inclusioni}: UC6 - Ricerca informazioni sui prodotti con conversazione libera.
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -588,7 +577,7 @@
     \item Il \textit{sistema}\textsubscript{G} elabora la richiesta e fornisce una risposta;
     \item L’installatore visualizza le informazioni restituite;
     \end{enumerate}
-    \item \textbf{Estensioni}: UC 17 - Richiesta di uno schema o immagine.
+    \item \textbf{Estensioni}: UC17 - Richiesta di uno schema o immagine.
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -615,8 +604,8 @@
     \item Inserisce una domanda che ha a che vedere con prodotti \textit{VIMAR}\textsubscript{G};
     \item Il \textit{sistema}\textsubscript{G} elabora la richiesta e fornisce una risposta inserendo uno schema o di un'immagine di cui la risposta ha bisogno per essere esaustiva;
     \item L’installatore visualizza le informazioni restituite;
-    \item \textbf{Inclusioni}: UC 16 - Domanda al \textit{sistema}\textsubscript{G}.
     \end{enumerate}
+    \item \textbf{Inclusioni}: UC16 - Domanda al \textit{sistema}\textsubscript{G}.
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -643,12 +632,7 @@
     \end{enumerate}
     \item \textbf{Estensioni}: 
         \begin{itemize}
-            \item UC 7 - Superamento limite caratteri del messaggio
+            \item UC7 - Superamento limite caratteri del messaggio
         \end{itemize}
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC18.png}
-\caption{UC18- Digitazione della Domanda}
-% \label{fig:UC1a}
-\end{figure}
+
