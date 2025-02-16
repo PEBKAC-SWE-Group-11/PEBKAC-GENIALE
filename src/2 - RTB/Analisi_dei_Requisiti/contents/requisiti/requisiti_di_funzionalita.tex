@@ -4,9 +4,9 @@
         \hline
         \textbf{ID requisito} & \textbf{Descrizione} & \textbf{Importanza} & \textbf{Fonti}  \\
         \hline
-        RF.O.001 & Il \textit{sistema}\textsubscript{G} deve permettere all'installatore di effettuare ricerche testuali e ricevere informazioni dettagliate sui prodotti \textit{Vimar}\textsubscript{G}. & Obbligatorio & Capitolato \\
+        RF.O.001 & Il \textit{sistema}\textsubscript{G} deve permettere all'installatore di effettuare ricerche testuali e ricevere informazioni dettagliate sui prodotti \textit{Vimar}\textsubscript{G}. & Obbligatorio & UC6, UC16 \\
         \hline
-        RF.O.002 & Il \textit{sistema}\textsubscript{G} deve prevedere un \textit{sistema}\textsubscript{G} di autenticazione tramite \textit{password}\textsubscript{G} per l'accesso alla \textit{dashboard}\textsubscript{G} per amministratori. & Obbligatorio & UC12 \\
+        RF.O.002 & Il \textit{sistema}\textsubscript{G} deve prevedere l'autenticazione tramite \textit{password}\textsubscript{G} per l'accesso alla \textit{dashboard}\textsubscript{G} per amministratori. & Obbligatorio & UC12 \\
         \hline
         RF.O.003 & Il \textit{cruscotto informativo}\textsubscript{G} deve includere una sezione per la visualizzazione di statistiche di utilizzo. & Obbligatorio & UC14 \\
         \hline
@@ -17,7 +17,7 @@
 \centering
     \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
         \hline
-        RF.O.004 & Il \textit{sistema}\textsubscript{G} deve permettere agli utenti di fornire un \textit{feedback}\textsubscript{G} positivo o negativo dopo ogni risposta ricevuta. & Obbligatorio & UC14 \\
+        RF.O.004 & Il \textit{sistema}\textsubscript{G} deve permettere agli utenti di fornire un \textit{feedback}\textsubscript{G} positivo o negativo dopo ogni risposta ricevuta. & Obbligatorio & UC11 \\
         \hline
         RF.O.005 & Il \textit{sistema}\textsubscript{G} deve essere in grado di identificare e bloccare le richieste che riguardano argomenti non pertinenti \textit{AI}\textsubscript{G} prodotti \textit{VIMAR}\textsubscript{G}. & Obbligatorio & UC15 \\
         \hline
@@ -26,31 +26,28 @@
         RF.P.007 & Il \textit{sistema}\textsubscript{G} deve fornire un'interfaccia con menu e sottomenù per costruire richieste specifiche in conversazioni guidate. & Opzionale & Capitolato\\
         \hline
         RF.D.008 & Il componente di interrogazione deve prevedere un controllo sull’\textit{output}\textsubscript{G}
-        per verificare che il contenuto non vada in conflitto con argomenti proibiti. & Desiderabile & Capitolato \\
+        per verificare che il contenuto non vada in conflitto con argomenti proibiti. & Desiderabile & UC15 \\
         \hline
-        RF.O.009 & L’utente deve poter fare richieste testuali limitate a un certo numero di caratteri. & Obbligatorio & Capitolato \\
+        RF.O.009 & L’utente deve poter fare richieste testuali limitate a un certo numero di caratteri. & Obbligatorio & UC7 \\
         \hline
         RF.O.010 & L’utente deve poter visualizzare uno storico dei messaggi nella stessa
-        conversazione. & Obbligatorio & Capitolato \\
+        conversazione. & Obbligatorio & UC9 \\
         \hline
         RF.D.011 & L’utente può fare richieste in più lingue.
          & Desiderabile & Capitolato \\
          \hline
-         RF.O.012 & Le conversazioni avute possono essere salvate al termine della \textit{sessione}\textsubscript{G}. & Obbligatorio & Capitolato \\
+         RF.O.012 & Le conversazioni avute possono essere salvate al termine della \textit{sessione}\textsubscript{G}. & Obbligatorio & UC3 \\
         \hline
-        RF.O.013 & Le conversazioni devono poter essere cancellate. & Obbligatorio & Capitolato \\
+        RF.O.013 & Le conversazioni devono poter essere cancellate. & Obbligatorio & UC5 \\
         \hline
         RF.O.014 & Ogni utente dovrà avere un limite massimo di conversazioni.
-         & Obbligatorio & Capitolato \\
+         & Obbligatorio & UC2 \\
         \hline
         RF.P.015 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} il numero totale di richieste effettuate con \textit{conversazione libera}\textsubscript{G} o guidata.
-         & Opzionale & Capitolato \\
+         & Opzionale & UC14.1, UC14.2 \\
         \hline
-        RF.P.016 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} le statistiche sul numero di termini usati nelle richieste.
-         & Opzionale & Capitolato \\
-        \hline
-        RF.P.017 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} le statistiche sulle parole più usate nelle richieste.
-         & Opzionale & Capitolato \\
+        RF.P.016 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} la classifica sul numero di termini usati maggiormente nelle richieste.
+         & Opzionale & UC14.3 \\
         \hline
     \end{tabular}
     \caption{Requisiti di funzionalità  (2\textsuperscript{a} parte)}
@@ -59,42 +56,42 @@
 \centering
     \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
         \hline
-        RF.P.018 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} il grafico con l'andamento giornaliero dell’utilizzo dell’applicativo.
+        RF.P.017 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} il grafico con l'andamento giornaliero dell’utilizzo dell’applicativo.
          & Opzionale & Capitolato \\
         \hline
-        RF.D.019 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} il numero di risposte positive o negative ricevute dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G}.
-         & Desiderabile & Capitolato \\
+        RF.D.018 & L'\textit{amministratore}\textsubscript{G} deve poter visualizzare nel \textit{cruscotto informativo}\textsubscript{G} il numero di risposte positive o negative ricevute dal \textit{sistema}\textsubscript{G} di \textit{feedback}\textsubscript{G}.
+         & Desiderabile & UC14.4, UC14.5 \\
         \hline
-        RF.O.020 &  L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di estrazione e raccolta delle informazioni dal sito web dell'azienda.
+        RF.O.019 &  L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di estrazione e raccolta delle informazioni dal sito web dell'azienda.
          & Obbligatorio & Capitolato \\
         \hline
-         RF.O.021 & Il \textit{sistema}\textsubscript{G} deve essere in grado di navigare un elenco di prodotti, estrarre le informazioni utili e immagazzinare le informazioni correlandole in modo opportuno.
+         RF.O.020 & Il \textit{sistema}\textsubscript{G} deve essere in grado di navigare un elenco di prodotti, estrarre le informazioni utili e immagazzinare le informazioni correlandole in modo opportuno.
          & Obbligatorio & Capitolato \\
         \hline
-         RF.D.022 & L'utente deve poter scaricare i file di istruzioni dei prodotti in formato PDF.
-         & Desiderabile & Capitolato \\
+         RF.D.021 & L'utente deve poter scaricare i file di istruzioni dei prodotti in formato PDF.
+         & Desiderabile & UC17 \\
         \hline
-         RF.O.023 & Il \textit{sistema}\textsubscript{G} deve essere in grado di ricavare le informazioni utili dai PDF ed estrarre le immagini degli schemi elettrici.
+         RF.O.022 & Il \textit{sistema}\textsubscript{G} deve essere in grado di ricavare le informazioni utili dai PDF ed estrarre le immagini degli schemi elettrici.
+         & Obbligatorio & UC17 \\
+        \hline
+         RF.O.023 & Il \textit{sistema}\textsubscript{G} deve impiegare un \textit{database}\textsubscript{G} per collezionare le informazioni relative ai prodotti.
+         & Obbligatorio & UC16 \\
+        \hline
+         RF.O.024 & Il \textit{sistema}\textsubscript{G} di estrazione e raccolta deve essere realizzato sotto-forma di \textit{pipeline}\textsubscript{G} e automatizzato.
          & Obbligatorio & Capitolato \\
         \hline
-         RF.O.024 & Il \textit{sistema}\textsubscript{G} deve impiegare un \textit{database}\textsubscript{G} per collezionare le informazioni relative \textit{AI}\textsubscript{G} prodotti.
-         & Obbligatorio & Capitolato \\
-        \hline
-         RF.O.025 & Il \textit{sistema}\textsubscript{G} di estrazione e raccolta deve essere realizzato sotto-forma di \textit{pipeline}\textsubscript{G} e automatizzato.
-         & Obbligatorio & Capitolato \\
-        \hline
-         RF.O.026 & L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di indicizzazione delle informazioni a partire dal
+         RF.O.025 & L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di indicizzazione delle informazioni a partire dal
         \textit{database}\textsubscript{G} in cui sono stati salvati i dati precedentemente estratti dal sito web.
          & Obbligatorio & Capitolato \\
         \hline
-        RF.O.027 & Il componente di interrogazione deve fornire in \textit{output}\textsubscript{G} la risposta del modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}).
-         & Obbligatorio & Capitolato \\
+        RF.O.026 & Il componente di interrogazione deve fornire in \textit{output}\textsubscript{G} la risposta del modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}).
+         & Obbligatorio & UC6, UC16 \\
         \hline
-        RF.O.028 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Smart.
-         & Obbligatorio & Capitolato \\
+        RF.O.027 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Smart.
+         & Obbligatorio & UC6, UC16 \\
         \hline
-        RF.O.029 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Domotici.
-         & Obbligatorio & Capitolato \\
+        RF.O.028 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Domotici.
+         & Obbligatorio & UC6, UC16 \\
         \hline
     \end{tabular}
     \caption{Requisiti di funzionalità (3\textsuperscript{a}  parte)}
@@ -103,55 +100,57 @@
 \centering
     \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
         \hline
-        RF.D.030 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Tradizionali.
+        RF.D.029 & Il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) deve essere in grado di rispondere a domande sui prodotti appartenenti agli impianti Tradizionali.
+         & Desiderabile & UC6, UC16 \\
+        \hline
+        RF.D.030 & L’utente deve poter visualizzare il numero della pagina del documento relativo alla risposta.
          & Desiderabile & Capitolato \\
         \hline
-        RF.D.031 & L’utente deve poter visualizzare il numero della pagina del documento relativo alla risposta.
-         & Desiderabile & Capitolato \\
-        \hline
-        RF.D.032 & L’utente deve poter visualizzare il nome del documento relativo alla
+        RF.D.031 & L’utente deve poter visualizzare il nome del documento relativo alla
         risposta.
          & Desiderabile & Capitolato \\
         \hline
-        RF.O.033 & L’utente deve poter confermare l'eliminazione di una conversazione con il \textit{chatbot}\textsubscript{G}.
-         & Obbligatorio & Interno \\
+        RF.O.032 & L’utente deve poter confermare l'eliminazione di una conversazione con il \textit{chatbot}\textsubscript{G}.
+         & Obbligatorio & UC5 \\
         \hline
-        RF.O.034 & L’utente deve poter visualizzare una lista delle
+        RF.O.033 & L’utente deve poter visualizzare una lista delle
         sessioni di conversazione attive col \textit{chatbot}\textsubscript{G}.
-         & Obbligatorio & Interno \\
+         & Obbligatorio & UC1 \\
         \hline
-        RF.O.035 & L’utente deve poter creare una nuova \textit{sessione}\textsubscript{G} di conversazione col \textit{chatbot}\textsubscript{G}.
-         & Obbligatorio & Interno \\
+        RF.O.034 & L’utente deve poter creare una nuova \textit{sessione}\textsubscript{G} di conversazione col \textit{chatbot}\textsubscript{G}.
+         & Obbligatorio & UC1 \\
         \hline
-        RF.O.036 & L’utente deve ricevere una risposta di cortesia quando pone una domanda relativa a dei contenuti proibiti.
-         & Obbligatorio & Interno \\
+        RF.O.035 & L’utente deve ricevere una risposta di cortesia quando pone una domanda relativa a dei contenuti proibiti.
+         & Obbligatorio & UC15 \\
         \hline
-        RF.O.037 & L’utente deve ricevere una risposta di cortesia quando pone una domanda relativa a dei contenuti non presenti.
-         & Obbligatorio & Interno \\
+        RF.O.036 & L’utente deve ricevere una risposta di cortesia quando pone una domanda relativa a dei contenuti non presenti.
+         & Obbligatorio & UC8 \\
         \hline
-        RF.O.038 & L’utente deve poter digitare la domanda da porgere al \textit{chatbot}\textsubscript{G} tramite tastiera.
-         & Obbligatorio & Interno \\
+        RF.O.037 & L’utente deve poter digitare la domanda da porgere al \textit{chatbot}\textsubscript{G} tramite tastiera.
+         & Obbligatorio & UC18 \\
         \hline
-        RF.O.039 & L’utente deve poter inviare le domande da porgere al \textit{chatbot}\textsubscript{G}.
-         & Obbligatorio & Interno \\
+        RF.O.038 & L’utente deve poter inviare le domande da porgere al \textit{chatbot}\textsubscript{G}.
+         & Obbligatorio & UC16 \\
         \hline
-        RF.P.040 & L’utente deve poter ricercare una conversazione salvata in precedenza.
-         & Opzionale & Interno \\
+        RF.P.039 & L’utente deve poter ricercare una conversazione salvata in precedenza.
+         & Opzionale & UC- \\
         \hline
-        RF.P.041 & L’utente può visualizzare la data di invio di un messaggio.
-         & Opzionale & Interno \\
+        RF.P.040 & L’utente può visualizzare la data di invio di un messaggio.
+         & Opzionale & UC- \\
         \hline
-        RF.P.042 & L’utente può visualizzare l'ora di invio di un messaggio.
-         & Opzionale & Interno \\
+        RF.P.041 & L’utente può visualizzare l'ora di invio di un messaggio.
+         & Opzionale & UC- \\
         \hline
-        RF.P.043 & L’utente deve poter visualizzare il contenuto del documento di interesse.
-         & Opzionale & Interno \\
+        RF.P.042 & L’utente deve poter visualizzare il contenuto del documento di interesse.
+         & Opzionale & UC- \\
         \hline
-        RF.P.044 & L'Admin può azzerare il conto dei \textit{feedback}\textsubscript{G} positivi ricevuti.
-         & Opzionale & Interno \\
+        RF.P.043 & L'Admin può azzerare il conto dei \textit{feedback}\textsubscript{G} positivi ricevuti.
+         & Opzionale & UC- \\
         \hline
-        RF.P.045 & L'Admin può azzerare il conto dei \textit{feedback}\textsubscript{G} negativi ricevuti.
-         & Opzionale & Interno \\
+        RF.P.044 & L'Admin può azzerare il conto dei \textit{feedback}\textsubscript{G} negativi ricevuti.
+         & Opzionale & UC- \\
+        \hline
+        RF.D.045 & L'interfaccia utente del \textit{sistema}\textsubscript{G} deve essere responsive, adattandosi a diversi dispositivi. & Desiderabile & Capitolato \\
         \hline
     \end{tabular}
     \caption{Requisiti di funzionalità (4\textsuperscript{a}  parte)}
