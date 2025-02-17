@@ -17,7 +17,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC1.png}
-\caption{UC1 - Creazione \textit{conversazione libera}\textsubscript{G}}
+\caption{UC1, UC2 - Creazione \textit{conversazione libera}\textsubscript{G}}
 % \label{fig:UC1a}
 \end{figure}
 
@@ -64,7 +64,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC3.png}
-\caption{UC3 - Salvataggio conversazione}
+\caption{UC3, UC4 - Salvataggio conversazione}
 % \label{fig:UC1a}
 \end{figure}
 
@@ -133,10 +133,7 @@
     \item Inserisce una domanda o una parola chiave relativa ad un prodotto specifico;
     \item Il \textit{sistema}\textsubscript{G} esegue la ricerca nel \textit{database}\textsubscript{G} le informazioni necessarie a fornire sufficiente contesto al \textit{LLM}\textsubscript{G}.
     \end{enumerate}
-    \item \textbf{Inclusioni}:
-    \begin{itemize}
-        \item UC18 - Digitare la domanda.
-    \end{itemize}
+    \item \textbf{Inclusioni}: UC18 - Digitare la domanda.
     \item \textbf{Estensioni}: 
     \begin{itemize}
         \item UC8 - Assenza di informazioni sul prodotto ricercato;
@@ -147,7 +144,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC6.png}
-\caption{UC6 - Ricerca informazioni sui prodotti con \textit{conversazione libera}\textsubscript{G}}
+\caption{UC6, UC7, UC8, UC15, UC16, UC18 - Ricerca informazioni sui prodotti con \textit{conversazione libera}\textsubscript{G}}
 \end{figure}
 
 
@@ -212,15 +209,12 @@
     \item Il \textit{sistema}\textsubscript{G} elabora la richiesta e fornisce lo storico dei messaggi della conversazione attuale;
     \item L’installatore visualizza i messaggi scambiati in precedenza nella conversazione corrente.
     \end{enumerate}
-    \item \textbf{Estensioni}: 
-        \begin{itemize}
-            \item UC10 - Mancanza messaggi pregressi nella conversazione
-        \end{itemize}
+    \item \textbf{Estensioni}: UC10 - Mancanza messaggi pregressi nella conversazione
 \end{itemize}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC9.png}
-\caption{UC9 - Visualizzazione storico dei messaggi}
+\caption{UC9, UC10 - Visualizzazione storico dei messaggi}
 % \label{fig:UC1a}
 \end{figure}
 
@@ -269,7 +263,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC11.png}
-\caption{UC11 - Fornitura di \textit{feedback}\textsubscript{G} sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}
+\caption{UC11, UC11.1, UC11.2 - Fornitura di \textit{feedback}\textsubscript{G} sulla risposta del \textit{sistema}\textsubscript{G} ad interrogazione}
 % \label{fig:UC1a}
 \end{figure}
 
@@ -336,12 +330,15 @@
     \item L’\textit{amministratore}\textsubscript{G} ottiene l’accesso alla \textit{dashboard}\textsubscript{G}.
     \end{enumerate}
     \item \textbf{Estensioni}: UC13 - Inserimento \textit{username}\textsubscript{G} o \textit{password}\textsubscript{G} errati
-    \item \textbf{Inclusioni}: 
-        \begin{itemize}
-            \item UC12.1 - Inserimento \textit{username}\textsubscript{G} e \textit{password}\textsubscript{G}
-        \end{itemize}
+    \item \textbf{Inclusioni}: UC12.1 - Inserimento \textit{username}\textsubscript{G} e \textit{password}\textsubscript{G}
 \end{itemize}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC12.png}
+\caption{UC12, UC12.1 UC13 - Accesso al \textit{cruscotto informativo}\textsubscript{G} }
+% \label{fig:UC1a}
+\end{figure}
 
 \subuc{Inserimento \textit{username}\textsubscript{G} e \textit{password}\textsubscript{G}}{inserimento_username}
 \begin{itemize}
@@ -382,13 +379,6 @@
     \end{enumerate}
 \end{itemize}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC12.png}
-\caption{UC12, UC12.1 UC13 - Accesso al \textit{cruscotto informativo}\textsubscript{G} }
-% \label{fig:UC1a}
-\end{figure}
-
 \uc{Visualizzazione informazioni sulla \textit{dashboard}\textsubscript{G}}{visualizzazione_info_dashboard}
 \begin{itemize}
     \item \textbf{Attori coinvolti}: \textit{Amministratore}\textsubscript{G};
@@ -420,7 +410,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC14.png}
-\caption{UC14 - Visualizzazione informazioni \textit{dashboard}\textsubscript{G}}
+\caption{UC14, UC14.1, UC14.2, UC14.3, UC14.4, UC14.5 - Visualizzazione informazioni \textit{dashboard}\textsubscript{G}}
 % \label{fig:UC1a}
 \end{figure}
 
@@ -546,12 +536,6 @@
     \end{enumerate}
      \item \textbf{Inclusioni}: UC6 - Ricerca informazioni sui prodotti con conversazione libera.
 \end{itemize}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC15.png}
-\caption{UC15 - Richiesta di argomento proibito}
-% \label{fig:UC1a}
-\end{figure}
 
 \uc{Domanda al sistema\textsubscript{G}}{domanda}
 \begin{itemize}
