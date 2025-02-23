@@ -606,3 +606,70 @@
     \item \textbf{Estensioni}: UC7 - Superamento limite caratteri del messaggio.
 \end{itemize}
 
+\uc{Visualizzazione singolo messaggio}{visualizza_messaggio}
+\begin{itemize}
+    \item \textbf{Attori coinvolti}: Installatore;
+    \item \textbf{Descrizione}: L'installatore visualizza il singolo messaggio;
+    \item \textbf{Precondizioni}: 
+        \begin{itemize}
+            \item L'installatore ha creato una conversazione e ha inviato (o ricevuto) un messaggio;
+        \end{itemize}
+    \item \textbf{Postcondizioni}: 
+    \begin{enumerate}
+        \item L'installatore visualizza il singolo messaggio;
+    \end{enumerate}
+    \item \textbf{Scenario principale}:
+    \begin{enumerate}
+        \item L'installatore invia o riceve un messaggio da Vimar GENIALE;
+        \item l'installatore visualizza il mesaggio;
+    \end{enumerate}
+    \item \textbf{Estensioni}: UC9 - Visualizzazione storico dei messaggi.
+    \item \textbf{Inclusioni}: 
+    \begin{itemize}
+        \item UC19.1 - Visualizzazione data invio del messaggio;
+        \item UC19.2 - Visualizzazione ora invio del messaggio.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{contents/casi_duso/png/UC19.png}
+\caption{UC16 - Domanda al \textit{sistema}\textsubscript{G}}
+% \label{fig:UC1a}
+\end{figure}
+
+\subuc{Visualizzazione data invio del messaggio}{visualizza_data}
+\begin{itemize}
+    \item \textbf{Attori coinvolti}: Installatore;
+    \item \textbf{Descrizione}: L'installatore visualizza la data di invio del messaggio;
+    \item \textbf{Precondizioni}:  
+        \begin{itemize}
+            \item L'installatore ha creato una conversazione e ha inviato (o ricevuto) un messaggio;
+        \end{itemize}
+    \begin{enumerate}
+        \item L'installatore visualizza la data di invio del messaggio;
+    \end{enumerate}
+    \item \textbf{Scenario principale}:
+    \begin{enumerate}
+        \item L'installatore invia o riceve un messaggio da Vimar GENIALE;
+        \item l'installatore visualizza la data di invio del messaggio;
+    \end{enumerate}
+\end{itemize}
+
+\subuc{Visualizzazione orario invio del messaggio}{visualizza_ora}
+\begin{itemize}
+    \item \textbf{Attori coinvolti}: Installatore;
+    \item \textbf{Descrizione}: L'installatore visualizza l'ora di invio del messaggio;
+    \item \textbf{Precondizioni}:  
+        \begin{itemize}
+            \item L'installatore ha creato una conversazione e ha inviato (o ricevuto) un messaggio;
+        \end{itemize}
+    \begin{enumerate}
+        \item L'installatore visualizza l'ora di invio del messaggio;
+    \end{enumerate}
+    \item \textbf{Scenario principale}:
+    \begin{enumerate}
+        \item L'installatore invia o riceve un messaggio da Vimar GENIALE;
+        \item l'installatore visualizza l'ora di invio del messaggio;
+    \end{enumerate}
+\end{itemize}
+
