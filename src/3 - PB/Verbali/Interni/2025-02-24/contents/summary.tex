@@ -1,0 +1,38 @@
+\section{Riassunto della riunione}
+Durante la riunione il gruppo ha rivisto le attività in corso, nello specifico:
+\begin{enumerate}
+
+
+    \item Progettazione: Ion Bourosu, attuale progettista, ha iniziato a studiare come si deve sviluppare la progettazione (nello specifico il documento di Specifica Tecnica), ma riscontra la necessità di aiuto per la progettazione al fine di ridurre i tempi;
+    \item Correzione dell'AdR: Davide Martinelli e Matteo Gerardin si stanno occupando della correzione del documento come emerso dalla prima parte della revisione RTB, dovranno chiarire con il Proponente i requisiti opzionali relativi alle statistiche sui \textit{feedback}, ma la correzione è in conclusione;
+    \item Scelta LLM: Tommaso Zocche e Matteo Piron hanno esposto al gruppo i risultati dei test sugli LLM. Sono stati analizzati:
+\begin{multicols}{2}
+    \begin{itemize}
+        \item Mistral (7B)
+        \item Llama3.1 (8B)
+        \item Llama3.2 (1B)
+        \item Llama3.2 (3B)
+        \item DeepSeek-R1 (1.5B)
+        \item DeepSeek-R1 (7B)
+        \item DeepSeek-R1 (8B)
+        \item DeepSeek-R1 (14B)
+        \item Qwen2.5 (14B)
+        \item Qwen2.5 (14B quantizzato su 2 bit)
+        \item Qwen2.5 (32B quantizzato su 2 bit)
+        \item Llama3.1 (8B custom Supernova-Lite)
+        \item Lamarckvergence (14B quantizzato su 4bit)
+        \item Teuken - OpenGPT-X (7B quantizzato su 8 bit)
+    \end{itemize}
+\end{multicols}
+    Dai risultati presentati al gruppo (precedentemente condivisi in forma scritta) è emerso che i due modelli con migliore rapporto qualità / risorse necessarie sono Llama3.1 (8B) e Llama3.1 (8B custom Supernova-Lite). Per la facilità di integrazione e la disponibilità di aggiornamenti il gruppo sceglie \textbf{Llama3.1 (8B)}.
+    Gli stessi due membri del gruppo stanno già lavorando ai test sui modelli di embedding.
+    \item Per il primo SAL breve con cadenza settimanale il gruppo decide di presentare tra i punti da discutere:
+        \begin{enumerate}
+            \item Requisiti sulle statistiche sui feedback;
+            \item Presentazione dei primi risultati della progettazione;
+            \item Presentazione del LLM scelto e dei test in corso sui modelli di embedding.
+            
+        \end{enumerate}
+
+    \item Successivamente il gruppo dispone i \textit{task} da svolgere presentati nella sezione successiva.
+\end{enumerate}
