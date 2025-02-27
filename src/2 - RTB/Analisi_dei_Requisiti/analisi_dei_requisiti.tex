@@ -53,6 +53,27 @@
   \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}\ - #1}}%
 }
 
+\newcounter{subsubsubsubuccounter}[subsubsubuccounter]
+\newcommand{\subsubsubsubuc}[2]{%
+  \refstepcounter{subsubsubsubuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}\ - #1}}%
+}
+
+\newcounter{subsubsubsubsubuccounter}[subsubsubsubuccounter]
+\newcommand{\subsubsubsubsubuc}[2]{%
+  \refstepcounter{subsubsubsubsubuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}.\arabic{subsubsubsubsubuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}.\arabic{subsubsubsubsubuccounter}\ - #1}}%
+}
+
+\newcounter{subsubsubsubsubsubuccounter}[subsubsubsubsubuccounter]
+\newcommand{\subsubsubsubsubsubuc}[2]{%
+  \refstepcounter{subsubsubsubsubsubuccounter}%
+  \addcontentsline{toc}{subsubsection}{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}.\arabic{subsubsubsubsubuccounter}.\arabic{subsubsubsubsubsubuccounter}\ - #1}%
+  \subsubsection*{\label{#2}\textbf{UC\arabic{uccounter}.\arabic{subuccounter}.\arabic{subsubuccounter}.\arabic{subsubsubuccounter}.\arabic{subsubsubsubuccounter}.\arabic{subsubsubsubsubuccounter}.\arabic{subsubsubsubsubsubuccounter}\ - #1}}%
+}
+
 % \newcommand{\data}{GG mese AAAA}
 \newcommand{\titolo}{Analisi dei Requisiti}
 % \newcommand{\responsabile}{Responsabile}

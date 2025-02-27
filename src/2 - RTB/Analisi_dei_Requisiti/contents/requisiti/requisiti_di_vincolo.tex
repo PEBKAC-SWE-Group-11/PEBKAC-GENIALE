@@ -1,10 +1,10 @@
 \begin{table}[H]
 \centering
-    \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
+    \begin{tabular}{|C{2.7cm}|L{6.5cm}|C{2.7cm}|C{2.7cm}|}
         \hline
     \textbf{ID requisito} & \textbf{Descrizione} & \textbf{Importanza} & \textbf{Fonti}  \\
     \hline
-           RV.O.001 & Il \textit{sistema}\textsubscript{G} deve integrare un modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) \textit{Open Source}\textsubscript{G}. & Obbligatorio & Capitolato \\
+           RV.O.001 & Il \textit{sistema}\textsubscript{G} deve integrare il modello \textit{AI}\textsubscript{G} (\textit{LLM}\textsubscript{G}) \textit{Open Source}\textsubscript{G} Llama 3.1 8B. & Obbligatorio & Capitolato \\
           \hline 
           RV.O.002 & L’infrastruttura \textit{Cloud}\textsubscript{G} deve utilizzare \textit{Docker}\textsubscript{G} insieme a \textit{Docker}\textsubscript{G} Compose, al fine di rispettare il principio di Infrastructure as Code. & Obbligatorio & Capitolato \\
            \hline
@@ -19,13 +19,6 @@
         RV.O.006 & Il componente di interrogazione deve poter essere contattato da un altro servizio sotto-forma di \textit{API}\textsubscript{G} autenticata (ad esempio tramite \textit{API}\textsubscript{G}-KEY)
          & Obbligatorio & Capitolato \\
          \hline
-    \end{tabular}
-    \caption{Requisiti di vincolo (1\textsuperscript{a}  parte)}
-\end{table}
-\begin{table}[H]
-\centering
-    \begin{tabular}{|C{2.7cm}|L{7.2cm}|C{2.7cm}|C{2cm}|}
-        \hline
         RV.O.007 &  L’infrastruttura deve utilizzare la tecnologia dei \textit{container}\textsubscript{G}.
          & Obbligatorio & Capitolato \\
         \hline
@@ -34,7 +27,7 @@
         \hline
         RV.O.009 & Il \textit{repository}\textsubscript{G} di lavoro deve essere versionato tramite Git e deve essere pubblicamente accessibile.
          & Obbligatorio & Capitolato \\
-        \hline
+         \hline
         RV.O.010 & La licenza per i sorgenti dovrà essere \textit{Open Source}\textsubscript{G}.
          & Obbligatorio & Capitolato \\
         \hline
@@ -44,13 +37,20 @@
         RV.O.012 & L’applicazione deve essere compatibile con il browser Chrome dalla
         versione 108.
          & Obbligatorio & Interno \\
-        \hline
+         \hline
         RV.O.013 & L’applicazione deve essere compatibile con il browser Edge dalla versione 94.0.992.31.
          & Obbligatorio & Interno \\
         \hline
         RV.O.014 & L’applicazione deve essere compatibile con il browser Opera dalla
         versione 95.
          & Obbligatorio & Interno \\
+         \hline
+    \end{tabular}
+    \caption{Requisiti di vincolo (1\textsuperscript{a}  parte)}
+\end{table}
+\begin{table}[H]
+\centering
+    \begin{tabular}{|C{2.7cm}|L{6.5cm}|C{2.7cm}|C{2.7cm}|}
         \hline
         RV.O.015 & L’applicazione deve essere compatibile con il browser Firefox dalla
 versione 109.
@@ -59,6 +59,19 @@ versione 109.
         RV.O.016 & L’applicazione deve essere compatibile con il browser Safari dalla
 versione 16.
          & Obbligatorio & Interno \\
+          \hline
+        RV.O.017 &  L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di estrazione e raccolta delle informazioni dal sito web dell'azienda.
+         & Obbligatorio & Capitolato \\
+         \hline
+         RV.O.018 & Il \textit{sistema}\textsubscript{G} deve essere in grado di navigare un elenco di prodotti, estrarre le informazioni utili e immagazzinare le informazioni correlandole in modo opportuno.
+         & Obbligatorio & Capitolato \\
+         \hline
+         RV.O.019 & Il \textit{sistema}\textsubscript{G} di estrazione e raccolta deve essere realizzato sotto-forma di \textit{pipeline}\textsubscript{G} e automatizzato.
+         & Obbligatorio & Capitolato \\
+        \hline
+         RV.O.020 & L’applicativo deve prevedere un \textit{sistema}\textsubscript{G} di indicizzazione delle informazioni a partire dal
+        \textit{database}\textsubscript{G} in cui sono stati salvati i dati precedentemente estratti dal sito web.
+         & Obbligatorio & Capitolato \\
         \hline
     \end{tabular}
     \caption{Requisiti di vincolo (2\textsuperscript{a}  parte)}
