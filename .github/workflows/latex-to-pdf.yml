@@ -33,8 +33,8 @@ jobs:
       # Process LaTeX projects and generate PDFs
       - name: Process LaTeX projects in Verbali/Interni
         run: |
-          base_dir="src/2 - RTB/Verbali/Interni"
-          output_dir="PDF/2 - RTB/Verbali/Interni"
+          base_dir="src/3 - PB/Verbali/Interni"
+          output_dir="PDF/3 - PB/Verbali/Interni"
           mkdir -p "$output_dir"
 
           # Function to process a LaTeX project
