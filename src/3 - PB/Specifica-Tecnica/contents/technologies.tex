@@ -11,14 +11,51 @@ Docker\textsubscript{G} è una piattaforma \textit{open-source} che automatizza 
     \item primo svantaggio
 \end{itemize}
 \subsection{Flask}
+Flask\textsubscript{G} è un micro-framework web per Python, progettato per facilitare lo sviluppo di applicazioni web in modo semplice e veloce. Non richiede strumenti o librerie particolari per funzionare e non impone una struttura rigida al progetto. Abbiamo deciso di utilizzarlo per implementare un'API RESTful\textsubscript{G}, che segue i prinipi REST, per gestire sessioni, conversazioni, messaggi e feedback, integrando anche funzionalità di intelligenza artificiale per generare risposte a domande attraverso un modello di linguaggio LLM\textsubscript{G} e un sistema di embedding\textsubscript{G}. Nel nostro sistema, Flask è la parte del back-end\textsubscript{G} che permette la connessione con un front-end\textsubscript{G} per la gestione delle interazioni con l'utente, grazie a un sistema di routing\textsubscript{G} che definisce delle rotte per gestire le richieste HTTP\textsubscript{G} (GET, POST, PUT e DELETE). 
+\subsubsection{Vantaggi}
+\begin{itemize}
+    \item Non impone una struttura rigida, permettendo al team di sviluppo di organizzare il codice senza troppi vincoli e di integrare librerie strettamente necessarie;
+    \item È semplice, quindi adatto a che si interfaccia per la prima volta allo sviluppo web con Python\textsubscript{G};
+    \item L'integrazione con tecnologie avanzate come LLM e sistemi di embedding, dimostra la sua capacità di supportare soluzioni complesse.
+\end{itemize}
+\subsubsection{Svantaggi}
+\begin{itemize}
+    \item La flessibilità d'altro canto può risultare un rallentamento, essendo che manca la standardizzazione nel codice, specialmente in un contesto in cui il team è inesperto.
+\end{itemize}
 
 \subsection{Scrapy}
+Scrapy\textsubscript{G} è un framework open-source per Python\textsubscript{G} progettato specificamente per il web scraping\textsubscript{G}, ovvero l'estrazione di dati da siti web, nel nostro caso dal sito di Vimar. È basato su un'architettura asincrona\textsubscript{G}, che lo rende adatto per il crawling\textsubscript{G} di grandi volumi di dati. Per il nostro progetto abbiamo deciso di adottare un approccio che vede lo scraping come componente a sè stante. Dunque, l'inserimento dei dati avviene da un file JSON dove sono stati caricati e aggiornati precedentemente.
+\subsubsection{Vantaggi}
+\begin{itemize}
+    \item L'architettura asincrona ci permette di gestire un grande numero di richieste contemporaneamente;
+    \item La seprazione fra la gestione delle richieste, l'elaborazione dei dati e il salvataggio dei risultati facilitano lo sviluppo e la manutenzione del codice;
+    \item Permette di salvare i dati in formati diversi (JSON, CSV o XML) e di integrarli facilmente con database o altre applicazioni.
+\end{itemize}
+\subsubsection{Svantaggi}
+\begin{itemize}
+    \item La scarsa esperienza nell'ambito del web scraping può rallentare il processo, richiedendo più tempo per l'apprendimento di tale tecnologia;
+    \item Si possono incotrare rallentamenti nel caso di politiche di crawling specifiche o blocchi da parte dei siti web.
+\end{itemize}
 
 \subsection{Ollama}
 
 \subsection{PostgreSQL}
 
 \subsection{Angular}
+Angular\textsubscript{G} è un framework open-source per lo sviluppo di applicazioni web single-page (SPA\textsubscript{G}). È basato su TypeScript\textsubscript{G}, un superset di JavaScript\textsubscript{G}. Nel nostro sistema è utilizzato per il front-end\textsubscript{G}, permettendo una gestione efficiente delle interazioni utente e una comunicazione fluida con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G}. Si tratta di una comunicazione asincrona\textsubscript{G} (di default), grazie all'uso di RxJS\textsubscript{G} e degli Observables\textsubscript{G}. Quest'approccio sfrutta il pattern reattivo\textsubscript{G} per gestire le oprazioni come le richieste HTTP\textsubscript{G}. 
+\subsubsection{Vantaggi}
+\begin{itemize}
+    \item Utilizza un sistema di moduli e componenti che favorisce il riciclo del codice e una struttura organizzata;
+    \item Si basa sul two-way of data binding\textsubscript{G}, ovvero la sincronizzazione automatica dei dati tra modello\textsubscript{G} e vista\textsubscript{G};
+    \item Grazie all'utilizzo di Angular CLI\textsubscript{G} alcune attività come la creazione del progetto e la generazione delle componenti, vengono automatizzate;
+    \item Si integra facilmente con il back-end tramite sevizi HTTP, redendolo un'ottima scelta per applicazioni che richiedono una comunicazione costante con il server.
+\end{itemize}
+\subsubsection{Svantaggi}
+\begin{itemize}
+    \item Richiede molto tempo per l'apprendimento a causa della sua complessità e della necessità di imparare concetti come moduli, servizi e dependency injection\textsubscript{G};
+    \item Le app sviluppate con Angular possono richiedere molto spazio;
+    \item Il ciclo di aggiornamente è molto frequente perciò è possibile che ci sia la necessità di intervenire per mantenrlo compatibile alle nuove versioni.
+\end{itemize}
 
 \subsection{Linguaggi e formato dati}
 \subsubsection{Python}
