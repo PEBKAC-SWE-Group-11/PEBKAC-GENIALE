@@ -1,0 +1,64 @@
+
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{svg}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+\usepackage{enumitem}
+\usepackage[italian]{babel}
+\usepackage{lastpage}  % Pacchetto per ottenere il numero totale delle pagine
+\usepackage{fancyhdr}  % Pacchetto per personalizzare l'intestazione e il piè di pagina
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{ {images/} {../shared/images/} }
+\definecolor{unipd}{HTML}{B5121B}
+
+\addto\captionsitalian{\renewcommand{\contentsname}{Indice}}
+
+
+\pagestyle{fancy}% Imposta lo stile di pagina su "fancy"
+\fancyhf{}% Cancella intestazioni e piè di pagina
+\fancyfoot[C]{\thepage{} di \pageref{LastPage}} % Imposta il piè di pagina centrale come "numero pagina di totale pagine"
+\renewcommand{\headrulewidth}{0pt} % Imposta la larghezza della linea di intestazione a 0 punti
+
+\newcommand{\data}{25 febbraio 2025}
+\newcommand{\titolo}{Verbale Esterno}
+\newcommand{\responsabile}{Derek Gusatto}
+\newcommand{\verificatore}{Tommaso Zocche}
+\newcommand{\redattore}{Davide Martinelli}
+\newcommand{\uso}{Esterno}
+\newcommand{\destinatari }{
+    & Vimar S.p.A.  \\
+    & Tullio Vardanega  \\
+    & Riccardo Cardin  }
+\newcommand{\abstractcontent}{Primo SAL con cadenza settimanale della durata (prevista) di 30 minuti. Nella riunione si è discusso delle prospettive di completamento delle varie parti del sistema e della documentazione.}
+
+\begin{document}
+
+\input{contents/header}
+\input{contents/title}
+\input{contents/document_info}
+\newpage
+%\input{contents/versioning}
+%\newpage
+\tableofcontents
+\newpage
+% VERBALE
+ \input{contents/info}
+ \newpage
+ \input{contents/summary}
+ \newpage
+ \input{contents/todo}
+
+%LISTA FIGURE
+%\listoffigures 
+%\newpage
+%LISTA TABELLE
+%\listoftables
+%\newpage
+
+\end{document}
