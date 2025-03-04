@@ -1,28 +1,28 @@
 \section{Architettura di sistema }
 \subsection{Modello architetturale}
-Il sistema è stato progettato seguento l'\textbf{architettura esagonale}, un modello che mira alla separazione tra business logic dell'applicazione e i servizi esterni, le fonti dati e le interfacce utente. Questa struttura pone il nucleo al centro, circondato da "porte" che fungono da interfaccia tra il nucleo e il mondo esterno.
+Il sistema è stato progettato seguendo l'\textbf{architettura esagonale}, un modello che mira alla separazione tra business logic dell'applicazione e i servizi esterni, le fonti dati e le interfacce utente. Questa struttura pone il core\textsubscript{G} al centro, circondato da ports\textsubscript{G} che fungono da interfaccia tra il core\textsubscript{G} e il mondo esterno.
 
-Il \textbf{core} dell'applicazione è il fulcro del sistema, che contiene la logica di dominio e le regole di business. La sua progettazione punta ad evitare riferimenti diretti a dettagli tecnologici specifici, promuovendo l'indipendenza dal contesto esterno.
+Il \textbf{core\textsubscript{G}} dell'applicazione è il fulcro del sistema, che contiene la logica di dominio e le regole di business. La sua progettazione punta ad evitare riferimenti diretti a dettagli tecnologici specifici, promuovendo l'indipendenza dal contesto esterno.
 
-Le \textbf{ports} costituiscono il confine tra il nucleo dell'applicazione e l'esterno, garantendo una comunicazione strutturata. Esistono due tipi di porte: 
+Le \textbf{ports\textsubscript{G}} costituiscono il confine tra il core\textsubscript{G} dell'applicazione e l'esterno, garantendo una comunicazione strutturata. Esistono due tipi di ports\textsubscript{G}: 
 \begin{itemize}
-    \item Inbound Port (o Use Case): per le invocazioni del nucleo da parte di componenti esterni, attraverso un'interfaccia definita. Sono in pratica dei punti di accesso al nucleo e isolano la logica di dominio da implementazioni specifiche;
-    \item Outbound Port: consentono al nucleo di accedere a funzionalità esterne (e.g. interazione con librerie esterne\textsubscript{G} o sisitemi di persistenza). Mettono a disposizione un'astrazione che preserva l'indipendenza del nucleo dai dettagli tecnici specifici. 
+    \item Inbound Port (o Use Case): per le invocazioni del core\textsubscript{G} da parte di componenti esterni, attraverso un'interfaccia definita. Sono in pratica dei punti di accesso al core\textsubscript{G} e isolano la logica di dominio da implementazioni specifiche;
+    \item Outbound Port: consentono al core\textsubscript{G} di accedere a funzionalità esterne (e.g. interazione con librerie esterne\textsubscript{G} o sistemi di persistenza). Mettono a disposizione un'astrazione che preserva l'indipendenza del core\textsubscript{G} dai dettagli tecnici specifici. 
 \end{itemize}
 
-I \textbf{services} costituiscono il livello più esterno dell'applicazione, fanno parte della business logic. L'implementazione dei services si concentra sulla logica di dominio, senza preoccuparsi degli aspetti tencologici specifici.
+I \textbf{services\textsubscript{G}} costituiscono il livello più esterno dell'applicazione, fanno parte della business logic. L'implementazione dei services\textsubscript{G} si concentra sulla logica di dominio, senza preoccuparsi degli aspetti tencologici specifici.
 
-Gli \textbf{adapters} formano il livello più esterno dell'applicazione. Esistono due tipi di adapters: 
+Gli \textbf{adapters\textsubscript{G}} formano il livello più esterno dell'applicazione. Esistono due tipi di adapters\textsubscript{G}: 
 \begin{itemize}
-    \item Input Adapters (o Controllers): invocano operazioni sulle Inbound Port, traducendo le azioni provenienti dall'esterno in chiamate alle porte in ingresso al nucleo, rendendo le richieste esterne comprensibili per il nucleo;
-    \item Output Adapters: invocano operazioni sulle Outbound Port, traducendo le azioni del nucleo in operazioni comprensibili per il mondo esterno.
+    \item Input Adapters\textsubscript{G} (o Controllers): invocano operazioni sulle Inbound Port, traducendo le azioni provenienti dall'esterno in chiamate alle ports\textsubscript{G} in ingresso al core\textsubscript{G}, rendendo le richieste esterne comprensibili per il core\textsubscript{G};
+    \item Output Adapters\textsubscript{G}: invocano operazioni sulle Outbound Port, traducendo le azioni del core\textsubscript{G} in operazioni comprensibili per il mondo esterno.
 \end{itemize}
 
 \subsection{Componenti}
 L'architettura del sistema è suddivisa in:
 \begin{itemize}
     \item Frontend: si occupa di fornire un'interfaccia grafica all'utente per interagire col sistema. Inoltra le domande dell'utente al backend e visualizza i risultati;
-    \item Backend: si occupa di elaborare le richieste degli utentei, interagendo con il sistema di persistenza e i servizi esterni, in particolare dialoga con il database vettoriale e con gli LLM;
+    \item Backend: si occupa di elaborare le richieste degli utenti, interagendo con il sistema di persistenza e i servizi esterni, in particolare dialoga con il database vettoriale e con gli LLM;
     \item Database: è responsabile della memorizzazione della documentazione per la RAG e delle chat con relativi messaggi.
 \end{itemize}
 \subsubsection{Assemblaggio delle componenti}
