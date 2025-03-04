@@ -90,27 +90,27 @@ Angular\textsubscript{G} è un framework open-source per lo sviluppo di applicaz
 \subsection{Linguaggi e formato dati}
 \subsubsection{Python}
 Python\textsubscript{G} è un linguaggio di programmazione ad alto livello. Supporta la programmazione orientata agli oggetti, procedurale e funzionale. È adatto per l'utilizzo in ambiti come lo sviluppo web e l'intelligenza artificile. Nel nostro progetto la scelta di Python come linguaggio per il back-end\textsubscript{G} è stata esplicitamente richiesta nel capitolato, dunque abbiamo escluso linguaggi diversi per lo sviluppo del back-end. 
-\subsubsection{Vantaggi}
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Offre una sintassi intuitiva e vicina al linguaggio naturale, che lo rende ottimale per un team di sviluppo intesperto;
     \item Si adatta perfettamente con le altre tecnologie scelte, in particolare Flask\textsubscript{G};
     \item Grazie alle molteplici librerie offerte semplifica lo sviluppo, riducendo i tempi per l'implementazione di funzionalità complesse.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Rischia di diventare un collo di bottiglia in un'applicazione come quella che si sta sviluppando per Vimar\textsubscript{G}, dove sono richieste operazioni complesse e veloci.
 \end{itemize}
 
 \subsubsection{SQL}
 SQL (Structured Query Language)\textsubscript{G} è il linguaggio utilizzato per la gestione e manipolazione dei dati in PostgreSQL. Il nostro progetto sfrutta SQL per la definizione dello schema del database, la gestione delle relazioni tra le entità e l’esecuzione di operazioni di lettura, scrittura, aggiornamento ed eliminazione dei dati. Abbiamo scelto SQL\textsubscript{G} rispetto a NoSQL\textsubscript{G} perché garantisce affidabilità, coerenza e query avanzate, fondamentali per il nostro progetto.
-\subsubsection{Vantaggi}
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Strutturato e organizzato, Ideale per dati relazionali con schemi ben definiti;
     \item Query\textsubscript{G} potenti e precise, grazie a JOIN\textsubscript{G}, filtri e funzioni avanzate;
     \item Ampio supporto, Usato in molti database\textsubscript{G}.
     \item L’integrazione con pgvector permette di eseguire operazioni di similarità su dati rappresentati come vettori, abilitando funzionalità di nearest neighbor search per applicazioni di machine learning e retrieval aumentato.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Meno flessibile con dati non strutturati, NoSQL\textsubscript{G} è più adatto per dati dinamici e documentali;
     \item Scalabilità orizzontale complessa, NoSQL\textsubscript{G} può essere più efficiente per sistemi distribuiti su larga scala;
@@ -119,13 +119,13 @@ SQL (Structured Query Language)\textsubscript{G} è il linguaggio utilizzato per
 
 \subsubsection{YAML}
 YAML (YAML Ain’t Markup Language)\textsubscript{G} è un formato di serializzazione dati leggibile dall’uomo, utilizzato principalmente per configurazioni e automazione, come nei file Docker Compose\textsubscript{G}. La sua sintassi basata sull’indentazione lo rende più leggibile rispetto ad altri formati, ma richiede attenzione alla formattazione.
-\subsubsection{Vantaggi}
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Maggiore leggibilità grazie alla sintassi senza parentesi e virgolette;
     \item Supporta commenti, facilitando la documentazione delle configurazioni;
     \item Permette riferimenti e ancoraggi per riutilizzare parti del file\textsubscript{G}.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Sensibile all’indentazione, aumentando il rischio di errori difficili da individuare;
     \item Parsing\textsubscript{G} più lento rispetto ad altri formati come JSON\textsubscript{G};
@@ -134,12 +134,14 @@ YAML (YAML Ain’t Markup Language)\textsubscript{G} è un formato di serializza
 
 \subsubsection{JSON}
 JSON\textsubscript{G} è un formato leggero per lo scambio di dati tra applicazioni, ampiamente utilizzato nelle API\textsubscript{G} e nella comunicazione tra servizi. La sua sintassi basata su coppie chiave-valore e array\textsubscript{G} lo rende facile da elaborare e compatibile con la maggior parte dei linguaggi di programmazione.
+
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Struttura semplice e facilmente interpretabile da macchine e sviluppatori;
     \item Parsing\textsubscript{G} più lento rispetto ad altri formati come JSON;
     \item Standard per lo scambio di dati tra sistemi diversi.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Meno leggibile rispetto a YAML\textsubscript{G}, specialmente in configurazioni complesse;
     \item Non supporta commenti, rendendo più difficile documentare il codice;

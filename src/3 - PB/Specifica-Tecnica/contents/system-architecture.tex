@@ -1,2 +1,39 @@
 \section{Architettura di sistema }
-\subsection{Docker}
+\subsection{Modello architetturale}
+Il sistema è stato progettato seguendo l'\textbf{architettura esagonale}, un modello che mira alla separazione tra business logic dell'applicazione e i servizi esterni, le fonti dati e le interfacce utente. Questa struttura pone il core\textsubscript{G} al centro, circondato da ports\textsubscript{G} che fungono da interfaccia tra il core\textsubscript{G} e il mondo esterno.
+
+Il \textbf{core\textsubscript{G}} dell'applicazione è il fulcro del sistema, che contiene la logica di dominio e le regole di business. La sua progettazione punta ad evitare riferimenti diretti a dettagli tecnologici specifici, promuovendo l'indipendenza dal contesto esterno.
+
+Le \textbf{ports\textsubscript{G}} costituiscono il confine tra il core\textsubscript{G} dell'applicazione e l'esterno, garantendo una comunicazione strutturata. Esistono due tipi di ports\textsubscript{G}: 
+\begin{itemize}
+    \item Inbound Port (o Use Case): per le invocazioni del core\textsubscript{G} da parte di componenti esterni, attraverso un'interfaccia definita. Sono in pratica dei punti di accesso al core\textsubscript{G} e isolano la logica di dominio da implementazioni specifiche;
+    \item Outbound Port: consentono al core\textsubscript{G} di accedere a funzionalità esterne (e.g. interazione con librerie esterne\textsubscript{G} o sistemi di persistenza). Mettono a disposizione un'astrazione che preserva l'indipendenza del core\textsubscript{G} dai dettagli tecnici specifici. 
+\end{itemize}
+
+I \textbf{services\textsubscript{G}} costituiscono il livello più esterno dell'applicazione, fanno parte della business logic. L'implementazione dei services\textsubscript{G} si concentra sulla logica di dominio, senza preoccuparsi degli aspetti tencologici specifici.
+
+Gli \textbf{adapters\textsubscript{G}} formano il livello più esterno dell'applicazione. Esistono due tipi di adapters\textsubscript{G}: 
+\begin{itemize}
+    \item Input Adapters\textsubscript{G} (o Controllers): invocano operazioni sulle Inbound Port, traducendo le azioni provenienti dall'esterno in chiamate alle ports\textsubscript{G} in ingresso al core\textsubscript{G}, rendendo le richieste esterne comprensibili per il core\textsubscript{G};
+    \item Output Adapters\textsubscript{G}: invocano operazioni sulle Outbound Port, traducendo le azioni del core\textsubscript{G} in operazioni comprensibili per il mondo esterno.
+\end{itemize}
+
+\subsection{Componenti}
+L'architettura del sistema è suddivisa in:
+\begin{itemize}
+    \item Frontend: si occupa di fornire un'interfaccia grafica all'utente per interagire col sistema. Inoltra le domande dell'utente al backend e visualizza i risultati;
+    \item Backend: si occupa di elaborare le richieste degli utenti, interagendo con il sistema di persistenza e i servizi esterni, in particolare dialoga con il database vettoriale e con gli LLM;
+    \item Database: è responsabile della memorizzazione della documentazione per la RAG e delle chat con relativi messaggi.
+\end{itemize}
+\subsubsection{Assemblaggio delle componenti}
+Le componenti sono assemblate tramite Docker Compose, per facilitare l'esecuzione e la gestione di più container docker. 
+In particolare sono stati prodotti i seguenti container:
+\begin{itemize}
+    \item pgvector: espone l'istanza del database sulla porta 5432, permettendo al backend di accedere ai relativi dati;
+    \item app: espone la componente di backend sulla porta 5001, dando al frontend la possibilità di accedere ai servizi offerti;
+    \item frontend: espone l'applicazione web sulla porta 4200, dando la possibilità all'utente di connettersi e interagire col sistema.
+\end{itemize}
+\subsection{Struttura del sistema}
+\subsubsection{Frontend}
+
+\subsubsection{Backend}
