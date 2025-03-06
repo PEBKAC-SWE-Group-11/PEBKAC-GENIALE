@@ -1,0 +1,6 @@
+flask
+ollama
+psycopg2-binary
+requests
+flask
+flask-cors
