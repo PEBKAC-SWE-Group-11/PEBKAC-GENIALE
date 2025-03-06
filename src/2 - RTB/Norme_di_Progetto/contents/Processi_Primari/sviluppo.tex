@@ -106,3 +106,73 @@ Ogni \textit{requisito}\textsubscript{G} analizzato  sarà identificato univocam
         \item RV.P - \textit{Requisito}\textsubscript{G} di Vincolo Opzionale;
     \end{itemize}
 \end{enumerate}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di sviluppo dell'Analisi dei Requisiti sono:
+\begin{itemize}
+    \item Diagrams.net;
+    \item StarUML.
+\end{itemize}
+
+\subsubsection{Progettazione}
+\subsubsubsection{Scopo}
+Lo scopo della progettazione è definire l'architettura del prodotto software e fornire i componenti e le interazioni del sistema per garantire che funzioni in modo efficiente ed efficacie rispetto ai requisiti funzionali e non funzionali determinati durante l'attività di analisi dei requisiti.
+
+\subsubsubsection{Documentazione}
+La progettazione porterà alla redazione del documento di Specifica Tecnica. Questo documento ha principalmente lo scopo di descrivere l'architettura del prodotto software e di mettere a disposizione una linea guida per garantire che il sistema venga implementato secondo i requisiti del progetto. Gli argomenti trattati in questo documento sono:
+\begin{itemize}
+    \item \textbf{Tecnologie}: espone un'analisi delle tecnologie e dei linguaggi di programmazione utilizzati, delle librerie\textsubscript{G} e dei framework\textsubscript{G} necessari, oltre che delle infrastrutture realizzate, riportando in particolare vantaggi e svantaggi di ognuna;
+    \item \textbf{Architettura di sistema}: descrive la struttura generale del software, la suddivisione in moduli o livelli e le interazioni tra i componenti;
+    \item \textbf{Architettura delle componenti}: fornisce i dettagli dei singoli moduli o componenti del sistema, descrivendone responsabilità, interfacce, flussi di dati, modalità di interazione ed esplicitando eventuali sottocomponenti;
+    \item \textbf{Progettazione di dettaglio}: definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti.
+\end{itemize}
+
+\subsubsubsection{Principi di progettazione dei componenti}
+Per ogni componente devono essere specificati i seguenti punti:
+\begin{enumerate}
+    \item Una breve descrizione delle funzionalità del componente;
+    \item Caratteristiche del componente:
+    \begin{itemize}
+        \item \textbf{Route API}: il percorso dell’endpoint esposto dal componente per interagire con il sistema;
+        \item \textbf{Metodo}: il tipo di richiesta HTTP supportata;
+        \item \textbf{Lista parametri HTTP}: l'elenco dei parametri richiesti o opzionali, inclusi nome, tipo e scopo di ciascun parametro.
+    \end{itemize}
+    \item Una lista che comprenda i possibili risultati dell'esecuzione del componente, accompagnati da:
+    \begin{itemize}
+        \item Il codice che porta al verificarsi di quel particolare esito;
+        \item Una descrizione di quel particolare esito;
+        \item Il messaggio che viene visualizzato nel caso in cui si verifichi quel particolare esito.
+    \end{itemize}
+    \item Un sistema che consenta di effettuare il tracciamento dei requisiti soddisfatti;
+    \item Una dichiarazione esaustiva di tutte le sottocomponenti, corredate dal loro scopo.
+\end{enumerate}
+
+\subsubsubsection{Principi di progettazione di dettaglio}
+La sezione dedicata alla progettazione di dettaglio del documento di Specifica Tecnica definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti di sistema.\\
+Per ogni componente è necessario realizzare un diagramma delle classi e per ogni classe è necessario elencare le proprietà, che comprendono:
+\begin{itemize}
+    \item \textbf{Attributi}: un elenco degli attributi della classe;
+    \item \textbf{Implementazione}: un campo che specifica se la classe implementa un'interfaccia;
+    \item \textbf{Estensione}: un campo che specifica se la classe estende un'altra classe;
+    \item \textbf{Metodi}: un elenco dei metodi della classe, dove per ogni metodo vengono specificati la firma che lo identifica e una descrizione;
+    \item \textbf{Valori}: un campo che caratterizza le enumerazioni.
+\end{itemize}
+
+\subsubsubsection{Convenzioni nella progettazione di dettaglio}
+\subsubsubsubsection{Convenzioni di denominazione}
+\begin{itemize}
+    \item \textbf{Nomi delle classi}: utilizzano il PascalCase (es. NomeClasse);
+    \item \textbf{Nomi degli attributi}: utilizzano il camelCase (es. nomeAttributo);
+    \item \textbf{Nomi dei metodi}: utilizzano il camelCase con verbi all'infinito (es. nomeMetodo());
+    \item \textbf{Nomi delle costanti}: utilizzano lo SCREAMING\_SNAKE\_CASE (es. NOME\_COSTANTE).
+\end{itemize}
+
+\subsubsubsubsection{Convenzioni di rappresentazione}
+Le classi sono rappresentate con tre sezioni:
+\begin{itemize}
+    \item Nome della classe;
+    \item Attributi, rappresentati come segue:\\
+    \texttt{visibilità nomeAttributo: tipo}
+    \item Metodi, rappresentati con la loro firma come segue:\\
+    \texttt{visibilità nomeMetodo(parametro0: tipo0, parametro1: tipo1): tipo}
+\end{itemize}
