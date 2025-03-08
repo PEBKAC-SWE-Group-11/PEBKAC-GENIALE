@@ -35,5 +35,69 @@ In particolare sono stati prodotti i seguenti container:
 \end{itemize}
 \subsection{Struttura del sistema}
 \subsubsection{Frontend}
-
+\subsubsubsection{Introduzione}
+L'approccio adottato per lo sviluppo del front-end\textsubscript{G} si basa su una combinazione flessibile di pattern e pratiche tipiche del framework\textsubscript{G}, senza aderire rigidamente a un unico schema architetturale\textsubscript{G} come MVC\textsubscript{G} e MVVM\textsubscript{G}. Questa scelta consente di bilanciare modularità, scalabilità e semplicità nella gestione dello stato, adattandosi alle specifiche esigenze del progetto. La struttura dell'applicazione si basa su componenti ben definiti – come SidebarComponent, ChatboxComponent e AppComponent – supportati da servizi dedicati quali ApiService e ChatService. I primi sono responsabili della presentazione, mentre i servizi gestiscono la comunicazione con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G} (nel caso di ApiService) e centralizzano la logica di business e lo stato (come in ChatService). In questo modo, operazioni quali la creazione di conversazioni o l’invio di messaggi vengono delegate ai servizi, rendendo i componenti più leggeri e riutilizzabili. La gestione dello stato è un elemento chiave dell'architettura. L'introduzione di un servizio come ChatService, che utilizza BehaviorSubject per centralizzare conversazioni, messaggi e conversazione attiva, consente ai componenti di reagire dinamicamente ai cambiamenti attraverso gli observable. Questo garantisce un'interfaccia utente reattiva e fluida, resa possibile grazie a strumenti asincroni come async/await\textsubscript{G} e firstValueFrom\textsubscript{G}.
+\subsubsubsection{Scenari}
+Il front-end\textsubscript{G} presenta un’area pubblica e un’area riservata all’admin come richiesto dal capitolato\textsubscript{G}. La prima può essere utilizzata da un utente generico, e non è previsto un sistema di autenticazione\textsubscript{G}, mentre la seconda come si può intuire è riservata all’amministratore e sono richieste delle credenziali di accesso.
+\subsubsubsubsection{Scenari pubblici}
+\begin{itemize}
+    \item Inizializzazione: 
+    \newline \newline Viene verificato se esista già una sessione\textsubscript{G} salvata nel localStorage\textsubscript{G} del dispositivo dal quale si intende usufruire dell’applicativo. Se esiste allora vengono recuperate le conversazioni con i rispettivi messaggi, altrimenti viene creata una nuova sessione di cui si tiene traccia tramite un’ID di sessione generato in maniera univoca. Inoltre, nel caso di una sessione nuova viene generata una conversazione di default che permette all'utente di interagire con l'assistente digitale\textsubscript{G}. 
+    \item Gestione Conversazioni:
+    \begin{itemize}
+        \item L'utente può aggiungere conversazioni tramite un pulsante dedicato, ed è previsto un limite di 10 conversazioni; 
+        \item L'utente può selezionare una qualsiasi delle conversazioni presenti così recuperando lo storico di messaggi;
+        \item L'utente puù eliminare qualsiasi conversazioni desideri, qualora eliminasse la conversazione attiva, al suo posto viene generata automaticamente una nuova conversazione. 
+    \end{itemize}
+     \item Gestione Messaggi:
+     \begin{itemize}
+         \item L'utente può inviare messaggi, con limite di 500 caratteri, per i quali è previsto un messaggio di risposta dall'assistente digitale;
+         \item L'utente può valutare la qualità di risposta tramite un sistema di feedback\textsubscript{G} positivi e negativi.
+     \end{itemize}
+\end{itemize}
+\subsubsubsubsection{Scenari admin}
+\begin{itemize}
+    \item Accesso:
+    \newline \newline L'admin accede tramite un URL\textsubscript{G} dedicato (/admin) e vede la schermata di login\textsubscript{G}. Con credenziali corrette, l'admin entra nel dashboard\textsubscript{G} (/admin/dashboard), altrimenti riceve un messaggio di errore. I tentativi di accesso non autorizzati al dashboard vengono bloccati e reinderizzati al login.
+    \item Funzionalità:
+    \begin{itemize}
+        \item (Lista di statische)
+    \end{itemize}
+\end{itemize}
+\subsubsubsection{Diagrammi delle Classi}
+Seguendo la scia del paragrago precedente relativo agli scenari, l'analisi dei diagrammi delle classi\textsubscript{G} è ralazionato ai scenari pubblici e scenari admin. Ogni scenario sarà associato alle classi principali coinvolte e alle loro relazioni.
+\subsubsubsubsection{Scenari pubblici}
+\begin{itemize}
+    \item Inizializzazione
+    \begin{itemize}
+        \item Classi Coinvolte:
+        \begin{itemize}
+            \item AppComponent coordina l'inizializzazione dell'applicativo;
+            \item SidebarComponent gestisce la lisa delle conversazioni;
+            \item ChatboxComponent mostra la conversazione attiva e i relativi messaggi;
+            \item ApiService gestisce le chiamate API RESTful\textsubscript{G} al back-end\textsubscript{G};
+            \item ChatService gestisce lo stato delle conversazioni e dei messaggi.
+        \end{itemize}
+        \item Relazioni:
+        \begin{itemize}
+            \item AppComponent contiene SidebarComponent e ChatboxComponent come componenti figli;
+            \item SidebarComponent e ChatboxComponent dipendonon da ChatService per accedere allo stato;
+            \item ChatService usa ApiService per recuperare i dati iniziali dal back-end.
+        \end{itemize}
+    \end{itemize}
+    \item Creazione di una Nuova Conversazione
+    \begin{itemize}
+        \item Classi Coinvolte:
+        \begin{itemize}
+            \item SidebarComponent contiene il pulsante per avviare la creazione;
+            \item ChatService crea la conversazione e aggiorna lo stato;
+            \item ApiService invial la richiesta HTTP al back-end per creare la conversazione.
+        \end{itemize}
+        \item Relazioni:
+        \begin{itemize}
+            \item SidebarComponent invoca il metodo ChatService.createConversation();
+            \item 
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
 \subsubsection{Backend}
