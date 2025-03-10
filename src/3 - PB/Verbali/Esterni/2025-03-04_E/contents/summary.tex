@@ -1,0 +1,20 @@
+\section{Riassunto della riunione}
+Nel SAL odierno, in primo luogo, abbiamo discusso l'avanzamento del completamento delle varie componenti. Di seguito si riportano le specifiche componenti con annessa la percentuale di completamento calcolata dal gruppo e le attività realizzate dal gruppo per l'avanzamento del loro completamento:
+\begin{itemize} 
+    \item Progettazione dell'infrastruttura (71\%): rispetto alla scorsa settimana ci siamo concentrati principalmente sull'analisi e sulla descrizione delle tecnologie utilizzate. Inoltre abbiamo deciso di utilizzare un'architettura di tipo esagonale per quanto riguarda l'architettura di sistema. Tuttavia questi avanzamenti dal punto di vista architetturale hanno portato ad un avanzamento minimo dal punto di vista infrastrutturale;
+    \item Sviluppo del frontend (50\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item API (60\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item Scraping e indicizzazione (45\%): dobbiamo realizzare l'automatizzazione delle operazioni svolte da questo componente, in modo che sia in grado di gestire l'aggiornamento dei dati in maniera completamente automatica (comprendendo anche un'eventuale operazione di chunking). Ad esempio, per realizzare questa automazione può essere realizzato uno script che verrà successivamente inserito all'interno di un container, facendo così in modo che venga eseguito ogni volta che viene avviato il container;
+    \item Database (90\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item RAG (65\%): rispetto alla scorsa settimana abbiamo condotto i test concordati con il referente aziendale e abbiamo quindi individuato le mancanze che dovranno essere colmate;
+\end{itemize}
+In secondo luogo, sono stati discussi gli avanzamenti della revisione e stesura della documentazione oltre alle modifiche apportate durante la fase di testing del modello LLM per l'interrogazione:
+\begin{itemize}
+    \item Abbiamo effettuato le modifiche all'Analisi dei Requisiti richieste dopo l'RTB ed il documento è stato nuovamente consegnato al professor Cardin in data 1 marzo per una seconda revisione, della quale siamo ancora in attesa di un riscontro;
+    \item Durante l'esecuzione dei test sul modello di interrogazione, abbiamo realizzato le seguenti migliorie:
+    \begin{itemize}
+        \item Abbiamo eliminato i documenti duplicati o non necessari, come, ad esempio, le versioni di uno stesso documento ma in lingue differenti;
+        \item Abbiamo realizzato dei file JSON che contengono solamente una parte delle informazioni di cui è stato effettuato lo scraping per ogni prodotto, e che permettono di effettuare una ricerca più efficace.
+    \end{itemize}
+    \item Abbiamo iniziato la stesura del documento di Specifica Tecnica, che per il momento tratta le tecnologie utilizzate e l'architettura scelta;
+\end{itemize}
