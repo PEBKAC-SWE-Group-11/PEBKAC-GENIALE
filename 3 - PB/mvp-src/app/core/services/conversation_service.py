@@ -1,5 +1,5 @@
 from app.adapters.repositories.db_repository import DBRepository
-from app.core.entities.models import Session, Conversation, Message
+from app.core.entities.entities import Session, Conversation, Message
 
 class ConversationService:
     def __init__(self):

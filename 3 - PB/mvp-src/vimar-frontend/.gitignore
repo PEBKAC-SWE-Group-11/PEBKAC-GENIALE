@@ -36,6 +36,8 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+# Ignora tutti i file nella cartella ollama_models
+ollama_models/*
 
 # System files
 .DS_Store
