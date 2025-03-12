@@ -1,12 +1,13 @@
 services:
   test_runner:
     container_name: mvp_test_runner
-    image: python:3.12
+    build:
+      context: .
+      dockerfile: Dockerfile.test_runner
     volumes:
       - .:/test
     working_dir: /test
-    command: >
-      sh -c "pip install -r app/requirements.txt && python -m unittest discover -s tests -p '*_test.py'"
+    command: ./test.sh
     depends_on:
       - db
   db:
