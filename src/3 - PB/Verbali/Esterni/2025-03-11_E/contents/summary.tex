@@ -1,0 +1,30 @@
+\section{Riassunto della riunione}
+Nel SAL odierno abbiamo discusso l'avanzamento del completamento delle varie componenti. Di seguito si riportano le specifiche componenti con annessa la percentuale di completamento calcolata dal gruppo e le attività per l'avanzamento del loro completamento, con eventuali problematiche riscontrate:
+\begin{itemize} 
+    \item Infrastruttura (80\%): abbiamo definito la struttura per il design pattern esagonale;
+    \item Frontend (60\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item API (60\%): è necessaria una rimodellazione per adattare le API ai design pattern, ma rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item Estrazione dati (70\%):
+    \begin{itemize}
+        \item Abbiamo scelto di utilizzare un container che, una volta avviato, inizia il processo di estrazione dei dati;
+        \item Attualmente, per eseguire il processo di estrazione dei dati, vengono utilizzati diversi script eseguiti singolarmente, dato che non abbiamo ancora realizzato la pipeline automatizzata;
+        \item Attualmente, per eseguire il processo di estrazione dei dati, estraiamo direttamente il testo dai documenti, ma, in futuro, potremmo tenere in considerazione di valutare l'utilizzo dell'OCR;
+        \item Siamo riusciti ad effettuare l'operazione di scraping su tutti i documenti obbligatori.
+    \end{itemize}
+    \item Indicizzazione (70\%): abbiamo riscontrato delle difficoltà nell'avanzamento del completamento di questa componente ed è necessario effettuare uno studio per comprendere appieno come avviene la ricerca dei chunk, dato che sembra non avvenga esclusivamente in modo semantico;
+    \item Database (90\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item Interrogazione (75\%):
+    \begin{itemize}
+        \item Abbiamo esseguito dei nuovi test ma, nonostante sia stato ridotto il numero di chunk di cui viene fatto l'embedding e nonostante venga individuato il chunk corretto, talvolta la risposta finale risulta essere errata. Se continuiamo a riscontrare problemi con l'individuazione di un prodotto specifico, sotto consiglio del referente aziendale, come ultima opzione possiamo richiedere specificatamente all'utente di inserire il nome del prodotto contenuto tra doppi apici;
+        \item Attualmente, abbiamo effettuato tutti i test in conversazioni vuote, e quindi tutte le domande sono state chieste senza passare il contesto delle risposte fornite in precedenza nella medesima conversazione. Vedendo la difficolta del modello nel fornire risposte corrette anche con questi presupposti, considereremo di mettere un'alert per l'utente di utilizzare una conversazione per porre domande solamente relative ad un unico prodotto e, se precedentemente si è fatta una domanda relativa ad un prodotto diverso rispetto a quello di cui dobbiamo chiedere adesso, consiglierà all'utente di creare una nuova conversazione;
+        \item Abbiamo riscontrato delle grandi variazioni nei tempi di risposta, ma abbiamo deciso, in accordo con il referente aziendale, che questa questione verrà chiarita durante la prossima riunione SAL.
+    \end{itemize}
+    \item Documentazione (45\%): 
+    \begin{itemize}
+        \item Abbiamo proseguito con la stesura di alcuni documenti come la Specifica Tecnica, le Norme di Progetto, il Piano di Progetto;
+        \item E' necessario anche procedere con l'aggiornamento di alcuni documenti dopo la consegna per la revisione RTB, come il Piano di Qualifica e il Glossario;
+        \item E' necessario iniziare la stesura della documentazione mancante, come il Manuale Utente;
+        \item Per quanto riguarda invece l'Analisi dei Requisiti, siamo ancora in attesa di un riscontro da parte del professor Cardin.
+    \end{itemize}
+\end{itemize}
+Infine, considerando l'avanzamento ridotto, non è possibile pensare di riuscire a fare il collaudo dell'applicativo il 21/03, quindi si considera come eventuale nuova data di consegna il 04/04.
