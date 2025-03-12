@@ -106,3 +106,111 @@ Ogni \textit{requisito}\textsubscript{G} analizzato  sarà identificato univocam
         \item RV.P - \textit{Requisito}\textsubscript{G} di Vincolo Opzionale;
     \end{itemize}
 \end{enumerate}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di sviluppo dell'Analisi dei Requisiti sono:
+\begin{itemize}
+    \item Diagrams.net;
+    \item StarUML.
+\end{itemize}
+
+\subsubsection{Progettazione}
+\subsubsubsection{Scopo}
+Lo scopo della progettazione è definire l'architettura del prodotto software e fornire i componenti e le interazioni del sistema per garantire che funzioni in modo efficiente ed efficace rispetto ai requisiti funzionali e non funzionali determinati durante l'attività di analisi dei requisiti.
+
+\subsubsubsection{Documentazione}
+La progettazione porterà alla redazione del documento di Specifica Tecnica. Questo documento ha principalmente lo scopo di descrivere l'architettura del prodotto software e di mettere a disposizione una linea guida per garantire che il sistema venga implementato secondo i requisiti del progetto. Gli argomenti trattati in questo documento sono:
+\begin{itemize}
+    \item \textbf{Tecnologie}: espone un'analisi delle tecnologie e dei linguaggi di programmazione utilizzati, delle librerie\textsubscript{G} e dei framework\textsubscript{G} necessari, oltre che delle infrastrutture realizzate, riportando in particolare vantaggi e svantaggi di ognuna;
+    \item \textbf{Architettura di sistema}: descrive la struttura generale del software, la suddivisione in moduli o livelli e le interazioni tra i componenti;
+    \item \textbf{Architettura delle componenti}: fornisce i dettagli dei singoli moduli o componenti del sistema, descrivendone responsabilità, interfacce, flussi di dati, modalità di interazione ed esplicitando eventuali sottocomponenti;
+    \item \textbf{Progettazione di dettaglio}: definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti.
+\end{itemize}
+
+\subsubsubsection{Principi di progettazione dei componenti}
+Per ogni componente devono essere specificati i seguenti punti:
+\begin{enumerate}
+    \item Una breve descrizione delle funzionalità del componente;
+    \item Caratteristiche del componente:
+    \begin{itemize}
+        \item \textbf{Route API}: il percorso dell’endpoint esposto dal componente per interagire con il sistema;
+        \item \textbf{Metodo}: il tipo di richiesta HTTP supportata;
+        \item \textbf{Lista parametri HTTP}: l'elenco dei parametri richiesti o opzionali, inclusi nome, tipo e scopo di ciascun parametro.
+    \end{itemize}
+    \item Una lista che comprenda i possibili risultati dell'esecuzione del componente, accompagnati da:
+    \begin{itemize}
+        \item Il codice che porta al verificarsi di quel particolare esito;
+        \item Una descrizione di quel particolare esito;
+        \item Il messaggio che viene visualizzato nel caso in cui si verifichi quel particolare esito.
+    \end{itemize}
+    \item Un sistema che consenta di effettuare il tracciamento dei requisiti soddisfatti;
+    \item Una dichiarazione esaustiva di tutte le sottocomponenti, corredate dal loro scopo.
+\end{enumerate}
+
+\subsubsubsection{Principi di progettazione di dettaglio}
+La sezione dedicata alla progettazione di dettaglio del documento di Specifica Tecnica definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti di sistema.\\
+Per ogni componente è necessario realizzare un diagramma delle classi e per ogni classe è necessario elencare le proprietà, che comprendono:
+\begin{itemize}
+    \item \textbf{Attributi}: un elenco degli attributi della classe;
+    \item \textbf{Implementazione}: un campo che specifica se la classe implementa un'interfaccia;
+    \item \textbf{Estensione}: un campo che specifica se la classe estende un'altra classe;
+    \item \textbf{Metodi}: un elenco dei metodi della classe, dove per ogni metodo vengono specificati la firma che lo identifica e una descrizione;
+    \item \textbf{Valori}: un campo che caratterizza le enumerazioni.
+\end{itemize}
+
+\subsubsubsection{Convenzioni nella progettazione di dettaglio}
+\subsubsubsubsection{Convenzioni di denominazione}
+\begin{itemize}
+    \item \textbf{Nomi delle classi}: utilizzano il PascalCase (es. NomeClasse);
+    \item \textbf{Nomi degli attributi}: utilizzano il camelCase (es. nomeAttributo);
+    \item \textbf{Nomi dei metodi}: utilizzano il camelCase con verbi all'infinito (es. nomeMetodo());
+    \item \textbf{Nomi delle costanti}: utilizzano lo SCREAMING\_SNAKE\_CASE (es. NOME\_COSTANTE).
+\end{itemize}
+
+\subsubsubsubsection{Convenzioni di rappresentazione}
+Le classi sono rappresentate con tre sezioni:
+\begin{itemize}
+    \item Nome della classe;
+    \item Attributi, rappresentati come segue:\\
+    \texttt{visibilità nomeAttributo: tipo}
+    \item Metodi, rappresentati con la loro firma come segue:\\
+    \texttt{visibilità nomeMetodo(parametro0: tipo0, parametro1: tipo1): tipo}
+\end{itemize}
+
+\subsubsubsection{Proprietà desiderate dell'architettura}
+Durante l'attività progettazione, i progettisti devono tenere conto e fare in modo che l'architettura abbia le seguenti pproprietà:
+\begin{itemize}
+    \item \textbf{Affidabilità}: capacità di funzionare correttamente e senza interruzioni per lunghi periodi, gestendo errori e guasti;
+    \item \textbf{Basso accoppiamento}: i moduli o i componenti del sistema sono indipendenti e interagiscono tra loro attraverso interfacce ben definite, riducendo le dipendenze e facilitando modifiche e manutenzione;
+    \item \textbf{Coesione}: grado in cui i componenti di un modulo sono strettamente correlati e focalizzati su un unico scopo;
+    \item \textbf{Comprensibilità}: la chiarezza e la facilità con cui si possono comprendere la struttura, il funzionamento e i componenti del sistema;
+    \item \textbf{Disponibilità}: capacità del sistema di essere operativo e accessibile per gli utenti in modo continuo, minimizzando i tempi di inattività e garantendo un rapido ripristino in caso di guasto;
+    \item \textbf{Efficienza}: ottimizzazione delle risorse per garantire prestazioni elevate e ridurre i costi operativi senza compromettere la qualità del sistema;
+    \item \textbf{Flessibilità}: capacità di adattarsi facilmente a nuovi requisiti, modifiche o estensioni senza richiedere una revisione radicale del sistema;
+    \item \textbf{Incapsulazione}: nascondere i dettagli interni di un modulo, esponendo solo le interfacce necessarie;
+    \item \textbf{Modularità}: suddivisione del sistema in componenti indipendenti e intercambiabili, facilitando manutenzione, scalabilità e riusabilità;
+    \item \textbf{Riusabilità}: capacità di progettare componenti e moduli in modo che possano essere facilmente riutilizzati in diversi contesti o progetti, riducendo costi di sviluppo e tempi di implementazione;
+    \item \textbf{Robustezza}: capacità di funzionare correttamente anche in condizioni avverse, gestendo errori, input imprevisti e guasti senza compromettere stabilità e operatività del sistema;
+    \item \textbf{Safety}: capacità di gestire guasti hardware o software senza compromettere la disponibilità e l'integrità del sistema;
+    \item \textbf{Security}: capacità di proteggere il sistema da accessi non autorizzati, vulnerabilità e attacchi informatici;
+    \item \textbf{Semplicità}: riduzione della complessità non necessaria, privilegiando soluzioni chiare, comprensibili e facili da mantenere senza sacrificare funzionalità o scalabilità;
+    \item \textbf{Sufficienza}: capacità di soddisfare i requisiti attuali senza essere eccessivamente complesso o sovradimensionato rispetto alle necessità effettive.
+\end{itemize}
+
+\subsubsubsection{Fasi della progettazione}
+\subsubsubsubsection{Progettazione logica}
+La fase di progettazione logica consiste nel definire un'architettura che illustra la struttura e il comportamento del sistema a un livello astratto, senza preoccuparsi delle tecnologie specifiche. In questa fase bisogna assicurarsi che i componenti siano descritti dettagliatamente e che coprano tutti i requisiti funzionali e non, semplificando così la prossima fase della progettazione.
+
+\subsubsubsubsection{Progettazione di dettaglio}
+La fase di progettazione di dettaglio si concentra sulla definizione precisa di tutti gli aspetti tecnici del sistema, traducendo le specifiche logiche in soluzioni concrete e implementabili. In questa fase, vengono progettati i singoli componenti del sistema, insieme alle loro interfacce, strutture dati, classi e funzioni, e la comunicazione tra i moduli. L'intento è sviluppare una base solida e completa per l'implementazione del software, con chiarezza e precisione su tutte le decisioni progettuali.
+
+\subsubsubsection{Diagrammi delle classi}
+I diagrammi delle classi contenuti nel documento di Specifica Tecnica devono rispettare la notazione e le specifiche dalla versione 2.5 di UML.
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di progettazione sono:
+\begin{itemize}
+    \item StarUML.
+\end{itemize}
+
+\subsubsection{Codifica}
