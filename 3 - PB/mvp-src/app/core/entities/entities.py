@@ -1,8 +1,9 @@
-class Session:
-    def __init__(self, session_id: str, created_at: str):
-        self.session_id = session_id
-        self.created_at = created_at
+from datetime import datetime
 
+class Session:
+    def __init__(self, session_id, created_at=None):
+        self.session_id = session_id
+        self.created_at = created_at or datetime.now()
 
 class Conversation:
     def __init__(self, conversation_id: str, session_id: str, created_at: str):

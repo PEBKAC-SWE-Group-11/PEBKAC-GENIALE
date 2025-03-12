@@ -38,7 +38,7 @@ class ConversationService:
         return self.repository.fetch_all(query, (conversation_id,))
     
     def read_feedback(self, message_id):
-        query = "SELECT * FROM Feedback WHERE conversation_id = %s"
+        query = "SELECT * FROM Feedback WHERE message_id = %s"
         return self.repository.fetch_all(query, (message_id,))
     
     def add_feedback(self, message_id, feedback):
