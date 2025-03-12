@@ -1,0 +1,42 @@
+<div class="chatbox">
+    <div *ngIf="isAddingConversation" class="add-conversation">
+       <div class="conversation-options">
+           <h2 class="options-title">
+               Aggiungi nuova conversazione
+           </h2>
+           <p class="options-subtitle">
+               Scegli un'opzione di conversazione
+           </p>
+           <div class="options-buttons">
+               <button (click)="createNewConversation()">Conversazione libera</button>
+           </div>
+       </div>
+   </div>
+   <div *ngIf="!isAddingConversation" class="chat-view">
+       <div class="chat-header">
+           <h2> Conversazione {{ activeConversationId }}</h2>
+       </div>
+        <div class="messages-area">
+            <div *ngFor="let message of messages$ | async" 
+                class="message"
+                [ngClass]="{
+                'user-message': message.sender === 'user',
+                'assistant-message': message.sender === 'assistant'
+                }">
+                <div class="message-content">
+                    {{ message.content }}
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <input 
+                type="text" 
+                [(ngModel)]="messageText"
+                placeholder="Scrivi un messaggio..." 
+                (keypress)="onKeyPress($event)">
+            <button class="send-button" 
+                (click)="sendMessage()"
+                [disabled]="isWaitingResponse">Invia</button>
+       </div>
+   </div>
+</div>

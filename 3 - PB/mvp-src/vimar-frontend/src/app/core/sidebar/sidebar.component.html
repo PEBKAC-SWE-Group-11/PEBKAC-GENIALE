@@ -1,0 +1,21 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h1>Conversazioni</h1>
+        <button class="add-button" (click)="onAddClick()">+</button>
+    </div>
+    <div class="conversations-list">
+        <div *ngFor="let conv of conversations$ | async" 
+             class="conversation-item"
+             [class.active]="conv.conversation_id === activeConversationId"
+             (click)="selectConversation(conv.conversation_id)">
+            <div class="conversation-title">
+                <div>
+                    {{ 'Conversazione ' + conv.conversation_id }}
+                </div>
+                <div>
+                    <button class="delete-btn" (click)="deleteConversation(conv.conversation_id, $event)">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
