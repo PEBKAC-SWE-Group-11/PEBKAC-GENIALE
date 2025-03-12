@@ -1,11 +1,9 @@
 import sys
 import os
 
-# Aggiungi il percorso della directory principale del progetto
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from app.infrastructure.http.api import flask_app
+from app.adapters.controllers import api_controller  # Assicurati che questo percorso sia corretto
 
-# Usa import assoluti
-from app.infrastructure.http.api import app
-import app.adapters.controllers.api_controller
-
-print("Imports successful")
+if __name__ == '__main__':
+    flask_app.run(host='0.0.0.0', port=5001)

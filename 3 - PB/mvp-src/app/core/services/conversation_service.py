@@ -36,3 +36,24 @@ class ConversationService:
     def read_messages(self, conversation_id):
         query = "SELECT * FROM Message WHERE conversation_id = %s"
         return self.repository.fetch_all(query, (conversation_id,))
+    
+    def read_feedback(self, message_id):
+        query = "SELECT * FROM Feedback WHERE conversation_id = %s"
+        return self.repository.fetch_all(query, (message_id,))
+    
+    def add_feedback(self, message_id, feedback):
+        query = "INSERT INTO Feedback (message_id, feedback, created_at) VALUES (%s, %s, CURRENT_TIMESTAMP)"
+        self.repository.execute_query(query, (message_id, feedback))
+    
+    #Cruscotto amministratore
+    def read_num_positive_feedback(self):
+        query = "SELECT COUNT(*) FROM Feedback WHERE feedback = 1"
+        return self.repository.fetch_all(query)
+    
+    def read_num_negative_feedback(self):
+        query = "SELECT COUNT(*) FROM Feedback WHERE feedback = 0"
+        return self.repository.fetch_all(query)
+    
+    def read_num_conversations(self):
+        query = "SELECT COUNT(*) FROM Conversation"
+        return self.repository.fetch_all(query)

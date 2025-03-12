@@ -13,8 +13,10 @@ services:
       - ./ollama_models:/root/.ollama/models
       - ./start.sh:/start.sh
       - ./app/requirements.txt:/app/requirements.txt
+      - data_volume:/app/data
     depends_on:
       - db
+
   db:
     build:
       context: .
@@ -29,11 +31,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./pgvector/vector_extension.sql:/docker-entrypoint-initdb.d/0-vector_extension.sql
+
   angular:
     build:
       dockerfile: Dockerfile.angular
     ports: 
       - "4200:4200"
-      
+
+  data_processing:
+    build:
+      context: .
+      dockerfile: Dockerfile.data_processing
+    volumes:
+      - data_volume:/app/data
+
 volumes:
   postgres_data:
+  data_volume:

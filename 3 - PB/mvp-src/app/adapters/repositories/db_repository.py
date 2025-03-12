@@ -8,7 +8,7 @@ class DBRepository(RepositoryPort):
             user="postgres",
             password="pebkac",
             host="db",
-            port="54321"
+            port="5432"
         )
 
     def execute_query(self, query, params=None):
