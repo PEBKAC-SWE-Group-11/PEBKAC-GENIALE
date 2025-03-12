@@ -1,0 +1,27 @@
+\section{Riassunto della riunione}
+
+\begin{itemize}
+    \item Si sono discussi i prossimi task da svolgere, nello specifico le componenti dell'MVP ancora da codificare per arrivare ad una versione di test da fornire al Proponente duranre il SAL del 2025-03-18.
+    \item Si prevede già che il termine del progetto dovrà essere posticipato: sono stati sottostimati i tempi di progettazione dell'MVP e dei test. Inoltre il gruppo ha rallentato il ritmo di lavoro e si impegna a tornare operativo al regime prestabilito.
+    
+    \item Sono sorti dei dubbi sulla numerazione delle versioni dei documenti: con il nuovo ciclo di vita, corretto a seguito della revisione RTB, ogni modifica viene seguita da una verifica, il gruppo si chiede quindi se la numerazione attuale che cambia sia alla modifica che alla verifica abbia senso o se sia meglio unificare le azioni in un unico cambio di versione. Nel secondo caso ci si chiede come  ci si dovrebbe comportare per avere la retrocompatibilità. Su questo il gruppo decise di chiedere supporto al professor Vardanega.
+    
+
+\end{itemize}
+
+Sono invece state prese delle decisioni operative sulla gesione della dashboard dell'amministratore:
+\begin{itemize}
+    \item \textbf{Accesso all'area amministrativa}: per quanto riguarda l'accesso all'area amministrativa del progetto, si è deciso di implementare un sistema basato su un URL dedicato. In particolare:
+\begin{enumerate}
+    \item La pagina di login per gli amministratori sarà raggiungibile tramite un link del tipo \texttt{localhost:4200/adminlogin}.
+    \item Una volta effettuato l'accesso, l'amministratore verrà reindirizzato alla dashboard amministrativa disponibile ad un indirizzo: \texttt{localhost:4200/admindash\newline board}.
+\end{enumerate}
+\item \textbf{Sistema di autenticazione amministratore}: per quanto concerne l'autenticazione dell'amministratore, il Proponente non ha espresso particolari esigenze in merito a sistemi avanzati di sicurezza, in quanto non ritenuti centrali per il progetto. Pertanto, il gruppo ha deciso di implementare una soluzione semplice e funzionale che prevede:
+\begin{enumerate}
+    \item Inserimento di una password statica da parte dell'amministratore.
+    \item Invio dell'hash (e.g. SHA) della password tramite API al backend.
+    \item Confronto, lato backend, dell'hash ricevuto con quello corrispondente alla password corretta (già memorizzato in forma di hash e non in chiaro).
+    \item Il backend restituirà al frontend un esito positivo o negativo in base all'esito della verifica.
+    \item Si valuterà di aggiungere l'uso di un token di sessione (da inviare ad ogni richiesta API al backend) per evitare che l'autenticazione si basi esclusivamente sulla password. 
+\end{enumerate}
+\end{itemize}
