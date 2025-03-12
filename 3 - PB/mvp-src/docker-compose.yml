@@ -15,7 +15,8 @@ services:
       - ./app/requirements.txt:/app/requirements.txt
       - data_volume:/app/data
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     build:
@@ -28,6 +29,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pebkac
       POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./pgvector/vector_extension.sql:/docker-entrypoint-initdb.d/0-vector_extension.sql
@@ -44,6 +50,9 @@ services:
       dockerfile: Dockerfile.data_processing
     volumes:
       - data_volume:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
