@@ -1,79 +1,42 @@
 import { Component, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { ChatboxComponent } from './core/chatbox/chatbox.component';
-import { ApiService } from './services/api.service';
-import { firstValueFrom } from 'rxjs';
+import { Conversation } from './models/conversation.model';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterModule, 
-    CommonModule, 
-    SidebarComponent, 
-    ChatboxComponent
-  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [RouterOutlet, SidebarComponent, ChatboxComponent]
 })
 export class AppComponent {
-  title = 'Vimar GENIALE';
-  isAddingConversation: boolean = false;
-  activeConversationId: number = 0;
-
+  title = 'Vimar Chat';
+  isAddingConversation = false;
+  activeConversationId: string | null = null;
+  
   @ViewChild('sidebar') sidebarComponent!: SidebarComponent;
-
-  constructor(
-    private apiService: ApiService
-  ) {}
-
-  async ngOnInit() {
-    try {
-      const session = await firstValueFrom(this.apiService.getCurrentSession());
-      console.log('Sessione inizializzata:', session);
   
-      this.isAddingConversation = true;
-  
-    } catch (error) {
-      console.error('Errore durante l\'inizializzazione:', error);
-      this.isAddingConversation = false;
-    }
-
-  }
-
-  onAddConversation() { 
+  onAddConversation(): void {
     this.isAddingConversation = true;
+    this.activeConversationId = null;
   }
-
-  async onConversationSelected(event: number) {
-    try {
-      this.isAddingConversation = false;
-      this.activeConversationId = event;
-    } catch (error) {
-      console.error('Errore nella selezione della conversazione:', error);
-    }
+  
+  onConversationSelected(conversation: Conversation): void {
+    this.isAddingConversation = false;
+    this.activeConversationId = conversation.id;
   }
-
-  async onConversationCreated(event: number) {
-    try {
-      this.activeConversationId = event;
-      this.isAddingConversation = false;
-      if(this.sidebarComponent) {
-        await this.sidebarComponent.loadConversations();
-        this.sidebarComponent.setActiveConversation(event);
-      }
-    } catch (error) {
-      console.error('Errore nella creazione della conversazione:', error);
-    }
-  }
-
-  async onConversationDeleted(conversationId: number) {
+  
+  onConversationDeleted(conversationId: string): void {
     if (this.activeConversationId === conversationId) {
-      this.isAddingConversation = true;
-      this.activeConversationId = 0;
+      this.activeConversationId = null;
     }
   }
-
+  
+  onConversationCreated(conversation: Conversation): void {
+    this.isAddingConversation = false;
+    this.activeConversationId = conversation.id;
+    this.sidebarComponent.updateConversations();
+  }
 }

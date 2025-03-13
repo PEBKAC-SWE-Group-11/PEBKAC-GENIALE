@@ -1,21 +1,39 @@
 <div class="sidebar">
-    <div class="sidebar-header">
-        <h1>Conversazioni</h1>
-        <button class="add-button" (click)="onAddClick()">+</button>
+    <div class="header">
+        <h2>Conversazioni</h2>
+        <button 
+            class="new-conversation-btn" 
+            (click)="createNewConversation()" 
+            [disabled]="conversations.length >= 10">
+            <i class="fas fa-plus"></i> Nuova chat
+        </button>
     </div>
+    
     <div class="conversations-list">
-        <div *ngFor="let conv of conversations$ | async" 
-             class="conversation-item"
-             [class.active]="conv.conversation_id === activeConversationId"
-             (click)="selectConversation(conv.conversation_id)">
+        <div 
+            *ngFor="let conversation of conversations" 
+            class="conversation-item" 
+            [class.active]="isActive(conversation)"
+            (click)="selectConversation(conversation)">
             <div class="conversation-title">
-                <div>
-                    {{ 'Conversazione ' + conv.conversation_id }}
-                </div>
-                <div>
-                    <button class="delete-btn" (click)="deleteConversation(conv.conversation_id, $event)">-</button>
-                </div>
+                {{ conversation.title || 'Nuova conversazione' }}
             </div>
+            <div class="conversation-date">
+                {{ conversation.updated_at | date:'short' }}
+            </div>
+            <button 
+                class="delete-btn" 
+                (click)="deleteConversation($event, conversation.id)">
+                <i class="fas fa-trash"></i>
+            </button>
         </div>
+        
+        <div *ngIf="conversations.length === 0" class="no-conversations">
+            Nessuna conversazione disponibile
+        </div>
+    </div>
+    
+    <div class="conversation-limit" *ngIf="conversations.length >= 10">
+        Hai raggiunto il limite di 10 conversazioni
     </div>
 </div>

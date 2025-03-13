@@ -1,107 +1,67 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
-import { firstValueFrom, BehaviorSubject } from 'rxjs';
+import { ChatService } from '../../services/chat.service';
 import { Message } from '../../models/message.model';
-
+import { Conversation } from '../../models/conversation.model';
 
 @Component({
   selector: 'app-chatbox',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './chatbox.component.html',
-  styleUrl: './chatbox.component.css'
+  styleUrls: ['./chatbox.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
-export class ChatboxComponent {
-  private messagesSubject = new BehaviorSubject<Message[]>([]);
-  messages$ = this.messagesSubject.asObservable();
+export class ChatboxComponent implements OnInit {
+  messages: Message[] = [];
+  activeConversation: Conversation | null = null;
+  newMessage: string = '';
+  readonly MAX_MESSAGE_LENGTH = 500;
+  isLoading: boolean = false;
 
-  @Input() isAddingConversation: boolean = false;
-  @Input() activeConversationId: number = 0;
-  @Output() conversationCreated = new EventEmitter<number>();
+  constructor(private chatService: ChatService) {}
 
-  messageText: string = '';
-  isWaitingResponse: boolean = false;
+  ngOnInit(): void {
+    this.chatService.messages$.subscribe(messages => {
+      this.messages = messages;
+    });
 
-  constructor(
-    private apiService: ApiService
-  ) {}
-
-  async ngOnInit() {
-    try {
-        if (this.activeConversationId > 0) {
-          await this.loadMessages();
-        }
-        else if (this.isAddingConversation === true) {
-          await this.createNewConversation();
-        }
-    } catch (error) {
-      console.error('Errore nel recupero delle conversazioni:', error);
-      this.isAddingConversation = true;
-    }
+    this.chatService.activeConversation$.subscribe(conversation => {
+      this.activeConversation = conversation;
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['activeConversationId'] && 
-        !changes['activeConversationId'].firstChange && 
-        changes['activeConversationId'].currentValue !== changes['activeConversationId'].previousValue) {
-      console.log('Conversation changed to:', this.activeConversationId);
-      this.loadMessages();
-    }
-  }
-
-  async createNewConversation() {
-    try {
-
-      const newConversation = await firstValueFrom(
-        this.apiService.createConversation()
-      );
-
-      this.isAddingConversation = false;
-      this.activeConversationId = newConversation.conversation_id;
-      this.messagesSubject.next([]);
-      this.conversationCreated.emit(newConversation.conversation_id);
-
-    } catch (error) {
-      console.error('Errore nella creazione della conversazione:', error);
-    }
-  }
-  
-  async sendMessage() {
-    if (!this.messageText?.trim() || this.isWaitingResponse === true) return;
-
-    const messageContent = this.messageText;
-    this.messageText = '';
-    this.isWaitingResponse = true;
+  async sendMessage(): Promise<void> {
+    if (!this.newMessage.trim() || !this.activeConversation) return;
     
-    await firstValueFrom(
-      this.apiService.addMessage(this.activeConversationId, messageContent, 'user')
-    );
-    await this.loadMessages();
+    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
+      alert(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
+      return;
+    }
     
-    await firstValueFrom(
-      this.apiService.askQuestion(this.activeConversationId, messageContent)
-    );
-    await this.loadMessages();
-
-    this.isWaitingResponse = false;
-  }
-
-  async loadMessages() {
+    this.isLoading = true;
+    
     try {
-      const messages = await firstValueFrom(
-        this.apiService.getMessages(this.activeConversationId)
-      );
-      this.messagesSubject.next(messages);
+      await this.chatService.sendMessage(this.newMessage);
+      this.newMessage = '';
     } catch (error) {
-      console.error('Errore nel caricamento dei messaggi:', error);
+      console.error('Errore durante l\'invio del messaggio:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
 
-  onKeyPress(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.sendMessage();
+  sendPositiveFeedback(messageId: string): void {
+    this.chatService.sendFeedback(messageId, true);
+  }
+
+  sendNegativeFeedback(messageId: string): void {
+    this.chatService.sendFeedback(messageId, false);
+  }
+
+  checkMessageLength(): void {
+    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
+      this.newMessage = this.newMessage.substring(0, this.MAX_MESSAGE_LENGTH);
     }
   }
 }

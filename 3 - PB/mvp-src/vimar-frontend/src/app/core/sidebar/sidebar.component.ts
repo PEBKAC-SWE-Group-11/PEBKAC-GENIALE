@@ -1,89 +1,55 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../services/api.service';
-import { firstValueFrom, BehaviorSubject } from 'rxjs';
+import { ChatService } from '../../services/chat.service';
 import { Conversation } from '../../models/conversation.model';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrls: ['./sidebar.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
-export class SidebarComponent {
-  private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
-  conversations$ = this.conversationsSubject.asObservable();
+export class SidebarComponent implements OnInit {
+  conversations: Conversation[] = [];
+  activeConversation: Conversation | null = null;
 
-  @Output() addConversationClick = new EventEmitter<void>();
-  @Output() conversationSelected = new EventEmitter<number>();
-  @Output() conversationDeleted = new EventEmitter<number>();
-  activeConversationId: number = 0;
+  constructor(private chatService: ChatService) {}
 
-  constructor(
-    private apiService: ApiService
-  ) {}
+  ngOnInit(): void {
+    this.chatService.conversations$.subscribe(conversations => {
+      this.conversations = conversations;
+    });
 
-  async ngOnInit() {
-    await this.loadConversations();
-  }  
-  
-  async loadConversations() {
-    try {
-      const conversations = await firstValueFrom(
-        this.apiService.getConversations()
-      );
-      
-      const sortedConversations = conversations.sort((a, b) => b.conversation_id - a.conversation_id);
-      this.conversationsSubject.next(sortedConversations);
+    this.chatService.activeConversation$.subscribe(conversation => {
+      this.activeConversation = conversation;
+    });
+  }
 
-    } catch (error) {
-      console.error('Errore nel recupero delle conversazioni:', error);
-      this.conversationsSubject.next([]);
+  createNewConversation(): void {
+    this.chatService.createConversation().catch(error => {
+      alert(error.message);
+    });
+  }
+
+  selectConversation(conversation: Conversation): void {
+    this.chatService.setActiveConversation(conversation);
+  }
+
+  deleteConversation(event: Event, conversationId: string): void {
+    event.stopPropagation();
+    if (confirm('Sei sicuro di voler eliminare questa conversazione?')) {
+      this.chatService.deleteConversation(conversationId);
     }
   }
 
-  async selectConversation(conversationId: number) {
-    try {
-      
-      this.conversationSelected.emit(conversationId);
-      this.activeConversationId = conversationId;
-      await this.loadConversations();
-
-    } catch (error) {
-      console.error('Errore nella selezione della conversazione:', error);
-    }
+  isActive(conversation: Conversation): boolean {
+    return this.activeConversation?.id === conversation.id;
   }
 
-  async onAddClick() {
-    try {
-      this.addConversationClick.emit();
-    } catch (error) {
-      console.error('Errore nella preparazione per nuova conversazione:', error);
-    }
-  }
-
-  setActiveConversation(conversationId: number) {
-    this.activeConversationId = conversationId;
-  }
-
-  async deleteConversation(conversationId: number, event: Event) {
-    try {
-      event.stopPropagation();
-      
-      if (confirm('Sei sicuro di voler eliminare questa conversazione?')) {
-        await firstValueFrom(this.apiService.deleteConversation(conversationId));
-        
-        if (conversationId === this.activeConversationId) {
-          this.activeConversationId = 0;
-          this.conversationDeleted.emit(conversationId);
-        }
-        
-        await this.loadConversations();
-      }
-
-    } catch (error) {
-      console.error('Errore nell\'eliminazione della conversazione:', error);
-    }
+  updateConversations(): void {
+    this.chatService.conversations$.subscribe(conversations => {
+      this.conversations = conversations;
+    });
   }
 }

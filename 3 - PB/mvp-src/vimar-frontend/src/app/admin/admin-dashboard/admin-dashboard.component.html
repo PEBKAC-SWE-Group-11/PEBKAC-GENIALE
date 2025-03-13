@@ -1,0 +1,54 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard Admin</h1>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+  
+  <div class="dashboard-body">
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Caricamento statistiche...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+      <button class="retry-btn" (click)="loadStats()">Riprova</button>
+    </div>
+    
+    <div *ngIf="!isLoading && !error && stats" class="stats-container">
+      <div class="stats-card">
+        <h3>Conversazioni totali</h3>
+        <div class="stat-value">{{ stats.totalConversations }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Messaggi totali</h3>
+        <div class="stat-value">{{ stats.totalMessages }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Utenti unici</h3>
+        <div class="stat-value">{{ stats.uniqueUsers }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Feedback positivi</h3>
+        <div class="stat-value">{{ stats.positiveFeedback }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Feedback negativi</h3>
+        <div class="stat-value">{{ stats.negativeFeedback }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Tasso di soddisfazione</h3>
+        <div class="stat-value">{{ calcSatisfactionRate() }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">Torna alla chat</a>
+  </div>
+</div> 

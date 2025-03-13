@@ -1,4 +1,6 @@
 export interface Conversation {
-  conversation_id: number;
-  session_id: string;
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
 }
