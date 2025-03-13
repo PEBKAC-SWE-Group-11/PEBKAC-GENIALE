@@ -3,10 +3,93 @@ import logging
 import psycopg2
 import embeddinglocal
 from connection_db import get_db_connection
+import re
 
 # Configura il logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+def create_chunks(text, max_chunk_size=500):
+    """Divide il testo in chunk di dimensione massima specificata"""
+    # Rimuove caratteri speciali e spazi multipli
+    text = re.sub(r'\s+', ' ', text)
+    
+    # Divide il testo in parole
+    words = text.split()
+    chunks = []
+    current_chunk = []
+    current_size = 0
+    
+    for word in words:
+        word_size = len(word) + 1  # +1 per lo spazio
+        if current_size + word_size > max_chunk_size:
+            chunks.append(' '.join(current_chunk))
+            current_chunk = [word]
+            current_size = word_size
+        else:
+            current_chunk.append(word)
+            current_size += word_size
+    
+    if current_chunk:
+        chunks.append(' '.join(current_chunk))
+    
+    return chunks
+
+def insert_chunks(cursor, product_id, product):
+    """Inserisce i chunk di un prodotto nel database"""
+    try:
+        # Crea il testo completo del prodotto
+        full_text = f"{product.get('title', '')} {product.get('description', '')} {json.dumps(product.get('technical_data', {}))}"
+        
+        # Genera i chunk
+        chunks = create_chunks(full_text)
+        
+        # Inserisci ogni chunk con il suo embedding
+        for chunk in chunks:
+            cursor.execute("""
+                INSERT INTO Chunk (product_id, titolo_doc, chunk, embedding)
+                VALUES (%s, %s, %s, %s);
+            """, (
+                product_id,
+                product.get('title', ''),
+                chunk,
+                embeddinglocal.get_embedding(chunk)
+            ))
+        
+        logger.info(f"Inseriti {len(chunks)} chunk per il prodotto {product_id}")
+        
+    except Exception as e:
+        logger.error(f"Errore durante l'inserimento dei chunk per il prodotto {product_id}: {e}")
+        raise
+
+def insert_chunks_from_file(cursor, chunk_file):
+    """Inserisce i chunk dal file JSON nel database"""
+    try:
+        logger.info(f"Lettura del file chunk {chunk_file}")
+        with open(chunk_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        chunks = data.get('chunks', [])
+        total_chunks = len(chunks)
+        logger.info(f"Trovati {total_chunks} chunk da inserire")
+        
+        for i, chunk in enumerate(chunks, 1):
+            logger.info(f"Elaborazione chunk {i}/{total_chunks}")
+            cursor.execute("""
+                INSERT INTO Chunk (product_id, titolo_doc, chunk, embedding)
+                VALUES (%s, %s, %s, %s);
+            """, (
+                chunk['id'],
+                chunk['title'],
+                chunk['chunk'],
+                chunk['vector']  # Usiamo il vector pre-calcolato dal JSON
+            ))
+        
+        logger.info("Tutti i chunk sono stati inseriti con successo nel database.")
+        
+    except Exception as e:
+        logger.error(f"Errore durante l'inserimento dei chunk: {e}", exc_info=True)
+        raise
 
 # Funzione per creare la tabella se non esiste
 def create_table(cursor):
@@ -70,6 +153,7 @@ def insert_product(cursor, product):
             embeddinglocal.get_embedding(f"{product.get('id')} {product.get('title')} {product.get('description')} {product.get('price')} "
                                      f"{json.dumps(product.get('technical_data'))} {json.dumps(product.get('images'))} {json.dumps(product.get('documentation'))}")
         ))
+        logger.info(f"Inserito prodotto con ID: {product['id']}")
         
         # Inserisci i dati tecnici
         for key, value in product['technical_data'].items():
@@ -77,6 +161,7 @@ def insert_product(cursor, product):
                 INSERT INTO TechnicalData (product_id, key, value)
                 VALUES (%s, %s, %s);
             """, (product['id'], key, value))
+        logger.info(f"Inseriti dati tecnici per il prodotto {product['id']}")
         
         # Inserisci le immagini
         for image in product.get('images', []):
@@ -84,6 +169,7 @@ def insert_product(cursor, product):
                 INSERT INTO Image (product_id, url)
                 VALUES (%s, %s);
             """, (product['id'], image))
+        logger.info(f"Inserite immagini per il prodotto {product['id']}")
         
         # Inserisci i documenti
         for doc in product.get('documentation', []):
@@ -91,32 +177,57 @@ def insert_product(cursor, product):
                 INSERT INTO Documentation (product_id, url)
                 VALUES (%s, %s);
             """, (product['id'], doc))
+        logger.info(f"Inseriti documenti per il prodotto {product['id']}")
+        
+        # Inserisci i chunk
+        insert_chunks(cursor, product['id'], product)
 
     except Exception as e:
         logger.error(f"Errore durante l'inserimento del prodotto {product.get('id')}: {e}")
         raise
 
-def write_products_in_DB(product_file, connection):
-    """Inserisce i prodotti nel database usando una connessione esistente"""
+def write_products_in_DB(product_file, chunk_file, connection):
+    """Inserisce i prodotti e i chunk nel database usando una connessione esistente"""
     cursor = None
     try:
         cursor = connection.cursor()
         
-        # Lettura del file JSON
+        # Inserimento dei prodotti
+        logger.info(f"Lettura del file {product_file}")
         with open(product_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
         # Inserimento dei dati nel database
-        for product in data['vimar_datas']:
+        total_products = len(data['vimar_datas'])
+        logger.info(f"Trovati {total_products} prodotti da inserire")
+        
+        for i, product in enumerate(data['vimar_datas'], 1):
+            logger.info(f"Elaborazione prodotto {i}/{total_products}")
             insert_product(cursor, product)
+
+        # Inserimento dei chunk
+        insert_chunks_from_file(cursor, chunk_file)
 
         # Commit delle modifiche
         connection.commit()
-        logger.info("Dati inseriti con successo nel database.")
+        logger.info("Tutti i dati sono stati inseriti con successo nel database.")
         
     except Exception as e:
         logger.error(f"Errore durante l'inserimento dei dati: {e}", exc_info=True)
+        if connection:
+            connection.rollback()
         raise
     finally:
         if cursor:
             cursor.close()
+
+if __name__ == "__main__":
+    try:
+        connection = get_db_connection()
+        write_products_in_DB('json_data/data_reduced.json', 'json_data/chunkfile.json', connection)
+    except Exception as e:
+        logger.error(f"Errore nell'esecuzione del programma: {e}")
+    finally:
+        if 'connection' in locals() and connection:
+            connection.close()
+            logger.info("Connessione al database chiusa")

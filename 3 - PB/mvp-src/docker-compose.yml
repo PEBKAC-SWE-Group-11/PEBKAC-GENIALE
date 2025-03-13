@@ -17,6 +17,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   db:
     build:
@@ -37,23 +45,35 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./pgvector/vector_extension.sql:/docker-entrypoint-initdb.d/0-vector_extension.sql
+    networks:
+      - app_network
 
   angular:
     build:
       dockerfile: Dockerfile.angular
     ports: 
       - "4200:4200"
+    networks:
+      - app_network
 
   data_processing:
     build:
       context: .
       dockerfile: Dockerfile.data_processing
     volumes:
-      - data_volume:/app/data
+      - ./data_processing:/app/data_processing
     depends_on:
       db:
         condition: service_healthy
+      app:
+        condition: service_healthy
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
   data_volume:
+
+networks:
+  app_network:
+    driver: bridge
