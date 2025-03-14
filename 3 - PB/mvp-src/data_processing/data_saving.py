@@ -4,6 +4,8 @@ import psycopg2
 import embeddinglocal
 from connection_db import get_db_connection
 import re
+from typing import Any
+from psycopg2.extensions import connection as pg_connection
 
 # Configura il logging
 logging.basicConfig(level=logging.INFO)
@@ -62,27 +64,27 @@ def insert_chunks(cursor, product_id, product):
         logger.error(f"Errore durante l'inserimento dei chunk per il prodotto {product_id}: {e}")
         raise
 
-def insert_chunks_from_file(cursor, chunk_file):
-    """Inserisce i chunk dal file JSON nel database"""
+def insert_chunks_from_file(cursor: Any, chunks: list) -> None:
+    """
+    Inserisce i chunk nel database
+    Args:
+        cursor: cursore del database
+        chunks: lista di chunk da inserire
+    """
     try:
-        logger.info(f"Lettura del file chunk {chunk_file}")
-        with open(chunk_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        chunks = data.get('chunks', [])
         total_chunks = len(chunks)
         logger.info(f"Trovati {total_chunks} chunk da inserire")
         
         for i, chunk in enumerate(chunks, 1):
             logger.info(f"Elaborazione chunk {i}/{total_chunks}")
             cursor.execute("""
-                INSERT INTO Chunk (product_id, titolo_doc, chunk, embedding)
+                INSERT INTO Chunk (product_id, filename, chunk, embedding)
                 VALUES (%s, %s, %s, %s);
             """, (
                 chunk['id'],
-                chunk['title'],
+                chunk['filename'],
                 chunk['chunk'],
-                chunk['vector']  # Usiamo il vector pre-calcolato dal JSON
+                chunk['vector']
             ))
         
         logger.info("Tutti i chunk sono stati inseriti con successo nel database.")
@@ -186,45 +188,48 @@ def insert_product(cursor, product):
         logger.error(f"Errore durante l'inserimento del prodotto {product.get('id')}: {e}")
         raise
 
-def write_products_in_DB(product_file, chunk_file, connection):
-    """Inserisce i prodotti e i chunk nel database usando una connessione esistente"""
+def write_products_in_DB(chunk_file: str, connection: pg_connection) -> None:
+    """
+    Inserisce i chunk nel database usando una connessione esistente
+    Args:
+        chunk_file: percorso al file JSON contenente i chunk con embedding
+        connection: connessione al database
+    """
     cursor = None
     try:
+        # Disabilita autocommit per la transazione
+        connection.autocommit = False
         cursor = connection.cursor()
         
-        # Inserimento dei prodotti
-        logger.info(f"Lettura del file {product_file}")
-        with open(product_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-
-        # Inserimento dei dati nel database
-        total_products = len(data['vimar_datas'])
-        logger.info(f"Trovati {total_products} prodotti da inserire")
+        logger.info("Inizio transazione")
+        logger.info(f"Lettura del file chunk {chunk_file}")
         
-        for i, product in enumerate(data['vimar_datas'], 1):
-            logger.info(f"Elaborazione prodotto {i}/{total_products}")
-            insert_product(cursor, product)
+        with open(chunk_file, 'r', encoding='utf-8') as f:
+            chunks = json.load(f)
+        
+        # Inserimento chunks
+        insert_chunks_from_file(cursor, chunks)
 
-        # Inserimento dei chunk
-        insert_chunks_from_file(cursor, chunk_file)
-
-        # Commit delle modifiche
+        # Commit della transazione
         connection.commit()
-        logger.info("Tutti i dati sono stati inseriti con successo nel database.")
+        logger.info("Transazione completata con successo")
         
     except Exception as e:
         logger.error(f"Errore durante l'inserimento dei dati: {e}", exc_info=True)
+        logger.info("Esecuzione rollback della transazione")
         if connection:
             connection.rollback()
         raise
     finally:
         if cursor:
             cursor.close()
+        if connection:
+            connection.autocommit = True
 
 if __name__ == "__main__":
     try:
         connection = get_db_connection()
-        write_products_in_DB('json_data/data_reduced.json', 'json_data/chunkfile.json', connection)
+        write_products_in_DB('json_data/chunkfile.json', connection)
     except Exception as e:
         logger.error(f"Errore nell'esecuzione del programma: {e}")
     finally:
