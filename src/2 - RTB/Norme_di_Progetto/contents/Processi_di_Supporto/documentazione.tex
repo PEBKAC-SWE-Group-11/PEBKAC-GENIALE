@@ -109,13 +109,28 @@ Ogni documento segue le fasi del seguente \textit{workflow}\textsubscript{G}:
     \item \textbf{Assegnazione}: il gruppo assegna un documento a uno o più redattori, affiancati da uno o più verificatori;
     \item \textbf{Branch\textsubscript{G}}: si crea un \textit{branch}\textsubscript{G} per lo sviluppo del documento nell’apposita \textit{repository}\textsubscript{G} Docs;
     \item \textbf{Template}: si copia il Template all'interno della cartella appropriata;
+    \item \textbf{Feature branch\textsubscript{G}}: si crea un \textit{branch}\textsubscript{G} per la realizzazione di una specifica modifica da apportare al relativo documento nell’apposita \textit{repository}\textsubscript{G} Docs;
+    \item \textbf{Stesura}: si redige una o più sezioni del documento. Qualora serva un elevato parallelismo di lavoro è possibile usare Google Drive per la prima stesura e successivamente caricare il documento all’interno del \textit{branch}\textsubscript{G};
+    \item \textbf{Commit\textsubscript{G}}: si esegue la \textit{commit}\textsubscript{G} sul feature \textit{branch}\textsubscript{G} creato;
+    \item \textbf{Pull Request\textsubscript{G} verso il branch\textsubscript{G} del documento}: si apre una \textit{pull request}\textsubscript{G} dal feature \textit{branch}\textsubscript{G} appena creato verso il \textit{branch}\textsubscript{G} del documento;
+    \item \textbf{Verifica\textsubscript{G} della feature}: se il \textit{verificatore}\textsubscript{G} richiede modifiche si ripetono, in ordine, il punto 5 e il punto 6;
+    \item \textbf{Chiusura feature branch\textsubscript{G}}: si elimina, quando la \textit{pull request}\textsubscript{G} viene chiusa o risolta, il feature \textit{branch}\textsubscript{G} creato.
+    \item \textbf{Pull Request\textsubscript{G} verso il branch\textsubscript{G} develop}: si apre una \textit{pull request}\textsubscript{G} dal \textit{branch}\textsubscript{G} del documento verso il \textit{branch}\textsubscript{G} develop: se il documento non è pronto per la \textit{verifica}\textsubscript{G}, ma ha bisogno di ulteriori modifiche, si apre la \textit{pull request}\textsubscript{G} in modalità draft, per marcarla successivamente come “Ready to Review”, altrimenti in modalità normale;
+    \item \textbf{Verifica\textsubscript{G} del documento}: se il \textit{verificatore}\textsubscript{G} richiede modifiche si ripete, in ordine, dal punto 4 al punto 9;
+    \item \textbf{Chiusura branch\textsubscript{G}}: si elimina, quando la \textit{pull request}\textsubscript{G} viene chiusa o risolta, il \textit{branch}\textsubscript{G} del documento.
+\end{enumerate}
+Per la versione finale di un documento spetta al \textit{Responsabile}\textsubscript{G} conferire l’approvazione definitiva, annotando opportunamente nel registro delle versioni la versione \texttt{x.0.0} e la sua approvazione finale.\\ \\
+Per i verbali è sufficiente solamente la creazione del branch del documento, in quanto costituisce esso stesso un feature branch, dato che i verbali vengono redatti interamente in un'unica volta. In conclusione, per questi è possibile utilizzare un ciclo di vita semplificato, che è rppresentato dal seguente \textit{workflow}\textsubscript{G}:
+\begin{enumerate}
+    \item \textbf{Assegnazione}: il gruppo assegna un documento a uno o più redattori, affiancati da uno o più verificatori;
+    \item \textbf{Branch\textsubscript{G}}: si crea un \textit{branch}\textsubscript{G} per lo sviluppo del documento nell’apposita \textit{repository}\textsubscript{G} Docs;
+    \item \textbf{Template}: si copia il Template all'interno della cartella appropriata;
     \item \textbf{Stesura}: si redige il documento o una sua sezione. Qualora serva un elevato parallelismo di lavoro è possibile usare Google Drive per la prima stesura e successivamente caricare il documento all’interno del \textit{branch}\textsubscript{G};
     \item \textbf{Commit\textsubscript{G}}: si esegue la \textit{commit}\textsubscript{G} sul \textit{branch}\textsubscript{G} creato;
     \item \textbf{Pull Request\textsubscript{G}}: si apre una \textit{pull request}\textsubscript{G} dal \textit{branch}\textsubscript{G} appena creato verso il \textit{branch}\textsubscript{G} develop: se il documento non è pronto per la \textit{verifica}\textsubscript{G}, ma ha bisogno di ulteriori modifiche, si apre la \textit{pull request}\textsubscript{G} in modalità draft, per marcarla successivamente come “Ready to Review”, altrimenti in modalità normale;
     \item \textbf{Verifica\textsubscript{G}}: se il \textit{verificatore}\textsubscript{G} richiede modifiche si ripete, in ordine, dal punto 3 al punto 5;
     \item \textbf{Chiusura branch\textsubscript{G}}: si elimina, quando la \textit{pull request}\textsubscript{G} viene chiusa o risolta, il \textit{branch}\textsubscript{G} creato.
 \end{enumerate}
-Per la versione finale di un documento spetta al \textit{Responsabile}\textsubscript{G} conferire l’approvazione definitiva, annotando opportunamente nel registro delle versioni la versione \texttt{x.0.0} e la sua approvazione finale.
 
 
 \subsubsection{Strumenti}
