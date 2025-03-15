@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ollama serve &
+OLLAMA_HOST=0.0.0.0:11434 ollama serve &
 
 echo "Waiting for Ollama server to be active..."
 while [ "$(ollama list | grep 'NAME')" == "" ]; do
