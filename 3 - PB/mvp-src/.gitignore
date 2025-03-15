@@ -1,1 +1,6 @@
-*.pyc
+*.svg
+*.png
+*.DS_Store
+__pycache__/
+ ollama_models/blobs/
+ ollama_models/manifests/

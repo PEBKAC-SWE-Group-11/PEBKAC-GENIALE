@@ -1,4 +1,6 @@
 import logging
+import os
+import sys
 from connection_db import get_db_connection
 from create_table import create_tables
 from data_saving import write_products_in_DB
