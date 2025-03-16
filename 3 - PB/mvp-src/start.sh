@@ -9,10 +9,8 @@ done
 
 # scarica il modello di embedding e il LLM
 echo "Pulling required models..."
-ollama pull nomic-embed-text
-ollama run llama3.2:1b
-# ollama run llama3.2:3b
-# ollama run deepseek-r1:1.5b
+ollama pull mxbai-embed-large
+ollama run llama3.1:8b
 
 until pg_isready -h db -p 5432 -U postgres; do
   echo "Waiting for PostgreSQL..."

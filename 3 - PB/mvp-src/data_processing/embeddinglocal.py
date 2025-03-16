@@ -9,7 +9,7 @@ def get_embedding(text):
     try:
         url = "http://app:11434/api/embeddings"
         payload = {
-            "model": "nomic-embed-text",
+            "model": "mxbai-embed-large",
             "prompt": text
         }
         
