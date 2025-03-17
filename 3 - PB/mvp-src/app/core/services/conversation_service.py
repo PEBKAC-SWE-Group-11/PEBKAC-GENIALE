@@ -8,8 +8,9 @@ class ConversationService:
 
     def create_session(self):
         session_id = str(uuid.uuid4())
+        print("SESSION: ", session_id)
         query = "INSERT INTO Session (session_id, created_at) VALUES (%s, CURRENT_TIMESTAMP)"
-        self.repository.execute_query(query, (session_id))[0]
+        self.repository.execute_query(query, (session_id,))
         return session_id
 
     def read_session(self, session_id):

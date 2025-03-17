@@ -70,8 +70,14 @@ def api_read_conversation_by_id(conversation_id):
 @flask_app.route('/api/conversation/<conversation_id>', methods=['DELETE'])
 @require_api_key
 def api_delete_conversation(conversation_id):
-    conversation_service.delete_conversation(conversation_id)
-    return '', 204
+    try:
+        print(f"Deleting conversation with ID: {conversation_id}")
+        conversation_service.delete_conversation(conversation_id)
+        print(f"Deleted conversation with ID: {conversation_id}")
+        return '', 204
+    except Exception as e:
+        print(f"Error deleting conversation with ID: {conversation_id} - {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/message', methods=['POST'])
 @require_api_key

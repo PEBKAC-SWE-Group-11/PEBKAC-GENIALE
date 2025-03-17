@@ -14,7 +14,7 @@ class DBRepository(RepositoryPort):
     def execute_query(self, query, params=None):
         cursor = self.connection.cursor()
         print(f"Query: {query}")
-        print(f"Params: {params})")
+        print(f"Params: {params}")
         try:
             cursor.execute(query, params)
             print("Query COMMITTED successfully")
