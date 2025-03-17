@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { Message } from '../models/message.model';
 import { Conversation } from '../models/conversation.model';
 import { ApiService } from './api.service';
+import { Session } from '../models/session.model';
 
 @Injectable({
     providedIn: 'root'
@@ -12,12 +13,16 @@ export class ChatService {
     private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
     private activeConversationSubject = new BehaviorSubject<Conversation | null>(null);
     private messagesSubject = new BehaviorSubject<Message[]>([]);
+    private currentSessionId: string = '';
     
     private readonly MAX_CONVERSATIONS = 10;
     private readonly MAX_MESSAGE_LENGTH = 500;
-    private sessionId: string | null = null;
+    
+    private isWaitingResponse: boolean = false;
 
-    constructor(private apiService: ApiService) {
+    private apiService = inject(ApiService);
+
+    constructor() {
         this.initializeFromStorage();
     }
 
@@ -34,10 +39,10 @@ export class ChatService {
     }
 
     private async initializeFromStorage(): Promise<void> {
-        this.sessionId = localStorage.getItem('sessionId');
+        this.currentSessionId = localStorage.getItem('session_id') || '';
         
-        if (this.sessionId) {
-            await this.loadConversations(this.sessionId);
+        if (this.currentSessionId != '' && this.currentSessionId != null) {
+            await this.loadConversations(this.currentSessionId);
         } else {
             await this.createNewSession();
         }
@@ -46,8 +51,8 @@ export class ChatService {
     private async createNewSession(): Promise<void> {
         try {
             const response = await firstValueFrom(this.apiService.createSession());
-            this.sessionId = response.sessionId;
-            localStorage.setItem('sessionId', this.sessionId);
+            this.currentSessionId = response.session_id;
+            localStorage.setItem('session_id', this.currentSessionId);
             
             await this.createConversation();
         } catch (error) {
@@ -71,39 +76,47 @@ export class ChatService {
         }
     }
 
-    async createConversation(): Promise<void> {
-        if (!this.sessionId) return;
-        
-        const conversations = this.conversationsSubject.value;
-        
-        if (conversations.length >= this.MAX_CONVERSATIONS) {
-            throw new Error(`Hai raggiunto il limite massimo di ${this.MAX_CONVERSATIONS} conversazioni.`);
-        }
+    async createConversation(): Promise<Conversation | null> {
+        if (!this.currentSessionId) return null;
         
         try {
-            const newConversation = await firstValueFrom(
-                this.apiService.createConversation(this.sessionId)
+            const response = await firstValueFrom(
+                this.apiService.createConversation(this.currentSessionId)
             );
             
-            const updatedConversations = [...conversations, newConversation];
-            this.conversationsSubject.next(updatedConversations);
-            this.setActiveConversation(newConversation);
+            if (response && response.conversation_id) {
+                const newConversation = {
+                    conversation_id: response.conversation_id,
+                    session_id: this.currentSessionId,
+                    created_at: new Date().toISOString(),
+                    title: `Conversazione ${response.conversation_id}`,
+                    updated_at: new Date().toISOString()
+                } as Conversation;
+                
+                const currentConversations = this.conversationsSubject.getValue();
+                const updatedConversations = [newConversation, ...currentConversations];
+                this.conversationsSubject.next(updatedConversations);
+                this.setActiveConversation(newConversation);
+                return newConversation;
+            }
+            return null;
         } catch (error) {
             console.error('Errore durante la creazione della conversazione:', error);
+            throw error;
         }
     }
 
     setActiveConversation(conversation: Conversation): void {
         this.activeConversationSubject.next(conversation);
-        this.loadMessages(conversation.id);
+        this.loadMessages(conversation.conversation_id);
     }
 
     private async loadMessages(conversationId: string): Promise<void> {
-        if (!this.sessionId) return;
+        if (!this.currentSessionId) return;
         
         try {
             const messages = await firstValueFrom(
-                this.apiService.getMessages(this.sessionId, conversationId)
+                this.apiService.getMessages(conversationId)
             );
             this.messagesSubject.next(messages);
         } catch (error) {
@@ -113,39 +126,49 @@ export class ChatService {
     }
 
     async sendMessage(content: string): Promise<void> {
-        const activeConversation = this.activeConversationSubject.value;
-        if (!this.sessionId || !activeConversation) return;
+        if (!content.trim()) return;
         
-        if (content.length > this.MAX_MESSAGE_LENGTH) {
-            throw new Error(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
-        }
+        const activeConversation = this.activeConversationSubject.getValue();
+        if (!activeConversation) return;
+        
+        const userMessage: Message = {
+            message_id: Date.now(),
+            conversation_id: Number(activeConversation.conversation_id),
+            sender: 'user',
+            content: content,
+            created_at: new Date().toISOString()
+        };
+        
+        const currentMessages = this.messagesSubject.getValue();
+        this.messagesSubject.next([...currentMessages, userMessage]);
+        
+        this.isWaitingResponse = true;
         
         try {
-            const response = await firstValueFrom(
-                this.apiService.sendMessage(this.sessionId, activeConversation.id, content)
-            );
-            
-            await this.loadMessages(activeConversation.id);
+            await this.apiService.sendMessage(activeConversation.conversation_id, content).toPromise();
+            this.loadMessages(activeConversation.conversation_id);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
+        } finally {
+            this.isWaitingResponse = false;
         }
     }
 
     async deleteConversation(conversationId: string): Promise<void> {
-        if (!this.sessionId) return;
+        if (!this.currentSessionId) return;
         
         const conversations = this.conversationsSubject.value;
         const activeConversation = this.activeConversationSubject.value;
         
         try {
             await firstValueFrom(
-                this.apiService.deleteConversation(this.sessionId, conversationId)
+                this.apiService.deleteConversation(conversationId)
             );
             
-            const updatedConversations = conversations.filter(c => c.id !== conversationId);
+            const updatedConversations = conversations.filter(c => c.conversation_id !== conversationId);
             this.conversationsSubject.next(updatedConversations);
             
-            if (activeConversation && activeConversation.id === conversationId) {
+            if (activeConversation && activeConversation.conversation_id === conversationId) {
                 if (updatedConversations.length > 0) {
                     this.setActiveConversation(updatedConversations[0]);
                 } else {
@@ -158,11 +181,11 @@ export class ChatService {
     }
 
     async sendFeedback(messageId: string, isPositive: boolean): Promise<void> {
-        if (!this.sessionId) return;
+        if (!this.currentSessionId) return;
         
         try {
             await firstValueFrom(
-                this.apiService.sendFeedback(this.sessionId, messageId, isPositive)
+                this.apiService.sendFeedback(messageId, isPositive)
             );
         } catch (error) {
             console.error('Errore durante l\'invio del feedback:', error);

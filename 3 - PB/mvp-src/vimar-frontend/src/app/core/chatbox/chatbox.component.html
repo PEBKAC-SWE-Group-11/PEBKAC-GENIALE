@@ -1,20 +1,7 @@
 <div class="chatbox">
-    <div *ngIf="isAddingConversation" class="add-conversation">
-       <div class="conversation-options">
-           <h2 class="options-title">
-               Aggiungi nuova conversazione
-           </h2>
-           <p class="options-subtitle">
-               Scegli un'opzione di conversazione
-           </p>
-           <div class="options-buttons">
-               <button (click)="createNewConversation()">Conversazione libera</button>
-           </div>
-       </div>
-   </div>
-   <div *ngIf="!isAddingConversation" class="chat-view">
+   <div class="chat-view">
        <div class="chat-header">
-           <h2> Conversazione {{ activeConversationId }}</h2>
+           <h2> Conversazione {{ activeConversation?.conversation_id }}</h2>
        </div>
         <div class="messages-area">
             <div *ngFor="let message of messages$ | async" 

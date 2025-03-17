@@ -1,36 +1,36 @@
 <div class="sidebar">
     <div class="header">
         <h2>Conversazioni</h2>
-        <button 
-            class="new-conversation-btn" 
-            (click)="createNewConversation()" 
-            [disabled]="conversations.length >= 10">
-            <i class="fas fa-plus"></i> Nuova chat
-        </button>
+        <button class="new-conversation-btn" (click)="createNewConversation()" aria-label="Nuova conversazione">+</button>
     </div>
     
     <div class="conversations-list">
-        <div 
-            *ngFor="let conversation of conversations" 
-            class="conversation-item" 
-            [class.active]="isActive(conversation)"
-            (click)="selectConversation(conversation)">
-            <div class="conversation-title">
-                {{ conversation.title || 'Nuova conversazione' }}
+        <ng-container *ngIf="conversations.length; else noConversations">
+            <div 
+                *ngFor="let conversation of conversations" 
+                class="conversation-item" 
+                [class.active]="isActive(conversation)"
+                (click)="selectConversation(conversation)">
+                <div class="conversation-title">
+                    {{ conversation.title || 'Nuova conversazione' }}
+                </div>
+                <div class="conversation-date">
+                    {{ conversation.created_at | date:'short' }}
+                </div>
+                <button 
+                    class="delete-btn" 
+                    (click)="deleteConversation($event, conversation.conversation_id)" 
+                    aria-label="Elimina conversazione">
+                    ×
+                </button>
             </div>
-            <div class="conversation-date">
-                {{ conversation.updated_at | date:'short' }}
-            </div>
-            <button 
-                class="delete-btn" 
-                (click)="deleteConversation($event, conversation.id)">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
+        </ng-container>
         
-        <div *ngIf="conversations.length === 0" class="no-conversations">
-            Nessuna conversazione disponibile
-        </div>
+        <ng-template #noConversations>
+            <div class="no-conversations">
+                Nessuna conversazione disponibile
+            </div>
+        </ng-template>
     </div>
     
     <div class="conversation-limit" *ngIf="conversations.length >= 10">

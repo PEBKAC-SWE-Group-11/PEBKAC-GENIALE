@@ -1,6 +1,8 @@
 export interface Conversation {
-  id: string;
-  title: string;
+  // da aggiornare con i campi del backend
+  conversation_id: string;
+  session_id: string;
   created_at: string;
-  updated_at: string;
+  title?: string;
+  updated_at?: string;
 }
