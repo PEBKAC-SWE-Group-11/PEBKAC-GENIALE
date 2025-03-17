@@ -112,7 +112,7 @@ export class ChatService {
     }
 
     private async loadMessages(conversationId: string): Promise<void> {
-        if (!this.currentSessionId) return;
+        if (!this.currentSessionId || !conversationId) return;
         
         try {
             const messages = await firstValueFrom(
@@ -133,7 +133,7 @@ export class ChatService {
         
         const userMessage: Message = {
             message_id: Date.now(),
-            conversation_id: Number(activeConversation.conversation_id),
+            conversation_id: activeConversation.conversation_id,
             sender: 'user',
             content: content,
             created_at: new Date().toISOString()
@@ -145,7 +145,9 @@ export class ChatService {
         this.isWaitingResponse = true;
         
         try {
-            await this.apiService.sendMessage(activeConversation.conversation_id, content).toPromise();
+            await firstValueFrom(
+                this.apiService.sendMessage(activeConversation.conversation_id, content)
+            );
             this.loadMessages(activeConversation.conversation_id);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
