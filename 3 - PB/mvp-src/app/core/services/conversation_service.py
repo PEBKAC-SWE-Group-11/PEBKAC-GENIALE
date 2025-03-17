@@ -1,3 +1,4 @@
+import uuid
 from app.adapters.repositories.db_repository import DBRepository
 from app.core.entities.entities import Session, Conversation, Message
 
@@ -5,9 +6,11 @@ class ConversationService:
     def __init__(self):
         self.repository = DBRepository()
 
-    def create_session(self, session_id):
-        query = "INSERT INTO Session (session_id, created_at) VALUES (%s, %s)"
-        self.repository.execute_query(query, (session_id, Session(session_id).created_at))
+    def create_session(self):
+        session_id = str(uuid.uuid4())
+        query = "INSERT INTO Session (session_id, created_at) VALUES (%s, CURRENT_TIMESTAMP)"
+        self.repository.execute_query(query, (session_id))[0]
+        return session_id
 
     def read_session(self, session_id):
         query = "SELECT * FROM Session WHERE session_id = %s"
@@ -38,7 +41,7 @@ class ConversationService:
         return self.repository.fetch_all(query, (conversation_id,))
     
     def read_feedback(self, message_id):
-        query = "SELECT * FROM Feedback WHERE conversation_id = %s"
+        query = "SELECT * FROM Feedback WHERE message_id = %s"
         return self.repository.fetch_all(query, (message_id,))
     
     def add_feedback(self, message_id, feedback):
