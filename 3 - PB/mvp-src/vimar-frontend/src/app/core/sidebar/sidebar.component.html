@@ -11,9 +11,7 @@
                 class="conversation-item" 
                 [class.active]="isActive(conversation)"
                 (click)="selectConversation(conversation)">
-                <div class="conversation-title">
-                    {{ conversation.title || 'Nuova conversazione' }}
-                </div>
+                <span>Conversazione {{ conversation.conversation_id }}</span>
                 <div class="conversation-date">
                     {{ conversation.created_at | date:'short' }}
                 </div>

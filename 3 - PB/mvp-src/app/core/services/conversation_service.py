@@ -1,6 +1,7 @@
 import uuid
 from app.adapters.repositories.db_repository import DBRepository
 from app.core.entities.entities import Session, Conversation, Message
+import logging
 
 class ConversationService:
     def __init__(self):
@@ -18,12 +19,37 @@ class ConversationService:
         return self.repository.fetch_one(query, (session_id,))
 
     def create_conversation(self, session_id):
-        query = "INSERT INTO Conversation (session_id, created_at) VALUES (%s, CURRENT_TIMESTAMP) RETURNING conversation_id"
-        return self.repository.fetch_one(query, (session_id,))[0]
+        try:
+            query = "INSERT INTO Conversation (session_id, created_at) VALUES (%s, CURRENT_TIMESTAMP) RETURNING conversation_id"
+            return self.repository.fetch_one(query, (session_id,))[0]
+        except Exception as e:
+            logging.error(f"Errore creazione conversazione per session_id={session_id}: {str(e)}")
+            raise
 
     def read_conversations(self, session_id):
-        query = "SELECT * FROM Conversation WHERE session_id = %s"
-        return self.repository.fetch_all(query, (session_id,))
+        try:
+            query = "SELECT * FROM Conversation WHERE session_id = %s ORDER BY created_at DESC"
+            results = self.repository.fetch_all(query, (session_id,))
+            
+            # Trasforma i risultati in dizionari con nomi di proprietà corretti
+            formatted_conversations = []
+            for row in results:
+                # Verifica se è già un dizionario
+                if isinstance(row, dict):
+                    formatted_conversations.append(row)
+                else:
+                    # Assumiamo che i campi siano nell'ordine: conversation_id, session_id, created_at
+                    formatted_conv = {
+                        'conversation_id': row[0],  # Probabile intero
+                        'session_id': row[1],       # Stringa
+                        'created_at': row[2]        # Timestamp
+                    }
+                    formatted_conversations.append(formatted_conv)
+            
+            return formatted_conversations
+        except Exception as e:
+            logging.error(f"Errore recupero conversazioni per session_id={session_id}: {str(e)}")
+            raise
 
     def read_conversation_by_id(self, conversation_id):
         query = "SELECT * FROM Conversation WHERE conversation_id = %s"

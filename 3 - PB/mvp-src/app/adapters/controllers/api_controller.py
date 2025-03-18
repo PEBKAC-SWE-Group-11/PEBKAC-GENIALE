@@ -52,15 +52,30 @@ def api_create_session():
 @flask_app.route('/api/conversation', methods=['POST'])
 @require_api_key
 def api_create_conversation():
-    session_id = request.json.get('session_id')
-    conversation = conversation_service.create_conversation(session_id)
-    return jsonify({"conversation_id": conversation}), 201
+    try:
+        session_id = request.json.get('session_id')
+        if not session_id:
+            return jsonify({"error": "session_id mancante"}), 400
+            
+        conversation = conversation_service.create_conversation(session_id)
+        return jsonify({"conversation_id": conversation}), 201
+    except Exception as e:
+        logging.error(f"Errore nella creazione della conversazione: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/conversation', methods=['GET'])
 @require_api_key
 def api_read_conversations():
-    session_id = request.args.get('session_id')
-    return jsonify(conversation_service.read_conversations(session_id)), 200
+    try:
+        session_id = request.args.get('session_id')
+        if not session_id:
+            return jsonify({"error": "session_id mancante"}), 400
+            
+        conversations = conversation_service.read_conversations(session_id)
+        return jsonify(conversations), 200
+    except Exception as e:
+        logging.error(f"Errore nel recupero delle conversazioni: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/conversation/<conversation_id>', methods=['GET'])
 @require_api_key

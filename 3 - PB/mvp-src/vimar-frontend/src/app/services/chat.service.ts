@@ -63,16 +63,24 @@ export class ChatService {
     private async loadConversations(sessionId: string): Promise<void> {
         try {
             const conversations = await firstValueFrom(this.apiService.getConversations(sessionId));
+            console.log('Conversazioni ricevute dal server:', JSON.stringify(conversations));
             this.conversationsSubject.next(conversations);
             
             if (conversations.length > 0) {
+                console.log('Prima conversazione:', conversations[0]);
                 this.setActiveConversation(conversations[0]);
             } else {
                 await this.createConversation();
             }
         } catch (error) {
             console.error('Errore durante il caricamento delle conversazioni:', error);
-            await this.createNewSession();
+            
+            if (error && typeof error === 'object' && 'status' in error && error.status === 500) {
+                console.log('Tentativo di creazione di una nuova sessione dopo errore 500');
+                await this.createNewSession();
+            } else {
+                await this.createNewSession();
+            }
         }
     }
 
@@ -102,6 +110,13 @@ export class ChatService {
             return null;
         } catch (error) {
             console.error('Errore durante la creazione della conversazione:', error);
+            
+            if (error && typeof error === 'object' && 'status' in error && error.status === 500) {
+                console.log('Tentativo di creazione di una nuova sessione dopo errore 500');
+                await this.createNewSession();
+                return this.createConversation();
+            }
+            
             throw error;
         }
     }
