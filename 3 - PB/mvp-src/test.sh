@@ -2,6 +2,6 @@
 
 # Esegui i test con coverage
 coverage run -m unittest discover -s tests -p '*_test.py'
-
+coverage run -m unittest discover -s tests -p " "
 # Genera il report di copertura
 coverage report
