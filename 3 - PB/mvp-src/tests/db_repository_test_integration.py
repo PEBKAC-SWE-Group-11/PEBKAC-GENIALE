@@ -35,6 +35,8 @@ class TestDBRepositoryIntegration(unittest.TestCase):
 
     def setUp(self):
         self.repository = DBRepository()
+        # Svuota la tabella di test prima di ogni test
+        self.repository.execute_query('DELETE FROM test_table;')
 
     def tearDown(self):
         self.repository.close()
