@@ -20,7 +20,8 @@ def init_db(connection, json_path):
 def import_data(connection):
     """Importa i dati nel database"""
     try:
-        json_path = '/app/data_processing/json_data/staticEmbeddingsByCharacters.json'
+        logger.info("Inizio importazione dati import_data main.py")
+        json_path = '/app/data_processing/json_data/data.json'
         logger.info(f"Tentativo di importazione dati da: {json_path}")
         write_products_in_DB(json_path, connection)
     except Exception as e:

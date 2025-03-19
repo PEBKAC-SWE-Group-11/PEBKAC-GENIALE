@@ -36,10 +36,9 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
             # Tabella Chunk con dimensione vettore dinamica
             f'''CREATE TABLE IF NOT EXISTS Chunk(
                 id SERIAL PRIMARY KEY,
-                product_id INTEGER,
                 filename VARCHAR(200),
                 chunk TEXT NOT NULL,
-                embedding vector({vector_dim})
+                embedding vector({vector_dim}) NOT NULL
             );''',
             
             # Tabella Session per gestire le sessioni utente
@@ -73,7 +72,19 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
                 is_helpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (message_id) REFERENCES Message(message_id) ON DELETE CASCADE
+            );''',
+
+            # Tabella Product per gestire la RAG
+            f'''CREATE TABLE IF NOT EXISTS Product (
+                product_id TEXT PRIMARY KEY,
+                title TEXT NOT NULL,
+                desciption TEXT,
+                etim TEXT,
+                id_vector vector({vector_dim}),
+                idtitle_vector vector({vector_dim}),
+                idtitledescr_vector vector({vector_dim})
             );'''
+            
         ]
 
         # Esegue le query di creazione
