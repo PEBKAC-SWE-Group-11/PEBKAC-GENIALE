@@ -168,7 +168,6 @@ def process_text_to_chunks(txt_path: str) -> List[dict]:
         # Use the splitIntoChunks logic
         chunked_texts = splitIntoChunks(text, CHARS_PER_CHUNK, OVERLAP)
 
-        chunk_id = 0
         for chunk in chunked_texts:
             vector = getEmbedding(chunk)
             chunks.append({
