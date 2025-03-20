@@ -2,23 +2,15 @@ import logging
 import json
 from typing import Any
 from psycopg2.extensions import connection as pg_connection
+from embeddinglocal import getEmbedding
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def get_vector_dimension(json_path: str) -> int:
-    """Determina la dimensione del vettore dal primo chunk nel file JSON"""
-    try:
-        with open(json_path, 'r', encoding='utf-8') as f:
-            chunks = json.load(f)
-            if not chunks:
-                raise ValueError("File JSON vuoto")
-            vector_dim = len(chunks[0]['vector'])
-            logger.info(f"Dimensione del vettore rilevata: {vector_dim}")
-            return vector_dim
-    except Exception as e:
-        logger.error(f"Errore nella lettura della dimensione del vettore: {e}")
-        raise
+   """Ritorna la dimensione del vettore di embedding"""
+   return len(getEmbedding("test"))
+
 
 def create_tables(connection: pg_connection, json_path: str) -> None:
     """Crea le tabelle nel database usando una connessione esistente"""
@@ -52,6 +44,7 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
                 conversation_id SERIAL PRIMARY KEY,
                 session_id TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                to_delete BOOLEAN NOT NULL DEFAULT false,  -- true per positivo, false per negativo
                 FOREIGN KEY (session_id) REFERENCES Session(session_id) ON DELETE CASCADE
             );''',
             
@@ -70,6 +63,7 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
                 feedback_id SERIAL PRIMARY KEY,
                 message_id INTEGER NOT NULL,
                 is_helpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
+                content TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (message_id) REFERENCES Message(message_id) ON DELETE CASCADE
             );''',
@@ -83,6 +77,13 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
                 id_vector vector({vector_dim}),
                 idtitle_vector vector({vector_dim}),
                 idtitledescr_vector vector({vector_dim})
+            );'''
+
+            # Tabella Product per gestire la RAG
+            f'''CREATE TABLE IF NOT EXISTS Document (
+                id SERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                product_id TEXT NOT NULL
             );'''
             
         ]

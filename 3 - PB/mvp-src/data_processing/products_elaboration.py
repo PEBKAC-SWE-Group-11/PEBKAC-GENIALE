@@ -28,9 +28,8 @@ def extract_links(products):
                     links[doc]['ids'].append(prod['id'])
             else:
                 links[doc] = {'link': doc, 'ids': [prod['id']]}
-
-    linksList = list(links.values())
-    return linksList
+    
+    return links
 
 def process_products(products):
     processed_products = []

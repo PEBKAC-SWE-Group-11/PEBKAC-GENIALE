@@ -15,35 +15,6 @@ from chunkElabotation import process_links_to_chunks
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def insert_chunks_from_file(cursor: Any, chunks: list) -> None:
-    """
-    Inserisce i chunk nel database
-    Args:
-        cursor: cursore del database
-        chunks: lista di chunk da inserire
-    """
-    try:
-        total_chunks = len(chunks)
-        logger.info(f"Trovati {total_chunks} chunk da inserire")
-        
-        for i, chunk in enumerate(chunks, 1):
-            logger.info(f"Elaborazione chunk {i}/{total_chunks}")
-            cursor.execute("""
-                INSERT INTO Chunk (product_id, filename, chunk, embedding)
-                VALUES (%s, %s, %s, %s);
-            """, (
-                chunk['id'],
-                chunk['filename'],
-                chunk['chunk'],
-                chunk['vector']
-            ))
-        
-        logger.info("Tutti i chunk sono stati inseriti con successo nel database.")
-        
-    except Exception as e:
-        logger.error(f"Errore durante l'inserimento dei chunk: {e}", exc_info=True)
-        raise
-
 def insert_chunks_from_links(cursor: Any, links: list) -> None:
     """
     Processa i link forniti, genera i chunk e li inserisce nel database.
@@ -68,7 +39,7 @@ def insert_chunks_from_links(cursor: Any, links: list) -> None:
 
             cursor.execute("""
                 INSERT INTO Chunk (filename, chunk, embedding)
-                VALUES (%s, %s, %s, %s)
+                VALUES (%s, %s, %s)
                 ON CONFLICT DO NOTHING;
             """, (
                 chunk.get('filename', 'unknown'),
@@ -119,45 +90,45 @@ def insert_products_from_file(cursor: Any, products: list) -> None:
         
         logger.info("Tutti i prodotti sono stati inseriti con successo nel database.")
 
-        insert_chunks_from_links(cursor, links)
+        linksList = list(links.values())
+        insert_chunks_from_links(cursor, linksList)
+        #logger.info("Tutti i chunk sono stati inseriti con successo nel database.")
+
+        insert_documents_from_links(cursor, links)
 
         
     except Exception as e:
         logger.error(f"Errore durante l'inserimento dei prodotti: {e}", exc_info=True)
         raise
 
-
-def DELETE_write_chunks_in_DB(chunk_links: list, connection: pg_connection) -> None:
+def insert_documents_from_links(cursor: Any, links: dict) -> None:
     """
-    Inserisce i chunk nel database usando una connessione esistente
+    Inserisce i documenti nel database
     Args:
-        chunk_file: percorso al file JSON contenente i chunk con embedding
-        connection: connessione al database
+        cursor: cursore del database
+        links: lista di link a documenti da inserire
     """
-    cursor = None
     try:
-        # Disabilita autocommit per la transazione
-        connection.autocommit = False
-        cursor = connection.cursor()
+        total_links = len(links)
+        print(f"Trovati {total_links} documenti da inserire")
+        for i, value in enumerate(links.values(), 1):  # Use enumerate to track the index
+            print(f"Saving document {i}/{total_links}")  # Print progress
+            doc = re.search(r'(?<=DOCUMENT/)(.*)(?=\.)', value.get('link')).group(0)
+            for product_id in value['ids']:
+                cursor.execute("""
+                    INSERT INTO Document (title, product_id)
+                    VALUES (%s, %s)
+                    ON CONFLICT DO NOTHING;
+                """, (
+                    doc,
+                    product_id
+                ))
         
-        # Inserimento chunks
-        insert_chunks_from_links(cursor, chunk_links)
-
-        # Commit della transazione
-        connection.commit()
-        logger.info("Transazione completata con successo")
+        print("Tutti i documenti sono stati inseriti con successo nel database.")
         
     except Exception as e:
-        logger.error(f"Errore durante l'inserimento dei dati: {e}", exc_info=True)
-        logger.info("Esecuzione rollback della transazione")
-        if connection:
-            connection.rollback()
+        logger.error(f"Errore durante l'inserimento dei documenti: {e}", exc_info=True)
         raise
-    finally:
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.autocommit = True
 
 def write_products_in_DB(products_file: str, connection: pg_connection) -> None:
     """

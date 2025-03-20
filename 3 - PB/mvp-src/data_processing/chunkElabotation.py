@@ -150,7 +150,6 @@ def process_links_to_chunks(links: List[dict]) -> List[dict]:
         chunks_output.extend(result)
 
     return chunks_output
-    return chunks_output
 
 def process_text_to_chunks(txt_path: str) -> List[dict]:
     """
@@ -167,14 +166,12 @@ def process_text_to_chunks(txt_path: str) -> List[dict]:
 
         # Use the splitIntoChunks logic
         chunked_texts = splitIntoChunks(text, CHARS_PER_CHUNK, OVERLAP)
-
         for chunk in chunked_texts:
             vector = getEmbedding(chunk)
             chunks.append({
-                "filename": os.path.basename(txt_path),
+                "filename": os.path.splitext(os.path.basename(txt_path))[0],
                 "chunk": chunk,
                 "vector": vector
             })
-            chunk_id += 1
 
     return chunks
