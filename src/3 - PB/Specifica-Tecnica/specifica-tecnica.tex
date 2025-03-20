@@ -19,12 +19,6 @@
 
 \addto\captionsitalian{\renewcommand{\contentsname}{Indice}}
 
-\setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{5}
-\makeatletter
-\newcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
-\newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
-\makeatother
 
 \pagestyle{fancy}% Imposta lo stile di pagina su "fancy"
 \fancyhf{}% Cancella intestazioni e piè di pagina
@@ -34,13 +28,10 @@
 %\newcommand{\data}{GG mese AAAA}
 \newcommand{\titolo}{Specifica Tecnica}
 %\newcommand{\responsabile}{Responsabile}
-\newcommand{\verificatore}{
-    Matteo Piron 
-}
+\newcommand{\verificatore}{Verificatore}
 \newcommand{\redattore}{
     Derek Gusatto \\
-    & Ion Bourosu \\
-    & Alessandro Benin 
+    & Redattore
 }
 \newcommand{\uso}{Esterno}
 \newcommand{\destinatari }{
@@ -78,6 +69,4 @@
 \input{contents/technologies}
 \newpage
 \input{contents/system-architecture}
-\newpage
-\input{contents/component-architecture}
 \end{document}
