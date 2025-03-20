@@ -23,7 +23,7 @@ def insertChunksFromLinks(cursor: Any, links: list) -> None:
     try:
         logger.info(f"Trovati {len(links)} link da processare.")
         
-        links = links[:1]  # Limita il numero di link per testare il codice
+        #links = links[:1]  # Limita il numero di link per testare il codice
         chunks = processLinksToChunks(links)
         logger.info(f"Generati {len(chunks)} chunk da inserire nel database.")
         
