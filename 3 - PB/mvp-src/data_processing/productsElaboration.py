@@ -1,12 +1,21 @@
 import json
-from embeddinglocal import getEmbedding
-def remove_translations(products):
+from embeddingLocal import getEmbedding
+import logging
+
+
+# Configura il logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def removeTranslations(products):
+    """
+    Rimuove le traduzioni dai prodotti.
+    Args:
+        products: Lista di prodotti.
+    Returns:
+        Lista di prodotti senza traduzioni.
+    """
     cleanedProducts = json.loads(json.dumps(products))  # Deep copy of products
-
-    #print the same prodcut from products and from cleanedProducts
-    print(products[0])
-    print(cleanedProducts[0])
-
     for prod in cleanedProducts:
         prod['documentation'] = []
 
@@ -19,7 +28,14 @@ def remove_translations(products):
 
     return cleanedProducts
 
-def extract_links(products):
+def extractLinks(products):
+    """
+    Estrae i link dai prodotti.
+    Args:
+        products: Lista di prodotti.
+    Returns:
+        Dizionario di link con i relativi ID di prodotto.
+    """
     links = {}
     for prod in products:
         for doc in prod['documentation']:
@@ -31,21 +47,27 @@ def extract_links(products):
     
     return links
 
-def process_products(products):
-    processed_products = []
-    etim_data = {}
+def processProducts(products):
+    """
+    Processa i prodotti per generare i dati necessari.
+    Args:
+        products: Lista di prodotti.
+    Returns:
+        Lista di prodotti processati.
+    """
+    processedProducts = []
+    etimData = {}
 
-        # filepath: /Users/derekgusatto/Documents/Git/PEBKAC-GENIALE/3 - PB/mvp-src/data_processing/products_elaboration.py
     for item in products:
         if 'id' not in item:
             raise KeyError(f"Missing 'id' in product: {item}")
-        print(f"Processing product {item['id']}")
+        logger.info(f"Processing product {item['id']}")
         productInfo = f"{item['id']} {item['title']}"
         productInfoVector = getEmbedding(productInfo)
         productDescr = f"{item['id']} {item['title']}"
         productDescrVector = getEmbedding(productDescr)
         
-        processed_products.append({
+        processedProducts.append({
             "product_id": item.get("id", "UNKNOWN_ID"),
             "title": item.get("title", "UNKNOWN_TITLE"),
             "description": item.get("description", ""),
@@ -55,24 +77,24 @@ def process_products(products):
             "idtitledescr_vector": productDescrVector
         })
 
-        technical_data = item['technical_data']
-        technical_data['price'] = item['price']
+        technicalData = item['technical_data']
+        technicalData['price'] = item['price']
         
         # Convert technicalData dictionary to a text string
-        technical_data_text = ', '.join(f"{key}: {value}" for key, value in technical_data.items())
-        technical_data_text = f"id: {item['id']}, {technical_data_text}"
-        etim_data[item['id']] = technical_data_text
+        technicalDataText = ', '.join(f"{key}: {value}" for key, value in technicalData.items())
+        technicalDataText = f"id: {item['id']}, {technicalDataText}"
+        etimData[item['id']] = technicalDataText
 
-    # Update etim field in processed_products
-    for product in processed_products:
-        product_id = product["product_id"]
-        product["etim"] = etim_data.get(product_id, "")
+    # Update etim field in processedProducts
+    for product in processedProducts:
+        productId = product["product_id"]
+        product["etim"] = etimData.get(productId, "")
 
-    return processed_products
+    return processedProducts
 
 # Example usage:
 # with open('jsons/data.json', 'r', encoding='utf-8') as f:
 #     products = json.load(f)
-# processed_products = process_products(products)
+# processedProducts = processProducts(products)
 # with open('jsons/processed_products.json', 'w') as f:
-#     json.dump(processed_products, f, indent=1, ensure_ascii=False)
+#     json.dump(processedProducts, f, indent=1, ensure_ascii=False)

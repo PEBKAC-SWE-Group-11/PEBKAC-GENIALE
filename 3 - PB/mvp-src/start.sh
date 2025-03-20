@@ -17,6 +17,4 @@ until pg_isready -h db -p 5432 -U postgres; do
   sleep 1
 done
 
-#python /app/create_table.py
-#python /app/insert_data.py
 python /app/main.py

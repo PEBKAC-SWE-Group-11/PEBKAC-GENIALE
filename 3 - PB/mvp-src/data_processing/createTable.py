@@ -1,38 +1,29 @@
 import logging
 import json
 from typing import Any
-from psycopg2.extensions import connection as pg_connection
-from embeddinglocal import getEmbedding
+from psycopg2.extensions import connection as pgConnection
+from embeddingLocal import getEmbedding
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_vector_dimension(json_path: str) -> int:
-   """Ritorna la dimensione del vettore di embedding"""
-   return len(getEmbedding("test"))
+def getVectorDimension() -> int:
+    """Ritorna la dimensione del vettore di embedding"""
+    return len(getEmbedding("test"))
 
-
-def create_tables(connection: pg_connection, json_path: str) -> None:
+def createTables(connection: pgConnection) -> None:
     """Crea le tabelle nel database usando una connessione esistente"""
     cursor = None
     try:
         cursor = connection.cursor()
         
         # Determina la dimensione del vettore
-        vector_dim = get_vector_dimension(json_path)
+        vectorDim = getVectorDimension()
         
         logger.info("Inizio creazione tabelle...")
 
         # Lista delle query per la creazione delle tabelle
         tables = [
-            # Tabella Chunk con dimensione vettore dinamica
-            f'''CREATE TABLE IF NOT EXISTS Chunk(
-                id SERIAL PRIMARY KEY,
-                filename VARCHAR(200),
-                chunk TEXT NOT NULL,
-                embedding vector({vector_dim}) NOT NULL
-            );''',
-            
             # Tabella Session per gestire le sessioni utente
             '''CREATE TABLE IF NOT EXISTS Session (
                 session_id TEXT PRIMARY KEY,
@@ -70,22 +61,35 @@ def create_tables(connection: pg_connection, json_path: str) -> None:
 
             # Tabella Product per gestire la RAG
             f'''CREATE TABLE IF NOT EXISTS Product (
-                product_id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
                 desciption TEXT,
                 etim TEXT,
-                id_vector vector({vector_dim}),
-                idtitle_vector vector({vector_dim}),
-                idtitledescr_vector vector({vector_dim})
-            );'''
+                id_vector vector({vectorDim}),
+                idtitle_vector vector({vectorDim}),
+                idtitledescr_vector vector({vectorDim})
+            );''',
 
-            # Tabella Product per gestire la RAG
+            # Tabella Chunk con dimensione vettore dinamica
+            f'''CREATE TABLE IF NOT EXISTS Chunk(
+                id SERIAL PRIMARY KEY,
+                filename VARCHAR(200),
+                chunk TEXT NOT NULL,
+                embedding vector({vectorDim}) NOT NULL,
+                CONSTRAINT unique_filename_chunk UNIQUE (filename, chunk) 
+
+            );''',
+
+            # Tabella Document per gestire i documenti
             f'''CREATE TABLE IF NOT EXISTS Document (
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
-                product_id TEXT NOT NULL
+                product_id TEXT NOT NULL,
+                CONSTRAINT unique_title_product UNIQUE (title, product_id),
+                FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE  -- Chiave esterna verso Product
+
+
             );'''
-            
         ]
 
         # Esegue le query di creazione

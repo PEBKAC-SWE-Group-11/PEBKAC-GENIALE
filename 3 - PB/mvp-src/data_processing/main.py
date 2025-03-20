@@ -1,29 +1,28 @@
 import logging
 import os
 import sys
-from connection_db import get_db_connection
-from create_table import create_tables
-from data_saving import write_products_in_DB
+from connectionDB import getDBConnection
+from createTable import createTables
+from dataSaving import writeProductsInDb
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def init_db(connection, json_path):
+def initDB(connection):
     """Inizializza il database creando le tabelle necessarie"""
     try:
-        create_tables(connection, json_path)
+        createTables(connection)
         logger.info("Inizializzazione del database completata con successo")
     except Exception as e:
         logger.error(f"Errore durante l'inizializzazione del database: {e}")
         raise
 
-def import_data(connection):
+def importData(connection, jsonPath):
     """Importa i dati nel database"""
     try:
-        logger.info("Inizio importazione dati import_data main.py")
-        json_path = '/app/data_processing/json_data/data.json'
-        logger.info(f"Tentativo di importazione dati da: {json_path}")
-        write_products_in_DB(json_path, connection)
+        logger.info("Inizio importazione dati importData main.py")
+        logger.info(f"Tentativo di importazione dati da: {jsonPath}")
+        writeProductsInDb(jsonPath, connection)
     except Exception as e:
         logger.error(f"Errore durante l'importazione dei dati: {e}")
         raise
@@ -32,10 +31,10 @@ def main():
     """Funzione principale"""
     connection = None
     try:
-        json_path = '/app/data_processing/json_data/staticEmbeddingsByCharacters.json'
-        connection = get_db_connection()
-        init_db(connection, json_path)
-        import_data(connection)
+        connection = getDBConnection()
+        initDB(connection)
+        jsonPath = os.path.join(os.path.dirname(__file__), 'jsonData/data.json')
+        importData(connection, jsonPath)
     except Exception as e:
         logger.error(f"Errore durante l'esecuzione: {e}")
         raise

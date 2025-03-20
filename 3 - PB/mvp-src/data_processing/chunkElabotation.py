@@ -5,61 +5,65 @@ from pypdf import PdfReader
 import numpy as np
 from typing import List
 import requests
+import logging
 
-from embeddinglocal import getEmbedding
-
+from embeddingLocal import getEmbedding
 
 CHARS_PER_CHUNK = 500
 OVERLAP = 50
 
-def create_directories():
+# Configura il logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def createDirectories():
     """
     Crea le directory necessarie per salvare i PDF e i file di testo.
     """
     os.makedirs('pdfs', exist_ok=True)
     os.makedirs('txts', exist_ok=True)
-    print("Directory 'pdfs' e 'txts' create o già esistenti.")
+    logger.info("Directory 'pdfs' e 'txts' create o già esistenti.")
 
-def pdf_to_txt(pdf_path: str, txt_path: str):
+def pdfToTxt(pdfPath: str, txtPath: str):
     """
     Converte un file PDF in un file di testo.
     Args:
-        pdf_path: Percorso del file PDF.
-        txt_path: Percorso del file di testo da creare.
+        pdfPath: Percorso del file PDF.
+        txtPath: Percorso del file di testo da creare.
     """
-    with open(pdf_path, 'rb') as pf:
+    with open(pdfPath, 'rb') as pf:
         reader = PdfReader(pf)
-        with open(txt_path, 'w', encoding='utf-8') as tf:
+        with open(txtPath, 'w', encoding='utf-8') as tf:
             for page in reader.pages:
                 text = page.extract_text()
                 if text:
                     tf.write(text)
 
-def downloadPdf(url: str, save_path: str) -> bool:
+def downloadPdf(url: str, savePath: str) -> bool:
     """
     Scarica un file PDF da un URL e lo salva nel percorso specificato.
     Args:
         url: URL del PDF da scaricare.
-        save_path: Percorso in cui salvare il file PDF.
+        savePath: Percorso in cui salvare il file PDF.
     Returns:
         True se il download ha avuto successo, False altrimenti.
     """
     try:
         response = requests.get(url, stream=True)
         if response.status_code == 200:
-            with open(save_path, 'wb') as f:
+            with open(savePath, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=1024):
                     f.write(chunk)
-            print(f"PDF scaricato con successo: {save_path}")
+            logger.info(f"PDF scaricato con successo: {savePath}")
             return True
         else:
-            print(f"Errore durante il download del PDF da {url}. Status code: {response.status_code}")
+            logger.error(f"Errore durante il download del PDF da {url}. Status code: {response.status_code}")
             return False
     except Exception as e:
-        print(f"Errore durante il download del PDF da {url}: {e}")
+        logger.error(f"Errore durante il download del PDF da {url}: {e}")
         return False
 
-def process_pdf(link: str) -> str:
+def processPdf(link: str) -> str:
     """
     Scarica un PDF da un link e lo converte in testo.
     Args:
@@ -68,18 +72,18 @@ def process_pdf(link: str) -> str:
         Il percorso del file di testo generato o None se il download fallisce.
     """
     print(f"Scaricamento del PDF da {link}")
-    pdf_name = os.path.join("pdfs", os.path.basename(link))
-    downloaded_pdf = downloadPdf(link, pdf_name)
+    pdfName = os.path.join("pdfs", os.path.basename(link))
+    downloadedPdf = downloadPdf(link, pdfName)
 
-    if downloaded_pdf:
-        print(f"PDF scaricato con successo: {downloaded_pdf}")
-        txt_name = os.path.splitext(os.path.basename(pdf_name))[0] + '.txt'
-        txt_path = os.path.join('txts', txt_name)
-        pdf_to_txt(pdf_name, txt_path)
-        print(f"PDF convertito in testo: {txt_path}")
-        return txt_path
+    if downloadedPdf:
+        print(f"PDF scaricato con successo: {downloadedPdf}")
+        txtName = os.path.splitext(os.path.basename(pdfName))[0] + '.txt'
+        txtPath = os.path.join('txts', txtName)
+        pdfToTxt(pdfName, txtPath)
+        logger.info(f"PDF convertito in testo: {txtPath}")
+        return txtPath
     else:
-        print(f"Impossibile scaricare il PDF da {link}")
+        logger.error(f"Impossibile scaricare il PDF da {link}")
         return None
 
 def combineSentences(sentences, buffer=1):
@@ -87,52 +91,47 @@ def combineSentences(sentences, buffer=1):
         start = max(0, i - buffer)
         end = min(len(sentences), i + buffer + 1)
         combinedSentence = ' '.join(sentences[j]['sentence'] for j in range(start, end))
-        sentences[i]['combined_sentence'] = combinedSentence
+        sentences[i]['combinedSentence'] = combinedSentence
     return sentences
 
 def calculateDistances(sentences):
     distances = []
     for i in range(len(sentences) - 1):
-        currentEmbedding = sentences[i]['combined_sentence_embedding']
-        nextEmbedding = sentences[i + 1]['combined_sentence_embedding']
+        currentEmbedding = sentences[i]['combinedSentenceEmbedding']
+        nextEmbedding = sentences[i + 1]['combinedSentenceEmbedding']
         similarity = cosine_similarity([currentEmbedding], [nextEmbedding])[0][0]
         distance = 1 - similarity
         distances.append(distance)
-        # print(f"{i}#################################")
-        # print(sentences[i]['sentence'])
-        # print("#################################")
-        # print(distance)
     return distances
 
-def process_single_link(link_data: dict) -> list:
+def processSingleLink(linkData: dict) -> list:
     """
     Processa un singolo link, scarica il PDF e converte in testo.
     Args:
-        link_data: Dizionario contenente i dati del link.
+        linkData: Dizionario contenente i dati del link.
     Returns:
         Una lista di chunk elaborati o una lista vuota se il processo fallisce.
     """
-    link = link_data.get('link')  # Extract the actual link from the dictionary
+    link = linkData.get('link')  # Extract the actual link from the dictionary
     if not link:
-        print("Link mancante nei dati forniti.")
+        logger.error("Link mancante nei dati forniti.")
         return []
 
     print(f"Processing link: {link}")
-    txt_path = process_pdf(link)
-    if txt_path:
-        return process_text_to_chunks(txt_path)
+    txtPath = processPdf(link)
+    if txtPath:
+        return processTextToChunks(txtPath)
     return []
 
-def splitIntoChunks(text, chars_per_chunk, overlap):
+def splitIntoChunks(text, charsPerChunk, overlap):
     chunks = []
-    for i in range(0, len(text), chars_per_chunk):
+    for i in range(0, len(text), charsPerChunk):
         start = max(i - overlap, 0)
-        end = min(i + chars_per_chunk + overlap, len(text))
+        end = min(i + charsPerChunk + overlap, len(text))
         chunks.append(text[start:end])
     return chunks
 
-
-def process_links_to_chunks(links: List[dict]) -> List[dict]:
+def processLinksToChunks(links: List[dict]) -> List[dict]:
     """
     Processa una lista di link, scarica i PDF, li converte in testo, elabora i chunk e restituisce i chunk pronti per il database.
     Args:
@@ -140,36 +139,36 @@ def process_links_to_chunks(links: List[dict]) -> List[dict]:
     Returns:
         Una lista di dizionari contenenti i chunk e i relativi embedding.
     """
-    create_directories()
-    chunks_output = []
+    createDirectories()
+    chunksOutput = []
 
     with Pool(processes=20) as pool:
-        results = pool.map(process_single_link, links)
+        results = pool.map(processSingleLink, links)
 
     for result in results:
-        chunks_output.extend(result)
+        chunksOutput.extend(result)
 
-    return chunks_output
+    return chunksOutput
 
-def process_text_to_chunks(txt_path: str) -> List[dict]:
+def processTextToChunks(txtPath: str) -> List[dict]:
     """
     Elabora un file di testo per generare i chunk e i relativi embedding.
     Args:
-        txt_path: Percorso del file di testo.
+        txtPath: Percorso del file di testo.
     Returns:
         Una lista di dizionari contenenti i chunk e i relativi embedding.
     """
     chunks = []
-    with open(txt_path, 'r', encoding='utf-8') as f:
+    with open(txtPath, 'r', encoding='utf-8') as f:
         text = f.read()
-        print(f"Processing text file: {txt_path}")
+        logger.info(f"Processing text file: {txtPath}")
 
         # Use the splitIntoChunks logic
-        chunked_texts = splitIntoChunks(text, CHARS_PER_CHUNK, OVERLAP)
-        for chunk in chunked_texts:
+        chunkedTexts = splitIntoChunks(text, CHARS_PER_CHUNK, OVERLAP)
+        for chunk in chunkedTexts:
             vector = getEmbedding(chunk)
             chunks.append({
-                "filename": os.path.splitext(os.path.basename(txt_path))[0],
+                "filename": os.path.splitext(os.path.basename(txtPath))[0],
                 "chunk": chunk,
                 "vector": vector
             })
