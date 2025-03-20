@@ -12,6 +12,7 @@
   padding: 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: white;
 }
 
@@ -20,6 +21,7 @@
   flex: 1;
   height: calc(100vh - 60px);
   overflow: hidden;
+  position: relative;
 }
 
 .sidebar-container, .chatbox-container {
@@ -27,9 +29,58 @@
 }
 
 .sidebar-container {
-  min-width: 300px;
+  width: 300px;
+  transition: transform 0.3s ease;
+  z-index: 10;
 }
 
 .chatbox-container {
   flex: 1;
+  min-width: 0;
+}
+
+.sidebar-toggle {
+  background-color: #e0a800;
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sidebar-toggle:hover {
+  background-color: #d39e00;
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-container.visible {
+    transform: translateX(0);
+  }
+  
+  .sidebar-toggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar-container {
+    width: 100%;
+  }
+  
+  .app-header h1 {
+    font-size: 1.4rem;
+  }
 }

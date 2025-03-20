@@ -22,16 +22,6 @@
       </div>
       
       <div class="stats-card">
-        <h3>Messaggi totali</h3>
-        <div class="stat-value">{{ stats.totalMessages }}</div>
-      </div>
-      
-      <div class="stats-card">
-        <h3>Utenti unici</h3>
-        <div class="stat-value">{{ stats.uniqueUsers }}</div>
-      </div>
-      
-      <div class="stats-card">
         <h3>Feedback positivi</h3>
         <div class="stat-value">{{ stats.positiveFeedback }}</div>
       </div>
@@ -44,6 +34,42 @@
       <div class="stats-card">
         <h3>Tasso di soddisfazione</h3>
         <div class="stat-value">{{ calcSatisfactionRate() }}</div>
+      </div>
+    </div>
+    
+    <!-- Sezione commenti feedback -->
+    <div class="feedback-comments-section">
+      <h2>Commenti degli utenti</h2>
+      
+      <div *ngIf="isLoadingComments" class="loading">
+        <div class="spinner"></div>
+        <p>Caricamento commenti...</p>
+      </div>
+      
+      <div *ngIf="commentsError" class="error-message">
+        {{ commentsError }}
+        <button class="retry-btn" (click)="loadFeedbackComments()">Riprova</button>
+      </div>
+      
+      <div *ngIf="!isLoadingComments && !commentsError">
+        <div *ngIf="feedbackComments.length === 0" class="no-comments">
+          Nessun commento disponibile.
+        </div>
+        
+        <div *ngIf="feedbackComments.length > 0" class="comments-list">
+          <div *ngFor="let comment of feedbackComments" class="comment-item" [ngClass]="{'positive': comment.type === 'positive', 'negative': comment.type === 'negative'}">
+            <div class="comment-header">
+              <span class="comment-type">{{ comment.type === 'positive' ? '👍 Positivo' : '👎 Negativo' }}</span>
+              <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
+            </div>
+            <div class="comment-message-context">
+              <strong>Messaggio originale:</strong> {{ comment.message_content }}
+            </div>
+            <div class="comment-content">
+              <strong>Commento:</strong> {{ comment.content }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -28,6 +28,11 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
+  updateSession(session_id: string): Observable<{success: boolean}> {
+    return this.http.put<{success: boolean}>(`${this.apiUrl}/api/session/${session_id}`, {}, 
+      { headers: this.getHeaders() });
+  }
+
   // Conversazioni
   getConversations(session_id: string): Observable<Conversation[]> {
     return this.http.get<Conversation[]>(`${this.apiUrl}/api/conversation`, {
@@ -53,6 +58,14 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
+  updateConversationTimestamp(conversation_id: string): Observable<{success: boolean}> {
+    return this.http.put<{success: boolean}>(
+      `${this.apiUrl}/api/conversation/${conversation_id}/update`, 
+      {}, 
+      { headers: this.getHeaders() }
+    );
+  }
+
   // Messaggi
   getMessages(conversation_id: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/api/message`, {
@@ -72,20 +85,21 @@ export class ApiService {
   }
 
   // Feedback
-  sendFeedback(message_id: string, is_positive: boolean): Observable<{message_id: string}> {
+  sendFeedback(message_id: string, is_positive: boolean, content?: string): Observable<{message_id: string}> {
     return this.http.post<{message_id: string}>(`${this.apiUrl}/api/feedback`, 
       { 
         message_id: message_id,
-        feedback_value: is_positive ? 1 : 0 
+        feedback_value: is_positive ? 1 : 0,
+        content: content || null
       },
       { headers: this.getHeaders() });
   }
 
   // Dashboard (Admin)
   getAdminStats(): Observable<{
-    num_conversations: number,
-    num_positive_feedback: number,
-    num_negative_feedback: number
+    totalConversations: number,
+    positiveFeedback: number,
+    negativeFeedback: number
   }> {
     const headers = this.getHeaders();
     
@@ -96,6 +110,21 @@ export class ApiService {
         .pipe(map(res => res.num_positive_feedback)),
       num_negative_feedback: this.http.get<{num_negative_feedback: number}>(`${this.apiUrl}/api/dashboard/num_negative`, { headers })
         .pipe(map(res => res.num_negative_feedback))
+    }).pipe(
+      map(result => ({
+        totalConversations: result.num_conversations,
+        positiveFeedback: result.num_positive_feedback,
+        negativeFeedback: result.num_negative_feedback,
+        // Valori predefiniti per altri campi nel dashboard
+        totalMessages: 0,
+        uniqueUsers: 0
+      }))
+    );
+  }
+
+  getFeedbackWithComments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/dashboard/feedback_comments`, {
+      headers: this.getHeaders()
     });
   }
 

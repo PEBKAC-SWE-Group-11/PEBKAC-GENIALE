@@ -1,8 +1,10 @@
+import { Feedback } from './feedback.model';
+
 export interface Message {
-  // da aggiornare con i campi del backend
-  message_id: number;
+  message_id: string;
   conversation_id: string;
-  sender: string;
+  sender: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
+  feedback?: Feedback;
 }

@@ -143,4 +143,93 @@
 .back-link:hover {
   text-decoration: underline;
   color: #d39e00;
+}
+
+/* Stili per la sezione commenti feedback */
+.feedback-comments-section {
+  margin-top: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-comments-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment-item {
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #3498db;
+  background-color: #f8f9fa;
+}
+
+.comment-item.positive {
+  border-left-color: #27ae60;
+  background-color: #f0fff4;
+}
+
+.comment-item.negative {
+  border-left-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.comment-type {
+  font-weight: bold;
+}
+
+.comment-date {
+  color: #7f8c8d;
+}
+
+.comment-message-context {
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.comment-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Responsive per i commenti */
+@media (max-width: 768px) {
+  .comment-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .comment-item {
+    padding: 0.75rem;
+  }
 } 

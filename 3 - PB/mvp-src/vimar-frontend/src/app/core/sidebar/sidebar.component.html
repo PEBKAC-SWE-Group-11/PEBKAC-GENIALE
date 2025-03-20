@@ -1,7 +1,9 @@
 <div class="sidebar">
     <div class="header">
         <h2>Conversazioni</h2>
-        <button class="new-conversation-btn" (click)="createNewConversation()" aria-label="Nuova conversazione">+</button>
+        <button class="new-conversation-btn" 
+                (click)="createNewConversation()" 
+                aria-label="Nuova conversazione">+</button>
     </div>
     
     <div class="conversations-list">
@@ -13,7 +15,7 @@
                 (click)="selectConversation(conversation)">
                 <span>Conversazione {{ conversation.conversation_id }}</span>
                 <div class="conversation-date">
-                    {{ conversation.created_at | date:'short' }}
+                    {{ conversation.updated_at | date:'short' }}
                 </div>
                 <button 
                     class="delete-btn" 
@@ -29,9 +31,5 @@
                 Nessuna conversazione disponibile
             </div>
         </ng-template>
-    </div>
-    
-    <div class="conversation-limit" *ngIf="conversations.length >= 10">
-        Hai raggiunto il limite di 10 conversazioni
     </div>
 </div>

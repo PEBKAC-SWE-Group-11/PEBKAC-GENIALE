@@ -4,11 +4,14 @@
       <h1>{{ title }}</h1>
     </header>
     <div class="app-body">
-      <div class="sidebar-container">
-        <app-sidebar></app-sidebar>
+      <div class="sidebar-container" [class.visible]="sidebarVisible">
+        <app-sidebar 
+          (conversationSelected)="closeSidebarOnMobile()" 
+          (newConversationCreated)="closeSidebarOnMobile()">
+        </app-sidebar>
       </div>
       <div class="chatbox-container">
-        <app-chatbox></app-chatbox>
+        <app-chatbox [toggleSidebar]="toggleSidebar.bind(this)"></app-chatbox>
       </div>
     </div>
   </div>

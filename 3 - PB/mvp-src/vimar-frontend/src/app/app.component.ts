@@ -17,11 +17,22 @@ import { ChatboxComponent } from './core/chatbox/chatbox.component';
   ]
 })
 export class AppComponent {
-  title = 'Vimar Chat';
+  title = 'Vimar GENIALE';
+  sidebarVisible = false;
   
   constructor(private router: Router) {}
   
   isAdminRoute(): boolean {
     return this.router.url.startsWith('/admin');
+  }
+  
+  toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+  
+  closeSidebarOnMobile(): void {
+    if (window.innerWidth <= 768) {
+      this.sidebarVisible = false;
+    }
   }
 }

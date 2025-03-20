@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
@@ -25,6 +25,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   isWaitingResponse: boolean = false;
   
   private subscriptions: Subscription = new Subscription();
+  
+  @Input() toggleSidebar: () => void = () => {};
+
+  feedbackMessageId: string | null = null;
+  feedbackIsPositive: boolean = false;
+  feedbackContent: string = '';
+  showFeedbackPopup: boolean = false;
+  readonly MAX_FEEDBACK_LENGTH: number = 300;
 
   constructor(private chatService: ChatService) {
     this.messages$ = this.chatService.messages$;
@@ -34,6 +42,16 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.chatService.activeConversation$.subscribe(conversation => {
         this.activeConversation = conversation;
+      })
+    );
+    
+    // Aggiungiamo log per debug
+    this.subscriptions.add(
+      this.messages$.subscribe(messages => {
+        console.log('Messaggi ricevuti:', messages);
+        if (messages.length === 0) {
+          console.log('Nessun messaggio ricevuto per la conversazione attuale');
+        }
       })
     );
   }
@@ -63,11 +81,39 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
   sendPositiveFeedback(messageId: string): void {
-    this.chatService.sendFeedback(messageId, true);
+    this.feedbackMessageId = messageId;
+    this.feedbackIsPositive = true;
+    this.feedbackContent = '';
+    this.showFeedbackPopup = true;
   }
 
   sendNegativeFeedback(messageId: string): void {
-    this.chatService.sendFeedback(messageId, false);
+    this.feedbackMessageId = messageId;
+    this.feedbackIsPositive = false;
+    this.feedbackContent = '';
+    this.showFeedbackPopup = true;
+  }
+
+  submitFeedback(): void {
+    if (!this.feedbackMessageId) return;
+    
+    const content = this.feedbackContent.trim() || undefined;
+    
+    this.chatService.sendFeedback(
+      this.feedbackMessageId, 
+      this.feedbackIsPositive, 
+      content
+    );
+    this.closeFeedbackPopup();
+  }
+
+  closeFeedbackPopup(): void {
+    this.showFeedbackPopup = false;
+    this.feedbackMessageId = null;
+  }
+
+  get remainingFeedbackChars(): number {
+    return this.MAX_FEEDBACK_LENGTH - this.feedbackContent.length;
   }
 
   checkMessageLength(): void {
@@ -80,5 +126,9 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     if (event.key === 'Enter' && !this.isWaitingResponse) {
       this.sendMessage();
     }
+  }
+
+  onToggleSidebar(): void {
+    this.toggleSidebar();
   }
 }

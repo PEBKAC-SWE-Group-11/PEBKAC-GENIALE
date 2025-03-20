@@ -48,6 +48,15 @@ def api_create_session():
         logging.error(f"Errore nella creazione della sessione: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@flask_app.route('/api/session/<session_id>', methods=['PUT'])
+@require_api_key
+def api_update_session(session_id):
+    try:
+        success = conversation_service.update_session(session_id)
+        return jsonify({"success": success}), 200
+    except Exception as e:
+        logging.error(f"Errore nell'aggiornamento della sessione: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/conversation', methods=['POST'])
 @require_api_key
@@ -94,6 +103,16 @@ def api_delete_conversation(conversation_id):
         print(f"Error deleting conversation with ID: {conversation_id} - {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@flask_app.route('/api/conversation/<conversation_id>/update', methods=['PUT'])
+@require_api_key
+def api_update_conversation_timestamp(conversation_id):
+    try:
+        success = conversation_service.update_conversation_timestamp(conversation_id)
+        return jsonify({"success": success}), 200
+    except Exception as e:
+        logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @flask_app.route('/api/message', methods=['POST'])
 @require_api_key
 def api_add_message():
@@ -119,28 +138,51 @@ def api_read_feedback_by_message_id(message_id):
 def api_add_feedback():
     message_id = request.json.get('message_id')
     feedback_value = request.json.get('feedback_value')
-    feedback_id = conversation_service.add_feedback(message_id, feedback_value)
+    content = request.json.get('content')  # Può essere None
+    
+    feedback_id = conversation_service.add_feedback(message_id, feedback_value, content)
     return jsonify({"message_id": message_id}), 201
 
 @flask_app.route('/api/dashboard/num_positive', methods=['GET'])
 @require_api_key
 def api_read_num_positive_feedback():
-    num_positive_feedback = conversation_service.read_num_positive_feedback()
-    return jsonify({"num_positive_feedback": num_positive_feedback}), 200
+    try:
+        num_positive_feedback = conversation_service.read_num_positive_feedback()
+        return jsonify({"num_positive_feedback": num_positive_feedback}), 200
+    except Exception as e:
+        logging.error(f"Errore recupero feedback positivi: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/dashboard/num_negative', methods=['GET'])
 @require_api_key
 def api_read_num_negative_feedback():
-    num_negative_feedback = conversation_service.read_num_negative_feedback()
-    return jsonify({"num_negative_feedback": num_negative_feedback}), 200
+    try:
+        num_negative_feedback = conversation_service.read_num_negative_feedback()
+        return jsonify({"num_negative_feedback": num_negative_feedback}), 200
+    except Exception as e:
+        logging.error(f"Errore recupero feedback negativi: {str(e)}")
+        return jsonify({"error": str(e)}), 500
     
 
 @flask_app.route('/api/dashboard/num_conversations', methods=['GET'])
 @require_api_key
 def api_read_num_conversations():
-    num_conversations = conversation_service.read_num_conversations()
-    return jsonify({"num_conversations": num_conversations}), 200
+    try:
+        num_conversations = conversation_service.read_num_conversations()
+        return jsonify({"num_conversations": num_conversations}), 200
+    except Exception as e:
+        logging.error(f"Errore recupero numero conversazioni: {str(e)}")
+        return jsonify({"error": str(e)}), 500
     
+@flask_app.route('/api/dashboard/feedback_comments', methods=['GET'])
+@require_api_key
+def api_read_feedback_with_comments():
+    try:
+        feedback_comments = conversation_service.read_feedback_with_comments()
+        return jsonify(feedback_comments), 200
+    except Exception as e:
+        logging.error(f"Errore recupero feedback con commenti: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.errorhandler(Exception)
 def handle_exception(e):
