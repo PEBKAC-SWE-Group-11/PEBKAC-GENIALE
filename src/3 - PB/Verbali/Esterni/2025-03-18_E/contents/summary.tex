@@ -1,0 +1,36 @@
+\section{Riassunto della riunione}
+Nel SAL odierno abbiamo svolto un allineamento per comprendere oggettivamente a che punto è lo svolgimento del progetto e per valutare le azioni necessarie per terminarlo, oltre a determinare una nuova data per la consegna del progetto.\\
+Inizialmente abbiamo presentato i ruoli dei vari membri del gruppo:
+\begin{itemize}
+    \item Alessandro Benin - Programmatore;
+    \item Ion Bourosu - Responsabile;
+    \item Matteo Gerardin - Amministratore;
+    \item Derek Gusatto - Progettista;
+    \item Davide Martinelli - Verificatore;
+    \item Matteo Piron - Verificatore;
+    \item Tommaso Zocche - Programmatore.
+\end{itemize}
+Subito dopo abbiamo presentato gli avanzamenti poù rilevanti conseguiti durante la settimana passata:
+\begin{itemize}
+    \item Abbiamo ricevuto la risposta del professor Cardin che ha approvato le correzione apportate all'Analisi dei Requisiti;
+    \item Abbiamo raggiunto grandi progressi sia a livello di frontend che a livello di backend;
+    \item Non abbiamo ancora implementato la parte di risposta, dato che è ancora oggetto di studio per raggiungere un miglioramento, e sarà necessario revisionare degli elementi a livello di comunicazione tra frontend e database (e valutare se implementare l'utilizzo dello stream) per la realizzazione del sistema di risposta;
+    \item Abbiamo proseguito con la realizzazione dei test e sarà necessario continuare con questa attività;
+    \item Abbiamo cominciato l'implementazione del sistema di feedback, ma deve ancora essere implementato completamente; inoltre si sta valutando la possibilità di fornire un feedback testuale, così da poter documentare in maniera migliore la correttezza delle risposte;
+    \item Stiamo valutando, per garantire una migliore manutenzione del database, di prevedere l'utilizzo della marcatura \texttt{TODELETE} per i dati relativi ad una sessione scaduta, per permettere al database admin di poterli identificare e potersene occupare in maniera più rapida ed efficente;
+    \item Abbiamo realizzato la dashboard per l'amministratore, implementando l'autenticazione tramite l'utilizzo di una semplice coppia di credenziali username-password;
+    \item Abbiamo implementato un limite al numero massimo di conversazioni che possono essere mantenute contemporaneamente aperte: sarà importante fare in modo che questo limite possa essere modificato agevolmente; inoltre stiamo considerando, nel momento in cui si desidera di creare una nuova conversazione dopo aver già raggiunto il numero massimo, di effettuare la cancellazione della conversazione più vecchia, adottando così l'utilizzo di una coda FIFO;
+    \item Dobbiamo ancora implementare il salvataggio delle conversazioni in formato PDF.
+\end{itemize}
+Successivamente abbiamo discusso l'avanzamento del completamento delle varie componenti. Di seguito si riportano le specifiche componenti con annessa la percentuale di completamento calcolata dal gruppo e le attività per l'avanzamento del loro completamento, con eventuali problematiche riscontrate:
+\begin{itemize} 
+    \item Infrastruttura (80\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item Frontend (70\%): dovremo rifinire alcuni dettagli, completare la fase di realizzazione dei test ed implementare il design responsive (quest'ultimo è di particolare importanza);
+    \item API (70\%): abbiamo proseguito con lo sviluppo ma abbiamo riscontrato delle problematiche nelle API specifiche per i messaggi e per i feedback, che dovranno essere verificate e risolte al più presto;
+    \item Estrazione dati (75\%): abbiamo cominciato un riscrittura degli script che venivano utilizzati in precedenza, riunendoli per ottenere una maggiore completezza ed efficenza, e abbiamo cominciato ad inserire il tutto all'inyterno di un container per realizzare l'automazione del processo;
+    \item Indicizzazione (70\%): rispetto alla scorsa settimana non abbiamo effettuato avanzamenti significativi;
+    \item Database (90\%): a seguito di alcune modifiche apportate al processo di RAG, è stata introdotta una nuova tabella;
+    \item Interrogazione (75\%): abbiamo effettuato ulteriori tentativi per migliorare il processo di interrogazione, ma con scarso successo;
+    \item Documentazione (45\%): dovremo creare un documento specifico, contenente una tabella dove saranno rappresentate le associazioni tra i deliverables richiesti nel capitolato e il documento e la pagina in cui sono presenti le rispettive informazioni; sarà inoltre necessario documentare le API in un formato swagger; infine, quando saremo ad un buon punto con la realizzazione del MVP, sarà necessario effettuare lo studio sull'impatto green del prodotto.
+\end{itemize}
+Infine, si è discusso della nuova data di consegna del progetto, e abbiamo considerato opportuno rimanere più larghi con i tempi per poter terminare il progetto tranquillamente. Una volta stabilita la nuova data di consegna, questa andrà comunicata via email al referente aziendale.
