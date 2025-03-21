@@ -6,13 +6,13 @@ import time
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_db_connection():
+def getDBConnection():
     """Stabilisce la connessione al database"""
     connection = None
     retries = 10
     delay = 5
 
-    connection_params = {
+    connectionParams = {
         "dbname": "postgres",
         "user": "postgres",
         "password": "pebkac",
@@ -26,7 +26,7 @@ def get_db_connection():
     for attempt in range(retries):
         try:
             logger.info(f"Tentativo {attempt + 1} di connessione al database...")
-            connection = psycopg2.connect(**connection_params)
+            connection = psycopg2.connect(**connectionParams)
             logger.info("Connessione al database stabilita con successo")
             return connection
         except psycopg2.OperationalError as e:

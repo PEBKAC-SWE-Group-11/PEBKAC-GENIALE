@@ -4,7 +4,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_embedding(text):
+def getEmbedding(text):
     """Ottiene l'embedding del testo usando l'API di Ollama"""
     try:
         url = "http://app:11434/api/embeddings"
@@ -21,13 +21,4 @@ def get_embedding(text):
             
     except Exception as e:
         logger.error(f"Errore durante la generazione dell'embedding: {e}")
-        raise 
-
-def import_data(connection):
-    try:
-        # Percorso corretto all'interno del container
-        write_products_in_DB('/app/data_processing/json_data/data_reduced.json', connection)
-        logger.info("Importazione dati completata con successo")
-    except Exception as e:
-        logger.error(f"Errore durante l'importazione dei dati: {e}", exc_info=True)
-        raise 
+        raise

@@ -4,3 +4,7 @@ psycopg2-binary
 requests
 flask
 flask-cors
+numpy
+pypdf
+typing
+scikit-learn
