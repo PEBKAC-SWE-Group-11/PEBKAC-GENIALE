@@ -1,3 +1,5 @@
+
+
 \section{Architettura di sistema }
 \subsection{Modello Architetturale}
 Il progetto Vimar GENIALE rappresenta un’applicazione moderna e avanzata per la gestione di conversazioni intelligenti, sviluppata con un’architettura distribuita e tecnologie all’avanguardia. La sua struttura è pensata per garantire flessibilità, scalabilità e manutenibilità nel tempo, integrando diversi componenti che collaborano per offrire un’esperienza fluida ed efficiente.Per la progettazione del software, si possono adottare due diverse strategie architetturali: l’architettura a strati e l’architettura esagonale.
@@ -16,7 +18,20 @@ Un esempio pratico di questa architettura può essere visto come un aeroporto, d
 \end{itemize}
 
 L’\textbf{architettura esagonale} è la scelta ideale per \textbf{ Vimar GENIALE} perché garantisce una maggiore flessibilità e modularità rispetto all’\textbf{architettura a strati}. La sua capacità di isolare le dipendenze esterne, migliorare la testabilità, facilitare la scalabilità e mantenere il codice ben organizzato la rende perfetta per un progetto che integra tecnologie avanzate e che potrebbe evolversi nel tempo.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{Esagonale.png}
+    \includegraphics[width=\textwidth]{Esagonale.png}
+    \caption{Schema architetturale del sistema}
+    \label{fig:architettura}
 \end{figure}
+    \item \textbf{Data Extraction & Indexing (Scrapy e Nomic)}: raccoglie dati dal web (es. Vimar.com), li elabora e li indicizza, rendendoli facilmente consultabili dal database e dall'AI.
+    \item \textbf{AI (Meta Llama 3)}: utilizzato per elaborazioni avanzate, supporta il sistema nell'analisi dei dati, nella generazione di risposte intelligenti e nell'arricchimento delle informazioni estratte.
+    \item \textbf{Database (PostgreSQL)}: memorizza i dati raccolti ed elaborati, garantendo un accesso rapido ed efficiente tramite il backend.
+    \item \textbf{Backend (API Flask e Python)}: funge da intermediario tra il frontend e gli altri componenti, gestendo le richieste dell’utente, eseguendo la logica di business e comunicando con il database e i servizi AI.
+    \item \textbf{Frontend (WebApp)}: sviluppato in Angular, permette agli utenti di interagire con il sistema attraverso un’interfaccia intuitiva, inviando richieste e visualizzando i dati elaborati.
+    \subsection{Modello Architetturale}
+    \item Il diagramma illustra il flusso dei dati all'interno del sistema, evidenziando le varie fasi di acquisizione, elaborazione, archiviazione e visualizzazione. Mostra le entità coinvolte e le loro interconnessioni, offrendo una visione chiara di come le informazioni vengono gestite e trasformate lungo il processo.
+    \item immagine
+    
+    
+    
