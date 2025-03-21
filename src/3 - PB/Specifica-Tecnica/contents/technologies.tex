@@ -1,23 +1,23 @@
 \section{Tecnologie }
 In questa sezione si espone una panoramica delle tecnologie adottate. Si ha la descrizione delle tecnologie e dei linguaggi di programmazione utilizzati, delle librerie\textsubscript{G} e dei framework\textsubscript{G} necessari, oltre che delle infrastrutture realizzate. 
 \subsection{Docker}
-Docker\textsubscript{G} è una piattaforma \textit{open-source} che automatizza la distribuzione, la scalabilità e l’isolamento delle applicazioni utilizzando la virtualizzazione a livello di sistema operativo. È stato scelto per la sua efficienza e portabilità. Rispetto ad altre soluzioni (e.g. Vagrant), Docker\textsubscript{G} offre una maggiore efficienza e facilità d’uso.
+Docker\textsubscript{G} è una piattaforma per la containerizzazione che consente di impacchettare, distribuire ed eseguire applicazioni in ambienti isolati e riproducibili. Il nostro progetto utilizza Docker per garantire una gestione efficiente delle dipendenze, facilitare il deployment e migliorare la portabilità del sistema su diverse infrastrutture.
+L’uso di Docker permette di standardizzare l’ambiente di sviluppo e produzione, riducendo problemi di compatibilità tra sistemi operativi e versioni di software. I container definiti nel progetto includono il backend, il frontend e il database PostgreSQL, ciascuno configurato per garantire modularità e scalabilità. Rispetto ad altre alternative (e.g. Vagrant) Docker è stato scelto per la sua efficienza e facilità d'uso.
 \subsubsection{Vantaggi}
 \begin{itemize}
-    \item Maggiore efficienza: Docker\textsubscript{G} utilizza la virtualizzazione a livello di sistema operativo, riducendo il consumo di risorse rispetto alle macchine virtuali di Vagrant.
-    \item Portabilità: I \textit{container Docker}\textsubscript{G} possono essere eseguiti su qualsiasi sistema che supporti Docker\textsubscript{G}, senza bisogno di riconfigurazioni.
-    \item Rapidità nel \textit{deployment}: I container\textsubscript{G} si avviano in pochi secondi, mentre le macchine virtuali richiedono più tempo per il \textit{boot}.
-    \item Gestione semplificata delle dipendenze: Con Docker\textsubscript{G}, tutte le dipendenze sono contenute all'interno dell’immagine, eliminando problemi di compatibilità tra ambienti diversi.
+    \item \textbf{Isolamento e portabilità}: Ogni servizio è eseguito in un container indipendente, evitando conflitti tra dipendenze e facilitando il deployment su diverse piattaforme.
+    \item \textbf{Scalabilità}: L’architettura a container permette di scalare orizzontalmente i servizi in base al carico di lavoro, migliorando le prestazioni del sistema.
+    \item \textbf{Riproducibilità}: Grazie alla definizione di immagini Docker e file di configurazione YAML, l’ambiente di esecuzione può essere ricreato in modo identico su qualsiasi macchina.
+    \item \textbf{Facilità di gestione e automazione}: L’integrazione con Docker Compose permette di avviare, arrestare e configurare l’intero sistema con un singolo comando, migliorando l’efficienza nella gestione dell’infrastruttura.
 \end{itemize}
 \subsubsection{Svantaggi}
 \begin{itemize}
-    \item Minore isolamento rispetto alle VM\textsubscript{G}: Poiché i container\textsubscript{G} condividono il kernel\textsubscript{G} del sistema operativo\textsubscript{G}, potrebbero esserci rischi di sicurezza maggiori rispetto a una macchina virtuale.
-    \itemCompatibilità limitata con alcuni sistemi operativi\textsubscript{G}: Docker\textsubscript{G} funziona in modo nativo su Linux\textsubscript{G}, mentre su Windows\textsubscript{G} e macOS\textsubscript{G} richiede un layer di compatibilità (come Docker Desktop).
-    \item Gestione dei dati più complessa: La persistenza dei dati nei container\textsubscript{G} richiede volumi e configurazioni specifiche, mentre Vagrant\textsubscript{G} offre un file system più tradizionale.
-    \item Minore supporto per ambienti con interfaccia grafica: A differenza di Vagrant\textsubscript{G}, che può eseguire intere macchine virtuali con GUI\textsubscript{G}, Docker\textsubscript{G} è più orientato ad applicazioni server-side\textsubscript{G}.
+    \item \textbf{Consumo di risorse}: L’esecuzione di più container può richiedere un utilizzo elevato di CPU e memoria, specialmente in ambienti con risorse limitate.
+    \item \textbf{Complessità nella configurazione}: La gestione della rete tra container, la persistenza dei dati e la sicurezza richiedono una configurazione attenta per evitare problemi di isolamento e performance.
+    \item \textbf{Overhead nella virtualizzazione}: Sebbene più leggero rispetto alle macchine virtuali, Docker introduce un livello di astrazione che può impattare leggermente le prestazioni rispetto all’esecuzione nativa.
 \end{itemize}
 \subsection{Flask}
-Flask\textsubscript{G} è un micro-framework web per Python, progettato per facilitare lo sviluppo di applicazioni web in modo semplice e veloce. Non richiede strumenti o librerie particolari per funzionare e non impone una struttura rigida al progetto. Abbiamo deciso di utilizzarlo per implementare un'API RESTful\textsubscript{G}, che segue i prinipi REST\textsubscript{G}, per gestire sessioni, conversazioni, messaggi e feedback, integrando anche funzionalità di intelligenza artificiale per generare risposte a domande attraverso un modello di linguaggio LLM\textsubscript{G} e un sistema di embedding\textsubscript{G}. Nel nostro sistema, Flask è la parte del back-end\textsubscript{G} che permette la connessione con un front-end\textsubscript{G} per la gestione delle interazioni con l'utente, grazie a un sistema di routing\textsubscript{G} che definisce delle rotte per gestire le richieste HTTP\textsubscript{G} (GET, POST, PUT e DELETE). 
+Flask\textsubscript{G} è un micro-framework web per Python, progettato per facilitare lo sviluppo di applicazioni web in modo semplice e veloce. Non richiede strumenti o librerie particolari per funzionare e non impone una struttura rigida al progetto. Abbiamo deciso di utilizzarlo per implementare un'API RESTful\textsubscript{G}, che segue i prinipi REST\textsubscript{G}, per gestire sessioni, conversazioni, messaggi e feedback, integrando anche funzionalità di intelligenza artificiale per generare risposte a domande attraverso un modello di linguaggio LLM\textsubscript{G} e un sistema di embedding\textsubscript{G}. Nel nostro sistema, Flask è la parte del back-end\textsubscript{G} che permette la connessione con un front-end\textsubscript{G} per la gestione delle interazioni con l'utente, grazie a un sistema di routing\textsubscript{G} che definisce delle rotte per gestire le richieste HTTP\textsubscript{G} (GET, POST, PUT e DELETE). A differenza di framework più complessi come Django\textsubscript{G}, Flask non impone una struttura rigida, permettendo di personalizzare l'architettura per ottimizzare le prestazioni delle operazioni di embedding e delle richieste HTTP.
 \subsubsection{Vantaggi}
 \begin{itemize}
     \item Non impone una struttura rigida, permettendo al team di sviluppo di organizzare il codice senza troppi vincoli e di integrare librerie strettamente necessarie;
@@ -30,17 +30,17 @@ Flask\textsubscript{G} è un micro-framework web per Python, progettato per faci
 \end{itemize}
 
 \subsection{Scrapy}
-Scrapy\textsubscript{G} è un framework\textsubscript{G} open-source per Python\textsubscript{G} progettato specificamente per il web scraping\textsubscript{G}, ovvero l'estrazione di dati da siti web, nel nostro caso dal sito di Vimar. È basato su un'architettura asincrona\textsubscript{G}, che lo rende adatto per il crawling\textsubscript{G} di grandi volumi di dati. Per il nostro progetto abbiamo deciso di adottare un approccio che vede lo scraping come componente a sè stante. Dunque, l'inserimento dei dati avviene da un file JSON\textsubscript{G} dove sono stati caricati e aggiornati precedentemente.
+Scrapy\textsubscript{G} è un framework\textsubscript{G} open-source per Python\textsubscript{G} progettato specificamente per il web scraping\textsubscript{G}, ovvero l'estrazione di dati da siti web, nel nostro caso dal sito di Vimar. È basato su un'architettura asincrona\textsubscript{G}, che lo rende adatto per il crawling\textsubscript{G} di grandi volumi di dati, riducendo i tempi di esecuzione rispetto a strumenti più semplici come BeautifulSoup\textsubscript{G}. Altro motivo per cui è stato scelto di utilizzare Scrapy è dato dall'approccio che abbiamo deciso di adottare, che vede lo scraping come componente a sè stante. Dunque, ci da la possibilità di esportare i dati in formati strutturati come JSON\textsubscript{G} da dove vengono poi caricati nel database\textsubscript{G}.
 \subsubsection{Vantaggi}
 \begin{itemize}
     \item L'architettura asincrona ci permette di gestire un grande numero di richieste contemporaneamente;
-    \item La seprazione fra la gestione delle richieste, l'elaborazione dei dati e il salvataggio dei risultati facilitano lo sviluppo e la manutenzione del codice;
+    \item La separazione fra la gestione delle richieste, l'elaborazione dei dati e il salvataggio dei risultati facilitano lo sviluppo e la manutenzione del codice;
     \item Permette di salvare i dati in formati diversi (JSON\textsubscript{G}, CSV\textsubscript{G} o XML\textsubscript{G}) e di integrarli facilmente con database o altre applicazioni.
 \end{itemize}
 \subsubsection{Svantaggi}
 \begin{itemize}
     \item La scarsa esperienza nell'ambito del web scraping\textsubscript{G} può rallentare il processo, richiedendo più tempo per l'apprendimento di tale tecnologia;
-    \item Si possono incotrare rallentamenti nel caso di politiche di crawling\textsubscript{G} specifiche o blocchi da parte dei siti web.
+    \item Si possono incontrare rallentamenti nel caso di politiche di crawling\textsubscript{G} specifiche o blocchi da parte dei siti web.
 \end{itemize}
 
 \subsection{Ollama}
@@ -57,28 +57,22 @@ Ollama\textsubscript{G} è una piattaforma leggera ed efficace per eseguire mode
 \end{itemize}
 
 \subsection{PostgreSQL}
-
-PostgreSQL è un database relazionale open-source avanzato, noto per la sua robustezza, estensibilità e conformità agli standard SQL\textsubscript{G}. Supporta transazioni ACID\textsubscript{G}, gestione avanzata degli indici e un ampio set di tipi di dati, rendendolo ideale per applicazioni complesse e ad alta affidabilità.  
-
-\subsubsection{Vantaggi} 
-\begin{itemize}  
-    \item Affidabilità e integrità dei dati: grazie al supporto per transazioni ACID\textsubscript{G} e ai meccanismi di rollback\textsubscript{G}.  
-    \item Estensibilità: con supporto per tipi di dati personalizzati, funzioni definite dall’utente e linguaggi procedurali.  
-    \item Gestione avanzata delle query\textsubscript{G}: con ottimizzazione intelligente e supporto per query\textsubscript{G} complesse.  
-    \item Scalabilità verticale e orizzontale: con replica e sharding per grandi volumi di dati.  
-    \item Ampio supporto per \textit{JSON\textsubscript{G} e dati semi-strutturati}: permette l’uso di modelli ibridi relazionali e documentali.  
-\end{itemize}  
-
-\subsubsection{Svantaggi}  
-\begin{itemize}  
-    \item Consumo di risorse maggiore: rispetto a database più leggeri come MySQL\textsubscript{G}, specialmente in operazioni ad alta concorrenza.  
-    \item Curva di apprendimento più ripida: a causa della sua complessità e delle numerose funzionalità avanzate.  
-    \item Velocità inferiore in letture semplici: rispetto a database ottimizzati per letture intensive, come MySQL\textsubscript{G}.  
-    \item Gestione più complessa: in scenari di clustering\textsubscript{G} e replica rispetto a soluzioni più automatizzate.  
-\end{itemize} 
+PostgreSQL\textsubscript{G} è un sistema di gestione di database relazionale (RDBMS) open-source che garantisce elevate prestazioni, affidabilità e scalabilità. È stato scelto per il nostro progetto in quanto offre una gestione avanzata degli indici e la possibilità di estendere le sue funzionalità tramite moduli aggiuntivi. PostgreSQL supporta inoltre l’archiviazione e la gestione di dati non strutturati grazie a tipi di dati avanzati come JSONB e l’estensione VECTOR\textsubscript{G}, fondamentale per l’elaborazione di dati ad alta dimensionalità, come gli embedding generati da modelli di intelligenza artificiale.
+\subsubsection{Vantaggi}
+\begin{itemize}
+    \item \textbf{Affidabilità e consistenza}: PostgreSQL garantisce la conformità agli standard ACID (Atomicità, Consistenza, Isolamento, Durabilità), assicurando l’integrità dei dati anche in presenza di errori o interruzioni del sistema;
+    \item \textbf{Supporto per estensioni avanzate}: PostgreSQL può essere esteso con moduli come PostGIS (per dati geografici) e pgvector, che consente di memorizzare e gestire vettori ad alta dimensionalità, rendendolo adatto all’integrazione con sistemi di ricerca semantica e modelli di intelligenza artificiale;
+    \item \textbf{Ottimizzazione delle query}: Il motore di PostgreSQL utilizza un planner sofisticato in grado di ottimizzare le query grazie all’uso di indici B-Tree, GIN, GiST e BRIN, migliorando le prestazioni nelle operazioni di ricerca e aggregazione;
+    \item \textbf{Scalabilità e parallelismo}: Supporta replica sincrona e asincrona, partizionamento delle tabelle e parallelizzazione delle query, garantendo elevate prestazioni in ambienti distribuiti e con grandi volumi di dati.
+\end{itemize}
+\subsubsection{Svantaggi}
+\begin{itemize}
+    \item \textbf{Maggiore complessità di gestione}: Rispetto ad altri RDBMS, PostgreSQL richiede una configurazione più avanzata per ottenere prestazioni ottimali, in particolare nella gestione degli indici e della cache;
+    \item \textbf{Consumo di risorse}: Le operazioni di scrittura e indicizzazione possono risultare più costose in termini di memoria e CPU rispetto ad alternative come MySQL o SQLite, specialmente per applicazioni con carichi di lavoro elevati.
+\end{itemize}
 
 \subsection{Angular}
-Angular\textsubscript{G} è un framework open-source per lo sviluppo di applicazioni web single-page (SPA\textsubscript{G}). È basato su TypeScript\textsubscript{G}, un superset di JavaScript\textsubscript{G}. Nel nostro sistema è utilizzato per il front-end\textsubscript{G}, permettendo una gestione efficiente delle interazioni utente e una comunicazione fluida con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G}. Si tratta di una comunicazione asincrona\textsubscript{G} (di default), grazie all'uso di RxJS\textsubscript{G} e degli Observables\textsubscript{G}. Quest'approccio sfrutta il pattern reattivo\textsubscript{G} per gestire le oprazioni come le richieste HTTP\textsubscript{G}. 
+Angular\textsubscript{G} è un framework open-source per lo sviluppo di applicazioni web single-page (SPA\textsubscript{G}). È basato su TypeScript\textsubscript{G}, un superset di JavaScript\textsubscript{G}. Nel nostro sistema è utilizzato per il front-end\textsubscript{G}, permettendo una gestione efficiente delle interazioni utente e una comunicazione fluida con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G}. Si tratta di una comunicazione asincrona\textsubscript{G} (di default), grazie all'uso di RxJS\textsubscript{G} e degli Observables\textsubscript{G}. Quest'approccio sfrutta il pattern reattivo\textsubscript{G} per gestire le oprazioni come le richieste HTTP\textsubscript{G}. A differenza di framework più leggeri come React\textsubscript{G} o Vue.js\textsubscript{G}, Angular ha una struttura più organizzata con strumenti come il routing\textsubscript{G} e la comunicazione con il back-end. Il che è molto utile per il progetto che si sta sviluppando, dove è richiesta una gestione avanzata delle interazioni utente e una perfetta integrazione con un'API RESTful per il modello di linguaggio LLM\textsubscript{G} e il database vettoriale\textsubscript{G}.
 \subsubsection{Vantaggi}
 \begin{itemize}
     \item Utilizza un sistema di moduli e componenti che favorisce il riciclo del codice e una struttura organizzata;
@@ -94,39 +88,29 @@ Angular\textsubscript{G} è un framework open-source per lo sviluppo di applicaz
 \end{itemize}
 
 \subsection{Linguaggi e formato dati}
-
 \subsubsection{Python}
-Python\textsubscript{G} è un linguaggio di programmazione ad alto livello, interpretato e con una sintassi chiara e leggibile. Grazie alla sua versatilità, viene utilizzato in numerosi ambiti, tra cui \textit{web development}\textsubscript{G}, \textit{data science}\textsubscript{G}, automazione\textsubscript{G} e intelligenza artificiale\textsubscript{G}. La sua ampia comunità e l’ecosistema ricco di librerie lo rendono una scelta popolare sia per principianti che per sviluppatori esperti.  
-
-\subsubsection{Vantaggi}  
-\begin{itemize}  
-    \item Sintassi semplice e leggibile\textsubscript{G}, favorisce uno sviluppo rapido e riduce la complessità del codice.  
-    \item Ampia libreria standard\textsubscript{G}, include moduli per molteplici applicazioni, riducendo la necessità di sviluppare funzionalità da zero.  
-    \item Portabilità\textsubscript{G}, il codice Python\textsubscript{G} è eseguibile su diverse piattaforme senza modifiche.  
-    \item Comunità attiva e supporto\textsubscript{G}, vasta documentazione e numerosi forum aiutano nella risoluzione dei problemi.  
-    \item Compatibilità con altri linguaggi\textsubscript{G}, può essere integrato con C\textsubscript{G}, C++\textsubscript{G}, Java\textsubscript{G} e altri linguaggi per migliorarne le prestazioni.  
-\end{itemize}  
-
-\subsubsection{Svantaggi}  
-\begin{itemize}  
-    \item Prestazioni inferiori rispetto a linguaggi compilati\textsubscript{G}, essendo interpretato, è generalmente più lento di C++\textsubscript{G} e Java\textsubscript{G}.  
-    \item Maggiore consumo di memoria\textsubscript{G} rispetto ad altri linguaggi ottimizzati per sistemi con risorse limitate.  
-    \item Non ideale per applicazioni \textit{real-time}\textsubscript{G}, a causa della gestione della memoria e della velocità di esecuzione.  
-    \item Global Interpreter Lock (GIL)\textsubscript{G}, limita l’esecuzione parallela su thread multipli, riducendo le prestazioni in applicazioni multi-threading\textsubscript{G}.  
-\end{itemize}  
-
-Python\textsubscript{G} è una scelta eccellente per progetti che richiedono velocità di sviluppo, facilità di manutenzione e un vasto ecosistema di librerie, ma potrebbe non essere la soluzione migliore per applicazioni che richiedono prestazioni elevate o esecuzione in tempo reale.
-
+Python\textsubscript{G} è un linguaggio di programmazione ad alto livello. Supporta la programmazione orientata agli oggetti, procedurale e funzionale. È adatto per l'utilizzo in ambiti come lo sviluppo web e l'intelligenza artificile. Nel nostro progetto la scelta di Python come linguaggio per il back-end\textsubscript{G} è stata esplicitamente richiesta nel capitolato, dunque abbiamo escluso linguaggi diversi per lo sviluppo del back-end. 
+\subsubsubsection{Vantaggi}
+\begin{itemize}
+    \item Offre una sintassi intuitiva e vicina al linguaggio naturale, che lo rende ottimale per un team di sviluppo intesperto;
+    \item Si adatta perfettamente con le altre tecnologie scelte, in particolare Flask\textsubscript{G};
+    \item Grazie alle molteplici librerie offerte semplifica lo sviluppo, riducendo i tempi per l'implementazione di funzionalità complesse.
+\end{itemize}
+\subsubsubsection{Svantaggi}
+\begin{itemize}
+    \item Rischia di diventare un collo di bottiglia in un'applicazione come quella che si sta sviluppando per Vimar\textsubscript{G}, dove sono richieste operazioni complesse e veloci.
+\end{itemize}
 
 \subsubsection{SQL}
-SQL\textsubscript{G} è un linguaggio standard per la gestione di database relazionali, ideale per organizzare e interrogare dati strutturati in modo efficiente. Abbiamo scelto SQL\textsubscript{G} rispetto a NoSQL\textsubscript{G} perché garantisce affidabilità, coerenza e query avanzate, fondamentali per il nostro progetto.
-\subsubsection{Vantaggi}
+SQL (Structured Query Language)\textsubscript{G} è il linguaggio utilizzato per la gestione e manipolazione dei dati in PostgreSQL. Il nostro progetto sfrutta SQL per la definizione dello schema del database, la gestione delle relazioni tra le entità e l’esecuzione di operazioni di lettura, scrittura, aggiornamento ed eliminazione dei dati. Abbiamo scelto SQL\textsubscript{G} rispetto a NoSQL\textsubscript{G} perché garantisce affidabilità, coerenza e query avanzate, fondamentali per il nostro progetto.
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Strutturato e organizzato, Ideale per dati relazionali con schemi ben definiti;
     \item Query\textsubscript{G} potenti e precise, grazie a JOIN\textsubscript{G}, filtri e funzioni avanzate;
     \item Ampio supporto, Usato in molti database\textsubscript{G}.
+    \item L’integrazione con pgvector permette di eseguire operazioni di similarità su dati rappresentati come vettori, abilitando funzionalità di nearest neighbor search per applicazioni di machine learning e retrieval aumentato.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Meno flessibile con dati non strutturati, NoSQL\textsubscript{G} è più adatto per dati dinamici e documentali;
     \item Scalabilità orizzontale complessa, NoSQL\textsubscript{G} può essere più efficiente per sistemi distribuiti su larga scala;
@@ -134,14 +118,14 @@ SQL\textsubscript{G} è un linguaggio standard per la gestione di database relaz
 \end{itemize}
 
 \subsubsection{YAML}
-YAML\textsubscript{G} è un formato di serializzazione dati leggibile dall’uomo, utilizzato principalmente per configurazioni e automazione, come nei file Docker Compose\textsubscript{G}. La sua sintassi basata sull’indentazione lo rende più leggibile rispetto ad altri formati, ma richiede attenzione alla formattazione.
-\subsubsection{Vantaggi}
+YAML (YAML Ain’t Markup Language)\textsubscript{G} è un formato di serializzazione dati leggibile dall’uomo, utilizzato principalmente per configurazioni e automazione, come nei file Docker Compose\textsubscript{G}. La sua sintassi basata sull’indentazione lo rende più leggibile rispetto ad altri formati, ma richiede attenzione alla formattazione.
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Maggiore leggibilità grazie alla sintassi senza parentesi e virgolette;
     \item Supporta commenti, facilitando la documentazione delle configurazioni;
     \item Permette riferimenti e ancoraggi per riutilizzare parti del file\textsubscript{G}.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Sensibile all’indentazione, aumentando il rischio di errori difficili da individuare;
     \item Parsing\textsubscript{G} più lento rispetto ad altri formati come JSON\textsubscript{G};
@@ -150,12 +134,14 @@ YAML\textsubscript{G} è un formato di serializzazione dati leggibile dall’uom
 
 \subsubsection{JSON}
 JSON\textsubscript{G} è un formato leggero per lo scambio di dati tra applicazioni, ampiamente utilizzato nelle API\textsubscript{G} e nella comunicazione tra servizi. La sua sintassi basata su coppie chiave-valore e array\textsubscript{G} lo rende facile da elaborare e compatibile con la maggior parte dei linguaggi di programmazione.
+
+\subsubsubsection{Vantaggi}
 \begin{itemize}
     \item Struttura semplice e facilmente interpretabile da macchine e sviluppatori;
     \item Parsing\textsubscript{G} più lento rispetto ad altri formati come JSON;
     \item Standard per lo scambio di dati tra sistemi diversi.
 \end{itemize}
-\subsubsection{Svantaggi}
+\subsubsubsection{Svantaggi}
 \begin{itemize}
     \item Meno leggibile rispetto a YAML\textsubscript{G}, specialmente in configurazioni complesse;
     \item Non supporta commenti, rendendo più difficile documentare il codice;
