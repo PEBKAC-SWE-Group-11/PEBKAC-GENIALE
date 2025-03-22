@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Session:
     def __init__(self, session_id: str, created_at: str, updated_at: str = None, is_active: bool = True):
         self.session_id = session_id

@@ -1,7 +1,12 @@
 import uuid
+import uuid
 from app.adapters.repositories.db_repository import DBRepository
 from app.core.entities.entities import Session, Conversation, Message
 import logging
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class ConversationService:
     def __init__(self):
@@ -9,7 +14,7 @@ class ConversationService:
 
     def create_session(self):
         session_id = str(uuid.uuid4())
-        print("SESSION: ", session_id)
+        logger.info("SESSION: ", session_id)
         query = "INSERT INTO Session (session_id, created_at, updated_at, is_active) VALUES (%s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE)"
         self.repository.execute_query(query, (session_id,))
         return session_id
@@ -123,6 +128,7 @@ class ConversationService:
             return []
     
     def read_feedback(self, message_id):
+        query = "SELECT * FROM Feedback WHERE message_id = %s"
         query = "SELECT * FROM Feedback WHERE message_id = %s"
         return self.repository.fetch_all(query, (message_id,))
     

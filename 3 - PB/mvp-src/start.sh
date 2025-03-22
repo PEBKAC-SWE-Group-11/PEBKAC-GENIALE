@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ollama serve &
+OLLAMA_HOST=0.0.0.0:11434 ollama serve &
 
 echo "Waiting for Ollama server to be active..."
 while [ "$(ollama list | grep 'NAME')" == "" ]; do
@@ -9,16 +9,12 @@ done
 
 # scarica il modello di embedding e il LLM
 echo "Pulling required models..."
-ollama pull nomic-embed-text
-ollama run llama3.2:1b
-# ollama run llama3.2:3b
-# ollama run deepseek-r1:1.5b
+ollama pull mxbai-embed-large
+ollama run llama3.1:8b
 
 until pg_isready -h db -p 5432 -U postgres; do
   echo "Waiting for PostgreSQL..."
   sleep 1
 done
 
-#python /app/create_table.py
-#python /app/insert_data.py
 python /app/main.py

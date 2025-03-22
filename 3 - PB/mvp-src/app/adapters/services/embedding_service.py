@@ -6,7 +6,7 @@ OLLAMA_EMBED_URL = "http://localhost:11434/api/embeddings"
 class EmbeddingService:
     def get_embeddings(self, prompt):
         payload = {
-            "model": "nomic-embed-text",
+            "model": "mxbai-embed-large",
             "prompt": f"{prompt}"
         }
 

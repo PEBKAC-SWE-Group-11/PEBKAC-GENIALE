@@ -1,4 +1,4 @@
-# copiato da Matteo e Derek
+# copiato da Matteo e Derek 1
 FROM postgres:latest AS pgvector-builder
 
 RUN apt-get update && \
