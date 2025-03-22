@@ -1,21 +1,35 @@
 <div class="sidebar">
-    <div class="sidebar-header">
-        <h1>Conversazioni</h1>
-        <button class="add-button" (click)="onAddClick()">+</button>
+    <div class="header">
+        <h2>Conversazioni</h2>
+        <button class="new-conversation-btn" 
+                (click)="createNewConversation()" 
+                aria-label="Nuova conversazione">+</button>
     </div>
+    
     <div class="conversations-list">
-        <div *ngFor="let conv of conversations$ | async" 
-             class="conversation-item"
-             [class.active]="conv.conversation_id === activeConversationId"
-             (click)="selectConversation(conv.conversation_id)">
-            <div class="conversation-title">
-                <div>
-                    {{ 'Conversazione ' + conv.conversation_id }}
+        <ng-container *ngIf="conversations.length; else noConversations">
+            <div 
+                *ngFor="let conversation of conversations" 
+                class="conversation-item" 
+                [class.active]="isActive(conversation)"
+                (click)="selectConversation(conversation)">
+                <span>Conversazione {{ conversation.conversation_id }}</span>
+                <div class="conversation-date">
+                    {{ conversation.updated_at | date:'short' }}
                 </div>
-                <div>
-                    <button class="delete-btn" (click)="deleteConversation(conv.conversation_id, $event)">-</button>
-                </div>
+                <button 
+                    class="delete-btn" 
+                    (click)="deleteConversation($event, conversation.conversation_id)" 
+                    aria-label="Elimina conversazione">
+                    ×
+                </button>
             </div>
-        </div>
+        </ng-container>
+        
+        <ng-template #noConversations>
+            <div class="no-conversations">
+                Nessuna conversazione disponibile
+            </div>
+        </ng-template>
     </div>
 </div>

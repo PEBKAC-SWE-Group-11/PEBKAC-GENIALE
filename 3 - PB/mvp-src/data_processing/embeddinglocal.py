@@ -4,6 +4,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def getEmbedding(text):
     """Ottiene l'embedding del testo usando l'API di Ollama"""
     try:
@@ -21,4 +22,4 @@ def getEmbedding(text):
             
     except Exception as e:
         logger.error(f"Errore durante la generazione dell'embedding: {e}")
-        raise
+        raise 

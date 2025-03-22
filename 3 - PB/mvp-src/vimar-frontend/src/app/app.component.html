@@ -1,18 +1,22 @@
-<div class="app-container">
-    <div class="app-header">
-        <h1>{{title}}</h1>
-    </div>
+<ng-container *ngIf="!isAdminRoute(); else adminContent">
+  <div class="app-container">
+    <header class="app-header">
+      <h1>{{ title }}</h1>
+    </header>
     <div class="app-body">
-        <app-sidebar
-            #sidebar
-            (addConversationClick)="onAddConversation()"
-            (conversationSelected)="onConversationSelected($event)"
-            (conversationDeleted)="onConversationDeleted($event)">
+      <div class="sidebar-container" [class.visible]="sidebarVisible">
+        <app-sidebar 
+          (conversationSelected)="closeSidebarOnMobile()" 
+          (newConversationCreated)="closeSidebarOnMobile()">
         </app-sidebar>
-        <app-chatbox 
-            [isAddingConversation]="isAddingConversation"
-            [activeConversationId]="activeConversationId"
-            (conversationCreated)="onConversationCreated($event)">
-        </app-chatbox>
+      </div>
+      <div class="chatbox-container">
+        <app-chatbox [toggleSidebar]="toggleSidebar.bind(this)"></app-chatbox>
+      </div>
     </div>
-</div>
+  </div>
+</ng-container>
+
+<ng-template #adminContent>
+  <router-outlet></router-outlet>
+</ng-template>

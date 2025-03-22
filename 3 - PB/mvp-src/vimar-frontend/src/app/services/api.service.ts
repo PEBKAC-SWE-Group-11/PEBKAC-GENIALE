@@ -1,94 +1,142 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Conversation } from '../models/conversation.model';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
 import { Message } from '../models/message.model';
-import { Session } from '../models/session.model';
-
-
+import { Conversation } from '../models/conversation.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:5001/api';
-  private apiKey = 'our-secret-api-key';
-  private readonly FIXED_SESSION_ID = 'session-1234567890';
+  private apiUrl = environment.apiUrl;
+  private apiKey = environment.apiKey;
 
-  constructor(
-    private http: HttpClient
-  ) {}
-
-  private getHeaders() {
+  constructor(private http: HttpClient) {}
+  
+  private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-api-key': this.apiKey
+      'x-api-key': this.apiKey,
+      'Content-Type': 'application/json'
     });
   }
 
-  getCurrentSession(): Observable<Session> {
-    console.log('Using fixed session:', this.FIXED_SESSION_ID);
-    return this.http.get<Session>(
-      `${this.apiUrl}/session/${this.FIXED_SESSION_ID}`, 
-      { headers: this.getHeaders() }
-    );
-  }
-
-  // Conversation APIs
-  createConversation(): Observable<Conversation> {
-    console.log('Creating conversation with fixed session:', this.FIXED_SESSION_ID);
-    return this.http.post<Conversation>(
-      `${this.apiUrl}/conversation`, 
-      { session_id: this.FIXED_SESSION_ID }, 
-      { headers: this.getHeaders() }
-    );
-  }
-
-  getConversations(): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(
-      `${this.apiUrl}/conversation`,
-      { 
-        params: { session_id: this.FIXED_SESSION_ID },
-        headers: this.getHeaders() 
-      }
-    );
-  }
-
-  getConversationById(conversationId: number): Observable<Conversation> {
-    return this.http.get<Conversation>(
-      `${this.apiUrl}/conversation/${conversationId}`, 
-      { headers: this.getHeaders() }
-    );
-  }
-
-  deleteConversation(conversationId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/conversation/${conversationId}`, 
+  // Sessione
+  createSession(): Observable<{session_id: string}> {
+    return this.http.post<{session_id: string}>(`${this.apiUrl}/api/session`, {}, 
       { headers: this.getHeaders() });
   }
 
-  // Message APIs
-  addMessage(conversationId: number, content: string, sender: 'user'|'assistant'): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/message`, {
-      conversation_id: conversationId,
-      content,
-      sender
-    }, { headers: this.getHeaders() });
+  updateSession(session_id: string): Observable<{success: boolean}> {
+    return this.http.put<{success: boolean}>(`${this.apiUrl}/api/session/${session_id}`, {}, 
+      { headers: this.getHeaders() });
   }
 
-  getMessages(conversationId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/message`, 
+  // Conversazioni
+  getConversations(session_id: string): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.apiUrl}/api/conversation`, {
+      headers: this.getHeaders(),
+      params: { session_id: session_id }
+    });
+  }
+
+  getConversationById(conversation_id: string): Observable<Conversation> {
+    return this.http.get<Conversation>(`${this.apiUrl}/api/conversation/${conversation_id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  createConversation(session_id: string): Observable<{conversation_id: string}> {
+    return this.http.post<{conversation_id: string}>(`${this.apiUrl}/api/conversation`, 
+      { session_id: session_id },
+      { headers: this.getHeaders() });
+  }
+
+  deleteConversation(conversation_id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/api/conversation/${conversation_id}`, 
+      { headers: this.getHeaders() });
+  }
+
+  updateConversationTimestamp(conversation_id: string): Observable<{success: boolean}> {
+    return this.http.put<{success: boolean}>(
+      `${this.apiUrl}/api/conversation/${conversation_id}/update`, 
+      {}, 
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // Messaggi
+  getMessages(conversation_id: string): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiUrl}/api/message`, {
+      headers: this.getHeaders(),
+      params: { conversation_id: conversation_id }
+    });
+  }
+
+  sendMessage(conversationId: string, content: string): Observable<{message_id: string}> {
+    return this.http.post<{message_id: string}>(`${this.apiUrl}/api/message`, 
       { 
-        params: { conversation_id: conversationId },
-        headers: this.getHeaders() 
-      });
+        conversation_id: conversationId,
+        sender: 'user',
+        content 
+      },
+      { headers: this.getHeaders() });
   }
 
-  // Question API
-  askQuestion(conversationId: number, question: string): Observable<Message> {
-    return this.http.post<Message>(
-        `${this.apiUrl}/question/${conversationId}`, 
-        { question: question },
-        { headers: this.getHeaders() }
+  // Feedback
+  sendFeedback(message_id: string, is_positive: boolean, content?: string): Observable<{message_id: string}> {
+    return this.http.post<{message_id: string}>(`${this.apiUrl}/api/feedback`, 
+      { 
+        message_id: message_id,
+        feedback_value: is_positive ? 1 : 0,
+        content: content || null
+      },
+      { headers: this.getHeaders() });
+  }
+
+  // Dashboard (Admin)
+  getAdminStats(): Observable<{
+    totalConversations: number,
+    positiveFeedback: number,
+    negativeFeedback: number
+  }> {
+    const headers = this.getHeaders();
+    
+    return forkJoin({
+      num_conversations: this.http.get<{num_conversations: number}>(`${this.apiUrl}/api/dashboard/num_conversations`, { headers })
+        .pipe(map(res => res.num_conversations)),
+      num_positive_feedback: this.http.get<{num_positive_feedback: number}>(`${this.apiUrl}/api/dashboard/num_positive`, { headers })
+        .pipe(map(res => res.num_positive_feedback)),
+      num_negative_feedback: this.http.get<{num_negative_feedback: number}>(`${this.apiUrl}/api/dashboard/num_negative`, { headers })
+        .pipe(map(res => res.num_negative_feedback))
+    }).pipe(
+      map(result => ({
+        totalConversations: result.num_conversations,
+        positiveFeedback: result.num_positive_feedback,
+        negativeFeedback: result.num_negative_feedback,
+        // Valori predefiniti per altri campi nel dashboard
+        totalMessages: 0,
+        uniqueUsers: 0
+      }))
+    );
+  }
+
+  getFeedbackWithComments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/dashboard/feedback_comments`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  adminLogin(passwordHash: string): Observable<{success: boolean, token?: string}> {
+    // MOCK: 
+    const mockAdminHash = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // hash di "password"
+    
+    return of({
+      success: passwordHash === mockAdminHash,
+      token: passwordHash === mockAdminHash ? "mock-admin-token-123" : undefined
+    }).pipe(
+      delay(800)
     );
   }
 }

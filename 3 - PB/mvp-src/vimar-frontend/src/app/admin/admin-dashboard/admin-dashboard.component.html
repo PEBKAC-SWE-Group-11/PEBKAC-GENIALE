@@ -1,0 +1,80 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard Admin</h1>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+  
+  <div class="dashboard-body">
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <p>Caricamento statistiche...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+      <button class="retry-btn" (click)="loadStats()">Riprova</button>
+    </div>
+    
+    <div *ngIf="!isLoading && !error && stats" class="stats-container">
+      <div class="stats-card">
+        <h3>Conversazioni totali</h3>
+        <div class="stat-value">{{ stats.totalConversations }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Feedback positivi</h3>
+        <div class="stat-value">{{ stats.positiveFeedback }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Feedback negativi</h3>
+        <div class="stat-value">{{ stats.negativeFeedback }}</div>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Tasso di soddisfazione</h3>
+        <div class="stat-value">{{ calcSatisfactionRate() }}</div>
+      </div>
+    </div>
+    
+    <!-- Sezione commenti feedback -->
+    <div class="feedback-comments-section">
+      <h2>Commenti degli utenti</h2>
+      
+      <div *ngIf="isLoadingComments" class="loading">
+        <div class="spinner"></div>
+        <p>Caricamento commenti...</p>
+      </div>
+      
+      <div *ngIf="commentsError" class="error-message">
+        {{ commentsError }}
+        <button class="retry-btn" (click)="loadFeedbackComments()">Riprova</button>
+      </div>
+      
+      <div *ngIf="!isLoadingComments && !commentsError">
+        <div *ngIf="feedbackComments.length === 0" class="no-comments">
+          Nessun commento disponibile.
+        </div>
+        
+        <div *ngIf="feedbackComments.length > 0" class="comments-list">
+          <div *ngFor="let comment of feedbackComments" class="comment-item" [ngClass]="{'positive': comment.type === 'positive', 'negative': comment.type === 'negative'}">
+            <div class="comment-header">
+              <span class="comment-type">{{ comment.type === 'positive' ? '👍 Positivo' : '👎 Negativo' }}</span>
+              <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
+            </div>
+            <div class="comment-message-context">
+              <strong>Messaggio originale:</strong> {{ comment.message_content }}
+            </div>
+            <div class="comment-content">
+              <strong>Commento:</strong> {{ comment.content }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">Torna alla chat</a>
+  </div>
+</div> 

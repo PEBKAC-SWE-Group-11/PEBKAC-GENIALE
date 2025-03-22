@@ -1,0 +1,33 @@
+<div class="admin-login-container">
+  <div class="login-card">
+    <h2>Area Amministratore</h2>
+    
+    <div class="demo-badge">MODALITÀ DEMO</div>
+    
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="info-message">
+      Questa è una versione dimostrativa. Usa la password: "password"
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        [(ngModel)]="password"
+        [disabled]="isLoading">
+    </div>
+    
+    <button 
+      class="login-btn" 
+      (click)="login()" 
+      [disabled]="isLoading">
+      {{ isLoading ? 'Accesso in corso...' : 'Accedi' }}
+    </button>
+    
+    <a routerLink="/" class="back-link">Torna alla chat</a>
+  </div>
+</div> 

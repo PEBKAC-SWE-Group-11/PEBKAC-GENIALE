@@ -13,9 +13,18 @@ class DBRepository(RepositoryPort):
 
     def execute_query(self, query, params=None):
         cursor = self.connection.cursor()
-        cursor.execute(query, params)
-        self.connection.commit()
-        return cursor
+        print(f"Query: {query}")
+        print(f"Params: {params}")
+        try:
+            cursor.execute(query, params)
+            print("Query COMMITTED successfully")
+            self.connection.commit()
+            return cursor
+        except Exception as e:
+            print(f"Error executing query: {e}")
+            self.connection.rollback()
+            print("Query ROLLED BACK")
+            return cursor
 
     def fetch_one(self, query, params=None):
         cursor = self.execute_query(query, params)
