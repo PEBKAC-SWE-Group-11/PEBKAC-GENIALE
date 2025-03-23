@@ -62,7 +62,7 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         for i, product in enumerate(processedProducts, 1):
             logger.info(f"Elaborazione prodotto {i}/{len(processedProducts)}")
             cursor.execute("""
-                INSERT INTO Product (id, title, desciption, etim, id_vector, idtitle_vector, idtitledescr_vector)
+                INSERT INTO Product (id, title, description, etim, id_vector, idtitle_vector, idtitledescr_vector)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (id) DO NOTHING;
             """, (
