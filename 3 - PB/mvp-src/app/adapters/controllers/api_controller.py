@@ -10,13 +10,11 @@ from app.infrastructure.http.api import flask_app
 
 
 CORS(flask_app, resources={r"/*": {"origins": "http://localhost:4200"}})
-CORS(flask_app, resources={r"/*": {"origins": "http://localhost:4200"}})
 API_KEY = "our-secret-api-key"
 
 conversation_service = ConversationService()
 embedding_service = EmbeddingService()
 
-@flask_app.route('/api/test', methods=['GET'])
 @flask_app.route('/api/test', methods=['GET'])
 def test_api():
     return {"message": "success"}, 200
@@ -31,7 +29,6 @@ def require_api_key(f):
             return jsonify({"error": "Unauthorized"}), 401
     return decorated_function
 
-@flask_app.route('/api/question/<conversation_id>', methods=['POST'])
 @flask_app.route('/api/question/<conversation_id>', methods=['POST'])
 @require_api_key
 def ask_question(conversation_id):
@@ -78,7 +75,6 @@ def api_create_conversation():
         return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/conversation', methods=['GET'])
-@flask_app.route('/api/conversation', methods=['GET'])
 @require_api_key
 def api_read_conversations():
     try:
@@ -97,7 +93,6 @@ def api_read_conversations():
 def api_read_conversation_by_id(conversation_id):
     return jsonify(conversation_service.read_conversation_by_id(conversation_id)), 200
 
-@flask_app.route('/api/conversation/<conversation_id>', methods=['DELETE'])
 @flask_app.route('/api/conversation/<conversation_id>', methods=['DELETE'])
 @require_api_key
 def api_delete_conversation(conversation_id):
@@ -129,7 +124,6 @@ def api_add_message():
     message_id = conversation_service.add_message(conversation_id, sender, content)
     return jsonify({"message_id": message_id}), 201
 
-@flask_app.route('/api/message', methods=['GET'])
 @flask_app.route('/api/message', methods=['GET'])
 @require_api_key
 def api_read_messages():
@@ -195,9 +189,7 @@ def api_read_feedback_with_comments():
 @flask_app.errorhandler(Exception)
 def handle_exception(e):
     flask_app.logger.error(f"An error occurred: {e}")
-    flask_app.logger.error(f"An error occurred: {e}")
     return jsonify({"error": "Internal Server Error"}), 500
 
 if __name__ == '__main__':
-    flask_app.run(host='0.0.0.0', port=5001)
     flask_app.run(host='0.0.0.0', port=5001)
