@@ -23,7 +23,7 @@ def insertChunksFromLinks(cursor: Any, links: list) -> None:
     try:
         logger.info(f"Trovati {len(links)} link da processare.")
         
-        #links = links[:1]  # Limita il numero di link per testare il codice
+        links = links[:1]  # Limita il numero di link per testare il codice
         chunks = processLinksToChunks(links)
         logger.info(f"Generati {len(chunks)} chunk da inserire nel database.")
         
@@ -62,7 +62,7 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         for i, product in enumerate(processedProducts, 1):
             logger.info(f"Elaborazione prodotto {i}/{len(processedProducts)}")
             cursor.execute("""
-                INSERT INTO Product (id, title, desciption, etim, id_vector, idtitle_vector, idtitledescr_vector)
+                INSERT INTO Product (id, title, description, etim, id_vector, idtitle_vector, idtitledescr_vector)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (id) DO NOTHING;
             """, (
