@@ -1,37 +1,240 @@
-
-
 \section{Architettura di sistema }
-\subsection{Modello Architetturale}
-Il progetto Vimar GENIALE rappresenta un’applicazione moderna e avanzata per la gestione di conversazioni intelligenti, sviluppata con un’architettura distribuita e tecnologie all’avanguardia. La sua struttura è pensata per garantire flessibilità, scalabilità e manutenibilità nel tempo, integrando diversi componenti che collaborano per offrire un’esperienza fluida ed efficiente.Per la progettazione del software, si possono adottare due diverse strategie architetturali: l’architettura a strati e l’architettura esagonale.
-\begin{itemize}
-\item \textbf{L’architettura a strati} è paragonabile a un edificio tradizionale, in cui ogni piano rappresenta un livello ben definito e la comunicazione avviene esclusivamente tra piani adiacenti. Solitamente, si suddivide in:
-
-Presentation Layer: l’interfaccia utente che interagisce con gli utenti.
-Business Layer: il livello che contiene la logica di business e le regole applicative.
-Persistence Layer: lo strato che si occupa della gestione e dell’accesso ai dati.
-Questa organizzazione offre una struttura semplice e ben definita, ideale per applicazioni meno complesse e con pochi collegamenti esterni. Tuttavia, nel caso di un progetto che deve gestire molte integrazioni e garantire una forte modularità, questa soluzione può risultare rigida e difficile da modificare senza impattare altri livelli.
-\end{itemize}
-\begin{itemize}
-\item \textbf{L’architettura esagonale}, invece, è pensata per rendere il sistema più flessibile e indipendente dalle sue dipendenze esterne. Immaginiamola come un hub centrale con diverse porte di accesso: il cuore dell’applicazione (core) è isolato e protetto, mentre tutti i servizi esterni, come il database o il motore AI, si collegano attraverso interfacce ben definite, chiamate ports. Queste porte vengono poi implementate concretamente dagli adapters, che gestiscono le interazioni con il mondo esterno.
-
-Un esempio pratico di questa architettura può essere visto come un aeroporto, dove ogni compagnia aerea ha un terminale dedicato, ma tutti condividono la stessa infrastruttura centrale. Questo permette di mantenere un’organizzazione chiara e modulare, evitando che modifiche a un componente possano impattare il resto del sistema.
-\end{itemize}
-
-L’\textbf{architettura esagonale} è la scelta ideale per \textbf{ Vimar GENIALE} perché garantisce una maggiore flessibilità e modularità rispetto all’\textbf{architettura a strati}. La sua capacità di isolare le dipendenze esterne, migliorare la testabilità, facilitare la scalabilità e mantenere il codice ben organizzato la rende perfetta per un progetto che integra tecnologie avanzate e che potrebbe evolversi nel tempo.
-\begin{figure}[H]
+\subsection{Modello architetturale}
+    \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Esagonale.png}
-    \caption{Schema architetturale del sistema}
+    \includegraphics[width=\textwidth]{images/esagonale.png}
+    \caption{Schema architetturale del backend}
     \label{fig:architettura}
 \end{figure}
-    \item \textbf{Data Extraction & Indexing (Scrapy e Nomic)}: raccoglie dati dal web (es. Vimar.com), li elabora e li indicizza, rendendoli facilmente consultabili dal database e dall'AI.
-    \item \textbf{AI (Meta Llama 3)}: utilizzato per elaborazioni avanzate, supporta il sistema nell'analisi dei dati, nella generazione di risposte intelligenti e nell'arricchimento delle informazioni estratte.
-    \item \textbf{Database (PostgreSQL)}: memorizza i dati raccolti ed elaborati, garantendo un accesso rapido ed efficiente tramite il backend.
-    \item \textbf{Backend (API Flask e Python)}: funge da intermediario tra il frontend e gli altri componenti, gestendo le richieste dell’utente, eseguendo la logica di business e comunicando con il database e i servizi AI.
-    \item \textbf{Frontend (WebApp)}: sviluppato in Angular, permette agli utenti di interagire con il sistema attraverso un’interfaccia intuitiva, inviando richieste e visualizzando i dati elaborati.
-    \subsection{Modello Architetturale}
-    \item Il diagramma illustra il flusso dei dati all'interno del sistema, evidenziando le varie fasi di acquisizione, elaborazione, archiviazione e visualizzazione. Mostra le entità coinvolte e le loro interconnessioni, offrendo una visione chiara di come le informazioni vengono gestite e trasformate lungo il processo.
-    \item immagine
-    
-    
-    
+Il sistema è stato progettato seguendo l'\textbf{architettura esagonale}, un modello che mira alla separazione tra business logic dell'applicazione e i servizi esterni, le fonti dati e le interfacce utente. Questa struttura pone il core\textsubscript{G} al centro, circondato da ports\textsubscript{G} che fungono da interfaccia tra il core\textsubscript{G} e il mondo esterno.
+
+Il \textbf{core\textsubscript{G}} dell'applicazione è il fulcro del sistema, che contiene la logica di dominio e le regole di business. La sua progettazione punta ad evitare riferimenti diretti a dettagli tecnologici specifici, promuovendo l'indipendenza dal contesto esterno.
+
+Le \textbf{ports\textsubscript{G}} costituiscono il confine tra il core\textsubscript{G} dell'applicazione e l'esterno, garantendo una comunicazione strutturata. Esistono due tipi di ports\textsubscript{G}: 
+\begin{itemize}
+    \item Inbound Port (o Use Case): per le invocazioni del core\textsubscript{G} da parte di componenti esterni, attraverso un'interfaccia definita. Sono in pratica dei punti di accesso al core\textsubscript{G} e isolano la logica di dominio da implementazioni specifiche;
+    \item Outbound Port: consentono al core\textsubscript{G} di accedere a funzionalità esterne (e.g. interazione con librerie esterne\textsubscript{G} o sistemi di persistenza). Mettono a disposizione un'astrazione che preserva l'indipendenza del core\textsubscript{G} dai dettagli tecnici specifici. 
+\end{itemize}
+
+I \textbf{services\textsubscript{G}} costituiscono il livello più esterno dell'applicazione, fanno parte della business logic. L'implementazione dei services\textsubscript{G} si concentra sulla logica di dominio, senza preoccuparsi degli aspetti tencologici specifici.
+
+Gli \textbf{adapters\textsubscript{G}} formano il livello più esterno dell'applicazione. Esistono due tipi di adapters\textsubscript{G}: 
+\begin{itemize}
+    \item Input Adapters\textsubscript{G} (o Controllers): invocano operazioni sulle Inbound Port, traducendo le azioni provenienti dall'esterno in chiamate alle ports\textsubscript{G} in ingresso al core\textsubscript{G}, rendendo le richieste esterne comprensibili per il core\textsubscript{G};
+    \item Output Adapters\textsubscript{G}: invocano operazioni sulle Outbound Port, traducendo le azioni del core\textsubscript{G} in operazioni comprensibili per il mondo esterno.
+\end{itemize}
+
+\subsection{Componenti}
+L'architettura del sistema è suddivisa in:
+\begin{itemize}
+    \item Frontend: si occupa di fornire un'interfaccia grafica all'utente per interagire col sistema. Inoltra le domande dell'utente al backend e visualizza i risultati;
+    \item Backend: si occupa di elaborare le richieste degli utenti, interagendo con il sistema di persistenza e i servizi esterni, in particolare dialoga con il database vettoriale e con gli LLM;
+    \item Database: è responsabile della memorizzazione della documentazione per la RAG e delle chat con relativi messaggi.
+\end{itemize}
+\subsubsection{Assemblaggio delle componenti}
+Le componenti sono assemblate tramite Docker Compose, per facilitare l'esecuzione e la gestione di più container docker. 
+In particolare sono stati prodotti i seguenti container:
+\begin{itemize}
+    \item pgvector: espone l'istanza del database sulla porta 5432, permettendo al backend di accedere ai relativi dati;
+    \item app: espone la componente di backend sulla porta 5001, dando al frontend la possibilità di accedere ai servizi offerti;
+    \item frontend: espone l'applicazione web sulla porta 4200, dando la possibilità all'utente di connettersi e interagire col sistema.
+\end{itemize}
+\subsection{Struttura del sistema}
+\subsubsection{Frontend}
+\subsubsubsection{Introduzione}
+L'approccio adottato per lo sviluppo del front-end\textsubscript{G} si basa su una combinazione flessibile di pattern e pratiche tipiche del framework\textsubscript{G}, senza aderire rigidamente a un unico schema architetturale\textsubscript{G} come MVC\textsubscript{G} e MVVM\textsubscript{G}. Questa scelta consente di bilanciare modularità, scalabilità e semplicità nella gestione dello stato, adattandosi alle specifiche esigenze del progetto. La struttura dell'applicazione si basa su componenti ben definiti – come SidebarComponent, ChatboxComponent e AppComponent – supportati da servizi dedicati quali ApiService e ChatService. I primi sono responsabili della presentazione, mentre i servizi gestiscono la comunicazione con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G} (nel caso di ApiService) e centralizzano la logica di business e lo stato (come in ChatService). In questo modo, operazioni quali la creazione di conversazioni o l’invio di messaggi vengono delegate ai servizi, rendendo i componenti più leggeri e riutilizzabili. La gestione dello stato è un elemento chiave dell'architettura. L'introduzione di un servizio come ChatService, che utilizza BehaviorSubject per centralizzare conversazioni, messaggi e conversazione attiva, consente ai componenti di reagire dinamicamente ai cambiamenti attraverso gli observable\textsubscript{G}. Questo garantisce un'interfaccia utente reattiva e fluida, resa possibile grazie a strumenti asincroni come async/await\textsubscript{G} e firstValueFrom\textsubscript{G}.
+\subsubsubsection{Scenari}
+Il front-end\textsubscript{G} presenta un’area pubblica e un’area riservata all’admin come richiesto dal capitolato\textsubscript{G}. La prima può essere utilizzata da un utente generico, e non è previsto un sistema di autenticazione\textsubscript{G}, mentre la seconda come si può intuire è riservata all’amministratore e sono richieste delle credenziali di accesso.
+\subsubsubsubsection{Scenari pubblici}
+\begin{itemize}
+    \item Inizializzazione: 
+    \newline \newline Viene verificato se esista già una sessione\textsubscript{G} salvata nel localStorage\textsubscript{G} del dispositivo dal quale si intende usufruire dell’applicativo. Se esiste allora vengono recuperate le conversazioni con i rispettivi messaggi, altrimenti viene creata una nuova sessione di cui si tiene traccia tramite un’ID di sessione generato in maniera univoca. Inoltre, nel caso di una sessione nuova viene generata una conversazione di default che permette all'utente di interagire con l'assistente digitale\textsubscript{G}. 
+    \item Gestione Conversazioni:
+    \begin{itemize}
+        \item L'utente può aggiungere conversazioni tramite un pulsante dedicato, ed è previsto un limite di 10 conversazioni; 
+        \item L'utente può selezionare una qualsiasi delle conversazioni presenti così recuperando lo storico di messaggi;
+        \item L'utente puà eliminare qualsiasi conversazioni desideri, qualora eliminasse la conversazione attiva, al suo posto viene generata automaticamente una nuova conversazione. 
+    \end{itemize}
+     \item Gestione Messaggi:
+     \begin{itemize}
+         \item L'utente può inviare messaggi, con limite di 500 caratteri, per i quali è previsto un messaggio di risposta dall'assistente digitale;
+         \item L'utente può valutare la qualità di risposta tramite un sistema di feedback\textsubscript{G} positivi e negativi.
+     \end{itemize}
+\end{itemize}
+\subsubsubsubsection{Scenari admin}
+\begin{itemize}
+    \item Accesso:
+    \newline \newline L'admin accede tramite un URL\textsubscript{G} dedicato (/admin) e vede la schermata di login\textsubscript{G}. Con credenziali corrette, l'admin entra nel dashboard\textsubscript{G} (/admin/dashboard), altrimenti riceve un messaggio di errore. I tentativi di accesso non autorizzati al dashboard vengono bloccati e reinderizzati al login.
+    \item Funzionalità:
+    \begin{itemize}
+        \item (Lista di statistiche)
+    \end{itemize}
+\end{itemize}
+\subsubsubsection{Diagrammi delle Classi}
+Seguendo la scia del paragrafo precedente relativo agli scenari, l'analisi dei diagrammi delle classi\textsubscript{G} è relazionato ai scenari pubblici e scenari admin. Ogni scenario sarà associato alle classi principali coinvolte e alle loro relazioni.
+\subsubsubsubsection{Scenari pubblici}
+\begin{itemize}
+    \item Inizializzazione
+    \begin{itemize}
+        \item Classi Coinvolte:
+        \begin{itemize}
+            \item AppComponent coordina l'inizializzazione dell'applicativo;
+            \item SidebarComponent gestisce la lisa delle conversazioni;
+            \item ChatboxComponent mostra la conversazione attiva e i relativi messaggi;
+            \item ApiService gestisce le chiamate API RESTful\textsubscript{G} al back-end\textsubscript{G};
+            \item ChatService gestisce lo stato delle conversazioni e dei messaggi.
+        \end{itemize}
+        \item Relazioni:
+        \begin{itemize}
+            \item AppComponent contiene SidebarComponent e ChatboxComponent come componenti figli;
+            \item SidebarComponent e ChatboxComponent dipendonon da ChatService per accedere allo stato;
+            \item ChatService usa ApiService per recuperare i dati iniziali dal back-end.
+        \end{itemize}
+    \end{itemize}
+    \item Creazione di una Nuova Conversazione
+    \begin{itemize}
+        \item Classi Coinvolte:
+        \begin{itemize}
+            \item SidebarComponent contiene il pulsante per avviare la creazione;
+            \item ChatService crea la conversazione e aggiorna lo stato;
+            \item ApiService invial la richiesta HTTP al back-end per creare la conversazione.
+        \end{itemize}
+        \item Relazioni:
+        \begin{itemize}
+            \item SidebarComponent invoca il metodo ChatService.createConversation();
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\subsubsection{Backend}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/architettura.png}
+    \caption{Schema architetturale del backend}
+    \label{fig:architettura}
+\end{figure}
+\begin{itemize}
+\item Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
+\item La comunicazione tra il Core e l'ambiente esterno è gestita attraverso i Porti, che definiscono le interfacce di interazione. Questi costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. I Porti rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
+\item Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dai Porti, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
+\end{itemize}
+\subsection*{Core - ConversationService}
+Nel core del sistema, la classe \texttt{ConversationService} si occupa principalmente della gestione delle sessioni, delle conversazioni, dei messaggi e dei feedback.
+
+\subsubsection*{Gestione delle Sessioni}
+Il servizio offre diversi metodi per la gestione delle sessioni:
+\begin{itemize}
+    \item \texttt{create\_session()} permette di creare una nuova sessione.
+    \item \texttt{read\_session(session\_id)} recupera una sessione esistente dato un identificativo specifico.
+    \item \texttt{update\_session(session\_id)} consente di aggiornare il timestamp di una sessione.
+\end{itemize}
+
+\subsubsection*{Gestione delle Conversazioni}
+Per quanto riguarda le conversazioni, il servizio gestisce:
+\begin{itemize}
+    \item \texttt{create\_conversation(session\_id)} crea una nuova conversazione associata a una sessione esistente.
+    \item \texttt{read\_conversations(session\_id)} restituisce tutte le conversazioni relative a una sessione specifica.
+    \item \texttt{read\_conversation\_by\_id(conversation\_id)} permette di recuperare una conversazione in base al suo ID.
+    \item \texttt{delete\_conversation(conversation\_id)} consente di eliminare una conversazione (o marcarla come eliminata).
+    \item \texttt{update\_conversation\_timestamp(conversation\_id)} aggiorna il timestamp di una conversazione.
+\end{itemize}
+
+\subsubsection*{Gestione dei Messaggi}
+Il sistema offre anche funzionalità per la gestione dei messaggi all’interno delle conversazioni:
+\begin{itemize}
+    \item \texttt{add\_message(conversation\_id, sender, content)} consente di aggiungere un nuovo messaggio a una conversazione esistente.
+    \item \texttt{read\_messages(conversation\_id)} restituisce tutti i messaggi di una determinata conversazione.
+\end{itemize}
+
+\subsubsection*{Gestione dei Feedback}
+Infine, la gestione dei feedback si articola in diversi metodi:
+\begin{itemize}
+    \item \texttt{read\_feedback(message\_id)} recupera il feedback associato a un messaggio specifico.
+    \item \texttt{add\_feedback(message\_id, feedback, content)} permette di aggiungere un feedback a un messaggio esistente.
+    \item \texttt{read\_num\_positive\_feedback()} e \texttt{read\_num\_negative\_feedback()} forniscono il conteggio dei feedback positivi e negativi.
+    \item \texttt{read\_feedback\_with\_comments()} recupera tutti i feedback che contengono anche dei commenti.
+\end{itemize}
+
+\subsection*{Adattatori - DBRepository}
+Gli adattatori sono responsabili della comunicazione tra il core del sistema e il database. In particolare, \texttt{DBRepository} si occupa dell'esecuzione delle query SQL e della gestione dei risultati:
+\begin{itemize}
+    \item \texttt{execute\_query(query, params)} esegue una query SQL passando i parametri necessari.
+    \item \texttt{fetch\_one(query, params)} recupera un singolo risultato dalla query.
+    \item \texttt{fetch\_all(query, params)} restituisce tutti i risultati di una query.
+    \item \texttt{close()} chiude la connessione al database.
+\end{itemize}
+
+\subsection*{Adattatori - API Controller}
+Gli adattatori includono anche il \texttt{API Controller}, che gestisce gli endpoint delle API esposte dal sistema. Esistono vari endpoint per ciascuna delle operazioni descritte, a partire da quelli di test, come:
+\begin{itemize}
+    \item \texttt{test\_api()} che consente di verificare il funzionamento generale del sistema.
+\end{itemize}
+
+Nell’ambito della gestione delle sessioni, sono disponibili:
+\begin{itemize}
+    \item \texttt{api\_create\_session()} per creare una nuova sessione.
+    \item \texttt{api\_update\_session(session\_id)} per aggiornare una sessione esistente.
+\end{itemize}
+
+Per la gestione delle conversazioni, ci sono i seguenti endpoint:
+\begin{itemize}
+    \item \texttt{api\_create\_conversation()} per creare una conversazione.
+    \item \texttt{api\_read\_conversations()} per ottenere tutte le conversazioni di una sessione.
+    \item \texttt{api\_read\_conversation\_by\_id(conversation\_id)} per ottenere una conversazione specifica.
+    \item \texttt{api\_delete\_conversation(conversation\_id)} per eliminare una conversazione.
+    \item \texttt{api\_update\_conversation\_timestamp(conversation\_id)} per aggiornare il timestamp della conversazione.
+\end{itemize}
+
+La gestione dei messaggi è supportata da:
+\begin{itemize}
+    \item \texttt{api\_add\_message()} per aggiungere un nuovo messaggio.
+    \item \texttt{api\_read\_messages()} per recuperare i messaggi di una conversazione.
+\end{itemize}
+
+Inoltre, sono presenti endpoint per la gestione dei feedback:
+\begin{itemize}
+    \item \texttt{api\_read\_feedback\_by\_message\_id(message\_id)} recupera il feedback associato a un messaggio.
+    \item \texttt{api\_add\_feedback()} permette di aggiungere un feedback.
+\end{itemize}
+
+Infine, il \texttt{Dashboard} espone diversi endpoint per raccogliere statistiche:
+\begin{itemize}
+    \item \texttt{api\_read\_num\_positive\_feedback()} e \texttt{api\_read\_num\_negative\_feedback()} per ottenere il numero di feedback positivi e negativi.
+    \item \texttt{api\_read\_num\_conversations()} per conoscere il numero totale di conversazioni.
+    \item \texttt{api\_read\_feedback\_with\_comments()} per ottenere feedback che includono commenti.
+\end{itemize}
+
+Gli endpoint sono protetti da un sistema di sicurezza, con il decoratore \texttt{require\_api\_key(f)} che garantisce l’autenticazione tramite chiave API. Inoltre, la configurazione di CORS permette di gestire le richieste provenienti dal frontend.
+
+\subsection{Database}
+\begin{itemize}
+\item Il file principale è main.py, che funge da punto di ingresso per l'applicazione. Qui vengono orchestrate le operazioni principali, come l'inizializzazione del database e il caricamento dei dati.
+\end{itemize}
+Uno degli aspetti chiave dell'architettura è la gestione del database, che viene affidata a diversi moduli:
+
+\texttt{connectionDB.py} si occupa di stabilire e gestire la connessione con il database PostgreSQL.
+
+\texttt{createTable.py} definisce la struttura delle tabelle e ne gestisce la creazione, assicurando che il database sia pronto per accogliere i dati.
+
+\texttt{dataSaving.py} si occupa invece di inserire i dati elaborati nelle tabelle del database.
+
+\subsubsection{Elaborazione dei Dati}
+Una volta stabilita la connessione al database, l'attenzione si sposta sulla fase di elaborazione vera e propria. Diversi moduli si occupano di trasformare i dati e prepararli per l'archiviazione:
+
+\item \texttt{productsElaboration.py} gestisce la manipolazione e l'analisi dei dati relativi ai prodotti, applicando eventuali filtri o trasformazioni.
+
+\item \texttt{chunkElabotation.py} è particolarmente utile quando si lavora con grandi quantità di dati, poiché divide l'elaborazione in blocchi (chunk) per ottimizzare le prestazioni e ridurre il carico sulla memoria.
+
+\item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti.
+
+\subsubsection{ Dipendenze e Tecnologie Utilizzate}
+\item L’elenco delle dipendenze è definito nel file requirements.txt, che include una serie di librerie fondamentali per il funzionamento del sistema:
+
+\item Flask per la gestione del server web tramite API.
+
+\item Ollama per l’elaborazione del linguaggio naturale,  utilizzato per l'analisi dei testi associati ai prodotti.
+
+\item PostgreSQL come database relazionale, scelto per la sua affidabilità e capacità di gestione di grandi volumi di dati.
+
+\item Librerie per la manipolazione e l'analisi dei dati, come numpy e scikit-learn.
+
+\item pypdf, che indica la funzionalità legata all'elaborazione di documenti PDF.
