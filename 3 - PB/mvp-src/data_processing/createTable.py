@@ -29,7 +29,7 @@ def createTables(connection: pgConnection) -> None:
             f'''CREATE TABLE IF NOT EXISTS Product (
                 id TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
-                desciption TEXT,
+                description TEXT,
                 etim TEXT,
                 id_vector vector({vectorDim}),
                 idtitle_vector vector({vectorDim}),
