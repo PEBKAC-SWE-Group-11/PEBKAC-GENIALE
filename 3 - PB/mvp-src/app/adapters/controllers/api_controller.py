@@ -3,9 +3,9 @@ from flask_cors import CORS
 from functools import wraps
 import logging
 from app.core.services.conversation_service import ConversationService
-from app.adapters.services.embedding_service import EmbeddingService
 from app.infrastructure.http.api import flask_app
-
+from app.adapters.services.contextExtractorService import contextExtractorService
+from app.adapters.services.llmResponseService import llmResponseService
 from app.infrastructure.http.api import flask_app
 
 
@@ -13,7 +13,8 @@ CORS(flask_app, resources={r"/*": {"origins": "http://localhost:4200"}})
 API_KEY = "our-secret-api-key"
 
 conversation_service = ConversationService()
-embedding_service = EmbeddingService()
+contextExtractor = contextExtractorService()
+llmResponse = llmResponseService()
 
 @flask_app.route('/api/test', methods=['GET'])
 def test_api():
@@ -33,11 +34,18 @@ def require_api_key(f):
 @require_api_key
 def ask_question(conversation_id):
     question = request.json.get("question")
+    textsToEmbed, etimToEmbed = contextExtractor.processUserInput(question)
     messages = conversation_service.read_messages(conversation_id)
-    text_to_embed = embedding_service.get_embeddings(question)
-    response = conversation_service.get_llm_response(messages, question, text_to_embed)
+    response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
     message_id = conversation_service.add_message(conversation_id, "assistant", response)
     return jsonify({"message_id": message_id}), 200
+
+    # question = request.json.get("question")
+    # messages = conversation_service.read_messages(conversation_id)
+    # text_to_embed = embedding_service.get_embeddings(question)
+    # response = conversation_service.get_llm_response(messages, question, text_to_embed)
+    # message_id = conversation_service.add_message(conversation_id, "assistant", response)
+    # return jsonify({"message_id": message_id}), 200
 
 
 @flask_app.route('/api/session', methods=['POST'])
