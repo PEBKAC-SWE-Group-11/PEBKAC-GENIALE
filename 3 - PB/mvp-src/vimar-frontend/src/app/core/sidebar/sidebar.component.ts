@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChatService } from '../../services/chat.service';
-import { Conversation } from '../../models/conversation.model';
+import { ChatService } from '../../shared/services/chat.service';
+import { Conversation } from '../../shared/models/conversation.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,8 +31,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         
         // Log per verificare l'ordinamento
         console.log('Conversazioni ordinate:', this.conversations.map(c => ({
-          id: c.conversation_id,
-          updated: new Date(c.updated_at).toLocaleString()
+          id: c.conversationId,
+          updated: new Date(c.updatedAt).toLocaleString()
         })));
       })
     );
@@ -77,6 +77,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   isActive(conversation: Conversation): boolean {
-    return this.activeConversation?.conversation_id === conversation.conversation_id;
+    return this.activeConversation?.conversationId === conversation.conversationId;
   }
 }

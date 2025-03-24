@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { Feedback } from '../../models/feedback.model';
+import { ApiService } from '../../../shared/services/api.service';
+import { Feedback } from '../../../shared/models/feedback.model';
 
 interface FeedbackWithMessage extends Feedback {
-  message_content: string;
+  messageContent: string;
 }
 
 @Component({
   selector: 'app-admin-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css'],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
@@ -78,7 +78,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('admin_token');
+    localStorage.removeItem('adminToken');
     this.router.navigate(['/admin/login']);
   }
 } 

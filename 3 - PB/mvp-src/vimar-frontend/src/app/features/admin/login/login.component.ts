@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../../shared/services/api.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-login',
-  templateUrl: './admin-login.component.html',
-  styleUrls: ['./admin-login.component.css'],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule]
 })
@@ -47,9 +47,9 @@ export class AdminLoginComponent {
       
       if (response && response.success) {
         if (response.token) {
-          localStorage.setItem('admin_token', response.token);
+          localStorage.setItem('adminToken', response.token);
         } else {
-          localStorage.setItem('admin_authenticated', 'true');
+          localStorage.setItem('adminAuthenticated', 'true');
         }
         this.router.navigate(['/admin/dashboard']);
       } else {

@@ -40,7 +40,7 @@ export class ChatService {
     }
 
     private async initializeFromStorage(): Promise<void> {
-        this.currentSessionId = localStorage.getItem('session_id') || '';
+        this.currentSessionId = localStorage.getItem('sessionId') || '';
         
         if (this.currentSessionId != '' && this.currentSessionId != null) {
             // Aggiorna il timestamp della sessione all'avvio dell'app
@@ -60,8 +60,8 @@ export class ChatService {
     private async createNewSession(): Promise<void> {
         try {
             const response = await firstValueFrom(this.apiService.createSession());
-            this.currentSessionId = response.session_id;
-            localStorage.setItem('session_id', this.currentSessionId);
+            this.currentSessionId = response.sessionId;
+            localStorage.setItem('sessionId', this.currentSessionId);
             
             await this.createConversation();
         } catch (error) {
@@ -99,17 +99,17 @@ export class ChatService {
         // Gestione del limite massimo di conversazioni
         const currentConversations = this.conversationsSubject.getValue();
         if (currentConversations.length >= this.MAX_CONVERSATIONS) {
-            // Trova la conversazione con l'updated_at più vecchio
-            // (ora che le conversazioni sono ordinate per updated_at, dovrebbe essere l'ultima)
+            // Trova la conversazione con l'updatedAt più vecchio
+            // (ora che le conversazioni sono ordinate per updatedAt, dovrebbe essere l'ultima)
             const oldestConversation = currentConversations[currentConversations.length - 1];
             
             try {
                 await firstValueFrom(
-                    this.apiService.deleteConversation(oldestConversation.conversation_id)
+                    this.apiService.deleteConversation(oldestConversation.conversationId)
                 );
                 
                 const updatedConversations = currentConversations.filter(
-                    c => c.conversation_id !== oldestConversation.conversation_id
+                    c => c.conversationId !== oldestConversation.conversationId
                 );
                 this.conversationsSubject.next(updatedConversations);
             } catch (error) {
@@ -123,14 +123,14 @@ export class ChatService {
                 this.apiService.createConversation(this.currentSessionId)
             );
             
-            if (response && response.conversation_id) {
+            if (response && response.conversationId) {
                 const newConversation = {
-                    conversation_id: response.conversation_id,
-                    session_id: this.currentSessionId,
-                    created_at: new Date().toISOString(),
-                    title: `Conversazione ${response.conversation_id}`,
-                    updated_at: new Date().toISOString(),
-                    to_delete: false
+                    conversationId: response.conversationId,
+                    sessionId: this.currentSessionId,
+                    createdAt: new Date().toISOString(),
+                    title: `Conversazione ${response.conversationId}`,
+                    updatedAt: new Date().toISOString(),
+                    toDelete: false
                 } as Conversation;
                 
                 // Aggiungi la nuova conversazione in cima alla lista
@@ -151,7 +151,7 @@ export class ChatService {
 
     setActiveConversation(conversation: Conversation): void {
         this.activeConversationSubject.next(conversation);
-        this.loadMessages(conversation.conversation_id);
+        this.loadMessages(conversation.conversationId);
     }
 
     private async loadMessages(conversationId: string): Promise<void> {
@@ -175,11 +175,11 @@ export class ChatService {
         if (!activeConversation) return;
         
         const userMessage: Message = {
-            message_id: Date.now().toString(),
-            conversation_id: activeConversation.conversation_id,
+            messageId: Date.now().toString(),
+            conversationId: activeConversation.conversationId,
             sender: 'user',
             content: content,
-            created_at: new Date().toISOString()
+            createdAt: new Date().toISOString()
         };
         
         const currentMessages = this.messagesSubject.getValue();
@@ -190,19 +190,19 @@ export class ChatService {
         try {
             // Invia il messaggio al backend
             await firstValueFrom(
-                this.apiService.sendMessage(activeConversation.conversation_id, content)
+                this.apiService.sendMessage(activeConversation.conversationId, content)
             );
             
             // Aggiorna il timestamp della conversazione
             await firstValueFrom(
-                this.apiService.updateConversationTimestamp(activeConversation.conversation_id)
+                this.apiService.updateConversationTimestamp(activeConversation.conversationId)
             );
             
             // Aggiorna localmente l'ordine delle conversazioni
-            this.updateConversationOrder(activeConversation.conversation_id);
+            this.updateConversationOrder(activeConversation.conversationId);
             
             // Ricarica i messaggi della conversazione
-            this.loadMessages(activeConversation.conversation_id);
+            this.loadMessages(activeConversation.conversationId);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
@@ -213,15 +213,15 @@ export class ChatService {
     // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
     private updateConversationOrder(conversationId: string): void {
         const conversations = this.conversationsSubject.getValue();
-        const conversation = conversations.find(c => c.conversation_id === conversationId);
+        const conversation = conversations.find(c => c.conversationId === conversationId);
         
         if (conversation) {
             // Aggiorna il timestamp
-            conversation.updated_at = new Date().toISOString();
+            conversation.updatedAt = new Date().toISOString();
             
             // Rimuovi la conversazione dalla lista
             const remainingConversations = conversations.filter(
-                c => c.conversation_id !== conversationId
+                c => c.conversationId !== conversationId
             );
             
             // Aggiungi la conversazione in cima alla lista
@@ -234,7 +234,7 @@ export class ChatService {
         
         const conversations = this.conversationsSubject.value;
         const activeConversation = this.activeConversationSubject.value;
-        const isActiveConversation = activeConversation?.conversation_id === conversationId;
+        const isActiveConversation = activeConversation?.conversationId === conversationId;
         
         try {
             // L'API service rimane uguale ma nel backend è un soft delete
@@ -243,7 +243,7 @@ export class ChatService {
             );
             
             // L'interfaccia utente rimuove la conversazione dalla lista (come prima)
-            const updatedConversations = conversations.filter(c => c.conversation_id !== conversationId);
+            const updatedConversations = conversations.filter(c => c.conversationId !== conversationId);
             this.conversationsSubject.next(updatedConversations);
             
             if (isActiveConversation) {
@@ -255,46 +255,42 @@ export class ChatService {
     }
 
     async sendFeedback(messageId: string, isPositive: boolean, content?: string): Promise<void> {
-        if (!this.currentSessionId) return;
-        
         try {
             await firstValueFrom(
                 this.apiService.sendFeedback(messageId, isPositive, content)
             );
             
-            // Aggiorna localmente il feedback
+            // Aggiorna il messaggio nella lista locale
             const currentMessages = this.messagesSubject.getValue();
-            const updatedMessages = currentMessages.map(message => {
-                if (message.message_id === messageId) {
-                    // Usa cast esplicito per evitare errori di tipizzazione
-                    return {
-                        ...message,
-                        feedback: {
-                            feedback_id: `temp_${Date.now()}`, // ID temporaneo fino al refresh
-                            message_id: messageId,
-                            type: isPositive ? 'positive' : 'negative',
-                            content: content || undefined,
-                            created_at: new Date().toISOString()
-                        } as Feedback
-                    } as Message;
-                }
-                return message;
-            });
+            const messageIndex = currentMessages.findIndex(m => m.messageId === messageId);
             
-            // Usa cast esplicito anche qui
-            this.messagesSubject.next(updatedMessages as Message[]);
-            
-            // Ricarica i messaggi dal server
-            const activeConversation = this.activeConversationSubject.getValue();
-            if (activeConversation) {
-                await this.loadMessages(activeConversation.conversation_id);
+            if (messageIndex !== -1) {
+                const updatedMessages = [...currentMessages];
+                const message = updatedMessages[messageIndex];
+                
+                // Crea l'oggetto di feedback
+                const feedback: Feedback = {
+                    feedbackId: Date.now().toString(), // ID temporaneo, verrà sostituito quando ricaricheremo i messaggi
+                    messageId: messageId,
+                    type: isPositive ? 'positive' : 'negative',
+                    content: content || null,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Aggiorna il messaggio con il nuovo feedback
+                updatedMessages[messageIndex] = {
+                    ...message,
+                    feedback
+                };
+                
+                // Aggiorna lo stato
+                this.messagesSubject.next(updatedMessages);
             }
         } catch (error) {
             console.error('Errore durante l\'invio del feedback:', error);
         }
     }
 
-    // Aggiungiamo un metodo di utilità per verificare se il limite è stato raggiunto
     hasReachedConversationLimit(): boolean {
         return this.conversationsSubject.getValue().length >= this.MAX_CONVERSATIONS;
     }
