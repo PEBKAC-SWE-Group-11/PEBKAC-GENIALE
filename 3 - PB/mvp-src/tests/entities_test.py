@@ -10,7 +10,8 @@ class TestEntities(unittest.TestCase):
     def test_session_creation(self):
         print("Test per controllare se una sessione viene creata correttamente senza specificare la data di creazione")
         session_id = '123'
-        session = Session(session_id)
+        created_at = datetime.now()
+        session = Session(session_id, created_at)
         self.assertEqual(session.session_id, session_id)
         self.assertIsInstance(session.created_at, datetime)
 
@@ -26,11 +27,13 @@ class TestEntities(unittest.TestCase):
         print("Test per controllare se una conversazione viene creata correttamente")
         conversation_id = '456'
         session_id = '123'
-        created_at = '2025-03-10'
-        conversation = Conversation(conversation_id, session_id, created_at)
+        created_at = datetime(2025, 3, 10)
+        updated_at = datetime(2025, 3, 11)
+        conversation = Conversation(conversation_id, session_id, created_at, updated_at)
         self.assertEqual(conversation.conversation_id, conversation_id)
         self.assertEqual(conversation.session_id, session_id)
         self.assertEqual(conversation.created_at, created_at)
+        self.assertEqual(conversation.updated_at, updated_at)
 
     def test_message_creation(self):
         print("Test per controllare se un messaggio viene creato correttamente")
@@ -38,7 +41,7 @@ class TestEntities(unittest.TestCase):
         conversation_id = '456'
         sender = 'user'
         content = 'Hello'
-        created_at = '2025-03-10'
+        created_at = datetime(2025, 3, 10)
         message = Message(message_id, conversation_id, sender, content, created_at)
         self.assertEqual(message.message_id, message_id)
         self.assertEqual(message.conversation_id, conversation_id)

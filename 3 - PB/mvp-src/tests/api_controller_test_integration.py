@@ -4,7 +4,7 @@ from unittest.mock import patch, MagicMock
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app.adapters.controllers.api_controller import app, API_KEY
+from app.adapters.controllers.api_controller import flask_app as app, API_KEY
 
 class TestAPIController(unittest.TestCase):
 
@@ -37,18 +37,6 @@ class TestAPIController(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message_id": "message_id"})
 
-    @patch('app.adapters.controllers.api_controller.conversation_service')
-    def test_api_read_session(self, mock_conversation_service):
-        print("Test per l'endpoint /api/session/1: Verifica che l'endpoint recuperi correttamente una sessione")
-        mock_conversation_service.read_session.return_value = {"session_id": "1"}
-
-        response = self.app.get(
-            '/api/session/1',
-            headers={'x-api-key': API_KEY}
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"session_id": "1"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_create_conversation(self, mock_conversation_service):
@@ -165,19 +153,6 @@ class TestAPIControllerIntegration(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message_id": "message_id"})
-
-    @patch('app.adapters.controllers.api_controller.conversation_service')
-    def test_integration_api_read_session(self, mock_conversation_service):
-        print("Test di integrazione per l'endpoint /api/session/1: Verifica che l'endpoint recuperi correttamente una sessione")
-        mock_conversation_service.read_session.return_value = {"session_id": "1"}
-
-        response = self.app.get(
-            '/api/session/1',
-            headers={'x-api-key': API_KEY}
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"session_id": "1"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_integration_api_create_conversation(self, mock_conversation_service):

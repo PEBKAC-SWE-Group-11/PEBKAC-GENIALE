@@ -1,9 +1,7 @@
 import uuid
-import uuid
 from app.adapters.repositories.db_repository import DBRepository
 from app.core.entities.entities import Session, Conversation, Message
 import logging
-
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,7 +12,7 @@ class ConversationService:
 
     def create_session(self):
         session_id = str(uuid.uuid4())
-        logger.info("SESSION: ", session_id)
+        logger.info("SESSION: %s", session_id)
         query = "INSERT INTO Session (session_id, created_at, updated_at, is_active) VALUES (%s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE)"
         self.repository.execute_query(query, (session_id,))
         return session_id
@@ -39,11 +37,7 @@ class ConversationService:
 
     def read_conversations(self, session_id):
         try:
-            query = """
-                SELECT * FROM Conversation 
-                WHERE session_id = %s AND (to_delete = FALSE OR to_delete IS NULL) 
-                ORDER BY updated_at DESC
-            """
+            query = """SELECT * FROM Conversation WHERE session_id = %s AND (to_delete = FALSE OR to_delete IS NULL) ORDER BY updated_at DESC"""
             results = self.repository.fetch_all(query, (session_id,))
             
             formatted_conversations = []
@@ -87,17 +81,7 @@ class ConversationService:
 
     def read_messages(self, conversation_id):
         try:
-            query = """
-                SELECT m.*, 
-                      f.feedback_id,
-                      f.is_helpful,
-                      f.content as feedback_content,
-                      f.created_at as feedback_created_at
-                FROM Message m 
-                LEFT JOIN Feedback f ON m.message_id = f.message_id
-                WHERE m.conversation_id = %s 
-                ORDER BY m.created_at ASC
-            """
+            query = """SELECT m.*, f.feedback_id, f.is_helpful, f.content as feedback_content, f.created_at as feedback_created_at FROM Message m LEFT JOIN Feedback f ON m.message_id = f.message_id WHERE m.conversation_id = %s ORDER BY m.created_at ASC"""
             results = self.repository.fetch_all(query, (conversation_id,))
             
             formatted_messages = []
@@ -128,7 +112,6 @@ class ConversationService:
             return []
     
     def read_feedback(self, message_id):
-        query = "SELECT * FROM Feedback WHERE message_id = %s"
         query = "SELECT * FROM Feedback WHERE message_id = %s"
         return self.repository.fetch_all(query, (message_id,))
     
