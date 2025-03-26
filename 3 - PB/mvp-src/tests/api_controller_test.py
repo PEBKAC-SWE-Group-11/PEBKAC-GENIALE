@@ -25,7 +25,7 @@ class TestAPIController(unittest.TestCase):
         mock_conversation_service.read_messages.return_value = []
         mock_embedding_service.get_embeddings.return_value = "embedded_text"
         mock_conversation_service.get_llm_response.return_value = "response"
-        mock_conversation_service.add_message.return_value = "message_id"
+        mock_conversation_service.add_message.return_value = "messageId"
 
         response = self.app.post(
             '/api/question/1',
@@ -35,12 +35,12 @@ class TestAPIController(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message_id": "message_id"})
+        self.assertEqual(response.json, {"messageId": "messageId"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_read_session(self, mock_conversation_service):
         print("Test per l'endpoint /api/session/1")
-        mock_conversation_service.read_session.return_value = {"session_id": "1"}
+        mock_conversation_service.read_session.return_value = {"sessionId": "1"}
 
         response = self.app.get(
             '/api/session/1',
@@ -48,41 +48,41 @@ class TestAPIController(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"session_id": "1"})
+        self.assertEqual(response.json, {"sessionId": "1"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_create_conversation(self, mock_conversation_service):
         print("Test per l'endpoint /api/conversation")
-        mock_conversation_service.create_conversation.return_value = "conversation_id"
+        mock_conversation_service.create_conversation.return_value = "conversationId"
 
         response = self.app.post(
             '/api/conversation',
             headers={'x-api-key': API_KEY},
-            data=json.dumps({"session_id": "1"}),
+            data=json.dumps({"sessionId": "1"}),
             content_type='application/json'
         )
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json, {"conversation_id": "conversation_id"})
+        self.assertEqual(response.json, {"conversationId": "conversationId"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_read_conversations(self, mock_conversation_service):
         print("Test per l'endpoint /api/conversation con query string")
-        mock_conversation_service.read_conversations.return_value = [{"conversation_id": "1"}]
+        mock_conversation_service.read_conversations.return_value = [{"conversationId": "1"}]
 
         response = self.app.get(
             '/api/conversation',
             headers={'x-api-key': API_KEY},
-            query_string={'session_id': '1'}
+            query_string={'sessionId': '1'}
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, [{"conversation_id": "1"}])
+        self.assertEqual(response.json, [{"conversationId": "1"}])
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_read_conversation_by_id(self, mock_conversation_service):
         print("Test per l'endpoint /api/conversation/1")
-        mock_conversation_service.read_conversation_by_id.return_value = {"conversation_id": "1"}
+        mock_conversation_service.read_conversation_by_id.return_value = {"conversationId": "1"}
 
         response = self.app.get(
             '/api/conversation/1',
@@ -90,7 +90,7 @@ class TestAPIController(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"conversation_id": "1"})
+        self.assertEqual(response.json, {"conversationId": "1"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_delete_conversation(self, mock_conversation_service):
@@ -105,13 +105,13 @@ class TestAPIController(unittest.TestCase):
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_add_message(self, mock_conversation_service):
         print("Test per l'endpoint POST /api/message")
-        mock_conversation_service.add_message.return_value = "message_id"
+        mock_conversation_service.add_message.return_value = "messageId"
 
         response = self.app.post(
             '/api/message',
             headers={'x-api-key': API_KEY},
             data=json.dumps({
-                "conversation_id": "1",
+                "conversationId": "1",
                 "sender": "user",
                 "content": "Hello"
             }),
@@ -119,21 +119,21 @@ class TestAPIController(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json, {"message_id": "message_id"})
+        self.assertEqual(response.json, {"messageId": "messageId"})
 
     @patch('app.adapters.controllers.api_controller.conversation_service')
     def test_api_read_messages(self, mock_conversation_service):
         print("Test per l'endpoint GET /api/message")
-        mock_conversation_service.read_messages.return_value = [{"message_id": "1"}]
+        mock_conversation_service.read_messages.return_value = [{"messageId": "1"}]
 
         response = self.app.get(
             '/api/message',
             headers={'x-api-key': API_KEY},
-            query_string={'conversation_id': '1'}
+            query_string={'conversationId': '1'}
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, [{"message_id": "1"}])
+        self.assertEqual(response.json, [{"messageId": "1"}])
 
 if __name__ == '__main__':
     unittest.main()

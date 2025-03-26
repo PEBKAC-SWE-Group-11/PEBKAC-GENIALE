@@ -31,9 +31,9 @@ def createTables(connection: pgConnection) -> None:
                 title TEXT NOT NULL,
                 description TEXT,
                 etim TEXT,
-                id_vector vector({vectorDim}),
-                idtitle_vector vector({vectorDim}),
-                idtitledescr_vector vector({vectorDim})
+                idVector vector({vectorDim}),
+                idTitleVector vector({vectorDim}),
+                idTitleDescrVector vector({vectorDim})
             );''',
 
             # Tabella Chunk con dimensione vettore dinamica
@@ -50,46 +50,46 @@ def createTables(connection: pgConnection) -> None:
             f'''CREATE TABLE IF NOT EXISTS Document (
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
-                product_id TEXT NOT NULL,
-                CONSTRAINT unique_title_product UNIQUE (title, product_id),
-                FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE  -- Chiave esterna verso Product
+                productId TEXT NOT NULL,
+                CONSTRAINT unique_title_product UNIQUE (title, productId),
+                FOREIGN KEY (productId) REFERENCES Product(id) ON DELETE CASCADE  -- Chiave esterna verso Product
             );''',
 
         # Tabella Session per gestire le sessioni utente
             '''CREATE TABLE IF NOT EXISTS Session (
-                session_id TEXT PRIMARY KEY,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                is_active BOOLEAN DEFAULT TRUE
+                sessionId TEXT PRIMARY KEY,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                isActive BOOLEAN DEFAULT TRUE
             );''',
         # Tabella Conversation per gestire le conversazioni
             '''CREATE TABLE IF NOT EXISTS Conversation (
-                conversation_id SERIAL PRIMARY KEY,
-                session_id TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                to_delete BOOLEAN DEFAULT FALSE,
-                FOREIGN KEY (session_id) REFERENCES Session(session_id) ON DELETE CASCADE
+                conversationId SERIAL PRIMARY KEY,
+                sessionId TEXT NOT NULL,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                toDelete BOOLEAN DEFAULT FALSE,
+                FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
             );''',
             
             # Tabella Message per gestire i messaggi
             '''CREATE TABLE IF NOT EXISTS Message (
-                message_id SERIAL PRIMARY KEY,
-                conversation_id INTEGER NOT NULL,
+                messageId SERIAL PRIMARY KEY,
+                conversationId INTEGER NOT NULL,
                 sender TEXT CHECK(sender IN ('user', 'assistant', 'system')),
                 content TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id) ON DELETE CASCADE
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (conversationId) REFERENCES Conversation(conversationId) ON DELETE CASCADE
             );''',
             
             # Tabella Feedback per gestire i feedback sui messaggi
             '''CREATE TABLE IF NOT EXISTS Feedback (
-                feedback_id SERIAL PRIMARY KEY,
-                message_id INTEGER NOT NULL,
-                is_helpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
+                feedbackId SERIAL PRIMARY KEY,
+                messageId INTEGER NOT NULL,
+                isHelpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
                 content TEXT, -- Aggiungiamo il campo per i commenti (può essere NULL)
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (message_id) REFERENCES Message(message_id) ON DELETE CASCADE
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (messageId) REFERENCES Message(messageId) ON DELETE CASCADE
             );'''
         ] 
         # Esegue le query di creazione
@@ -101,7 +101,7 @@ def createTables(connection: pgConnection) -> None:
         trigger_sql = '''
         -- Tabella per tracciare l'ultimo controllo delle sessioni
         CREATE TABLE IF NOT EXISTS SessionCheck (
-            last_check TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            lastCheck TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         
         -- Inserisce un record iniziale se non esiste
@@ -112,21 +112,21 @@ def createTables(connection: pgConnection) -> None:
         -- Funzione che verifica le sessioni inattive solo una volta ogni 10 giorni
         CREATE OR REPLACE FUNCTION check_session_activity() RETURNS TRIGGER AS $$
         DECLARE
-            last_check_time TIMESTAMP;
+            lastCheck_time TIMESTAMP;
             check_interval INTERVAL := '10 days';
         BEGIN
             -- Ottiene la data dell'ultimo controllo
-            SELECT last_check INTO last_check_time FROM SessionCheck LIMIT 1;
+            SELECT lastCheck INTO lastCheck_time FROM SessionCheck LIMIT 1;
             
             -- Controlla se sono passati almeno 10 giorni dall'ultimo controllo
-            IF last_check_time IS NULL OR last_check_time < (NOW() - check_interval) THEN
+            IF lastCheck_time IS NULL OR lastCheck_time < (NOW() - check_interval) THEN
                 -- Aggiorna le sessioni inattive
                 UPDATE Session 
-                SET is_active = FALSE 
-                WHERE updated_at < NOW() - INTERVAL '30 days';
+                SET isActive = FALSE 
+                WHERE updatedAt < NOW() - INTERVAL '30 days';
                 
                 -- Aggiorna il timestamp dell'ultimo controllo
-                UPDATE SessionCheck SET last_check = CURRENT_TIMESTAMP;
+                UPDATE SessionCheck SET lastCheck = CURRENT_TIMESTAMP;
                 
                 RAISE NOTICE 'Controllo sessioni inattive eseguito a %', NOW();
             END IF;

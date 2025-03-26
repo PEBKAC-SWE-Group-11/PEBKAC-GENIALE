@@ -3,5 +3,6 @@
 *.png
 *.DS_Store
 __pycache__/
- ollama_models/blobs/
- ollama_models/manifests/
+*.pyc
+ollama_models/blobs/
+ollama_models/manifests/

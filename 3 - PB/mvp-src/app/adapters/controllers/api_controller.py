@@ -30,39 +30,46 @@ def require_api_key(f):
             return jsonify({"error": "Unauthorized"}), 401
     return decorated_function
 
-@flask_app.route('/api/question/<conversation_id>', methods=['POST'])
+@flask_app.route('/api/question/<conversationId>', methods=['POST'])
 @require_api_key
-def ask_question(conversation_id):
-    question = request.json.get("question")
-    textsToEmbed, etimToEmbed = contextExtractor.processUserInput(question)
-    messages = conversation_service.read_messages(conversation_id)
-    response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
-    message_id = conversation_service.add_message(conversation_id, "assistant", response)
-    return jsonify({"message_id": message_id}), 200
-
+def ask_question(conversationId):
+    try:
+        question = request.json.get("question")
+        textsToEmbed, etimToEmbed = contextExtractor.processUserInput(question)
+        print(f"#####Texts to embed: {textsToEmbed}#####")
+        print(f"#####Etim to embed: {etimToEmbed}#####")
+        messages = conversation_service.read_messages(conversationId)
+        print(f"#####Messages: {messages}#####")
+        response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
+        print(f"#####Response: {response}#####")
+        messageId = conversation_service.add_message(conversationId, "assistant", response)
+        return jsonify({"messageId": messageId}), 200
+    except Exception as e:
+        print(f"#####Error in ask_question: {str(e)}#####")
+        return jsonify({"error": str(e)}), 500
     # question = request.json.get("question")
-    # messages = conversation_service.read_messages(conversation_id)
+    # messages = conversation_service.read_messages(conversationId)
     # text_to_embed = embedding_service.get_embeddings(question)
     # response = conversation_service.get_llm_response(messages, question, text_to_embed)
-    # message_id = conversation_service.add_message(conversation_id, "assistant", response)
-    # return jsonify({"message_id": message_id}), 200
+    # messageId = conversation_service.add_message(conversationId, "assistant", response)
+    # return jsonify({"messageId": messageId}), 200
 
 
 @flask_app.route('/api/session', methods=['POST'])
 @require_api_key
 def api_create_session():
     try:
-        session_id = conversation_service.create_session()
-        return jsonify({"session_id": session_id}), 201
+        sessionId = conversation_service.create_session()
+        return jsonify({"sessionId": sessionId}), 201
     except Exception as e:
         logging.error(f"Errore nella creazione della sessione: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/session/<session_id>', methods=['PUT'])
+@flask_app.route('/api/session/<sessionId>', methods=['PUT'])
 @require_api_key
-def api_update_session(session_id):
+def api_update_session(sessionId):
     try:
-        success = conversation_service.update_session(session_id)
+        success = conversation_service.update_session(sessionId)
         return jsonify({"success": success}), 200
     except Exception as e:
         logging.error(f"Errore nell'aggiornamento della sessione: {str(e)}")
@@ -72,12 +79,12 @@ def api_update_session(session_id):
 @require_api_key
 def api_create_conversation():
     try:
-        session_id = request.json.get('session_id')
-        if not session_id:
-            return jsonify({"error": "session_id mancante"}), 400
+        sessionId = request.json.get('sessionId')
+        if not sessionId:
+            return jsonify({"error": "sessionId mancante"}), 400
             
-        conversation = conversation_service.create_conversation(session_id)
-        return jsonify({"conversation_id": conversation}), 201
+        conversation = conversation_service.create_conversation(sessionId)
+        return jsonify({"conversationId": conversation}), 201
     except Exception as e:
         logging.error(f"Errore nella creazione della conversazione: {str(e)}")
         return jsonify({"error": str(e)}), 500
@@ -86,38 +93,38 @@ def api_create_conversation():
 @require_api_key
 def api_read_conversations():
     try:
-        session_id = request.args.get('session_id')
-        if not session_id:
-            return jsonify({"error": "session_id mancante"}), 400
+        sessionId = request.args.get('sessionId')
+        if not sessionId:
+            return jsonify({"error": "sessionId mancante"}), 400
             
-        conversations = conversation_service.read_conversations(session_id)
+        conversations = conversation_service.read_conversations(sessionId)
         return jsonify(conversations), 200
     except Exception as e:
         logging.error(f"Errore nel recupero delle conversazioni: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/conversation/<conversation_id>', methods=['GET'])
+@flask_app.route('/api/conversation/<conversationId>', methods=['GET'])
 @require_api_key
-def api_read_conversation_by_id(conversation_id):
-    return jsonify(conversation_service.read_conversation_by_id(conversation_id)), 200
+def api_read_conversation_by_id(conversationId):
+    return jsonify(conversation_service.read_conversation_by_id(conversationId)), 200
 
-@flask_app.route('/api/conversation/<conversation_id>', methods=['DELETE'])
+@flask_app.route('/api/conversation/<conversationId>', methods=['DELETE'])
 @require_api_key
-def api_delete_conversation(conversation_id):
+def api_delete_conversation(conversationId):
     try:
-        print(f"Deleting conversation with ID: {conversation_id}")
-        conversation_service.delete_conversation(conversation_id)
-        print(f"Deleted conversation with ID: {conversation_id}")
+        print(f"Deleting conversation with ID: {conversationId}")
+        conversation_service.delete_conversation(conversationId)
+        print(f"Deleted conversation with ID: {conversationId}")
         return '', 204
     except Exception as e:
-        print(f"Error deleting conversation with ID: {conversation_id} - {str(e)}")
+        print(f"Error deleting conversation with ID: {conversationId} - {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/conversation/<conversation_id>/update', methods=['PUT'])
+@flask_app.route('/api/conversation/<conversationId>/update', methods=['PUT'])
 @require_api_key
-def api_update_conversation_timestamp(conversation_id):
+def api_update_conversation_timestamp(conversationId):
     try:
-        success = conversation_service.update_conversation_timestamp(conversation_id)
+        success = conversation_service.update_conversation_timestamp(conversationId)
         return jsonify({"success": success}), 200
     except Exception as e:
         logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
@@ -126,32 +133,32 @@ def api_update_conversation_timestamp(conversation_id):
 @flask_app.route('/api/message', methods=['POST'])
 @require_api_key
 def api_add_message():
-    conversation_id = request.json.get('conversation_id')
+    conversationId = request.json.get('conversationId')
     sender = request.json.get('sender')
     content = request.json.get('content')
-    message_id = conversation_service.add_message(conversation_id, sender, content)
-    return jsonify({"message_id": message_id}), 201
+    messageId = conversation_service.add_message(conversationId, sender, content)
+    return jsonify({"messageId": messageId}), 201
 
 @flask_app.route('/api/message', methods=['GET'])
 @require_api_key
 def api_read_messages():
-    conversation_id = request.args.get('conversation_id')
-    return jsonify(conversation_service.read_messages(conversation_id)), 200
+    conversationId = request.args.get('conversationId')
+    return jsonify(conversation_service.read_messages(conversationId)), 200
 
-@flask_app.route('/api/feedback/<message_id>', methods=['GET'])
+@flask_app.route('/api/feedback/<messageId>', methods=['GET'])
 @require_api_key
-def api_read_feedback_by_message_id(message_id):
-    return jsonify(conversation_service.read_feedback(message_id)), 200
+def api_read_feedback_by_messageId(messageId):
+    return jsonify(conversation_service.read_feedback(messageId)), 200
 
 @flask_app.route('/api/feedback', methods=['POST'])
 @require_api_key
 def api_add_feedback():
-    message_id = request.json.get('message_id')
+    messageId = request.json.get('messageId')
     feedback_value = request.json.get('feedback_value')
     content = request.json.get('content')  # Può essere None
     
-    feedback_id = conversation_service.add_feedback(message_id, feedback_value, content)
-    return jsonify({"message_id": message_id}), 201
+    feedbackId = conversation_service.add_feedback(messageId, feedback_value, content)
+    return jsonify({"messageId": messageId}), 201
 
 @flask_app.route('/api/dashboard/num_positive', methods=['GET'])
 @require_api_key
