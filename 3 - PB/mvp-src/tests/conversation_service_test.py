@@ -14,90 +14,90 @@ class TestConversationService(unittest.TestCase):
 
     def test_create_session(self):
         print("Test per inserire correttamente una nuova sessione nel database")
-        session_id = '123'
-        self.service.create_session(session_id)
-        query = "INSERT INTO Session (session_id, created_at) VALUES (%s, %s)"
-        self.mock_repository.execute_query.assert_called_once_with(query, (session_id, unittest.mock.ANY))
+        sessionId = '123'
+        self.service.create_session(sessionId)
+        query = "INSERT INTO Session (sessionId, createdAt) VALUES (%s, %s)"
+        self.mock_repository.execute_query.assert_called_once_with(query, (sessionId, unittest.mock.ANY))
 
     def test_read_session(self):
         print("Test per controllare se viene recuperata correttamente una sessione dal database")
-        session_id = '123'
+        sessionId = '123'
         self.mock_repository.fetch_one.return_value = ('123', '2025-03-10')
-        result = self.service.read_session(session_id)
-        query = "SELECT * FROM Session WHERE session_id = %s"
-        self.mock_repository.fetch_one.assert_called_once_with(query, (session_id,))
+        result = self.service.read_session(sessionId)
+        query = "SELECT * FROM Session WHERE sessionId = %s"
+        self.mock_repository.fetch_one.assert_called_once_with(query, (sessionId,))
         self.assertEqual(result, ('123', '2025-03-10'))
 
     def test_create_conversation(self):
         print("Test per controllare se viene creata correttamente una nuova conversazione nel database")
-        session_id = '123'
+        sessionId = '123'
         self.mock_repository.fetch_one.return_value = ('456',)
-        result = self.service.create_conversation(session_id)
-        query = "INSERT INTO Conversation (session_id, created_at) VALUES (%s, CURRENT_TIMESTAMP) RETURNING conversation_id"
-        self.mock_repository.fetch_one.assert_called_once_with(query, (session_id,))
+        result = self.service.create_conversation(sessionId)
+        query = "INSERT INTO Conversation (sessionId, createdAt) VALUES (%s, CURRENT_TIMESTAMP) RETURNING conversationId"
+        self.mock_repository.fetch_one.assert_called_once_with(query, (sessionId,))
         self.assertEqual(result, '456')
 
     def test_read_conversations(self):
         print("Test controllare se vengono recuperate correttamente tutte le conversazioni associate a una sessione dal database")
-        session_id = '123'
+        sessionId = '123'
         self.mock_repository.fetch_all.return_value = [('456', '2025-03-10')]
-        result = self.service.read_conversations(session_id)
-        query = "SELECT * FROM Conversation WHERE session_id = %s"
-        self.mock_repository.fetch_all.assert_called_once_with(query, (session_id,))
+        result = self.service.read_conversations(sessionId)
+        query = "SELECT * FROM Conversation WHERE sessionId = %s"
+        self.mock_repository.fetch_all.assert_called_once_with(query, (sessionId,))
         self.assertEqual(result, [('456', '2025-03-10')])
 
     def test_read_conversation_by_id(self):
         print("Test per controllare se viene recuperata correttamente una conversazione dal database tramite il suo id della conversazione")
-        conversation_id = '456'
+        conversationId = '456'
         self.mock_repository.fetch_one.return_value = ('456', '123', '2025-03-10')
-        result = self.service.read_conversation_by_id(conversation_id)
-        query = "SELECT * FROM Conversation WHERE conversation_id = %s"
-        self.mock_repository.fetch_one.assert_called_once_with(query, (conversation_id,))
+        result = self.service.read_conversation_by_id(conversationId)
+        query = "SELECT * FROM Conversation WHERE conversationId = %s"
+        self.mock_repository.fetch_one.assert_called_once_with(query, (conversationId,))
         self.assertEqual(result, ('456', '123', '2025-03-10'))
 
     def test_delete_conversation(self):
         print("Test per controllare se viene eliminata correttamente una conversazione dal database")
-        conversation_id = '456'
-        self.service.delete_conversation(conversation_id)
-        query = "DELETE FROM Conversation WHERE conversation_id = %s"
-        self.mock_repository.execute_query.assert_called_once_with(query, (conversation_id,))
+        conversationId = '456'
+        self.service.delete_conversation(conversationId)
+        query = "DELETE FROM Conversation WHERE conversationId = %s"
+        self.mock_repository.execute_query.assert_called_once_with(query, (conversationId,))
 
     def test_add_message(self):
         print("Test per controllare se viene aggiunto correttamente un nuovo messaggio a una conversazione nel database")
-        conversation_id = '456'
+        conversationId = '456'
         sender = 'user'
         content = 'Hello'
         self.mock_repository.fetch_one.return_value = ('789',)
-        result = self.service.add_message(conversation_id, sender, content)
-        query = "INSERT INTO Message (conversation_id, sender, content, created_at) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING message_id"
-        self.mock_repository.fetch_one.assert_called_once_with(query, (conversation_id, sender, content))
+        result = self.service.add_message(conversationId, sender, content)
+        query = "INSERT INTO Message (conversationId, sender, content, createdAt) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING messageId"
+        self.mock_repository.fetch_one.assert_called_once_with(query, (conversationId, sender, content))
         self.assertEqual(result, '789')
 
     def test_read_messages(self):
         print("Test per controllare se vengono recuperati correttamente tutti i messaggi associati a una conversazione dal database")
-        conversation_id = '456'
+        conversationId = '456'
         self.mock_repository.fetch_all.return_value = [('789', '456', 'user', 'Hello', '2025-03-10')]
-        result = self.service.read_messages(conversation_id)
-        query = "SELECT * FROM Message WHERE conversation_id = %s"
-        self.mock_repository.fetch_all.assert_called_once_with(query, (conversation_id,))
+        result = self.service.read_messages(conversationId)
+        query = "SELECT * FROM Message WHERE conversationId = %s"
+        self.mock_repository.fetch_all.assert_called_once_with(query, (conversationId,))
         self.assertEqual(result, [('789', '456', 'user', 'Hello', '2025-03-10')])
 
     def test_read_feedback(self):
         print("Test per controllare se vengono recuperati correttamente tutti i feedback associati a un messaggio dal database")
-        message_id = '789'
+        messageId = '789'
         self.mock_repository.fetch_all.return_value = [('789', 'positive', '2025-03-10')]
-        result = self.service.read_feedback(message_id)
-        query = "SELECT * FROM Feedback WHERE message_id = %s"
-        self.mock_repository.fetch_all.assert_called_once_with(query, (message_id,))
+        result = self.service.read_feedback(messageId)
+        query = "SELECT * FROM Feedback WHERE messageId = %s"
+        self.mock_repository.fetch_all.assert_called_once_with(query, (messageId,))
         self.assertEqual(result, [('789', 'positive', '2025-03-10')])
 
     def test_add_feedback(self):
         print("Test per controllare se viene aggiunto correttamente un feedback a un messaggio nel database")
-        message_id = '789'
+        messageId = '789'
         feedback = 'positive'
-        self.service.add_feedback(message_id, feedback)
-        query = "INSERT INTO Feedback (message_id, feedback, created_at) VALUES (%s, %s, CURRENT_TIMESTAMP)"
-        self.mock_repository.execute_query.assert_called_once_with(query, (message_id, feedback))
+        self.service.add_feedback(messageId, feedback)
+        query = "INSERT INTO Feedback (messageId, feedback, createdAt) VALUES (%s, %s, CURRENT_TIMESTAMP)"
+        self.mock_repository.execute_query.assert_called_once_with(query, (messageId, feedback))
 
     def test_read_num_positive_feedback(self):
         print("Test per controllare se viene recuperato correttamente il numero di feedback positivi dal database")

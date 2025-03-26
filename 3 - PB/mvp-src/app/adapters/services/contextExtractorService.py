@@ -21,11 +21,13 @@ class contextExtractorService:
     
     def processUserInput(self, userInput):
         userEmbeddings = self._getEmbedding(userInput)
-        
+
         auxJsons = self._getStructuredProducts()
+        print("#####auxJsons: ", auxJsons)
         totalSimilarProducts = []
         for prodList in auxJsons:
             similarProducts = self._findTopNSimilarProducts(prodList, userEmbeddings, n=TOP_PRODUCTS_LIMIT)
+            print("#####similarProducts: ", similarProducts)
             totalSimilarProducts.append(similarProducts)
 
         processedSimilarProducts = self._aggregateSimilarities(totalSimilarProducts)
@@ -41,7 +43,7 @@ class contextExtractorService:
 
     def _getStructuredProducts(self):
         query = """
-            SELECT id, title, description, id_vector, idtitle_vector, idtitledescr_vector 
+            SELECT id, title, description, idVector, idTitleVector, idTitleDescrVector 
             FROM Product
         """
         
@@ -54,39 +56,44 @@ class contextExtractorService:
         idTitleDescList = []
 
         for product in products:
-            productId = str(product['id'])
-            title = product['title']
-            description = product['description'] or ''
-            
-            def parseVector(vector_str):
-                if not vector_str:
-                    return []
-                try:
-                    return json.loads(vector_str)
-                except (json.JSONDecodeError, TypeError):
-                    return []
+            try:
+                productId = str(product['id'])
+                title = product['title'] or ''
+                description = product['description'] or ''
+                
+                def parseVector(vector_str):
+                    if not vector_str:
+                        return []
+                    try:
+                        return json.loads(vector_str)
+                    except (json.JSONDecodeError, TypeError):
+                        return []
 
-            idVector = parseVector(str(product['id_vector']))
-            idTitleVector = parseVector(str(product['idtitle_vector']))
-            idTitleDescrVector = parseVector(str(product['idtitledescr_vector']))
+                idVector = parseVector(str(product['idvector']))
+                idTitleVector = parseVector(str(product['idtitlevector']))
+                idTitleDescrVector = parseVector(str(product['idtitledescrvector']))
+                
+                idList.append({
+                    "id": productId,
+                    "info": productId,
+                    "vector": idVector
+                })
 
-            idList.append({
-                "id": productId,
-                "info": productId,
-                "vector": idVector
-            })
+                idTitleList.append({
+                    "id": productId,
+                    "info": f"{productId} {title}",
+                    "vector": idTitleVector
+                })
 
-            idTitleList.append({
-                "id": productId,
-                "info": f"{productId} {title}",
-                "vector": idTitleVector
-            })
+                idTitleDescList.append({
+                    "id": productId,
+                    "info": f"{productId} {title} {description}",
+                    "vector": idTitleDescrVector
+                })
+            except Exception as e:
+                print(f"Error processing product: {e}")
+                continue
 
-            idTitleDescList.append({
-                "id": productId,
-                "info": f"{productId} {title} {description}",
-                "vector": idTitleDescrVector
-            })
         return [idList, idTitleList, idTitleDescList]
 
     def _loadChunks(self):
@@ -157,10 +164,10 @@ class contextExtractorService:
     def _getDocumentsByProductId(self, productId):
         with self.dbConnection.cursor() as cursor:
             cursor.execute("""
-                SELECT d.product_id, d.title, p.title as product_title
+                SELECT d.productId, d.title, p.title as product_title
                 FROM document d
-                LEFT JOIN product p ON d.product_id = p.id
-                WHERE d.product_id = %s
+                LEFT JOIN product p ON d.productId = p.id
+                WHERE d.productId = %s
             """, (productId,))
             return [{
                 'prodId': row[0],
