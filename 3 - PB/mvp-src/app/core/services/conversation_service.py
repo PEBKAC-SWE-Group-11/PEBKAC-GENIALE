@@ -14,7 +14,7 @@ class ConversationService:
 
     def create_session(self):
         session_id = str(uuid.uuid4())
-        logger.info("SESSION: ", session_id)
+        logger.info(f"SESSION: {session_id}")  # Fixed string formatting
         query = "INSERT INTO Session (session_id, created_at, updated_at, is_active) VALUES (%s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE)"
         self.repository.execute_query(query, (session_id,))
         return session_id

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class ContextExtractorPort(ABC):
+class contextExtractorPort(ABC):
     @abstractmethod
     def processUserInput(self, userInput):
         pass
