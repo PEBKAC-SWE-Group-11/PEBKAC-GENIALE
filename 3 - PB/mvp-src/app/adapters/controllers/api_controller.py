@@ -121,6 +121,10 @@ def api_add_message():
     conversation_id = request.json.get('conversation_id')
     sender = request.json.get('sender')
     content = request.json.get('content')
+
+    if not conversation_id or not sender or not content:
+        return jsonify({"error": "Missing required fields"}), 400
+    
     message_id = conversation_service.add_message(conversation_id, sender, content)
     return jsonify({"message_id": message_id}), 201
 
