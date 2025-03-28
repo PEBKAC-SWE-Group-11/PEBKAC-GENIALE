@@ -6,8 +6,8 @@ from connectionDB import getDBConnection
 import re
 from typing import Any
 from psycopg2.extensions import connection as pgConnection
-import productsElaboration
-from chunkElabotation import processLinksToChunks
+import data_processing.productsElaboration
+from data_processing.chunkElabotation import processLinksToChunks
 
 # Configura il logging
 logging.basicConfig(level=logging.INFO)

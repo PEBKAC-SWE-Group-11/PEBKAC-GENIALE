@@ -2,7 +2,7 @@ import logging
 import json
 from typing import Any
 from psycopg2.extensions import connection as pgConnection
-from embeddingLocal import getEmbedding
+from data_processing.embeddingLocal import getEmbedding
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

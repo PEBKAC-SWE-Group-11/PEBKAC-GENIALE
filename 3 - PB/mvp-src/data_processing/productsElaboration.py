@@ -1,5 +1,5 @@
 import json
-from embeddingLocal import getEmbedding
+from data_processing.embeddingLocal import getEmbedding
 import logging
 
 

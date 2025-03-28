@@ -7,7 +7,7 @@ from typing import List
 import requests
 import logging
 
-from embeddingLocal import getEmbedding
+from data_processing.embeddingLocal import getEmbedding
 
 CHARS_PER_CHUNK = 500
 OVERLAP = 50
