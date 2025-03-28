@@ -48,6 +48,12 @@
                     </span>
                 </div>
             </div>
+            
+            <!-- Indicatore di caricamento mentre si attende la risposta -->
+            <div class="loading-indicator" *ngIf="isLoading">
+                <div class="spinner"></div>
+                <span>Sto pensando...</span>
+            </div>
         </div>
         
         <div class="message-input">
@@ -55,13 +61,16 @@
                 [(ngModel)]="newMessage" 
                 placeholder="Scrivi un messaggio..." 
                 (input)="checkMessageLength()"
-                (keydown)="onKeyPress($event)"></textarea>
+                (keydown)="onKeyPress($event)"
+                [disabled]="isLoading"></textarea>
             <button 
                 class="send-btn" 
                 [disabled]="isLoading || !newMessage.trim()" 
                 (click)="sendMessage()">
                 <span *ngIf="!isLoading">Invia</span>
-                <span *ngIf="isLoading">Invio...</span>
+                <span *ngIf="isLoading">
+                    <i class="bi bi-hourglass-split"></i>
+                </span>
             </button>
         </div>
     </div>

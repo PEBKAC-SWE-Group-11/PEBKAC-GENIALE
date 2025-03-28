@@ -188,20 +188,24 @@ export class ChatService {
         this.isWaitingResponse = true;
         
         try {
-            // Invia il messaggio al backend
+          
             await firstValueFrom(
                 this.apiService.sendMessage(activeConversation.conversationId, content)
             );
             
-            // Aggiorna il timestamp della conversazione
+            
+            await firstValueFrom(
+                this.apiService.askQuestion(activeConversation.conversationId, content)
+            );
+
+            
             await firstValueFrom(
                 this.apiService.updateConversationTimestamp(activeConversation.conversationId)
             );
             
-            // Aggiorna localmente l'ordine delle conversazioni
+            
             this.updateConversationOrder(activeConversation.conversationId);
             
-            // Ricarica i messaggi della conversazione
             this.loadMessages(activeConversation.conversationId);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
@@ -209,8 +213,7 @@ export class ChatService {
             this.isWaitingResponse = false;
         }
     }
-
-    // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
+  
     private updateConversationOrder(conversationId: string): void {
         const conversations = this.conversationsSubject.getValue();
         const conversation = conversations.find(c => c.conversationId === conversationId);
