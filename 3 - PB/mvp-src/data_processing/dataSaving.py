@@ -62,17 +62,17 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         for i, product in enumerate(processedProducts, 1):
             logger.info(f"Elaborazione prodotto {i}/{len(processedProducts)}")
             cursor.execute("""
-                INSERT INTO Product (id, title, desciption, etim, id_vector, idtitle_vector, idtitledescr_vector)
+                INSERT INTO Product (id, title, description, etim, idVector, idTitleVector, idTitleDescrVector)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (id) DO NOTHING;
             """, (
-                product['product_id'],
+                product['productId'],
                 product['title'],
                 product['description'],
                 product['etim'],
-                product['id_vector'],
-                product['idtitle_vector'],
-                product['idtitledescr_vector']
+                product['idVector'],
+                product['idTitleVector'],
+                product['idTitleDescrVector']
             ))
         
         logger.info("Tutti i prodotti sono stati inseriti con successo nel database.")
@@ -100,9 +100,9 @@ def insertDocumentsFromLinks(cursor: Any, links: dict) -> None:
             doc = re.search(r'(?<=DOCUMENT/)(.*)(?=\.)', value.get('link')).group(0)
             for productId in value['ids']:
                 cursor.execute("""
-                    INSERT INTO Document (title, product_id)
+                    INSERT INTO Document (title, productId)
                     VALUES (%s, %s)
-                    ON CONFLICT (title, product_id) DO NOTHING;
+                    ON CONFLICT (title, productId) DO NOTHING;
                 """, (
                     doc,
                     productId

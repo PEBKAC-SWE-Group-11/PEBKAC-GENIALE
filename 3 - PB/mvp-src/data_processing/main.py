@@ -33,7 +33,7 @@ def main():
     try:
         connection = getDBConnection()
         initDB(connection)
-        jsonPath = os.path.join(os.path.dirname(__file__), 'jsonData/data.json')
+        jsonPath = os.path.join(os.path.dirname(__file__), 'jsonData/data.json') 
         importData(connection, jsonPath)
     except Exception as e:
         logger.error(f"Errore durante l'esecuzione: {e}")

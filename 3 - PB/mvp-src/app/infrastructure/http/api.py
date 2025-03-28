@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-import sys
-import os
 
 flask_app = Flask(__name__)
 CORS(flask_app, resources={r"/*": {"origins": "http://localhost:4200"}})

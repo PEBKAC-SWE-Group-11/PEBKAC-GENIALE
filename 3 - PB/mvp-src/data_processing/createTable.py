@@ -24,50 +24,16 @@ def createTables(connection: pgConnection) -> None:
 
         # Lista delle query per la creazione delle tabelle
         tables = [
-            # Tabella Session per gestire le sessioni utente
-            '''CREATE TABLE IF NOT EXISTS Session (
-                session_id TEXT PRIMARY KEY,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );''',
             
-            # Tabella Conversation per gestire le conversazioni
-            '''CREATE TABLE IF NOT EXISTS Conversation (
-                conversation_id SERIAL PRIMARY KEY,
-                session_id TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                to_delete BOOLEAN NOT NULL DEFAULT false,  -- true per positivo, false per negativo
-                FOREIGN KEY (session_id) REFERENCES Session(session_id) ON DELETE CASCADE
-            );''',
-            
-            # Tabella Message per gestire i messaggi
-            '''CREATE TABLE IF NOT EXISTS Message (
-                message_id SERIAL PRIMARY KEY,
-                conversation_id INTEGER NOT NULL,
-                sender TEXT CHECK(sender IN ('user', 'assistant', 'system')),
-                content TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id) ON DELETE CASCADE
-            );''',
-            
-            # Tabella Feedback per gestire i feedback sui messaggi
-            '''CREATE TABLE IF NOT EXISTS Feedback (
-                feedback_id SERIAL PRIMARY KEY,
-                message_id INTEGER NOT NULL,
-                is_helpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
-                content TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (message_id) REFERENCES Message(message_id) ON DELETE CASCADE
-            );''',
-
             # Tabella Product per gestire la RAG
             f'''CREATE TABLE IF NOT EXISTS Product (
                 id TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
-                desciption TEXT,
+                description TEXT,
                 etim TEXT,
-                id_vector vector({vectorDim}),
-                idtitle_vector vector({vectorDim}),
-                idtitledescr_vector vector({vectorDim})
+                idVector vector({vectorDim}),
+                idTitleVector vector({vectorDim}),
+                idTitleDescrVector vector({vectorDim})
             );''',
 
             # Tabella Chunk con dimensione vettore dinamica
@@ -84,18 +50,102 @@ def createTables(connection: pgConnection) -> None:
             f'''CREATE TABLE IF NOT EXISTS Document (
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
-                product_id TEXT NOT NULL,
-                CONSTRAINT unique_title_product UNIQUE (title, product_id),
-                FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE  -- Chiave esterna verso Product
+                productId TEXT NOT NULL,
+                CONSTRAINT unique_title_product UNIQUE (title, productId),
+                FOREIGN KEY (productId) REFERENCES Product(id) ON DELETE CASCADE  -- Chiave esterna verso Product
+            );''',
 
-
+        # Tabella Session per gestire le sessioni utente
+            '''CREATE TABLE IF NOT EXISTS Session (
+                sessionId TEXT PRIMARY KEY,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                isActive BOOLEAN DEFAULT TRUE
+            );''',
+        # Tabella Conversation per gestire le conversazioni
+            '''CREATE TABLE IF NOT EXISTS Conversation (
+                conversationId SERIAL PRIMARY KEY,
+                sessionId TEXT NOT NULL,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                toDelete BOOLEAN DEFAULT FALSE,
+                FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
+            );''',
+            
+            # Tabella Message per gestire i messaggi
+            '''CREATE TABLE IF NOT EXISTS Message (
+                messageId SERIAL PRIMARY KEY,
+                conversationId INTEGER NOT NULL,
+                sender TEXT CHECK(sender IN ('user', 'assistant', 'system')),
+                content TEXT NOT NULL,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (conversationId) REFERENCES Conversation(conversationId) ON DELETE CASCADE
+            );''',
+            
+            # Tabella Feedback per gestire i feedback sui messaggi
+            '''CREATE TABLE IF NOT EXISTS Feedback (
+                feedbackId SERIAL PRIMARY KEY,
+                messageId INTEGER NOT NULL,
+                isHelpful BOOLEAN NOT NULL,  -- true per positivo, false per negativo
+                content TEXT, -- Aggiungiamo il campo per i commenti (può essere NULL)
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (messageId) REFERENCES Message(messageId) ON DELETE CASCADE
             );'''
-        ]
-
+        ] 
         # Esegue le query di creazione
         for query in tables:
             logger.info(f"Esecuzione query: {query[:50]}...")
             cursor.execute(query)
+            
+        # Creazione del trigger per disattivare sessioni inattive dopo 30 giorni
+        trigger_sql = '''
+        -- Tabella per tracciare l'ultimo controllo delle sessioni
+        CREATE TABLE IF NOT EXISTS SessionCheck (
+            lastCheck TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        
+        -- Inserisce un record iniziale se non esiste
+        INSERT INTO SessionCheck 
+        SELECT CURRENT_TIMESTAMP 
+        WHERE NOT EXISTS (SELECT 1 FROM SessionCheck);
+        
+        -- Funzione che verifica le sessioni inattive solo una volta ogni 10 giorni
+        CREATE OR REPLACE FUNCTION check_session_activity() RETURNS TRIGGER AS $$
+        DECLARE
+            lastCheck_time TIMESTAMP;
+            check_interval INTERVAL := '10 days';
+        BEGIN
+            -- Ottiene la data dell'ultimo controllo
+            SELECT lastCheck INTO lastCheck_time FROM SessionCheck LIMIT 1;
+            
+            -- Controlla se sono passati almeno 10 giorni dall'ultimo controllo
+            IF lastCheck_time IS NULL OR lastCheck_time < (NOW() - check_interval) THEN
+                -- Aggiorna le sessioni inattive
+                UPDATE Session 
+                SET isActive = FALSE 
+                WHERE updatedAt < NOW() - INTERVAL '30 days';
+                
+                -- Aggiorna il timestamp dell'ultimo controllo
+                UPDATE SessionCheck SET lastCheck = CURRENT_TIMESTAMP;
+                
+                RAISE NOTICE 'Controllo sessioni inattive eseguito a %', NOW();
+            END IF;
+            
+            RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
+
+        DROP TRIGGER IF EXISTS trigger_check_session_activity ON Session;
+        
+        -- Crea un trigger che si attiva solo una volta per transazione
+        CREATE TRIGGER trigger_check_session_activity
+            AFTER UPDATE ON Session
+            FOR EACH STATEMENT
+            EXECUTE FUNCTION check_session_activity();
+        '''
+        
+        cursor.execute(trigger_sql)
+        logger.info("Trigger per sessioni inattive creato con successo")
             
         connection.commit()
         logger.info("Tutte le tabelle sono state create con successo")

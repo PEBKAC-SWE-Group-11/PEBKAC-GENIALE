@@ -68,13 +68,13 @@ def processProducts(products):
         productDescrVector = getEmbedding(productDescr)
         
         processedProducts.append({
-            "product_id": item.get("id", "UNKNOWN_ID"),
+            "productId": item.get("id", "UNKNOWN_ID"),
             "title": item.get("title", "UNKNOWN_TITLE"),
             "description": item.get("description", ""),
             "etim": None,  
-            "id_vector": getEmbedding(item["id"]),
-            "idtitle_vector": productInfoVector,
-            "idtitledescr_vector": productDescrVector
+            "idVector": getEmbedding(item["id"]),
+            "idTitleVector": productInfoVector,
+            "idTitleDescrVector": productDescrVector
         })
 
         technicalData = item['technical_data']
@@ -87,7 +87,7 @@ def processProducts(products):
 
     # Update etim field in processedProducts
     for product in processedProducts:
-        productId = product["product_id"]
+        productId = product["productId"]
         product["etim"] = etimData.get(productId, "")
 
     return processedProducts
