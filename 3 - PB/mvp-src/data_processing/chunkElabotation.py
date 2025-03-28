@@ -24,20 +24,22 @@ def createDirectories():
     os.makedirs('txts', exist_ok=True)
     logger.info("Directory 'pdfs' e 'txts' create o già esistenti.")
 
-def pdfToTxt(pdfPath: str, txtPath: str):
+def pdfToTxt(pdf_path: str, txt_path: str) -> None:
     """
     Converte un file PDF in un file di testo.
     Args:
-        pdfPath: Percorso del file PDF.
-        txtPath: Percorso del file di testo da creare.
+        pdf_path: Percorso del file PDF di input.
+        txt_path: Percorso del file di testo di output.
     """
-    with open(pdfPath, 'rb') as pf:
+
+    with open(pdf_path, "rb") as pf:
         reader = PdfReader(pf)
-        with open(txtPath, 'w', encoding='utf-8') as tf:
-            for page in reader.pages:
-                text = page.extract_text()
-                if text:
-                    tf.write(text)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+
+    with open(txt_path, "w", encoding="utf-8") as tf:
+        tf.write(text)
 
 def downloadPdf(url: str, savePath: str) -> bool:
     """
@@ -125,10 +127,11 @@ def processSingleLink(linkData: dict) -> list:
 
 def splitIntoChunks(text, charsPerChunk, overlap):
     chunks = []
-    for i in range(0, len(text), charsPerChunk):
-        start = max(i - overlap, 0)
-        end = min(i + charsPerChunk + overlap, len(text))
+    start = 0
+    while start < len(text):
+        end = start + charsPerChunk
         chunks.append(text[start:end])
+        start += charsPerChunk - overlap  # Avanza considerando l'overlap
     return chunks
 
 def processLinksToChunks(links: List[dict]) -> List[dict]:

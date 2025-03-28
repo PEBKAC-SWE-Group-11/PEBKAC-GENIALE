@@ -1,8 +1,8 @@
 import json
 import logging
 import psycopg2
-from embeddingLocal import getEmbedding
-from connectionDB import getDBConnection
+from data_processing.embeddingLocal import getEmbedding
+from data_processing.connectionDB import getDBConnection
 import re
 from typing import Any
 from psycopg2.extensions import connection as pgConnection
@@ -30,11 +30,7 @@ def insertChunksFromLinks(cursor: Any, links: list) -> None:
         # Inserisce i chunk nel database
         for i, chunk in enumerate(chunks, 1):
             print(f"Inserimento chunk {i}/{len(chunks)}: {chunk['chunk'][:30]}...")
-            cursor.execute("""
-                INSERT INTO Chunk (filename, chunk, embedding)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (filename, chunk) DO NOTHING;
-            """, (
+            cursor.execute("""INSERT INTO Chunk (filename, chunk, embedding) VALUES (%s, %s, %s) ON CONFLICT (filename, chunk) DO NOTHING;""", (
                 chunk.get('filename', 'unknown'),
                 chunk['chunk'],
                 chunk['vector']
@@ -54,18 +50,14 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         products: lista di prodotti da inserire
     """
     try:
-        cleanedProducts = productsElaboration.removeTranslations(products)
-        links = productsElaboration.extractLinks(cleanedProducts)
-        processedProducts = productsElaboration.processProducts(cleanedProducts)
+        cleanedProducts = data_processing.productsElaboration.removeTranslations(products)
+        links = data_processing.productsElaboration.extractLinks(cleanedProducts)
+        processedProducts = data_processing.productsElaboration.processProducts(cleanedProducts)
         logger.info(f"Trovati {len(processedProducts)} prodotti da inserire")
         
         for i, product in enumerate(processedProducts, 1):
             logger.info(f"Elaborazione prodotto {i}/{len(processedProducts)}")
-            cursor.execute("""
-                INSERT INTO Product (id, title, description, etim, id_vector, idtitle_vector, idtitledescr_vector)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (id) DO NOTHING;
-            """, (
+            cursor.execute("""INSERT INTO Product (id, title, description, etim, id_vector, idtitle_vector, idtitledescr_vector) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING;""", (
                 product['product_id'],
                 product['title'],
                 product['description'],
@@ -99,11 +91,7 @@ def insertDocumentsFromLinks(cursor: Any, links: dict) -> None:
             logger.info(f"Salvataggio documento {i}/{totalLinks}")
             doc = re.search(r'(?<=DOCUMENT/)(.*)(?=\.)', value.get('link')).group(0)
             for productId in value['ids']:
-                cursor.execute("""
-                    INSERT INTO Document (title, product_id)
-                    VALUES (%s, %s)
-                    ON CONFLICT (title, product_id) DO NOTHING;
-                """, (
+                cursor.execute("""INSERT INTO Document (title, product_id) VALUES (%s, %s) ON CONFLICT (title, product_id) DO NOTHING;""", (
                     doc,
                     productId
                 ))

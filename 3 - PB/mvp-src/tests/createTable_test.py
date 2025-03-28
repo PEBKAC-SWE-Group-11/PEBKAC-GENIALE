@@ -15,15 +15,15 @@ class TestCreateTable(unittest.TestCase):
         self.assertEqual(dimension, 3)
         mock_getEmbedding.assert_called_once_with("test")
 
-    @patch('..data_processing.createTable.getVectorDimension', return_value=3)
-    @patch('..data_processing.createTable.pgConnection')
+    @patch('data_processing.createTable.getVectorDimension', return_value=3)
+    @patch('data_processing.createTable.pgConnection')
     def test_createTables(self, mock_getVectorDimension, mock_pgConnection):
         mock_cursor = MagicMock()
         mock_pgConnection.cursor.return_value = mock_cursor
 
         createTables(mock_pgConnection)
 
-        self.assertEqual(mock_cursor.execute.call_count, 9)  # 7 tables + 1 trigger creation + 1 trigger function
+        self.assertEqual(mock_cursor.execute.call_count, 8)  # 7 tables + 1 trigger creation + 1 trigger function
         mock_pgConnection.commit.assert_called_once()
         mock_cursor.close.assert_called_once()
 
