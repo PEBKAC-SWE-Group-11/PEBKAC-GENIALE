@@ -83,7 +83,7 @@ export class ApiService {
       },
       { headers: this.getHeaders() });
   }
-  
+
   // LLM Response
   askQuestion(conversationId: string, question: string): Observable<{messageId: string}> {
     return this.http.post<{messageId: string}>(
@@ -92,6 +92,7 @@ export class ApiService {
       { headers: this.getHeaders() }
     );
   }
+
   // Feedback
   sendFeedback(messageId: string, isPositive: boolean, content?: string): Observable<{messageId: string}> {
     return this.http.post<{messageId: string}>(`${this.apiUrl}/api/feedback`, 
