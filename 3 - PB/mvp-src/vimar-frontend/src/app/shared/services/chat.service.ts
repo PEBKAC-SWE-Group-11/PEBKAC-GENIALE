@@ -154,7 +154,15 @@ export class ChatService {
         this.loadMessages(conversation.conversationId);
     }
 
-    private async loadMessages(conversationId: string): Promise<void> {
+    // Metodo per caricare i messaggi di una conversazione
+    async loadMessages(conversationId?: string): Promise<void> {
+        // Se non viene fornito un ID conversazione, usa quello attivo
+        if (!conversationId) {
+            const activeConversation = this.activeConversationSubject.getValue();
+            if (!activeConversation) return;
+            conversationId = activeConversation.conversationId;
+        }
+        
         if (!this.currentSessionId || !conversationId) return;
         
         try {
@@ -168,52 +176,82 @@ export class ChatService {
         }
     }
 
+    // Metodo per aggiungere un messaggio
+    async addMessage(conversationId: string, content: string, sender: string = 'user'): Promise<string> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.sendMessage(conversationId, content)
+            );
+            return response.messageId;
+        } catch (error) {
+            console.error('Errore durante l\'aggiunta del messaggio:', error);
+            throw error;
+        }
+    }
+
+    // Metodo per chiedere una risposta al LLM
+    async askQuestion(conversationId: string, question: string): Promise<string> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.askQuestion(conversationId, question)
+            );
+            return response.messageId;
+        } catch (error) {
+            console.error('Errore durante la richiesta al LLM:', error);
+            throw error;
+        }
+    }
+
+    // Metodo per aggiornare il timestamp della conversazione
+    async updateConversationTimestamp(conversationId: string): Promise<boolean> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.updateConversationTimestamp(conversationId)
+            );
+            
+            // Aggiorna l'ordine delle conversazioni localmente
+            this.updateConversationOrder(conversationId);
+            
+            return response.success;
+        } catch (error) {
+            console.error('Errore durante l\'aggiornamento del timestamp:', error);
+            throw error;
+        }
+    }
+
+    // Metodo per inviare un messaggio all'API e ottenere una risposta
     async sendMessage(content: string): Promise<void> {
         if (!content.trim()) return;
         
         const activeConversation = this.activeConversationSubject.getValue();
         if (!activeConversation) return;
         
-        const userMessage: Message = {
-            messageId: Date.now().toString(),
-            conversationId: activeConversation.conversationId,
-            sender: 'user',
-            content: content,
-            createdAt: new Date().toISOString()
-        };
-        
-        const currentMessages = this.messagesSubject.getValue();
-        this.messagesSubject.next([...currentMessages, userMessage]);
-        
         this.isWaitingResponse = true;
         
         try {
-          
+            // 1. Invia il messaggio dell'utente al backend
             await firstValueFrom(
                 this.apiService.sendMessage(activeConversation.conversationId, content)
             );
             
+            // 2. Ricarica i messaggi per visualizzare il messaggio dell'utente
+            await this.loadMessages(activeConversation.conversationId);
             
+            // 3. Chiedi una risposta al modello LLM
             await firstValueFrom(
                 this.apiService.askQuestion(activeConversation.conversationId, content)
             );
-
             
-            await firstValueFrom(
-                this.apiService.updateConversationTimestamp(activeConversation.conversationId)
-            );
-            
-            
-            this.updateConversationOrder(activeConversation.conversationId);
-            
-            this.loadMessages(activeConversation.conversationId);
+            // 4. Ricarica i messaggi per visualizzare la risposta
+            await this.loadMessages(activeConversation.conversationId);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
             this.isWaitingResponse = false;
         }
     }
-  
+
+    // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
     private updateConversationOrder(conversationId: string): void {
         const conversations = this.conversationsSubject.getValue();
         const conversation = conversations.find(c => c.conversationId === conversationId);
@@ -263,31 +301,10 @@ export class ChatService {
                 this.apiService.sendFeedback(messageId, isPositive, content)
             );
             
-            // Aggiorna il messaggio nella lista locale
-            const currentMessages = this.messagesSubject.getValue();
-            const messageIndex = currentMessages.findIndex(m => m.messageId === messageId);
-            
-            if (messageIndex !== -1) {
-                const updatedMessages = [...currentMessages];
-                const message = updatedMessages[messageIndex];
-                
-                // Crea l'oggetto di feedback
-                const feedback: Feedback = {
-                    feedbackId: Date.now().toString(), // ID temporaneo, verrà sostituito quando ricaricheremo i messaggi
-                    messageId: messageId,
-                    type: isPositive ? 'positive' : 'negative',
-                    content: content || null,
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Aggiorna il messaggio con il nuovo feedback
-                updatedMessages[messageIndex] = {
-                    ...message,
-                    feedback
-                };
-                
-                // Aggiorna lo stato
-                this.messagesSubject.next(updatedMessages);
+            // Ricarica i messaggi per aggiornare lo stato del feedback
+            const activeConversation = this.activeConversationSubject.getValue();
+            if (activeConversation) {
+                this.loadMessages(activeConversation.conversationId);
             }
         } catch (error) {
             console.error('Errore durante l\'invio del feedback:', error);

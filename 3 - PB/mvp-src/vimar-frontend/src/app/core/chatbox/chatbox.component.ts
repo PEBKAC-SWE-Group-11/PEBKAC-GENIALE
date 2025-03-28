@@ -16,13 +16,12 @@ import { Observable, Subscription } from 'rxjs';
 export class ChatboxComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
   activeConversation: Conversation | null = null;
-  newMessage: string = '';
+  // newMessage: string = '';  // Commentiamo questa variabile non utilizzata
   readonly MAX_MESSAGE_LENGTH = 500;
-  isLoading: boolean = false;
+  isWaitingResponse: boolean = false;
   
   messages$: Observable<Message[]>;
   messageText: string = '';
-  isWaitingResponse: boolean = false;
   
   private subscriptions: Subscription = new Subscription();
   
@@ -61,22 +60,23 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
   async sendMessage(): Promise<void> {
-    if (!this.newMessage.trim() || !this.activeConversation) return;
+    if (!this.messageText.trim() || this.isWaitingResponse) return;
     
-    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
-      alert(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
-      return;
+    if (this.messageText.length > this.MAX_MESSAGE_LENGTH) {
+        alert(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
+        return;
     }
     
-    this.isLoading = true;
+    const messageContent = this.messageText;
+    this.messageText = '';
+    this.isWaitingResponse = true;
     
     try {
-      await this.chatService.sendMessage(this.newMessage);
-      this.newMessage = '';
+        await this.chatService.sendMessage(messageContent);
     } catch (error) {
-      console.error('Errore durante l\'invio del messaggio:', error);
+        console.error('Errore durante l\'invio del messaggio:', error);
     } finally {
-      this.isLoading = false;
+        this.isWaitingResponse = false;
     }
   }
 
@@ -117,8 +117,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
   checkMessageLength(): void {
-    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
-      this.newMessage = this.newMessage.substring(0, this.MAX_MESSAGE_LENGTH);
+    if (this.messageText.length > this.MAX_MESSAGE_LENGTH) {
+      this.messageText = this.messageText.substring(0, this.MAX_MESSAGE_LENGTH);
     }
   }
 

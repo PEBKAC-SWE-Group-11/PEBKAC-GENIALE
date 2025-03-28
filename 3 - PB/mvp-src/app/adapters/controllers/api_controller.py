@@ -32,7 +32,7 @@ def require_api_key(f):
 
 @flask_app.route('/api/question/<conversationId>', methods=['POST'])
 @require_api_key
-def ask_question(conversationId):
+def askQuestion(conversationId):
     try:
         question = request.json.get("question")
         textsToEmbed, etimToEmbed = contextExtractor.processUserInput(question)
@@ -42,10 +42,11 @@ def ask_question(conversationId):
         print(f"#####Messages: {messages}#####")
         response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
         print(f"#####Response: {response}#####")
-        messageId = conversation_service.add_message(conversationId, "assistant", response)
-        return jsonify({"messageId": messageId}), 200
+        userMessageId = conversation_service.add_message(conversationId, "user", question)
+        assistantMessageId = conversation_service.add_message(conversationId, "assistant", response)
+        return jsonify({"messageId": assistantMessageId}), 200
     except Exception as e:
-        print(f"#####Error in ask_question: {str(e)}#####")
+        print(f"#####Error in askQuestion: {str(e)}#####")
         return jsonify({"error": str(e)}), 500
     # question = request.json.get("question")
     # messages = conversation_service.read_messages(conversationId)
@@ -154,10 +155,10 @@ def api_read_feedback_by_messageId(messageId):
 @require_api_key
 def api_add_feedback():
     messageId = request.json.get('messageId')
-    feedback_value = request.json.get('feedback_value')
+    feedbackValue = request.json.get('feedbackValue')
     content = request.json.get('content')  # Può essere None
     
-    feedbackId = conversation_service.add_feedback(messageId, feedback_value, content)
+    feedbackId = conversation_service.add_feedback(messageId, feedbackValue, content)
     return jsonify({"messageId": messageId}), 201
 
 @flask_app.route('/api/dashboard/num_positive', methods=['GET'])
