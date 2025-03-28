@@ -60,10 +60,10 @@
           <div *ngFor="let comment of feedbackComments" class="comment-item" [ngClass]="{'positive': comment.type === 'positive', 'negative': comment.type === 'negative'}">
             <div class="comment-header">
               <span class="comment-type">{{ comment.type === 'positive' ? '👍 Positivo' : '👎 Negativo' }}</span>
-              <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
+              <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
             </div>
             <div class="comment-message-context">
-              <strong>Messaggio originale:</strong> {{ comment.message_content }}
+              <strong>Messaggio originale:</strong> {{ comment.messageContent }}
             </div>
             <div class="comment-content">
               <strong>Commento:</strong> {{ comment.content }}

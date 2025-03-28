@@ -1,10 +1,10 @@
 import { Feedback } from './feedback.model';
 
 export interface Message {
-  message_id: string;
-  conversation_id: string;
+  messageId: string;
+  conversationId: string;
   sender: 'user' | 'assistant' | 'system';
   content: string;
-  created_at: string;
+  createdAt: string;
   feedback?: Feedback;
 }

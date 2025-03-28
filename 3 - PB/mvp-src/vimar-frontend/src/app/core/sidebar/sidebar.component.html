@@ -13,13 +13,13 @@
                 class="conversation-item" 
                 [class.active]="isActive(conversation)"
                 (click)="selectConversation(conversation)">
-                <span>Conversazione {{ conversation.conversation_id }}</span>
+                <span>Conversazione {{ conversation.conversationId }}</span>
                 <div class="conversation-date">
-                    {{ conversation.updated_at | date:'short' }}
+                    {{ conversation.updatedAt | date:'short' }}
                 </div>
                 <button 
                     class="delete-btn" 
-                    (click)="deleteConversation($event, conversation.conversation_id)" 
+                    (click)="deleteConversation($event, conversation.conversationId)" 
                     aria-label="Elimina conversazione">
                     ×
                 </button>

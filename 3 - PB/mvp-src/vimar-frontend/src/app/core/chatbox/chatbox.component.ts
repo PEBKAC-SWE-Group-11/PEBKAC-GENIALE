@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChatService } from '../../services/chat.service';
-import { Message } from '../../models/message.model';
-import { Conversation } from '../../models/conversation.model';
+import { ChatService } from '../../shared/services/chat.service';
+   import { Message } from '../../shared/models/message.model';
+   import { Conversation } from '../../shared/models/conversation.model';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

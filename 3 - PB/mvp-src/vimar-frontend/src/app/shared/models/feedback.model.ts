@@ -1,7 +1,7 @@
 export interface Feedback {
-  feedback_id: string;
-  message_id: string;
+  feedbackId: string;
+  messageId: string;
   type: 'positive' | 'negative';
   content?: string | null;
-  created_at: string;
+  createdAt: string;
 } 
