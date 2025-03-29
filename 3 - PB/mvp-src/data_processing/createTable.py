@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 def getVectorDimension() -> int:
     """Ritorna la dimensione del vettore di embedding"""
-    return len(getEmbedding("test"))
+    #return len(getEmbedding("test"))
+    return 1024
 
 def createTables(connection: pgConnection) -> None:
     """Crea le tabelle nel database usando una connessione esistente"""

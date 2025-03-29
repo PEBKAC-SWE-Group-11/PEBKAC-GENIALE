@@ -9,3 +9,4 @@ pypdf
 typing
 scikit-learn
 cryptography
+scrapy

@@ -6,11 +6,58 @@ from typing import Any
 from psycopg2.extensions import connection as pgConnection
 import productsElaboration
 from chunkElabotation import processLinksToChunks
+import os
 
 # Configura il logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def insertChunksFromFile(cursor: Any, jsonFilePath: str) -> None:
+    """
+    Processa un file JSON fornito, legge i chunk e i relativi embedding e li inserisce nel database.
+    Args:
+        cursor: cursore del database
+        jsonFilePath: percorso al file JSON da elaborare
+    """
+    try:
+        logger.info(f"Elaborazione del file JSON: {jsonFilePath}")
+        
+        # Legge il contenuto del file JSON
+        with open(jsonFilePath, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        
+        # Verifica che il file contenga i dati necessari
+        if not isinstance(data, list):
+            raise ValueError("Il file JSON deve contenere una lista di oggetti.")
+        
+        logger.info(f"Trovati {len(data)} elementi nel file JSON.")
+        
+        # Inserisce i chunk nel database
+        for i, item in enumerate(data, 1):
+            filename = item.get("filename", "unknown")
+            chunk = item.get("chunk", "")
+            vector = item.get("vector", [])
+            
+            if not chunk or not vector:
+                logger.warning(f"Elemento {i} nel file JSON non contiene 'chunk' o 'vector'.")
+                continue
+            
+            logger.info(f"Inserimento chunk {i}/{len(data)}: {chunk[:30]}...")
+            cursor.execute("""
+                INSERT INTO Chunk (filename, chunk, embedding)
+                VALUES (%s, %s, %s)
+                ON CONFLICT (filename, chunk) DO NOTHING;
+            """, (
+                filename,
+                chunk,
+                vector
+            ))
+        
+        logger.info("Tutti i chunk sono stati inseriti con successo nel database.")
+    
+    except Exception as e:
+        logger.error(f"Errore durante l'inserimento dei chunk: {e}", exc_info=True)
+        raise
 def insertChunksFromLinks(cursor: Any, links: list) -> None:
     """
     Processa i link forniti, genera i chunk e li inserisce nel database.
@@ -21,6 +68,7 @@ def insertChunksFromLinks(cursor: Any, links: list) -> None:
     try:
         logger.info(f"Trovati {len(links)} link da processare.")
         
+        #DEBUG
         #links = links[:1]  # Limita il numero di link per testare il codice
         chunks = processLinksToChunks(links)
         logger.info(f"Generati {len(chunks)} chunk da inserire nel database.")
@@ -76,7 +124,10 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         logger.info("Tutti i prodotti sono stati inseriti con successo nel database.")
 
         linksList = list(links.values())
-        insertChunksFromLinks(cursor, linksList)
+        #DEBUG
+        jsonPath = os.path.join(os.path.dirname(__file__), 'jsonData/chunks.json') 
+        insertChunksFromFile(cursor, jsonPath)
+        #insertChunksFromLinks(cursor, linksList)
         insertDocumentsFromLinks(cursor, links)
         
     except Exception as e:
