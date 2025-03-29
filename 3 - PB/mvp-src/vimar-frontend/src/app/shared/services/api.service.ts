@@ -113,11 +113,11 @@ export class ApiService {
     const headers = this.getHeaders();
     
     return forkJoin({
-      numConversations: this.http.get<{numConversations: number}>(`${this.apiUrl}/api/dashboard/num_conversations`, { headers })
+      numConversations: this.http.get<{numConversations: number}>(`${this.apiUrl}/api/dashboard/numConversations`, { headers })
         .pipe(map(res => res.numConversations)),
-      numPositiveFeedback: this.http.get<{numPositiveFeedback: number}>(`${this.apiUrl}/api/dashboard/num_positive`, { headers })
+      numPositiveFeedback: this.http.get<{numPositiveFeedback: number}>(`${this.apiUrl}/api/dashboard/numPositive`, { headers })
         .pipe(map(res => res.numPositiveFeedback)),
-      numNegativeFeedback: this.http.get<{numNegativeFeedback: number}>(`${this.apiUrl}/api/dashboard/num_negative`, { headers })
+      numNegativeFeedback: this.http.get<{numNegativeFeedback: number}>(`${this.apiUrl}/api/dashboard/numNegative`, { headers })
         .pipe(map(res => res.numNegativeFeedback))
     }).pipe(
       map(result => ({
@@ -132,7 +132,7 @@ export class ApiService {
   }
 
   getFeedbackWithComments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/dashboard/feedback_comments`, {
+    return this.http.get<any[]>(`${this.apiUrl}/api/dashboard/feedbackComments`, {
       headers: this.getHeaders()
     });
   }
