@@ -42,7 +42,7 @@ def askQuestion(conversationId):
         print(f"#####Messages: {messages}#####")
         response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
         print(f"#####Response: {response}#####")
-        userMessageId = conversation_service.add_message(conversationId, "user", question)
+        #userMessageId = conversation_service.add_message(conversationId, "user", question)
         assistantMessageId = conversation_service.add_message(conversationId, "assistant", response)
         return jsonify({"messageId": assistantMessageId}), 200
     except Exception as e:
@@ -161,38 +161,38 @@ def api_add_feedback():
     feedbackId = conversation_service.add_feedback(messageId, feedbackValue, content)
     return jsonify({"messageId": messageId}), 201
 
-@flask_app.route('/api/dashboard/num_positive', methods=['GET'])
+@flask_app.route('/api/dashboard/numPositive', methods=['GET'])
 @require_api_key
 def api_read_num_positive_feedback():
     try:
         num_positive_feedback = conversation_service.read_num_positive_feedback()
-        return jsonify({"num_positive_feedback": num_positive_feedback}), 200
+        return jsonify({"numPositiveFeedback": num_positive_feedback}), 200
     except Exception as e:
         logging.error(f"Errore recupero feedback positivi: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/dashboard/num_negative', methods=['GET'])
+@flask_app.route('/api/dashboard/numNegative', methods=['GET'])
 @require_api_key
 def api_read_num_negative_feedback():
     try:
         num_negative_feedback = conversation_service.read_num_negative_feedback()
-        return jsonify({"num_negative_feedback": num_negative_feedback}), 200
+        return jsonify({"numNegativeFeedback": num_negative_feedback}), 200
     except Exception as e:
         logging.error(f"Errore recupero feedback negativi: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
 
-@flask_app.route('/api/dashboard/num_conversations', methods=['GET'])
+@flask_app.route('/api/dashboard/numConversations', methods=['GET'])
 @require_api_key
 def api_read_num_conversations():
     try:
         num_conversations = conversation_service.read_num_conversations()
-        return jsonify({"num_conversations": num_conversations}), 200
+        return jsonify({"numConversations": num_conversations}), 200
     except Exception as e:
         logging.error(f"Errore recupero numero conversazioni: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
-@flask_app.route('/api/dashboard/feedback_comments', methods=['GET'])
+@flask_app.route('/api/dashboard/feedbackComments', methods=['GET'])
 @require_api_key
 def api_read_feedback_with_comments():
     try:

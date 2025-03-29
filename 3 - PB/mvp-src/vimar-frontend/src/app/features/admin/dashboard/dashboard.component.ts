@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../shared/services/api.service';
 import { Feedback } from '../../../shared/models/feedback.model';
+import { firstValueFrom } from 'rxjs';
 
 interface FeedbackWithMessage extends Feedback {
   messageContent: string;
@@ -38,7 +39,7 @@ export class AdminDashboardComponent implements OnInit {
     this.error = '';
 
     try {
-      this.stats = await this.apiService.getAdminStats().toPromise();
+      this.stats = await firstValueFrom(this.apiService.getAdminStats());
     } catch (error) {
       this.error = 'Errore nel caricamento delle statistiche';
       console.error('Errore API:', error);
@@ -52,7 +53,7 @@ export class AdminDashboardComponent implements OnInit {
     this.commentsError = '';
 
     try {
-      const result = await this.apiService.getFeedbackWithComments().toPromise();
+      const result = await firstValueFrom(this.apiService.getFeedbackWithComments());
       this.feedbackComments = result || [];
     } catch (error) {
       this.commentsError = 'Errore nel caricamento dei commenti di feedback';

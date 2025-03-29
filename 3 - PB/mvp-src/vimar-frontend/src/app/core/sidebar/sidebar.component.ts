@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { ChatService } from '../../shared/services/chat.service';
 import { Conversation } from '../../shared/models/conversation.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +12,8 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  conversations: Conversation[] = [];
   activeConversation: Conversation | null = null;
-  
+  conversations$: Observable<Conversation[]>;
   private subscriptions: Subscription = new Subscription();
   
   @Output() conversationSelected = new EventEmitter<void>();
@@ -22,21 +21,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   readonly MAX_CONVERSATIONS = 10;
 
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService) {
+    this.conversations$ = this.chatService.conversations$;
+  }
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this.chatService.conversations$.subscribe(conversations => {
-        this.conversations = conversations;
-        
-        // Log per verificare l'ordinamento
-        console.log('Conversazioni ordinate:', this.conversations.map(c => ({
-          id: c.conversationId,
-          updated: new Date(c.updatedAt).toLocaleString()
-        })));
-      })
-    );
-
     this.subscriptions.add(
       this.chatService.activeConversation$.subscribe(conversation => {
         this.activeConversation = conversation;
@@ -60,6 +49,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   createNewConversation(): void {
     // Non creare nuove conversazioni se in attesa
     if (this.isWaitingForResponse) return;
+
+    // Mostra alert se è stato raggiunto il limite massimo di conversazioni
+    if (this.hasReachedLimit) {
+      const confirmDelete = window.confirm(
+        `Hai raggiunto il limite massimo di ${this.MAX_CONVERSATIONS} conversazioni. ` +
+        `Premendo OK verrà eliminata la conversazione più vecchia per fare spazio a quella nuova.`
+      );
+      
+      if (!confirmDelete) {
+        return; // L'utente ha annullato l'operazione
+      }
+    }
     
     this.chatService.createConversation()
       .then(() => {

@@ -115,7 +115,7 @@ export class ChatService {
                 );
                 
                 const updatedConversations = currentConversations.filter(
-                    c => c.conversationId !== oldestConversation.conversationId
+                    (c: Conversation) => c.conversationId !== oldestConversation.conversationId
                 );
                 this.conversationsSubject.next(updatedConversations);
             } catch (error) {
@@ -217,14 +217,20 @@ export class ChatService {
             
             // 2. Ricarica i messaggi per visualizzare il messaggio dell'utente
             await this.loadMessages(activeConversation.conversationId);
+
+            // 3. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
+            await this.updateConversationTimestamp(activeConversation.conversationId);
             
-            // 3. Chiedi una risposta al modello LLM
+            // 4. Chiedi una risposta al modello LLM
             await firstValueFrom(
                 this.apiService.askQuestion(activeConversation.conversationId, content)
             );
             
-            // 4. Ricarica i messaggi per visualizzare la risposta
+            // 5. Ricarica i messaggi per visualizzare la risposta
             await this.loadMessages(activeConversation.conversationId);
+            
+            // 6. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
+            await this.updateConversationTimestamp(activeConversation.conversationId);
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
@@ -236,7 +242,7 @@ export class ChatService {
     // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
     private updateConversationOrder(conversationId: string): void {
         const conversations = this.conversationsSubject.getValue();
-        const conversation = conversations.find(c => c.conversationId === conversationId);
+        const conversation = conversations.find((c: Conversation) => c.conversationId === conversationId);
         
         if (conversation) {
             // Aggiorna il timestamp
@@ -244,7 +250,7 @@ export class ChatService {
             
             // Rimuovi la conversazione dalla lista
             const remainingConversations = conversations.filter(
-                c => c.conversationId !== conversationId
+                (c: Conversation) => c.conversationId !== conversationId
             );
             
             // Aggiungi la conversazione in cima alla lista
@@ -266,7 +272,7 @@ export class ChatService {
             );
             
             // L'interfaccia utente rimuove la conversazione dalla lista (come prima)
-            const updatedConversations = conversations.filter(c => c.conversationId !== conversationId);
+            const updatedConversations = conversations.filter((c: Conversation) => c.conversationId !== conversationId);
             this.conversationsSubject.next(updatedConversations);
             
             if (isActiveConversation) {
