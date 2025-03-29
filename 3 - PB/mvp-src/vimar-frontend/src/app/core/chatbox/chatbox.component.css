@@ -78,6 +78,16 @@
     max-width: 85%;
 }
 
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
 .message.user-message {
     align-self: flex-end;
     justify-content: flex-end;
@@ -93,6 +103,29 @@
     border-radius: 12px;
     font-size: 0.95rem;
     word-wrap: break-word;
+    min-width: 0;
+}
+
+.message-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 0.3rem;
+    padding: 0;
+}
+
+.user-message .message-footer {
+    justify-content: flex-end;
+    padding-right: 0;
+}
+
+.assistant-message .message-footer {
+    justify-content: flex-start;
+    padding-left: 1.2rem;
+}
+
+.message-timestamp {
+    font-size: 0.75rem;
+    color: #6c757d;
 }
 
 .user-message .message-content {
@@ -199,7 +232,7 @@
     }
     
     .message {
-        max-width: 90%;
+        max-width: 85%;
     }
     
     .chat-header h2 {
@@ -209,13 +242,29 @@
     .input-area {
         padding: 1rem;
     }
+    
+    .message-content {
+        padding: 0.8rem 1rem;
+    }
+    
+    .messages-area {
+        padding: 1.5rem 0.5rem 6rem;
+    }
+    
+    .user-message .message-footer {
+        padding-right: 0;
+    }
+    
+    .assistant-message .message-footer {
+        padding-left: 1rem;
+    }
 }
 
 /* Stili per i pulsanti di feedback */
 .feedback-buttons {
     display: flex;
     gap: 8px;
-    margin-top: 5px;
+    margin-left: 12px;
     opacity: 0.5;
     transition: opacity 0.2s;
 }
@@ -227,14 +276,14 @@
 .feedback-btn {
     background: none;
     border: none;
-    padding: 4px;
+    padding: 0;
     cursor: pointer;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     transition: all 0.2s ease;
 }
 
@@ -261,7 +310,7 @@
 .feedback-given {
     display: flex;
     align-items: center;
-    margin-top: 5px;
+    margin-left: 12px;
     font-size: 0.9rem;
 }
 
