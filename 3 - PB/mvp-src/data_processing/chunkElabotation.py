@@ -1,8 +1,5 @@
 import os
-import re
-from multiprocessing import Pool
 from pypdf import PdfReader
-import numpy as np
 from typing import List
 import requests
 import logging
