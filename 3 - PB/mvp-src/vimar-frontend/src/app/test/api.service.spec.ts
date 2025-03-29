@@ -322,6 +322,20 @@ describe('api.service', () => {
             const promise = await response;
 
             expect(promise).toEqual(statsMock);
+        });
+
+        it('should ask a question', async() => {
+            const apiUrl = environment.apiUrl;
+            const questionMock = { messageId: '1' };
+            const conversationId = '1';
+            
+            const response = firstValueFrom(service.askQuestion(conversationId, 'test'));
+
+            const req = httpMock.expectOne(`${apiUrl}/api/question/${conversationId}`);
+            req.flush(questionMock);
+
+            const promise = await response;
+            expect(promise).toEqual(questionMock);
         })
     })
 });
