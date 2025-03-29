@@ -3,6 +3,7 @@
         <h2>Conversazioni</h2>
         <button class="new-conversation-btn" 
                 (click)="createNewConversation()" 
+                [disabled]="isWaitingForResponse"
                 aria-label="Nuova conversazione">+</button>
     </div>
     
@@ -12,7 +13,8 @@
                 *ngFor="let conversation of conversations" 
                 class="conversation-item" 
                 [class.active]="isActive(conversation)"
-                (click)="selectConversation(conversation)">
+                [class.disabled]="isWaitingForResponse"
+                (click)="selectConversation(conversation, $event)">
                 <span>Conversazione {{ conversation.conversationId }}</span>
                 <div class="conversation-date">
                     {{ conversation.updatedAt | date:'short' }}
@@ -20,6 +22,7 @@
                 <button 
                     class="delete-btn" 
                     (click)="deleteConversation($event, conversation.conversationId)" 
+                    [disabled]="isWaitingForResponse"
                     aria-label="Elimina conversazione">
                     ×
                 </button>

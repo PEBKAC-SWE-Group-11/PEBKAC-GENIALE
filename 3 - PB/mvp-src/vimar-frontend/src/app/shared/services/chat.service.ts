@@ -19,6 +19,7 @@ export class ChatService {
     private readonly MAX_CONVERSATIONS = 10;
     private readonly MAX_MESSAGE_LENGTH = 500;
     
+    // Ripristiniamo la variabile globale per lo stato di attesa
     private isWaitingResponse: boolean = false;
 
     private apiService = inject(ApiService);
@@ -37,6 +38,11 @@ export class ChatService {
 
     get messages$(): Observable<Message[]> {
         return this.messagesSubject.asObservable();
+    }
+    
+    // Getter per verificare se l'applicazione è in attesa di una risposta
+    get isWaitingForResponse(): boolean {
+        return this.isWaitingResponse;
     }
 
     private async initializeFromStorage(): Promise<void> {
@@ -102,7 +108,7 @@ export class ChatService {
             // Trova la conversazione con l'updatedAt più vecchio
             // (ora che le conversazioni sono ordinate per updatedAt, dovrebbe essere l'ultima)
             const oldestConversation = currentConversations[currentConversations.length - 1];
-            
+        
             try {
                 await firstValueFrom(
                     this.apiService.deleteConversation(oldestConversation.conversationId)
@@ -176,32 +182,6 @@ export class ChatService {
         }
     }
 
-    // Metodo per aggiungere un messaggio
-    async addMessage(conversationId: string, content: string, sender: string = 'user'): Promise<string> {
-        try {
-            const response = await firstValueFrom(
-                this.apiService.sendMessage(conversationId, content)
-            );
-            return response.messageId;
-        } catch (error) {
-            console.error('Errore durante l\'aggiunta del messaggio:', error);
-            throw error;
-        }
-    }
-
-    // Metodo per chiedere una risposta al LLM
-    async askQuestion(conversationId: string, question: string): Promise<string> {
-        try {
-            const response = await firstValueFrom(
-                this.apiService.askQuestion(conversationId, question)
-            );
-            return response.messageId;
-        } catch (error) {
-            console.error('Errore durante la richiesta al LLM:', error);
-            throw error;
-        }
-    }
-
     // Metodo per aggiornare il timestamp della conversazione
     async updateConversationTimestamp(conversationId: string): Promise<boolean> {
         try {
@@ -226,6 +206,7 @@ export class ChatService {
         const activeConversation = this.activeConversationSubject.getValue();
         if (!activeConversation) return;
         
+        // Usa la variabile globale
         this.isWaitingResponse = true;
         
         try {
@@ -247,6 +228,7 @@ export class ChatService {
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
+            // Resetta la variabile globale
             this.isWaitingResponse = false;
         }
     }

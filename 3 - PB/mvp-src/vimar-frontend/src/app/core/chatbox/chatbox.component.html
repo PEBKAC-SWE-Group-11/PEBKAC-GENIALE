@@ -6,7 +6,7 @@
            </button>
            <h2> Conversazione {{ activeConversation?.conversationId }}</h2>
        </div>
-        <div class="messages-area">
+        <div class="messages-area" #messagesContainer>
             <div *ngFor="let message of messages$ | async" 
                 class="message"
                 [ngClass]="{
