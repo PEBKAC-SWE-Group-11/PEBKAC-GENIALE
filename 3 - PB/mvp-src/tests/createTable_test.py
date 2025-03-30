@@ -11,6 +11,7 @@ class TestCreateTable(unittest.TestCase):
 
     @patch('data_processing.createTable.getEmbedding', return_value=[0.1, 0.2, 0.3])
     def test_getVectorDimension(self, mock_getEmbedding):
+        print("Test per la funzione getVectorDimension: Verifica che la funzione calcoli correttamente la dimensione del vettore di embedding")
         dimension = getVectorDimension()
         self.assertEqual(dimension, 3)
         mock_getEmbedding.assert_called_once_with("test")
@@ -18,6 +19,7 @@ class TestCreateTable(unittest.TestCase):
     @patch('data_processing.createTable.getVectorDimension', return_value=3)
     @patch('data_processing.createTable.pgConnection')
     def test_createTables(self, mock_getVectorDimension, mock_pgConnection):
+        print("Test per la funzione createTables: Verifica che vengano create correttamente le tabelle e i trigger nel database")
         mock_cursor = MagicMock()
         mock_pgConnection.cursor.return_value = mock_cursor
 

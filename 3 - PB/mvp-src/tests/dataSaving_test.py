@@ -15,6 +15,7 @@ class TestDataSaving(unittest.TestCase):
 
     @patch('data_processing.dataSaving.processLinksToChunks', return_value=[{'filename': 'file1', 'chunk': 'chunk1', 'vector': [0.1, 0.2, 0.3]}])
     def test_insertChunksFromLinks(self, mock_processLinksToChunks):
+        print("Test per la funzione insertChunksFromLinks: Verifica che i chunk vengano inseriti correttamente nel database")
         mock_cursor = MagicMock()
         links = [{'link': 'http://example.com/doc1.pdf'}]
         insertChunksFromLinks(mock_cursor, links)
@@ -30,6 +31,7 @@ class TestDataSaving(unittest.TestCase):
     @patch('data_processing.dataSaving.insertChunksFromLinks')
     @patch('data_processing.dataSaving.insertDocumentsFromLinks')
     def test_insertProductsFromFile(self, mock_insertDocumentsFromLinks, mock_insertChunksFromLinks, mock_processProducts, mock_extractLinks, mock_removeTranslations):
+        print("Test per la funzione insertProductsFromFile: Verifica che i prodotti vengano elaborati e inseriti correttamente nel database")
         mock_cursor = MagicMock()
         products = [{'product_id': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}]
         insertProductsFromFile(mock_cursor, products)
@@ -41,6 +43,7 @@ class TestDataSaving(unittest.TestCase):
 
     @patch('re.search', return_value=MagicMock(group=MagicMock(return_value='doc1')))
     def test_insertDocumentsFromLinks(self, mock_re_search):
+        print("Test per la funzione insertDocumentsFromLinks: Verifica che i documenti vengano inseriti correttamente nel database")
         mock_cursor = MagicMock()
         links = {'1': {'link': 'http://example.com/doc1.pdf', 'ids': ['1']}}
         insertDocumentsFromLinks(mock_cursor, links)
@@ -55,6 +58,7 @@ class TestDataSaving(unittest.TestCase):
     @patch('data_processing.dataSaving.insertProductsFromFile')
     @patch('data_processing.dataSaving.getDBConnection')
     def test_writeProductsInDb(self, mock_getDBConnection, mock_insertProductsFromFile, mock_json_load, mock_open):
+        print("Test per la funzione writeProductsInDb: Verifica che i prodotti vengano letti da un file JSON e scritti correttamente nel database")
         mock_connection = MagicMock()
         mock_getDBConnection.return_value = mock_connection
         writeProductsInDb('products.json', mock_connection)

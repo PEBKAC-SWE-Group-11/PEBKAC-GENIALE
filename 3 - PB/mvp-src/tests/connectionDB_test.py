@@ -10,6 +10,7 @@ class TestConnectionDB(unittest.TestCase):
 
     @patch('psycopg2.connect')
     def test_getDBConnection_success(self, mock_connect):
+        print("Test per la funzione getDBConnection: Verifica che la connessione al database venga stabilita correttamente")
         mock_connect.return_value = MagicMock()
         connection = getDBConnection()
         self.assertIsNotNone(connection)
@@ -18,6 +19,7 @@ class TestConnectionDB(unittest.TestCase):
     @patch('psycopg2.connect', side_effect=psycopg2.OperationalError("Connection failed"))
     @patch('time.sleep', return_value=None)
     def test_getDBConnection_failure(self, mock_sleep, mock_connect):
+        print("Test per la funzione getDBConnection: Verifica che venga gestito correttamente un errore di connessione al database con tentativi multipli")
         with self.assertRaises(psycopg2.OperationalError):
             getDBConnection()
         self.assertEqual(mock_connect.call_count, 10)

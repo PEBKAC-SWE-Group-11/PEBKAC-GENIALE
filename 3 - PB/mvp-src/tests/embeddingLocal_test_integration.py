@@ -7,6 +7,7 @@ class TestEmbeddingLocalIntegration(unittest.TestCase):
         """
         Testa il comportamento reale di getEmbedding con un input valido.
         """
+        print("Test per la funzione getEmbedding: Verifica che la funzione restituisca un vettore di embedding valido per un input corretto")
         result = getEmbedding("valid input")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
@@ -16,6 +17,7 @@ class TestEmbeddingLocalIntegration(unittest.TestCase):
         """
         Testa il comportamento reale di getEmbedding con un input vuoto.
         """
+        print("Test per la funzione getEmbedding: Verifica che la funzione gestisca correttamente un input vuoto restituendo un vettore vuoto")
         result = getEmbedding("")
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), 0)
@@ -24,6 +26,7 @@ class TestEmbeddingLocalIntegration(unittest.TestCase):
         """
         Testa il comportamento reale di getEmbedding con un input molto grande.
         """
+        print("Test per la funzione getEmbedding: Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding validoVerifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido")
         large_input = "large input " * 1000
         result = getEmbedding(large_input)
         self.assertIsInstance(result, list)

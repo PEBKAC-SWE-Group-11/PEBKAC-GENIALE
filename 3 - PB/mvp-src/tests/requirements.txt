@@ -7,5 +7,3 @@ numpy
 pypdf
 scikit-learn
 coverage
-io
-pypdf

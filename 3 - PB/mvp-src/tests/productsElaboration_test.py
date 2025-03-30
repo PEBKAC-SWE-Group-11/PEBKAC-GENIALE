@@ -4,9 +4,11 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from data_processing.productsElaboration import removeTranslations, extractLinks, processProducts
+
 class TestProductsElaboration(unittest.TestCase):
 
     def test_removeTranslations(self):
+        print("Test per la funzione removeTranslations: Verifica che i documenti tradotti vengano rimossi correttamente dai prodotti")
         products = [
             {
                 "id": "1",
@@ -30,6 +32,7 @@ class TestProductsElaboration(unittest.TestCase):
         self.assertEqual(result, expected_output)
 
     def test_extractLinks(self):
+        print("Test per la funzione extractLinks: Verifica che i link vengano estratti correttamente dai prodotti e raggruppati per ID")
         products = [
             {
                 "id": "1",
@@ -54,6 +57,7 @@ class TestProductsElaboration(unittest.TestCase):
 
     @patch('data_processing.productsElaboration.getEmbedding', return_value=[0.1, 0.2, 0.3])
     def test_processProducts(self, mock_getEmbedding):
+        print("Test per la funzione processProducts: Verifica che i prodotti vengano elaborati correttamente e che vengano generati i vettori di embedding")
         products = [
             {
                 "id": "1",
