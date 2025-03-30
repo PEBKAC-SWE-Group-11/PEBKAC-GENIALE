@@ -1,11 +1,5 @@
 \section{Architettura di sistema }
 \subsection{Modello architetturale}
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/esagonale.png}
-    \caption{Schema architetturale del backend}
-    \label{fig:architettura}
-\end{figure}
 Il sistema è stato progettato seguendo l'\textbf{architettura esagonale}, un modello che mira alla separazione tra business logic dell'applicazione e i servizi esterni, le fonti dati e le interfacce utente. Questa struttura pone il core\textsubscript{G} al centro, circondato da ports\textsubscript{G} che fungono da interfaccia tra il core\textsubscript{G} e il mondo esterno.
 
 Il \textbf{core\textsubscript{G}} dell'applicazione è il fulcro del sistema, che contiene la logica di dominio e le regole di business. La sua progettazione punta ad evitare riferimenti diretti a dettagli tecnologici specifici, promuovendo l'indipendenza dal contesto esterno.
@@ -206,6 +200,13 @@ Infine, il \texttt{Dashboard} espone diversi endpoint per raccogliere statistich
 Gli endpoint sono protetti da un sistema di sicurezza, con il decoratore \texttt{require\_api\_key(f)} che garantisce l’autenticazione tramite chiave API. Inoltre, la configurazione di CORS permette di gestire le richieste provenienti dal frontend.
 
 \subsection{Database}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/database.png}
+    \caption{Schema Requisiti Desiderabili}
+    \label{fig:Requisiti Desiderabili}
+\end{figure}
+
 \begin{itemize}
 \item Il file principale è main.py, che funge da punto di ingresso per l'applicazione. Qui vengono orchestrate le operazioni principali, come l'inizializzazione del database e il caricamento dei dati.
 \end{itemize}
