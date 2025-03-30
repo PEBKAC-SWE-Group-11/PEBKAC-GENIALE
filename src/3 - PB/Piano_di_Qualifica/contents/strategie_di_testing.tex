@@ -36,22 +36,150 @@ I \textit{test\textsubscript{G}} di unità sono una tipologia di \textit{test\te
     \item Facilitare la manutenzione del \textit{software\textsubscript{G}}, individuando rapidamente errori introdotti da modifiche;
     \item Promuovere la modularità, progettando concettualmente componenti indipendenti e riutilizzabili.
 \end{itemize}
-Per la realizzazione di questa categoria di \textit{test\textsubscript{G}} per questo progetto saranno utilizzati i \textit{framework\textsubscript{G}} \textit{Pytest\textsubscript{G}} e \textit{unittest\textsubscript{G}} per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del \textit{backend\textsubscript{G}}.\\
+Per la realizzazione di questa categoria di \textit{test\textsubscript{G}} per questo progetto sarà utilizzato il \textit{framework\textsubscript{G}} \textit{unittest\textsubscript{G}} per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del \textit{backend\textsubscript{G}}.\\
 I \textit{test\textsubscript{G}} di unità, insieme ai \textit{test\textsubscript{G}} di integrazione, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari al 75\% (opzionalmente un \textit{coverage\textsubscript{G}} minimo pari al 90\%).
-%TODO: Inserire i test
-%\begin{table}[H]
-%    \centering
-%    \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
-%        \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
-%        \hline
-%        TU-1 &  & NI \\
-%        \hline
-%        TU-2 &  & NI \\
-%        \hline
-%        TU-3 &  & NI \\
-%    \end{tabularx}
-%    \caption{Stato dei \textit{test\textsubscript{G}} di unità}
-%\end{table}
+TODO: Inserire i test
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+    \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
+        TU-1 & Verifica che il metodo create\_session() inserisca correttamente una nuova sessione nel database & V \\
+        \hline
+        TU-2 & Verifica che il metodo read\_session() recuperi correttamente una sessione dal database & V \\
+        \hline
+        TU-3 & Verifica che il metodo create\_conversation() crei correttamente una nuova conversazione nel database & V \\
+        \hline
+        TU-4 & Verifica che il metodo read\_conversations() recuperi correttamente tutte le conversazioni associate a una sessione dal database & V \\
+        \hline
+        TU-5 & Verifica che il metodo read\_conversation\_by\_id() recuperi correttamente una conversazione dal database tramite il suo ID & V \\
+        \hline
+        TU-6 & Verifica che il metodo delete\_conversation() elimini correttamente una conversazione dal database & V \\
+        \hline
+        TU-7 & Verifica che il metodo add\_message() aggiunga correttamente un nuovo messaggio a una conversazione & V \\
+        \hline
+        TU-8 & Verifica che il metodo read\_messages() recuperi correttamente tutti i messaggi associati a una conversazione & V \\
+        \hline
+        TU-9 & Verifica che il metodo read\_feedback() recuperi correttamente tutti i feedback associati a un messaggio & V \\
+        \hline
+        TU-10 & Verifica che il metodo add\_feedback() aggiunga correttamente un feedback a un messaggio & V \\
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+        TU-11 & Verifica che il metodo read\_num\_positive\_feedback() recuperi correttamente il numero di feedback positivi & V \\
+        \hline
+        TU-12 & Verifica che il metodo read\_num\_negative\_feedback() recuperi correttamente il numero di feedback negativi & V \\
+        \hline
+        TU-13 & Verifica che il metodo read\_num\_conversations() recuperi correttamente il numero totale di conversazioni & V \\
+        \hline
+        TU-14 & Verifica che l'endpoint restituisca correttamente gli header CORS (Cross-Origin Resource Sharing)  & V \\
+        \hline
+        TU-15 & Verifica che l'endpoint restituisca un codice di stato 404 se non definito & V \\
+        \hline
+        TU-16 & Verifica che il metodo execute\_query() venga chiamato correttamente con la query specificata & V \\
+        \hline
+        TU-17 & Verifica che il metodo fetch\_one() venga chiamato correttamente con la query e i parametri specificati & V \\
+        \hline
+        TU-18 & Verifica che il metodo fetch\_all() venga chiamato correttamente con la query specificata e restituisca tutti i risultati attesi & V \\
+        \hline
+        TU-19 & Verifica che il metodo close() venga chiamato correttamente & V \\
+        \hline
+        TU-20 & Verifica che una sessione venga creata correttamente senza specificare la data di creazione & V \\
+        \hline
+        TU-21 & Verifica che una sessione venga creata correttamente specificando la data di creazione & V \\
+        \hline
+        TU-22 & Verifica che una conversazione venga creata correttamente & V \\
+        \hline
+        TU-23 & Verifica che un messaggio venga creato correttamente & V \\
+        \hline
+        TU-24 & Verifica che venga generato correttamente un embedding per una query quando la richiesta HTTP ha successo & V \\
+        \hline
+        TU-25 & Verifica che venga generato correttamente un errore quando la risposta HTTP non contiene l'embedding & V \\
+        \hline
+        TU-26 & Verifica che venga generato correttamente un errore quando la richiesta HTTP fallisce & V \\
+        \hline
+        TU-27 & Verifica che una query venga eseguita correttamente & V \\
+        \hline
+        TU-28 & Verifica che una query venga eseguita correttamente e restituisca un solo risultato & V \\
+        \hline
+        TU-29 & Verifica che una query venga eseguita correttamente e restituisca tutti i risultati & V \\
+        \hline
+        TU-30 & Verifica che la connessione al database venga chiusa correttamente & V \\
+        \hline
+        TU-31 & Verifica che la connessione al database venga creata correttamente utilizzando psycopg2 & V \\
+        \hline
+        TU-32 & Verifica che l'endpoint: /api/test restituisca correttamente il messaggio di successo & V \\
+        \hline
+        TU-33 & Verifica che l'endpoint: /api/question/1 gestisca correttamente una richiesta di domanda & V \\
+        \hline
+        TU-34 & Verifica che l'endpoint: /api/session/1 recuperi correttamente una sessione & V \\
+    \end{tabularx}
+\end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+        TU-35 & Verifica che l'endpoint /api/conversation crei correttamente una nuova conversazione & V \\
+        \hline
+        TU-36 & Verifica che l'endpoint: /api/conversation recuperi correttamente tutte le conversazioni associate a una sessione & V \\
+        \hline
+        TU-37 & Verifica che l'endpoint: /api/conversation/1 recuperi correttamente una conversazione tramite il suo ID & V \\
+        \hline
+        TU-38 & Verifica che l'endpoint: \textbf{DELETE} /api/conversation/1 elimini correttamente una conversazione & V \\
+        \hline
+        TU-39 & Verifica che l'endpoint: \textbf{POST} /api/message aggiunga correttamente un nuovo messaggio a una conversazione & V \\
+        \hline
+        TU-40 & Verifica che l'endpoint: \textbf{GET} /api/message recuperi correttamente tutti i messaggi associati a una conversazione & V \\
+        \hline
+        TU-41 & Verifica che la vengano create correttamente le directory necessarie & V \\
+        \hline
+        TU-42 & Verifica che un PDF venga scaricato correttamente e salvato & V \\
+        \hline
+        TU-43 & Verifica che il download fallisca correttamente in caso di errore HTTP & V \\
+        \hline
+        TU-44 & Verifica che un PDF venga scaricato e convertito correttamente in un file di testo & V \\
+        \hline
+        TU-45 & Verifica che un file di testo venga suddiviso in chunk e che vengano generati i relativi vettori di embedding & V \\
+        \hline
+        TU-46 & Verifica che la connessione al database venga stabilita correttamente & V \\
+        \hline
+        TU-47 & Verifica che la funzione calcoli correttamente la dimensione del vettore di embedding & V \\
+        \hline
+        TU-48 & Verifica che vengano create correttamente le tabelle e i trigger nel database & V \\
+        \hline
+        TU-49 & Verifica cheVerifica che i chunk vengano inseriti correttamente nel database & V \\
+        \hline
+        TU-50 & Verifica che i prodotti vengano elaborati e inseriti correttamente nel database & V \\
+        \hline
+        TU-51 & Verifica che i documenti vengano inseriti correttamente nel database & V \\
+        \hline
+        TU-52 & Verifica che i prodotti vengano letti da un file JSON e scritti correttamente nel database & V \\
+        \hline
+        TU-53 & Verifica che la funzione restituisca un vettore di embedding valido per un input corretto & V \\
+        \hline
+        TU-54 & Verifica che la funzione gestisca correttamente un input vuoto restituendo un vettore vuoto & V \\
+        \hline
+        TU-55 & Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido & V \\
+        \hline
+        TU-56 & Verifica che le tabelle vengano create correttamente nel database & V \\
+        \hline
+        TU-57 & Verifica che venga gestito correttamente un errore durante la creazione delle tabelle & V \\
+        \end{tabularx}
+    \end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+        TU-58 & Verifica che i dati vengano importati correttamente nel database & V \\
+        \hline
+        TU-59 & Verifica che venga gestito correttamente un errore durante l'importazione dei dati & V \\
+        \hline
+        TU-60 & Verifica che i link vengano estratti correttamente dai prodotti e raggruppati per ID & V \\
+        \hline
+        TU-61 & Verifica che i prodotti vengano elaborati correttamente e che vengano generati i vettori di embedding & V \\
+        
+   \end{tabularx}
+   \caption{Stato dei \textit{test\textsubscript{G}} di unità}
+\end{table}
 
 \subsection{\textit{Test\textsubscript{G}} di integrazione}
 I \textit{test\textsubscript{G}} di integrazione sono una tipologia di \textit{test\textsubscript{G}} progettata per verificare la capacità di diversi componenti o moduli di un sistema di funzionare insieme. I \textit{test\textsubscript{G}} di integrazione non mirano a testare singoli moduli in modo indipendente, come fa il \textit{test\textsubscript{G}} di unità, che si concentra su unità di codice isolate. Le caratteristiche principali dei \textit{test\textsubscript{G}} di integrazione sono:
@@ -62,19 +190,61 @@ I \textit{test\textsubscript{G}} di integrazione sono una tipologia di \textit{t
 \end{itemize}
 I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsubscript{G}} di unità, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari al 75\% (opzionalmente un \textit{coverage\textsubscript{G}} minimo pari al 90\%).
 %TODO: Inserire i test
-%\begin{table}[H]
-%    \centering
-%    \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
-%        \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
-%        \hline
-%        TI-1 &  & NI \\
-%        \hline
-%        TI-2 &  & NI \\
-%        \hline
-%        TI-3 &  & NI \\
-%    \end{tabularx}
-%    \caption{Stato dei \textit{test\textsubscript{G}} di unità}
-%\end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+       \textbf{Codice} & \textbf{Descrizione} & \textbf{Stato} \\
+       \hline
+       TI-1 & Verifica che l'endpoint restituisca correttamente il messaggio di successo & V \\
+       \hline
+       TI-2 & Verifica che l'endpoint gestisca correttamente una richiesta di domanda & V \\
+       \hline
+       TI-3 & Verifica che l'endpoint crei correttamente una nuova conversazione & V \\
+       \hline
+       TI-4 & Verifica che l'endpoint recuperi correttamente tutte le conversazioni associate a una sessione & V \\
+       \hline
+       TI-5 & Verifica che l'endpoint recuperi correttamente una conversazione tramite il suo ID & V \\
+       \hline
+       TI-6 & Verifica che l'endpoint elimini correttamente una conversazione & V \\
+       \hline
+       TI-7 & Verifica che l'endpoint aggiunga correttamente un nuovo messaggio a una conversazione & V \\
+       \hline
+       TI-8 & Verifica che l'endpoint recuperi correttamente tutti i messaggi associati a una conversazione & V \\
+       \end{tabularx}
+    \end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+       TI-9 & Verifica che l'endpoint restituisca correttamente il messaggio di successo & V \\
+       \hline
+       TI-10 & Verifica che l'endpoint gestisca correttamente una richiesta di domanda & V \\
+       \hline
+       TI-11 & Verifica che l'endpoint crei correttamente una nuova conversazione & V \\
+       \hline
+       TI-12 & Verifica che l'endpoint recuperi correttamente tutte le conversazioni associate a una sessione & V \\
+       \hline
+       TI-13 & Verifica che l'endpoint recuperi correttamente una conversazione tramite il suo ID & V \\
+       \hline
+       TI-14 & Verifica che l'endpoint elimini correttamente una conversazione & V \\
+       \hline
+       TI-15 & Verifica che l'endpoint aggiunga correttamente un nuovo messaggio a una conversazione & V \\
+       \hline
+       TI-16 & Verifica che l'endpoint recuperi correttamente tutti i messaggi associati a una conversazione & V \\
+       \hline
+       TI-17 & Verifica che una query venga eseguita correttamente & V \\
+       \hline
+       TI-18 & Verifica che una query venga eseguita correttamente e restituisca un solo risultato & V \\
+       \hline
+       TI-19 & Verifica che una query venga eseguita correttamente e restituisca tutti i risultati & V \\
+       \hline
+       TI-20 & Verifica che la funzione restituisca un vettore di embedding valido per un input corretto & V \\
+       \hline
+       TI-21 & Verifica che la funzione gestisca correttamente un input vuoto restituendo un vettore vuoto & V \\
+       \hline
+       TI-22 & Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido & V \\
+   \end{tabularx}
+   \caption{Stato dei \textit{test\textsubscript{G}} di unità}
+\end{table}
 
 \subsection{\textit{Test\textsubscript{G}} di sistema}
 I \textit{test\textsubscript{G}} di sistema sono una tipologia di \textit{test\textsubscript{G}} attraverso la quale vengono testati il comportamento e la funzionalità di un sistema completo nel suo insieme. Viene eseguito dopo che tutti i componenti o moduli sono stati integrati e serve a garantire che il sistema soddisfi i \textit{requisiti\textsubscript{G}} funzionali e non funzionali specificati. I \textit{test\textsubscript{G}} di sistema valutano il \textit{software\textsubscript{G}} in un ambiente il più possibile vicino a quello reale, simulando gli utenti di tale \textit{software\textsubscript{G}}. Le caratteristiche chiave dei \textit{test\textsubscript{G}} di sistema sono:
