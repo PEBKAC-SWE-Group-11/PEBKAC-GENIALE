@@ -8,3 +8,4 @@ numpy
 pypdf
 typing
 scikit-learn
+cryptography

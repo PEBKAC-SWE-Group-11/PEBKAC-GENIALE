@@ -1,7 +1,5 @@
 import json
 import logging
-import psycopg2
-from embeddingLocal import getEmbedding
 from connectionDB import getDBConnection
 import re
 from typing import Any

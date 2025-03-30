@@ -4,43 +4,60 @@ import { ChatService } from '../shared/services/chat.service';
 import { ApiService } from '../shared/services/api.service';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { Message } from '../shared/models/message.model';
+import { Conversation } from '../shared/models/conversation.model';
 import { environment } from '../../environments/environment';
 import { SidebarComponent } from '../core/sidebar/sidebar.component';
-import { ComponentFixture } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 describe('sidebar.component', () => {
-    let sidebar: SidebarComponent;
-    let apiService: ApiService;
-    let chatService: ChatService;
+    let sidebarComponent: SidebarComponent;
+
+    let chatServiceMock = { 
+        conversations$: jest.fn(),
+        activeConversation$: jest.fn(),
+        messages$: jest.fn(),
+        createConversation: jest.fn(),
+        setActiveConversation: jest.fn(),
+        loadMessages: jest.fn(),
+        updateConversationTimestamp: jest.fn(),
+        sendMessage: jest.fn(),
+        updateConversationOrder: jest.fn(),
+        deleteConversation: jest.fn(),
+        sendFeedback: jest.fn(),
+        hasReachedConversationLimit: jest.fn(),
+    };
+
     let httpMock: HttpTestingController;
 
     beforeEach(() =>{
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [ChatService, ApiService]
-        })
+            providers: [{provide: ChatService, useValue: chatServiceMock}],
+        });
 
-        apiService = TestBed.inject(ApiService);
-        chatService = TestBed.inject(ChatService);
         httpMock = TestBed.inject(HttpTestingController);
+        sidebarComponent = new SidebarComponent(chatServiceMock as unknown as ChatService);
     });
 
-    it('should create a instance of sidebar', () => {
-        sidebar = new SidebarComponent(chatService);
-        expect(chatService.conversations$).not.toBeNull();
-    }); 
+    it('there should be an instance of sidebar', async() => {
+        expect(sidebarComponent).toBeTruthy();
+    });
 
-    it('should create a conversation', () => {
-        /*const fixture = TestBed.createComponent(SidebarComponent);
-        const sidebar = fixture.componentInstance;
-        let event = jest.spyOn(sidebar.newConversationCreated, 'emit');
-        
-        const nativeElement = fixture.nativeElement;
-        sidebar.createNewConversation();  
+    it('should get the conversations', async() => {
+        const conversationMock: Conversation[] = [];
+        for(let i = 0; i<3; ++i){
+            conversationMock.push({
+                conversationId: i.toString(),
+                sessionId: '12345',
+                createdAt: '',
+                updatedAt: '',
+                toDelete: false,
+            });
+        }
 
-        fixture.detectChanges();
+        chatServiceMock.conversations$.mockReturnValue(of(conversationMock));
+        sidebarComponent.ngOnInit();
 
-        expect(sidebar.newConversationCreated.emit).toHaveBeenCalled();*/
-        expect(1).toEqual(1);
+        expect(sidebarComponent.conversations.length).toEqual(3);
     })
 });

@@ -332,6 +332,7 @@ describe('api.service', () => {
             const response = firstValueFrom(service.askQuestion(conversationId, 'test'));
 
             const req = httpMock.expectOne(`${apiUrl}/api/question/${conversationId}`);
+            expect(req.request.method).toBe('POST')
             req.flush(questionMock);
 
             const promise = await response;
