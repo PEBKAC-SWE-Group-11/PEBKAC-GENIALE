@@ -91,8 +91,8 @@ class ConversationService:
                 SELECT m.*, 
                       f.feedbackId,
                       f.isHelpful,
-                      f.content as feedback_content,
-                      f.createdAt as feedback_createdAt
+                      f.content as feedbackContent,
+                      f.createdAt as feedbackCreatedAt
                 FROM Message m 
                 LEFT JOIN Feedback f ON m.messageId = f.messageId
                 WHERE m.conversationId = %s 
@@ -129,8 +129,20 @@ class ConversationService:
     
     def read_feedback(self, messageId):
         query = "SELECT * FROM Feedback WHERE messageId = %s"
-        query = "SELECT * FROM Feedback WHERE messageId = %s"
-        return self.repository.fetch_all(query, (messageId,))
+        results = self.repository.fetch_all(query, (messageId,))
+        
+        formatted_feedback = []
+        for row in results:
+            feedback = {
+                'feedbackId': str(row[0]),
+                'messageId': str(row[1]),
+                'type': 'positive' if row[2] else 'negative',
+                'content': row[3],
+                'createdAt': str(row[4]) if len(row) > 4 and row[4] else None
+            }
+            formatted_feedback.append(feedback)
+        
+        return formatted_feedback
     
     def add_feedback(self, messageId, feedback, content=None):
         check_query = "SELECT COUNT(*) FROM Feedback WHERE messageId = %s"
@@ -169,7 +181,7 @@ class ConversationService:
     def read_feedback_with_comments(self):
         """Recupera i feedback che hanno un commento (content non null)"""
         query = """
-            SELECT f.feedbackId, f.messageId, f.isHelpful, f.content, f.createdAt, m.content as message_content 
+            SELECT f.feedbackId, f.messageId, f.isHelpful, f.content, f.createdAt, m.content as messageContent 
             FROM Feedback f
             JOIN Message m ON f.messageId = m.messageId
             WHERE f.content IS NOT NULL AND f.content != ''
@@ -186,7 +198,7 @@ class ConversationService:
                 'type': 'positive' if row[2] else 'negative',
                 'content': row[3],
                 'createdAt': str(row[4]),
-                'message_content': row[5][:100] + ('...' if len(row[5]) > 100 else '')  # Abbrevia il messaggio originale
+                'messageContent': row[5][:100] + ('...' if len(row[5]) > 100 else '')  # Abbrevia il messaggio originale
             }
             formatted_feedback.append(feedback)
         

@@ -6,7 +6,7 @@
            </button>
            <h2> Conversazione {{ activeConversation?.conversationId }}</h2>
        </div>
-        <div class="messages-area">
+        <div class="messages-area" #messagesContainer>
             <div *ngFor="let message of messages$ | async" 
                 class="message"
                 [ngClass]="{
@@ -14,34 +14,41 @@
                 'assistant-message': message.sender === 'assistant',
                 'message-with-feedback': message.feedback
                 }">
-                <div class="message-content">
-                    {{ message.content }}
-                </div>
-                
-                <!-- Pulsanti di feedback solo per i messaggi dell'assistente -->
-                <div class="feedback-buttons" *ngIf="message.sender === 'assistant' && !message.feedback">
-                    <button 
-                      class="feedback-btn positive" 
-                      (click)="sendPositiveFeedback(message.messageId)"
-                      title="Feedback positivo">
-                      <i class="bi bi-hand-thumbs-up"></i>
-                    </button>
-                    <button 
-                      class="feedback-btn negative" 
-                      (click)="sendNegativeFeedback(message.messageId)"
-                      title="Feedback negativo">
-                      <i class="bi bi-hand-thumbs-down"></i>
-                    </button>
-                </div>
-                
-                <!-- Visualizzazione del feedback già dato -->
-                <div class="feedback-given" *ngIf="message.feedback">
-                    <span [class.active]="message.feedback.type === 'positive'" [class.inactive]="message.feedback.type !== 'positive'">
-                        <i class="bi bi-hand-thumbs-up-fill"></i>
-                    </span>
-                    <span [class.active]="message.feedback.type === 'negative'" [class.inactive]="message.feedback.type !== 'negative'">
-                        <i class="bi bi-hand-thumbs-down-fill"></i>
-                    </span>
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        {{ message.content }}
+                    </div>
+                    <div class="message-footer">
+                        <div class="message-timestamp">
+                            {{ message.createdAt | date:'HH:mm' }}
+                        </div>
+                        
+                        <!-- Pulsanti di feedback solo per i messaggi dell'assistente -->
+                        <div class="feedback-buttons" *ngIf="message.sender === 'assistant' && !message.feedback">
+                            <button 
+                              class="feedback-btn positive" 
+                              (click)="sendPositiveFeedback(message.messageId)"
+                              title="Feedback positivo">
+                              <i class="bi bi-hand-thumbs-up"></i>
+                            </button>
+                            <button 
+                              class="feedback-btn negative" 
+                              (click)="sendNegativeFeedback(message.messageId)"
+                              title="Feedback negativo">
+                              <i class="bi bi-hand-thumbs-down"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Visualizzazione del feedback già dato -->
+                        <div class="feedback-given" *ngIf="message.feedback">
+                            <span [class.active]="message.feedback.type === 'positive'" [class.inactive]="message.feedback.type !== 'positive'">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </span>
+                            <span [class.active]="message.feedback.type === 'negative'" [class.inactive]="message.feedback.type !== 'negative'">
+                                <i class="bi bi-hand-thumbs-down-fill"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
