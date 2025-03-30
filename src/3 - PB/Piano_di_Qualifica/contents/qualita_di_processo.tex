@@ -1,0 +1,72 @@
+\section{Qualità di processo}
+La qualità di processo si basa sull’idea che, per realizzare un prodotto conforme a specifici standard qualitativi, è essenziale monitorare e migliorare regolarmente i processi che lo generano. Questo principio si applica all’intera gamma di attività, pratiche e metodologie impiegate durante il ciclo di vita del \textit{software\textsubscript{G}}.
+In altre parole, la qualità dei processi ha l'obiettivo di andare a conformare la qualità del prodotto in modo tale da garantire sempre che gli standard definidi nel documento \textit{Norme di Progetto} vengano rispettati ed eventualmente migliorati. Di seguito sono elencate le metriche che il team si impegna a rispettare per garantire l’eccellenza nei processi. 
+\subsection{Processi primari}
+\subsubsection{Fornitura}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.5\hsize}X|X|>{\centering\arraybackslash}X|>{\hsize=0.8\hsize}>{\centering\arraybackslash}X}
+        \textbf{Metrica} & \textbf{Descrizione} & \textbf{Valore Accettabile} & \textbf{Valore Ideale} \\ \hline
+        
+         CV& Cost variance& \(\pm\)150 & 0 \\ \hline
+         PV& Planned Value& \(\ge 0\) & \(\le BAC\) \\ \hline
+         EV& Earned Value& \(\ge 0\) & \(\le EAC\) \\ \hline
+         AC& Actual Cost& \(\ge 0\)  & \(\le EAC\) \\ \hline
+         CPI& Cost Performance Index & tra 0.95 e 1.05& 1 \\ \hline
+         EAC& Estimated At Completion & \(\pm\)5\% del budget preventivato & budget preventivato \\ \hline 
+         ETC& Estimated To Completion & \(\ge 0\) & \(\le EAC\) \\ \hline
+         SV& Schedule Variance & \(\pm\)150 & 0\% \\ \hline
+         BV& Budget Variance & \(\ge\) 10\%  & 0\% \\ 
+         BAC& Budget At Completion & -  & - \\ 
+         
+    \end{tabularx}
+    \caption{Metriche per il processo di fornitura}
+\end{table}
+
+\subsubsection{Sviluppo}
+\subsubsubsection{Codifica}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.5\hsize}X|X|>{\centering\arraybackslash}X|>{\hsize=0.8\hsize}>{\centering\arraybackslash}X}
+   
+        \textbf{Metrica} & \textbf{Descrizione} & \textbf{Valore accettabile} & \textbf{Valore ideale}  \\
+        \hline
+        SC & Statement Coverage &  0 & \(\ge 100\%\) \\
+        
+    \end{tabularx}
+    \caption{Metriche per il processo di codifica}
+\end{table}
+
+\subsection{Processi di supporto}
+
+\subsubsection{Documentazione}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.5\hsize}X|X|>{\centering\arraybackslash}X|>{\hsize=0.8\hsize}>{\centering\arraybackslash}X}
+   
+        \textbf{Metrica} & \textbf{Descrizione} & \textbf{Valore accettabile} & \textbf{Valore ideale}  \\
+        \hline
+        IG & Indice Gulpease & \(\ge65\%\) & 100 \\
+
+        
+    \end{tabularx}
+    \caption{Metriche per il processo di documentazione}
+\end{table}
+
+\subsubsection{Gestione della qualità}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{>{\hsize=0.5\hsize}X|X|>{\centering\arraybackslash}X|>{\hsize=0.8\hsize}>{\centering\arraybackslash}X}
+   
+        \textbf{Metrica} & \textbf{Descrizione} & \textbf{Valore accettabile} & \textbf{Valore ideale}  \\
+        \hline
+        MNS & Metriche Non Soddisfatte & \(\le3\) & 0\\
+        
+    \end{tabularx}
+    \caption{Metriche per il processo di gestione delle qualità}
+\end{table}
+
