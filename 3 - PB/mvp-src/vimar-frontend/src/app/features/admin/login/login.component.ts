@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../shared/services/api.service';
 import { RouterModule } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-login',
@@ -43,7 +44,7 @@ export class AdminLoginComponent {
     try {
       const passwordHash = await this.hashPassword(this.password);
       
-      const response = await this.apiService.adminLogin(passwordHash).toPromise();
+      const response = await firstValueFrom(this.apiService.adminLogin(passwordHash));
       
       if (response && response.success) {
         if (response.token) {

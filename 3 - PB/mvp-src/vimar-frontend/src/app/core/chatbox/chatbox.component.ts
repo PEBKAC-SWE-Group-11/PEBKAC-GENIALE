@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../shared/services/chat.service';
@@ -13,20 +13,19 @@ import { Observable, Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class ChatboxComponent implements OnInit, OnDestroy {
+export class ChatboxComponent implements OnInit, OnDestroy, AfterViewChecked {
   messages: Message[] = [];
   activeConversation: Conversation | null = null;
-  newMessage: string = '';
   readonly MAX_MESSAGE_LENGTH = 500;
-  isLoading: boolean = false;
   
   messages$: Observable<Message[]>;
   messageText: string = '';
-  isWaitingResponse: boolean = false;
   
   private subscriptions: Subscription = new Subscription();
+  private shouldScrollToBottom: boolean = false;
   
   @Input() toggleSidebar: () => void = () => {};
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
   feedbackMessageId: string | null = null;
   feedbackIsPositive: boolean = false;
@@ -38,45 +37,69 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.messages$ = this.chatService.messages$;
   }
 
+  get isWaitingResponse(): boolean {
+    return this.chatService.isWaitingForResponse;
+  }
+
   ngOnInit(): void {
     this.subscriptions.add(
       this.chatService.activeConversation$.subscribe(conversation => {
         this.activeConversation = conversation;
+        this.shouldScrollToBottom = true;
       })
     );
     
-    // Aggiungiamo log per debug
     this.subscriptions.add(
       this.messages$.subscribe(messages => {
         console.log('Messaggi ricevuti:', messages);
         if (messages.length === 0) {
           console.log('Nessun messaggio ricevuto per la conversazione attuale');
+        } else {
+          this.shouldScrollToBottom = true;
         }
       })
     );
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.shouldScrollToBottom) {
+      this.scrollToBottom();
+      this.shouldScrollToBottom = false;
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  private scrollToBottom(): void {
+    try {
+      if (this.messagesContainer && this.messagesContainer.nativeElement) {
+        const element = this.messagesContainer.nativeElement;
+        element.scrollTop = element.scrollHeight;
+      }
+    } catch (err) {
+      console.error('Errore durante lo scroll:', err);
+    }
+  }
+
   async sendMessage(): Promise<void> {
-    if (!this.newMessage.trim() || !this.activeConversation) return;
+    if (!this.messageText.trim() || this.isWaitingResponse) return;
     
-    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
-      alert(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
-      return;
+    if (this.messageText.length > this.MAX_MESSAGE_LENGTH) {
+        alert(`Il messaggio non può superare i ${this.MAX_MESSAGE_LENGTH} caratteri.`);
+        return;
     }
     
-    this.isLoading = true;
+    const messageContent = this.messageText;
+    this.messageText = '';
+    
+    this.shouldScrollToBottom = true;
     
     try {
-      await this.chatService.sendMessage(this.newMessage);
-      this.newMessage = '';
+        await this.chatService.sendMessage(messageContent);
     } catch (error) {
-      console.error('Errore durante l\'invio del messaggio:', error);
-    } finally {
-      this.isLoading = false;
+        console.error('Errore durante l\'invio del messaggio:', error);
     }
   }
 
@@ -117,8 +140,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
   checkMessageLength(): void {
-    if (this.newMessage.length > this.MAX_MESSAGE_LENGTH) {
-      this.newMessage = this.newMessage.substring(0, this.MAX_MESSAGE_LENGTH);
+    if (this.messageText.length > this.MAX_MESSAGE_LENGTH) {
+      this.messageText = this.messageText.substring(0, this.MAX_MESSAGE_LENGTH);
     }
   }
 

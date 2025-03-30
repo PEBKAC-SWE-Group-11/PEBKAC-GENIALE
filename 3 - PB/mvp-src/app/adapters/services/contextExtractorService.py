@@ -8,10 +8,10 @@ from app.infrastructure.config.db_config import get_database_connection
 
 logger = logging.getLogger(__name__)
 
-SIMILARITY_THRESHOLD = 0.6
+SIMILARITY_THRESHOLD = 0
 TOP_PRODUCTS_LIMIT = 20
 TOP_SIMILAR_CHUNKS = 3
-TOP_PRODUCTS_FINAL = 2
+TOP_PRODUCTS_FINAL = 5
 EMBEDDING_MODEL = 'mxbai-embed-large'
 
 class contextExtractorService:
@@ -23,7 +23,6 @@ class contextExtractorService:
         userEmbeddings = self._getEmbedding(userInput)
 
         auxJsons = self._getStructuredProducts()
-        print("#####auxJsons: ", auxJsons)
         totalSimilarProducts = []
         for prodList in auxJsons:
             similarProducts = self._findTopNSimilarProducts(prodList, userEmbeddings, n=TOP_PRODUCTS_LIMIT)
@@ -58,8 +57,8 @@ class contextExtractorService:
         for product in products:
             try:
                 productId = str(product['id'])
-                title = product['title'] or ''
-                description = product['description'] or ''
+                title = product['title']
+                description = product['description']
                 
                 def parseVector(vector_str):
                     if not vector_str:
@@ -202,5 +201,5 @@ class contextExtractorService:
         return etimToEmbed
 
     def __del__(self):
-        if hasattr(self, 'db_connection'):
+        if hasattr(self, 'dbConnection'):
             self.dbConnection.close()

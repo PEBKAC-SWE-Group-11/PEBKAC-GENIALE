@@ -86,6 +86,12 @@
   border-left: 3px solid #e0a800;
 }
 
+.sidebar .conversation-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .sidebar .conversation-title {
   font-weight: 500;
   margin-bottom: 4px;
@@ -114,6 +120,10 @@
 
 .sidebar .delete-btn:hover {
   color: #b02a37;
+}
+
+.sidebar .delete-btn:disabled {
+  display: none;
 }
 
 .sidebar .no-conversations {

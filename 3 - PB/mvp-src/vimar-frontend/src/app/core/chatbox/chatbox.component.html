@@ -6,7 +6,7 @@
            </button>
            <h2> Conversazione {{ activeConversation?.conversationId }}</h2>
        </div>
-        <div class="messages-area">
+        <div class="messages-area" #messagesContainer>
             <div *ngFor="let message of messages$ | async" 
                 class="message"
                 [ngClass]="{
@@ -14,78 +14,87 @@
                 'assistant-message': message.sender === 'assistant',
                 'message-with-feedback': message.feedback
                 }">
-                <div class="message-content">
-                    {{ message.content }}
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        {{ message.content }}
+                    </div>
+                    <div class="message-footer">
+                        <div class="message-timestamp">
+                            {{ message.createdAt | date:'HH:mm' }}
+                        </div>
+                        
+                        <!-- Pulsanti di feedback solo per i messaggi dell'assistente -->
+                        <div class="feedback-buttons" *ngIf="message.sender === 'assistant' && !message.feedback">
+                            <button 
+                              class="feedback-btn positive" 
+                              (click)="sendPositiveFeedback(message.messageId)"
+                              title="Feedback positivo">
+                              <i class="bi bi-hand-thumbs-up"></i>
+                            </button>
+                            <button 
+                              class="feedback-btn negative" 
+                              (click)="sendNegativeFeedback(message.messageId)"
+                              title="Feedback negativo">
+                              <i class="bi bi-hand-thumbs-down"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Visualizzazione del feedback già dato -->
+                        <div class="feedback-given" *ngIf="message.feedback">
+                            <span [class.active]="message.feedback.type === 'positive'" [class.inactive]="message.feedback.type !== 'positive'">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </span>
+                            <span [class.active]="message.feedback.type === 'negative'" [class.inactive]="message.feedback.type !== 'negative'">
+                                <i class="bi bi-hand-thumbs-down-fill"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Pulsanti di feedback solo per i messaggi dell'assistente -->
-                <div class="feedback-buttons" *ngIf="message.sender === 'assistant' && !message.feedback">
-                    <button 
-                      class="feedback-btn positive" 
-                      (click)="sendPositiveFeedback(message.messageId)"
-                      title="Feedback positivo">
-                      <i class="bi bi-hand-thumbs-up"></i>
-                    </button>
-                    <button 
-                      class="feedback-btn negative" 
-                      (click)="sendNegativeFeedback(message.messageId)"
-                      title="Feedback negativo">
-                      <i class="bi bi-hand-thumbs-down"></i>
-                    </button>
-                </div>
-                
-                <!-- Visualizzazione del feedback già dato -->
-                <div class="feedback-display" *ngIf="message.feedback">
-                    <span class="feedback-icon" 
-                          [ngClass]="{'positive': message.feedback.type === 'positive', 
-                                      'negative': message.feedback.type === 'negative'}">
-                        <i class="bi" 
-                           [ngClass]="{'bi-hand-thumbs-up': message.feedback.type === 'positive', 
-                                       'bi-hand-thumbs-down': message.feedback.type === 'negative'}"></i>
-                    </span>
-                    <span class="feedback-text" *ngIf="message.feedback.content">
-                        {{ message.feedback.content }}
-                    </span>
-                </div>
+            </div>
+            
+            <!-- Indicatore di caricamento mentre si attende la risposta -->
+            <div class="loading-indicator" *ngIf="isWaitingResponse">
+                <div class="spinner"></div>
+                <span>Sto pensando...</span>
             </div>
         </div>
         
-        <div class="message-input">
-            <textarea 
-                [(ngModel)]="newMessage" 
+        
+        <div class="input-area">
+            <input 
+                type="text" 
+                [(ngModel)]="messageText"
                 placeholder="Scrivi un messaggio..." 
                 (input)="checkMessageLength()"
-                (keydown)="onKeyPress($event)"></textarea>
-            <button 
-                class="send-btn" 
-                [disabled]="isLoading || !newMessage.trim()" 
-                (click)="sendMessage()">
-                <span *ngIf="!isLoading">Invia</span>
-                <span *ngIf="isLoading">Invio...</span>
-            </button>
+                (keypress)="onKeyPress($event)">
+            <button class="send-button" 
+                (click)="sendMessage()"
+                [disabled]="isWaitingResponse">Invia</button>
         </div>
     </div>
     
     <!-- Popup di Feedback -->
-    <div class="feedback-popup" *ngIf="showFeedbackPopup">
-        <div class="feedback-popup-content">
-            <h3>
-                <i class="bi" 
-                   [ngClass]="{'bi-hand-thumbs-up': feedbackIsPositive, 
-                               'bi-hand-thumbs-down': !feedbackIsPositive}"></i>
-                {{ feedbackIsPositive ? 'Feedback Positivo' : 'Feedback Negativo' }}
-            </h3>
+    <div class="feedback-popup-overlay" *ngIf="showFeedbackPopup">
+        <div class="feedback-popup">
+          <div class="feedback-popup-header">
+            <h3>{{ feedbackIsPositive ? 'Feedback Positivo' : 'Feedback Negativo' }}</h3>
+            <button class="close-btn" (click)="closeFeedbackPopup()">×</button>
+          </div>
+          <div class="feedback-popup-content">
+            <p>Aggiungi un commento (opzionale):</p>
             <textarea 
-                [(ngModel)]="feedbackContent" 
-                placeholder="Aggiungi un commento (opzionale)"
-                maxlength="300"></textarea>
-            <div class="char-counter">
-                {{ remainingFeedbackChars }} caratteri rimanenti
+              [(ngModel)]="feedbackContent" 
+              placeholder="Scrivi il tuo commento qui..." 
+              maxlength="300"
+              rows="4"></textarea>
+            <div class="char-counter" [class.limit-reached]="remainingFeedbackChars <= 20">
+              {{ remainingFeedbackChars }} caratteri rimanenti
             </div>
-            <div class="feedback-buttons">
-                <button class="cancel-btn" (click)="closeFeedbackPopup()">Annulla</button>
-                <button class="submit-btn" (click)="submitFeedback()">Invia Feedback</button>
-            </div>
+          </div>
+          <div class="feedback-popup-footer">
+            <button class="cancel-btn" (click)="closeFeedbackPopup()">Annulla</button>
+            <button class="submit-btn" (click)="submitFeedback()">Invia Feedback</button>
+          </div>
         </div>
     </div>
 </div>

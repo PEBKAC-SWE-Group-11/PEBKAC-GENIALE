@@ -6,4 +6,5 @@ export interface Conversation {
   updatedAt: string;
   toDelete: boolean;
   title?: string;
+  isWaiting?: boolean; // Indica se la conversazione è in attesa di una risposta
 }

@@ -32,7 +32,7 @@ def require_api_key(f):
 
 @flask_app.route('/api/question/<conversationId>', methods=['POST'])
 @require_api_key
-def ask_question(conversationId):
+def askQuestion(conversationId):
     try:
         question = request.json.get("question")
         textsToEmbed, etimToEmbed = contextExtractor.processUserInput(question)
@@ -42,18 +42,12 @@ def ask_question(conversationId):
         print(f"#####Messages: {messages}#####")
         response = llmResponse.getLlmResponse(messages, question, textsToEmbed, etimToEmbed)
         print(f"#####Response: {response}#####")
-        messageId = conversation_service.add_message(conversationId, "assistant", response)
-        return jsonify({"messageId": messageId}), 200
+        #userMessageId = conversation_service.add_message(conversationId, "user", question)
+        assistantMessageId = conversation_service.add_message(conversationId, "assistant", response)
+        return jsonify({"messageId": assistantMessageId}), 200
     except Exception as e:
-        print(f"#####Error in ask_question: {str(e)}#####")
+        print(f"#####Error in askQuestion: {str(e)}#####")
         return jsonify({"error": str(e)}), 500
-    # question = request.json.get("question")
-    # messages = conversation_service.read_messages(conversationId)
-    # text_to_embed = embedding_service.get_embeddings(question)
-    # response = conversation_service.get_llm_response(messages, question, text_to_embed)
-    # messageId = conversation_service.add_message(conversationId, "assistant", response)
-    # return jsonify({"messageId": messageId}), 200
-
 
 @flask_app.route('/api/session', methods=['POST'])
 @require_api_key
@@ -154,44 +148,44 @@ def api_read_feedback_by_messageId(messageId):
 @require_api_key
 def api_add_feedback():
     messageId = request.json.get('messageId')
-    feedback_value = request.json.get('feedback_value')
+    feedbackValue = request.json.get('feedbackValue')
     content = request.json.get('content')  # Può essere None
     
-    feedbackId = conversation_service.add_feedback(messageId, feedback_value, content)
+    feedbackId = conversation_service.add_feedback(messageId, feedbackValue, content)
     return jsonify({"messageId": messageId}), 201
 
-@flask_app.route('/api/dashboard/num_positive', methods=['GET'])
+@flask_app.route('/api/dashboard/numPositive', methods=['GET'])
 @require_api_key
 def api_read_num_positive_feedback():
     try:
         num_positive_feedback = conversation_service.read_num_positive_feedback()
-        return jsonify({"num_positive_feedback": num_positive_feedback}), 200
+        return jsonify({"numPositiveFeedback": num_positive_feedback}), 200
     except Exception as e:
         logging.error(f"Errore recupero feedback positivi: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/dashboard/num_negative', methods=['GET'])
+@flask_app.route('/api/dashboard/numNegative', methods=['GET'])
 @require_api_key
 def api_read_num_negative_feedback():
     try:
         num_negative_feedback = conversation_service.read_num_negative_feedback()
-        return jsonify({"num_negative_feedback": num_negative_feedback}), 200
+        return jsonify({"numNegativeFeedback": num_negative_feedback}), 200
     except Exception as e:
         logging.error(f"Errore recupero feedback negativi: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
 
-@flask_app.route('/api/dashboard/num_conversations', methods=['GET'])
+@flask_app.route('/api/dashboard/numConversations', methods=['GET'])
 @require_api_key
 def api_read_num_conversations():
     try:
         num_conversations = conversation_service.read_num_conversations()
-        return jsonify({"num_conversations": num_conversations}), 200
+        return jsonify({"numConversations": num_conversations}), 200
     except Exception as e:
         logging.error(f"Errore recupero numero conversazioni: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
-@flask_app.route('/api/dashboard/feedback_comments', methods=['GET'])
+@flask_app.route('/api/dashboard/feedbackComments', methods=['GET'])
 @require_api_key
 def api_read_feedback_with_comments():
     try:

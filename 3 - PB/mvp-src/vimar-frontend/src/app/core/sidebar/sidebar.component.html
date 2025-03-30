@@ -3,23 +3,26 @@
         <h2>Conversazioni</h2>
         <button class="new-conversation-btn" 
                 (click)="createNewConversation()" 
+                [disabled]="isWaitingForResponse"
                 aria-label="Nuova conversazione">+</button>
     </div>
     
     <div class="conversations-list">
-        <ng-container *ngIf="conversations.length; else noConversations">
+        <ng-container *ngIf="(conversations$ | async)?.length; else noConversations">
             <div 
-                *ngFor="let conversation of conversations" 
+                *ngFor="let conversation of conversations$ | async" 
                 class="conversation-item" 
                 [class.active]="isActive(conversation)"
-                (click)="selectConversation(conversation)">
+                [class.disabled]="isWaitingForResponse"
+                (click)="selectConversation(conversation, $event)">
                 <span>Conversazione {{ conversation.conversationId }}</span>
                 <div class="conversation-date">
-                    {{ conversation.updatedAt | date:'short' }}
+                    {{ conversation.updatedAt | date:'dd/MM/yyyy HH:mm' }}
                 </div>
                 <button 
                     class="delete-btn" 
                     (click)="deleteConversation($event, conversation.conversationId)" 
+                    [disabled]="isWaitingForResponse"
                     aria-label="Elimina conversazione">
                     ×
                 </button>

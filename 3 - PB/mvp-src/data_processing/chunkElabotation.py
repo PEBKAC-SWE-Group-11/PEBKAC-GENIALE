@@ -1,8 +1,5 @@
 import os
-import re
-from multiprocessing import Pool
 from pypdf import PdfReader
-import numpy as np
 from typing import List
 import requests
 import logging
@@ -142,10 +139,8 @@ def processLinksToChunks(links: List[dict]) -> List[dict]:
     createDirectories()
     chunksOutput = []
 
-    with Pool(processes=20) as pool:
-        results = pool.map(processSingleLink, links)
-
-    for result in results:
+    for link in links:
+        result = processSingleLink(link)
         chunksOutput.extend(result)
 
     return chunksOutput
