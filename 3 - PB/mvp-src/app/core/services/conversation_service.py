@@ -20,8 +20,14 @@ class ConversationService:
         return sessionId
 
     def read_session(self, sessionId):
-        query = "SELECT * FROM Session WHERE sessionId = %s"
-        return self.repository.fetch_one(query, (sessionId,))
+        query = "SELECT sessionId, isActive FROM Session WHERE sessionId = %s"
+        result = self.repository.fetch_one(query, (sessionId,))
+        if result:
+            return {
+                'sessionId': result[0],
+                'isActive': bool(result[1])
+            }
+        return None
 
     def update_session(self, sessionId):
         """Aggiorna il timestamp updatedAt di una sessione per mantenerla attiva"""
@@ -54,8 +60,8 @@ class ConversationService:
                     formatted_conv = {
                         'conversationId': row[0],
                         'sessionId': row[1],
-                        'createdAt': row[2],
-                        'updatedAt': row[3],
+                        'createdAt': str(row[2]),
+                        'updatedAt': str(row[3]),
                         'toDelete': row[4] if len(row) > 4 else False
                     }
                     formatted_conversations.append(formatted_conv)
@@ -73,15 +79,22 @@ class ConversationService:
         query = "UPDATE Conversation SET toDelete = TRUE WHERE conversationId = %s"
         self.repository.execute_query(query, (conversationId,))
 
-    def update_conversation_timestamp(self, conversationId):
-        """Aggiorna il timestamp updatedAt di una conversazione quando l'utente invia un messaggio"""
-        query = "UPDATE Conversation SET updatedAt = CURRENT_TIMESTAMP WHERE conversationId = %s"
-        self.repository.execute_query(query, (conversationId,))
-        return True
+    #def update_conversation_timestamp(self, conversationId):
+    #    """Aggiorna il timestamp updatedAt di una conversazione quando l'utente invia un messaggio"""
+    #    query = "UPDATE Conversation SET updatedAt = CURRENT_TIMESTAMP WHERE conversationId = %s"
+    #    self.repository.execute_query(query, (conversationId,))
+    #    return True
 
     def add_message(self, conversationId, sender, content):
-        query = "INSERT INTO Message (conversationId, sender, content, createdAt) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING messageId"
-        messageId = self.repository.fetch_one(query, (conversationId, sender, content))[0]
+        # Inserisci il messaggio e ottieni l'ID
+        query = "INSERT INTO Message (conversationId, sender, content, createdAt) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING messageId, createdAt"
+        result = self.repository.fetch_one(query, (conversationId, sender, content))
+        messageId = result[0]
+        messageCreatedAt = result[1]
+        
+        # Aggiorna il timestamp della conversazione con lo stesso valore del messaggio
+        update_query = "UPDATE Conversation SET updatedAt = %s WHERE conversationId = %s"
+        self.repository.execute_query(update_query, (messageCreatedAt, conversationId))
         
         return messageId
 

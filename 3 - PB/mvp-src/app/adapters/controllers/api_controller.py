@@ -75,6 +75,16 @@ def api_update_session(sessionId):
     except Exception as e:
         logging.error(f"Errore nell'aggiornamento della sessione: {str(e)}")
         return jsonify({"error": str(e)}), 500
+    
+@flask_app.route('/api/session/<sessionId>', methods=['GET'])
+@require_api_key
+def api_read_session(sessionId):
+    try:
+        session = conversation_service.read_session(sessionId)
+        return jsonify(session), 200
+    except Exception as e:
+        logging.error(f"Errore nel recupero della sessione: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/conversation', methods=['POST'])
 @require_api_key
@@ -121,15 +131,15 @@ def api_delete_conversation(conversationId):
         print(f"Error deleting conversation with ID: {conversationId} - {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flask_app.route('/api/conversation/<conversationId>/update', methods=['PUT'])
-@require_api_key
-def api_update_conversation_timestamp(conversationId):
-    try:
-        success = conversation_service.update_conversation_timestamp(conversationId)
-        return jsonify({"success": success}), 200
-    except Exception as e:
-        logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+#@flask_app.route('/api/conversation/<conversationId>/update', methods=['PUT'])
+#@require_api_key
+#def api_update_conversation_timestamp(conversationId):
+#    try:
+#        success = conversation_service.update_conversation_timestamp(conversationId)
+#        return jsonify({"success": success}), 200
+#    except Exception as e:
+#        logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
+#        return jsonify({"error": str(e)}), 500
 
 @flask_app.route('/api/message', methods=['POST'])
 @require_api_key
