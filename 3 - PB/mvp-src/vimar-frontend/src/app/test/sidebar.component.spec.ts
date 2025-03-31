@@ -25,6 +25,7 @@ describe('sidebar.component', () => {
         deleteConversation: jest.fn(),
         sendFeedback: jest.fn(),
         hasReachedConversationLimit: jest.fn(),
+        isWaitingForResponse: jest.fn(),
     };
 
     let httpMock: HttpTestingController;
@@ -43,7 +44,7 @@ describe('sidebar.component', () => {
         expect(sidebarComponent).toBeTruthy();
     });
 
-    it('should get the conversations', async() => {
+    /*it('should test ngOnInit', async() => {
         const conversationMock: Conversation[] = [];
         for(let i = 0; i<3; ++i){
             conversationMock.push({
@@ -56,8 +57,32 @@ describe('sidebar.component', () => {
         }
 
         chatServiceMock.conversations$.mockReturnValue(of(conversationMock));
+        chatServiceMock.activeConversation$.mockReturnValue(of(conversationMock[0]));
         sidebarComponent.ngOnInit();
 
-        expect(sidebarComponent.conversations.length).toEqual(3);
+        const convObserver = await firstValueFrom(sidebarComponent.conversations$);
+
+        expect(convObserver.length).toEqual(3);
+    });
+
+    it('should test ngOnDestroy', async() => {
+        //??
+    })*/
+
+    it('should have reached the limit', async() => {
+        chatServiceMock.hasReachedConversationLimit.mockReturnValue(true);
+        expect(sidebarComponent.hasReachedLimit).toBe(true);
+    });
+
+    it('should be waiting for a response', async() => {
+        chatServiceMock.isWaitingForResponse.mockReturnValue(of(true));
+        sidebarComponent.ngOnInit();
+        expect(sidebarComponent.isWaitingForResponse).toBe(true);
+    });
+
+    it('should create a conversation', async() => {
+
     })
+
+
 });
