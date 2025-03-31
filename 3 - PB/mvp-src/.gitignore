@@ -2,4 +2,4 @@
 *.png
 *.DS_Store
 __pycache__/
-ollama_models/**
+OllamaModels/**

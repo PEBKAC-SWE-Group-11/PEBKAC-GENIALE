@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /App
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -9,13 +9,13 @@ RUN apt-get update && apt-get install -y \
     && curl -fsSL https://ollama.com/install.sh | sh \
     && apt-get clean
 
-COPY app/ .
+COPY App/ .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./start.sh /start.sh
-RUN chmod +x /start.sh && dos2unix /start.sh
+COPY ./Start.sh /Start.sh
+RUN chmod +x /Start.sh && dos2unix /Start.sh
 
 EXPOSE 5001
 
-CMD ["/start.sh"]
+CMD ["/Start.sh"]

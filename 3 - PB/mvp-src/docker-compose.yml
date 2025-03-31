@@ -9,11 +9,11 @@ services:
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./app:/app  
-      - ./ollama_models:/root/.ollama/models
-      - ./start.sh:/start.sh
-      - ./app/requirements.txt:/app/requirements.txt
-      - data_volume:/app/data
+      - ./App:/App  
+      - ./OllamaModels:/root/.ollama/models
+      - ./Start.sh:/Start.sh
+      - ./App/requirements.txt:/App/requirements.txt
+      - data_volume:/App/Data
     depends_on:
       db:
         condition: service_healthy
@@ -61,7 +61,7 @@ services:
       context: .
       dockerfile: Dockerfile.data_processing
     volumes:
-      - ./data_processing:/app/data_processing
+      - ./DataProcessing:/App/DataProcessing
     depends_on:
       db:
         condition: service_healthy
