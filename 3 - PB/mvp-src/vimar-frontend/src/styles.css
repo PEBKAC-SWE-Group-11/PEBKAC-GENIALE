@@ -8,7 +8,6 @@
     font-family: system-ui, -apple-system, sans-serif;
   }
 
-  /* Aggiungiamo utility classes responsive */
   .d-none {
     display: none !important;
   }
@@ -17,7 +16,6 @@
     display: flex !important;
   }
 
-  /* Media queries per responsive design */
   @media (max-width: 768px) {
     .d-md-none {
       display: none !important;

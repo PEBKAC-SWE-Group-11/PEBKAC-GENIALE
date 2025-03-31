@@ -145,7 +145,6 @@
   color: #d39e00;
 }
 
-/* Stili per la sezione commenti feedback */
 .feedback-comments-section {
   margin-top: 2rem;
   background-color: #fff;
@@ -222,7 +221,6 @@
   line-height: 1.5;
 }
 
-/* Responsive per i commenti */
 @media (max-width: 768px) {
   .comment-header {
     flex-direction: column;

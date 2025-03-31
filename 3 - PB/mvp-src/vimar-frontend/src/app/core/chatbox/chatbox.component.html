@@ -1,7 +1,10 @@
 <div class="chatbox">
    <div class="chat-view">
        <div class="chat-header">
-           <button class="sidebar-toggle" (click)="onToggleSidebar()" aria-label="Toggle sidebar">
+           <button class="sidebar-toggle" 
+                   (click)="onToggleSidebar()" 
+                   [disabled]="isWaitingForResponse"
+                   aria-label="Toggle sidebar">
              <i class="bi bi-list"></i>
            </button>
            <h2> Conversazione {{ activeConversation?.conversationId }}</h2>
@@ -23,7 +26,6 @@
                             {{ message.createdAt | date:'HH:mm' }}
                         </div>
                         
-                        <!-- Pulsanti di feedback solo per i messaggi dell'assistente -->
                         <div class="feedback-buttons" *ngIf="message.sender === 'assistant' && !message.feedback">
                             <button 
                               class="feedback-btn positive" 
@@ -39,7 +41,6 @@
                             </button>
                         </div>
                         
-                        <!-- Visualizzazione del feedback già dato -->
                         <div class="feedback-given" *ngIf="message.feedback">
                             <span [class.active]="message.feedback.type === 'positive'" [class.inactive]="message.feedback.type !== 'positive'">
                                 <i class="bi bi-hand-thumbs-up-fill"></i>
@@ -52,13 +53,11 @@
                 </div>
             </div>
             
-            <!-- Indicatore di caricamento mentre si attende la risposta -->
             <div class="loading-indicator" *ngIf="isWaitingResponse">
                 <div class="spinner"></div>
                 <span>Sto pensando...</span>
             </div>
         </div>
-        
         
         <div class="input-area">
             <input 
@@ -73,7 +72,6 @@
         </div>
     </div>
     
-    <!-- Popup di Feedback -->
     <div class="feedback-popup-overlay" *ngIf="showFeedbackPopup">
         <div class="feedback-popup">
           <div class="feedback-popup-header">

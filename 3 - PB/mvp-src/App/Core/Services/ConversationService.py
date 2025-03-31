@@ -21,7 +21,14 @@ class ConversationService:
 
     def readSession(self, sessionId):
         query = "SELECT * FROM Session WHERE sessionId = %s"
-        return self.repository.fetchOne(query, (sessionId,))
+        result = self.repository.fetchOne(query, (sessionId,))
+        if result:
+            return {
+                'sessionId': result[0],
+                'isActive': bool(result[1])
+            }
+        else:
+            return None
 
     def updateSession(self, sessionId):
         """Aggiorna il timestamp updatedAt di una sessione per mantenerla attiva"""
@@ -54,8 +61,8 @@ class ConversationService:
                     formattedConv = {
                         'conversationId': row[0],
                         'sessionId': row[1],
-                        'createdAt': row[2],
-                        'updatedAt': row[3],
+                        'createdAt': str(row[2]),
+                        'updatedAt': str(row[3]),
                         'toDelete': row[4] if len(row) > 4 else False
                     }
                     formattedConversations.append(formattedConv)
@@ -65,23 +72,28 @@ class ConversationService:
             logging.error(f"Errore recupero conversazioni per sessionId={sessionId}: {str(e)}")
             raise
 
-    def readConversationById(self, conversationId):
-        query = "SELECT * FROM Conversation WHERE conversationId = %s"
-        return self.repository.fetchOne(query, (conversationId,))
+    #def readConversationById(self, conversationId):
+    #    query = "SELECT * FROM Conversation WHERE conversationId = %s"
+    #    return self.repository.fetchOne(query, (conversationId,))
 
     def deleteConversation(self, conversationId):
         query = "UPDATE Conversation SET toDelete = TRUE WHERE conversationId = %s"
         self.repository.executeQuery(query, (conversationId,))
 
-    def updateConversationTimestamp(self, conversationId):
-        """Aggiorna il timestamp updatedAt di una conversazione quando l'utente invia un messaggio"""
-        query = "UPDATE Conversation SET updatedAt = CURRENT_TIMESTAMP WHERE conversationId = %s"
-        self.repository.executeQuery(query, (conversationId,))
-        return True
+    #def updateConversationTimestamp(self, conversationId):
+    #    """Aggiorna il timestamp updatedAt di una conversazione quando l'utente invia un messaggio"""
+    #    query = "UPDATE Conversation SET updatedAt = CURRENT_TIMESTAMP WHERE conversationId = %s"
+    #    self.repository.executeQuery(query, (conversationId,))
+    #    return True
 
     def addMessage(self, conversationId, sender, content):
-        query = "INSERT INTO Message (conversationId, sender, content, createdAt) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING messageId"
-        messageId = self.repository.fetchOne(query, (conversationId, sender, content))[0]
+        query = "INSERT INTO Message (conversationId, sender, content, createdAt) VALUES (%s, %s, %s, CURRENT_TIMESTAMP) RETURNING messageId, createdAt"
+        result = self.repository.fetchOne(query, (conversationId, sender, content))
+        messageId = result[0]
+        messageCreatedAt = result[1]
+        
+        updateQuery = "UPDATE Conversation SET updatedAt = %s WHERE conversationId = %s"
+        self.repository.executeQuery(updateQuery, (messageCreatedAt, conversationId))
         
         return messageId
 
@@ -127,22 +139,22 @@ class ConversationService:
             logging.error(f"Errore recupero messaggi per conversationId={conversationId}: {str(e)}")
             return []
     
-    def readFeedback(self, messageId):
-        query = "SELECT * FROM Feedback WHERE messageId = %s"
-        results = self.repository.fetchAll(query, (messageId,))
+    #def readFeedback(self, messageId):
+    #    query = "SELECT * FROM Feedback WHERE messageId = %s"
+    #    results = self.repository.fetchAll(query, (messageId,))
         
-        formattedFeedback = []
-        for row in results:
-            feedback = {
-                'feedbackId': str(row[0]),
-                'messageId': str(row[1]),
-                'type': 'positive' if row[2] else 'negative',
-                'content': row[3],
-                'createdAt': str(row[4]) if len(row) > 4 and row[4] else None
-            }
-            formattedFeedback.append(feedback)
+    #    formattedFeedback = []
+    #    for row in results:
+    #        feedback = {
+    #            'feedbackId': str(row[0]),
+    #            'messageId': str(row[1]),
+    #            'type': 'positive' if row[2] else 'negative',
+    #            'content': row[3],
+    #            'createdAt': str(row[4]) if len(row) > 4 and row[4] else None
+    #        }
+    #        formattedFeedback.append(feedback)
         
-        return formattedFeedback
+    #    return formattedFeedback
     
     def addFeedback(self, messageId, feedback, content=None):
         checkQuery = "SELECT COUNT(*) FROM Feedback WHERE messageId = %s"

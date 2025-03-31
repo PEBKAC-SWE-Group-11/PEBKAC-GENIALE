@@ -37,15 +37,11 @@ export class AdminLoginComponent {
       this.errorMessage = 'Inserisci la password';
       return;
     }
-
     this.isLoading = true;
     this.errorMessage = '';
-
     try {
       const passwordHash = await this.hashPassword(this.password);
-      
       const response = await firstValueFrom(this.apiService.adminLogin(passwordHash));
-      
       if (response && response.success) {
         if (response.token) {
           localStorage.setItem('adminToken', response.token);

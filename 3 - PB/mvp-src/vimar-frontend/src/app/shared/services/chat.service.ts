@@ -3,8 +3,6 @@ import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { Message } from '../models/message.model';
 import { Conversation } from '../models/conversation.model';
 import { ApiService } from './api.service';
-import { Session } from '../models/session.model';
-import { Feedback } from '../models/feedback.model';
 
 @Injectable({
     providedIn: 'root'
@@ -14,12 +12,8 @@ export class ChatService {
     private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
     private activeConversationSubject = new BehaviorSubject<Conversation | null>(null);
     private messagesSubject = new BehaviorSubject<Message[]>([]);
-    private currentSessionId: string = '';
-    
+    private currentSessionId: string = ''; 
     private readonly MAX_CONVERSATIONS = 10;
-    private readonly MAX_MESSAGE_LENGTH = 500;
-    
-    // Ripristiniamo la variabile globale per lo stato di attesa
     private isWaitingResponse: boolean = false;
 
     private apiService = inject(ApiService);
@@ -40,7 +34,6 @@ export class ChatService {
         return this.messagesSubject.asObservable();
     }
     
-    // Getter per verificare se l'applicazione è in attesa di una risposta
     get isWaitingForResponse(): boolean {
         return this.isWaitingResponse;
     }
@@ -49,14 +42,19 @@ export class ChatService {
         this.currentSessionId = localStorage.getItem('sessionId') || '';
         
         if (this.currentSessionId != '' && this.currentSessionId != null) {
-            // Aggiorna il timestamp della sessione all'avvio dell'app
+            const session = await firstValueFrom(this.apiService.readSession(this.currentSessionId));
+            if (!session.isActive) {
+                console.log('La sessione non è attiva, creando una nuova sessione.');
+                localStorage.removeItem('sessionId');
+                await this.createNewSession();
+                return;
+            }
             try {
                 await firstValueFrom(this.apiService.updateSession(this.currentSessionId));
                 console.log('Sessione aggiornata con successo');
             } catch (error) {
                 console.error('Errore nell\'aggiornamento della sessione:', error);
-            }
-            
+            }            
             await this.loadConversations(this.currentSessionId);
         } else {
             await this.createNewSession();
@@ -68,7 +66,6 @@ export class ChatService {
             const response = await firstValueFrom(this.apiService.createSession());
             this.currentSessionId = response.sessionId;
             localStorage.setItem('sessionId', this.currentSessionId);
-            
             await this.createConversation();
         } catch (error) {
             console.error('Errore durante la creazione della sessione:', error);
@@ -79,8 +76,7 @@ export class ChatService {
         try {
             const conversations = await firstValueFrom(this.apiService.getConversations(sessionId));
             console.log('Conversazioni ricevute dal server:', JSON.stringify(conversations));
-            this.conversationsSubject.next(conversations);
-            
+            this.conversationsSubject.next(conversations);            
             if (conversations.length > 0) {
                 console.log('Prima conversazione:', conversations[0]);
                 this.setActiveConversation(conversations[0]);
@@ -89,7 +85,6 @@ export class ChatService {
             }
         } catch (error) {
             console.error('Errore durante il caricamento delle conversazioni:', error);
-            
             if (error && typeof error === 'object' && 'status' in error && error.status === 500) {
                 console.log('Tentativo di creazione di una nuova sessione dopo errore 500');
                 await this.createNewSession();
@@ -100,58 +95,35 @@ export class ChatService {
     }
 
     async createConversation(): Promise<Conversation | null> {
-        if (!this.currentSessionId) return null;
-        
-        // Gestione del limite massimo di conversazioni
-        const currentConversations = this.conversationsSubject.getValue();
-        if (currentConversations.length >= this.MAX_CONVERSATIONS) {
-            // Trova la conversazione con l'updatedAt più vecchio
-            // (ora che le conversazioni sono ordinate per updatedAt, dovrebbe essere l'ultima)
-            const oldestConversation = currentConversations[currentConversations.length - 1];
-        
-            try {
-                await firstValueFrom(
-                    this.apiService.deleteConversation(oldestConversation.conversationId)
-                );
-                
-                const updatedConversations = currentConversations.filter(
-                    (c: Conversation) => c.conversationId !== oldestConversation.conversationId
-                );
-                this.conversationsSubject.next(updatedConversations);
-            } catch (error) {
-                console.error('Errore durante l\'eliminazione della conversazione più vecchia:', error);
-            }
-        }
-        
-        // Procedi con la creazione della nuova conversazione
+        if (!this.currentSessionId) return null;        
+        await this.enforceConversationLimit();
         try {
-            const response = await firstValueFrom(
+            await firstValueFrom(
                 this.apiService.createConversation(this.currentSessionId)
             );
-            
-            if (response && response.conversationId) {
-                const newConversation = {
-                    conversationId: response.conversationId,
-                    sessionId: this.currentSessionId,
-                    createdAt: new Date().toISOString(),
-                    title: `Conversazione ${response.conversationId}`,
-                    updatedAt: new Date().toISOString(),
-                    toDelete: false
-                } as Conversation;
-                
-                // Aggiungi la nuova conversazione in cima alla lista
-                const updatedConversations = [
-                    newConversation, 
-                    ...this.conversationsSubject.getValue()
-                ];
-                this.conversationsSubject.next(updatedConversations);
-                this.setActiveConversation(newConversation);
-                return newConversation;
+            const conversations = await firstValueFrom(
+                this.apiService.getConversations(this.currentSessionId)
+            );
+            this.conversationsSubject.next(conversations);
+            if (conversations.length > 0) {
+                this.setActiveConversation(conversations[0]);
+                return conversations[0];
             }
             return null;
         } catch (error) {
             console.error('Errore durante la creazione della conversazione:', error);
             throw error;
+        }
+    }
+    
+    private async enforceConversationLimit(): Promise<void> {
+        const currentConversations = this.conversationsSubject.getValue();
+        if (currentConversations.length < this.MAX_CONVERSATIONS) return;
+        try {
+            const oldestConversation = currentConversations[currentConversations.length - 1];
+            await firstValueFrom(this.apiService.deleteConversation(oldestConversation.conversationId));
+        } catch (error) {
+            console.error('Errore durante l\'eliminazione della conversazione più vecchia:', error);
         }
     }
 
@@ -160,17 +132,13 @@ export class ChatService {
         this.loadMessages(conversation.conversationId);
     }
 
-    // Metodo per caricare i messaggi di una conversazione
     async loadMessages(conversationId?: string): Promise<void> {
-        // Se non viene fornito un ID conversazione, usa quello attivo
         if (!conversationId) {
             const activeConversation = this.activeConversationSubject.getValue();
             if (!activeConversation) return;
             conversationId = activeConversation.conversationId;
         }
-        
         if (!this.currentSessionId || !conversationId) return;
-        
         try {
             const messages = await firstValueFrom(
                 this.apiService.getMessages(conversationId)
@@ -182,96 +150,62 @@ export class ChatService {
         }
     }
 
-    // Metodo per aggiornare il timestamp della conversazione
-    async updateConversationTimestamp(conversationId: string): Promise<boolean> {
-        try {
-            const response = await firstValueFrom(
-                this.apiService.updateConversationTimestamp(conversationId)
-            );
-            
-            // Aggiorna l'ordine delle conversazioni localmente
-            this.updateConversationOrder(conversationId);
-            
-            return response.success;
-        } catch (error) {
-            console.error('Errore durante l\'aggiornamento del timestamp:', error);
-            throw error;
-        }
-    }
-
-    // Metodo per inviare un messaggio all'API e ottenere una risposta
     async sendMessage(content: string): Promise<void> {
         if (!content.trim()) return;
-        
         const activeConversation = this.activeConversationSubject.getValue();
         if (!activeConversation) return;
-        
-        // Usa la variabile globale
         this.isWaitingResponse = true;
-        
         try {
-            // 1. Invia il messaggio dell'utente al backend
             await firstValueFrom(
                 this.apiService.sendMessage(activeConversation.conversationId, content)
             );
-            
-            // 2. Ricarica i messaggi per visualizzare il messaggio dell'utente
             await this.loadMessages(activeConversation.conversationId);
-
-            // 3. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
-            await this.updateConversationTimestamp(activeConversation.conversationId);
-            
-            // 4. Chiedi una risposta al modello LLM
+            await this.reloadConversations();
             await firstValueFrom(
                 this.apiService.askQuestion(activeConversation.conversationId, content)
             );
-            
-            // 5. Ricarica i messaggi per visualizzare la risposta
             await this.loadMessages(activeConversation.conversationId);
-            
-            // 6. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
-            await this.updateConversationTimestamp(activeConversation.conversationId);
+            await this.reloadConversations();
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
-            // Resetta la variabile globale
             this.isWaitingResponse = false;
         }
     }
 
-    // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
-    private updateConversationOrder(conversationId: string): void {
-        const conversations = this.conversationsSubject.getValue();
-        const conversation = conversations.find((c: Conversation) => c.conversationId === conversationId);
-        
-        if (conversation) {
-            // Aggiorna il timestamp
-            conversation.updatedAt = new Date().toISOString();
-            
-            // Rimuovi la conversazione dalla lista
-            const remainingConversations = conversations.filter(
-                (c: Conversation) => c.conversationId !== conversationId
+    private async reloadConversations(): Promise<void> {
+        if (!this.currentSessionId) return;
+        try {
+            const conversations = await firstValueFrom(
+                this.apiService.getConversations(this.currentSessionId)
             );
-            
-            // Aggiungi la conversazione in cima alla lista
-            this.conversationsSubject.next([conversation, ...remainingConversations]);
+            this.conversationsSubject.next(conversations);
+            const activeConversation = this.activeConversationSubject.getValue();
+            if (activeConversation) {
+                const updatedActiveConversation = conversations.find(
+                    (c: Conversation) => c.conversationId === activeConversation.conversationId
+                );
+                
+                if (updatedActiveConversation) {
+                    this.activeConversationSubject.next(updatedActiveConversation);
+                }
+            }
+        } catch (error) {
+            console.error('Errore durante il recupero delle conversazioni:', error);
         }
     }
 
     async deleteConversation(conversationId: string): Promise<void> {
         if (!this.currentSessionId) return;
-        
         const conversations = this.conversationsSubject.value;
         const activeConversation = this.activeConversationSubject.value;
         const isActiveConversation = activeConversation?.conversationId === conversationId;
         
         try {
-            // L'API service rimane uguale ma nel backend è un soft delete
             await firstValueFrom(
                 this.apiService.deleteConversation(conversationId)
             );
             
-            // L'interfaccia utente rimuove la conversazione dalla lista (come prima)
             const updatedConversations = conversations.filter((c: Conversation) => c.conversationId !== conversationId);
             this.conversationsSubject.next(updatedConversations);
             
@@ -288,8 +222,6 @@ export class ChatService {
             await firstValueFrom(
                 this.apiService.sendFeedback(messageId, isPositive, content)
             );
-            
-            // Ricarica i messaggi per aggiornare lo stato del feedback
             const activeConversation = this.activeConversationSubject.getValue();
             if (activeConversation) {
                 this.loadMessages(activeConversation.conversationId);

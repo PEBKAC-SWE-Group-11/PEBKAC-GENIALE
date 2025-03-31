@@ -22,10 +22,15 @@ export class ApiService {
     });
   }
 
-  // Sessione
   createSession(): Observable<{sessionId: string}> {
     return this.http.post<{sessionId: string}>(`${this.apiUrl}/api/session`, {}, 
       { headers: this.getHeaders() });
+  }
+
+  readSession(sessionId: string): Observable<{sessionId: string}> {
+    return this.http.get<{sessionId: string}>(`${this.apiUrl}/api/session/${sessionId}`, {
+      headers: this.getHeaders()
+    });
   }
 
   updateSession(sessionId: string): Observable<{success: boolean}> {
@@ -33,17 +38,10 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
-  // Conversazioni
   getConversations(sessionId: string): Observable<Conversation[]> {
     return this.http.get<Conversation[]>(`${this.apiUrl}/api/conversation`, {
       headers: this.getHeaders(),
       params: { sessionId: sessionId }
-    });
-  }
-
-  getConversationById(conversationId: string): Observable<Conversation> {
-    return this.http.get<Conversation>(`${this.apiUrl}/api/conversation/${conversationId}`, {
-      headers: this.getHeaders()
     });
   }
 
@@ -58,15 +56,6 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
-  updateConversationTimestamp(conversationId: string): Observable<{success: boolean}> {
-    return this.http.put<{success: boolean}>(
-      `${this.apiUrl}/api/conversation/${conversationId}/update`, 
-      {}, 
-      { headers: this.getHeaders() }
-    );
-  }
-
-  // Messaggi
   getMessages(conversationId: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/api/message`, {
       headers: this.getHeaders(),
@@ -84,7 +73,6 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
-  // LLM Response
   askQuestion(conversationId: string, question: string): Observable<{messageId: string}> {
     return this.http.post<{messageId: string}>(
       `${this.apiUrl}/api/question/${conversationId}`,
@@ -93,7 +81,6 @@ export class ApiService {
     );
   }
 
-  // Feedback
   sendFeedback(messageId: string, isPositive: boolean, content?: string): Observable<{messageId: string}> {
     return this.http.post<{messageId: string}>(`${this.apiUrl}/api/feedback`, 
       { 
@@ -104,7 +91,6 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
-  // Dashboard (Admin)
   getAdminStats(): Observable<{
     totalConversations: number,
     positiveFeedback: number,
@@ -124,7 +110,6 @@ export class ApiService {
         totalConversations: result.numConversations,
         positiveFeedback: result.numPositiveFeedback,
         negativeFeedback: result.numNegativeFeedback,
-        // Valori predefiniti per altri campi nel dashboard
         totalMessages: 0,
         uniqueUsers: 0
       }))

@@ -37,7 +37,6 @@ export class AdminDashboardComponent implements OnInit {
   async loadStats(): Promise<void> {
     this.isLoading = true;
     this.error = '';
-
     try {
       this.stats = await firstValueFrom(this.apiService.getAdminStats());
     } catch (error) {
@@ -51,7 +50,6 @@ export class AdminDashboardComponent implements OnInit {
   async loadFeedbackComments(): Promise<void> {
     this.isLoadingComments = true;
     this.commentsError = '';
-
     try {
       const result = await firstValueFrom(this.apiService.getFeedbackWithComments());
       this.feedbackComments = result || [];
@@ -65,10 +63,8 @@ export class AdminDashboardComponent implements OnInit {
 
   calcSatisfactionRate(): string {
     if (!this.stats) return '0%';
-    
     const total = (this.stats.positiveFeedback || 0) + (this.stats.negativeFeedback || 0);
     if (total === 0) return '0%';
-    
     const rate = ((this.stats.positiveFeedback || 0) / total) * 100;
     return `${Math.round(rate)}%`;
   }
