@@ -102,56 +102,48 @@ export class ChatService {
     async createConversation(): Promise<Conversation | null> {
         if (!this.currentSessionId) return null;
         
-        // Gestione del limite massimo di conversazioni
-        const currentConversations = this.conversationsSubject.getValue();
-        if (currentConversations.length >= this.MAX_CONVERSATIONS) {
-            // Trova la conversazione con l'updatedAt più vecchio
-            // (ora che le conversazioni sono ordinate per updatedAt, dovrebbe essere l'ultima)
-            const oldestConversation = currentConversations[currentConversations.length - 1];
+        // Gestisci il limite in una funzione separata
+        await this.enforceConversationLimit();
         
-            try {
-                await firstValueFrom(
-                    this.apiService.deleteConversation(oldestConversation.conversationId)
-                );
-                
-                const updatedConversations = currentConversations.filter(
-                    (c: Conversation) => c.conversationId !== oldestConversation.conversationId
-                );
-                this.conversationsSubject.next(updatedConversations);
-            } catch (error) {
-                console.error('Errore durante l\'eliminazione della conversazione più vecchia:', error);
-            }
-        }
-        
-        // Procedi con la creazione della nuova conversazione
         try {
-            const response = await firstValueFrom(
+            // 1. Crea la conversazione nel backend
+            await firstValueFrom(
                 this.apiService.createConversation(this.currentSessionId)
             );
             
-            if (response && response.conversationId) {
-                const newConversation = {
-                    conversationId: response.conversationId,
-                    sessionId: this.currentSessionId,
-                    createdAt: new Date().toISOString(),
-                    title: `Conversazione ${response.conversationId}`,
-                    updatedAt: new Date().toISOString(),
-                    toDelete: false
-                } as Conversation;
-                
-                // Aggiungi la nuova conversazione in cima alla lista
-                const updatedConversations = [
-                    newConversation, 
-                    ...this.conversationsSubject.getValue()
-                ];
-                this.conversationsSubject.next(updatedConversations);
-                this.setActiveConversation(newConversation);
-                return newConversation;
+            // 2. Ricarica tutte le conversazioni dal backend
+            const conversations = await firstValueFrom(
+                this.apiService.getConversations(this.currentSessionId)
+            );
+            
+            // 3. Aggiorna lo stato locale con i dati dal backend
+            this.conversationsSubject.next(conversations);
+            
+            // 4. Imposta la nuova conversazione come attiva (dovrebbe essere la prima)
+            if (conversations.length > 0) {
+                this.setActiveConversation(conversations[0]);
+                return conversations[0];
             }
+            
             return null;
         } catch (error) {
             console.error('Errore durante la creazione della conversazione:', error);
             throw error;
+        }
+    }
+    
+    // Metodo per gestire il limite massimo di conversazioni
+    private async enforceConversationLimit(): Promise<void> {
+        const currentConversations = this.conversationsSubject.getValue();
+        
+        if (currentConversations.length < this.MAX_CONVERSATIONS) return;
+        
+        // Elimina la conversazione più vecchia
+        try {
+            const oldestConversation = currentConversations[currentConversations.length - 1];
+            await firstValueFrom(this.apiService.deleteConversation(oldestConversation.conversationId));
+        } catch (error) {
+            console.error('Errore durante l\'eliminazione della conversazione più vecchia:', error);
         }
     }
 
@@ -182,23 +174,6 @@ export class ChatService {
         }
     }
 
-    // Metodo per aggiornare il timestamp della conversazione
-    async updateConversationTimestamp(conversationId: string): Promise<boolean> {
-        try {
-            const response = await firstValueFrom(
-                this.apiService.updateConversationTimestamp(conversationId)
-            );
-            
-            // Aggiorna l'ordine delle conversazioni localmente
-            this.updateConversationOrder(conversationId);
-            
-            return response.success;
-        } catch (error) {
-            console.error('Errore durante l\'aggiornamento del timestamp:', error);
-            throw error;
-        }
-    }
-
     // Metodo per inviare un messaggio all'API e ottenere una risposta
     async sendMessage(content: string): Promise<void> {
         if (!content.trim()) return;
@@ -218,8 +193,8 @@ export class ChatService {
             // 2. Ricarica i messaggi per visualizzare il messaggio dell'utente
             await this.loadMessages(activeConversation.conversationId);
 
-            // 3. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
-            await this.updateConversationTimestamp(activeConversation.conversationId);
+            // 3. Ricarica tutte le conversazioni per ottenere l'ordine aggiornato dal backend
+            await this.reloadConversations();
             
             // 4. Chiedi una risposta al modello LLM
             await firstValueFrom(
@@ -229,8 +204,8 @@ export class ChatService {
             // 5. Ricarica i messaggi per visualizzare la risposta
             await this.loadMessages(activeConversation.conversationId);
             
-            // 6. Aggiorna il timestamp della conversazione per garantire l'ordinamento corretto
-            await this.updateConversationTimestamp(activeConversation.conversationId);
+            // 6. Ricarica nuovamente le conversazioni per l'ordine aggiornato
+            await this.reloadConversations();
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         } finally {
@@ -239,22 +214,33 @@ export class ChatService {
         }
     }
 
-    // Nuovo metodo per aggiornare l'ordine delle conversazioni localmente
-    private updateConversationOrder(conversationId: string): void {
-        const conversations = this.conversationsSubject.getValue();
-        const conversation = conversations.find((c: Conversation) => c.conversationId === conversationId);
+    // Metodo per ricaricare tutte le conversazioni dal backend
+    private async reloadConversations(): Promise<void> {
+        if (!this.currentSessionId) return;
         
-        if (conversation) {
-            // Aggiorna il timestamp
-            conversation.updatedAt = new Date().toISOString();
-            
-            // Rimuovi la conversazione dalla lista
-            const remainingConversations = conversations.filter(
-                (c: Conversation) => c.conversationId !== conversationId
+        try {
+            // Recupera tutte le conversazioni dal backend (già ordinate per updatedAt)
+            const conversations = await firstValueFrom(
+                this.apiService.getConversations(this.currentSessionId)
             );
             
-            // Aggiungi la conversazione in cima alla lista
-            this.conversationsSubject.next([conversation, ...remainingConversations]);
+            // Aggiorna lo stato locale con le conversazioni ordinate dal backend
+            this.conversationsSubject.next(conversations);
+            
+            // Mantieni attiva la conversazione corrente
+            const activeConversation = this.activeConversationSubject.getValue();
+            if (activeConversation) {
+                // Trova la versione aggiornata della conversazione attiva
+                const updatedActiveConversation = conversations.find(
+                    (c: Conversation) => c.conversationId === activeConversation.conversationId
+                );
+                
+                if (updatedActiveConversation) {
+                    this.activeConversationSubject.next(updatedActiveConversation);
+                }
+            }
+        } catch (error) {
+            console.error('Errore durante il recupero delle conversazioni:', error);
         }
     }
 
