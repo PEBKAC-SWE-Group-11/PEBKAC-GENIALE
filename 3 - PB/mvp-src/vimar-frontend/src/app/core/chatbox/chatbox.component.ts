@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, AfterViewCh
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../shared/services/chat.service';
-   import { Message } from '../../shared/models/message.model';
-   import { Conversation } from '../../shared/models/conversation.model';
+import { Message } from '../../shared/models/message.model';
+import { Conversation } from '../../shared/models/conversation.model';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

@@ -28,6 +28,12 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
+  readSession(sessionId: string): Observable<{sessionId: string, isActive: boolean}> {
+    return this.http.get<{sessionId: string, isActive: boolean}>(`${this.apiUrl}/api/session/${sessionId}`, {
+      headers: this.getHeaders()
+    });
+  }
+
   updateSession(sessionId: string): Observable<{success: boolean}> {
     return this.http.put<{success: boolean}>(`${this.apiUrl}/api/session/${sessionId}`, {}, 
       { headers: this.getHeaders() });

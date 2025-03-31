@@ -49,6 +49,15 @@ export class ChatService {
         this.currentSessionId = localStorage.getItem('sessionId') || '';
         
         if (this.currentSessionId != '' && this.currentSessionId != null) {
+            // Controlla se la sessione è attiva
+            const session = await firstValueFrom(this.apiService.readSession(this.currentSessionId));
+            if (!session.isActive) {
+                console.log('La sessione non è attiva, creando una nuova sessione.');
+                localStorage.removeItem('sessionId');
+                await this.createNewSession();
+                return;
+            }
+            
             // Aggiorna il timestamp della sessione all'avvio dell'app
             try {
                 await firstValueFrom(this.apiService.updateSession(this.currentSessionId));
