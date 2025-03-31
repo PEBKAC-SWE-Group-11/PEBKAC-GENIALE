@@ -126,8 +126,8 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         linksList = list(links.values())
         #DEBUG
         jsonPath = os.path.join(os.path.dirname(__file__), 'jsonData/chunks.json') 
-        insertChunksFromFile(cursor, jsonPath)
-        #insertChunksFromLinks(cursor, linksList)
+        #insertChunksFromFile(cursor, jsonPath)
+        insertChunksFromLinks(cursor, linksList)
         insertDocumentsFromLinks(cursor, links)
         
     except Exception as e:
