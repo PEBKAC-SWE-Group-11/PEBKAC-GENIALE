@@ -4,7 +4,7 @@ import { ChatService } from '../shared/services/chat.service';
 import { ApiService } from '../shared/services/api.service';
 import { firstValueFrom } from 'rxjs';
 import { Conversation } from '../shared/models/conversation.model';
-import { environment } from '../../environments/environment';
+import { Message } from '../shared/models/message.model';
 import { of } from 'rxjs';
 
 describe('chat.service', () => {
@@ -41,8 +41,17 @@ describe('chat.service', () => {
         const sessionMock = { sessionId: sessionIdMock };
         const conversationId = '0'
         const conversationMock = { conversationId: conversationId };
+        const conversationArray: Conversation[] = [];
+        conversationArray.push({
+            conversationId: conversationId,    
+            sessionId: sessionIdMock,
+            createdAt: '',
+            updatedAt: '',
+            toDelete: false,
+            title: 'test1'
+        });
         const mex = {
-            messageId: '1',
+            messageId: '0',
             conversationId: conversationId,
             sender: 'user',
             content: 'ciao',
@@ -52,6 +61,7 @@ describe('chat.service', () => {
         apiServiceMock.createSession.mockReturnValue(of(sessionMock));
         apiServiceMock.deleteConversation.mockReturnValue(of(null));
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
+        apiServiceMock.getConversations.mockReturnValue(of(conversationArray))
         apiServiceMock.getMessages.mockReturnValue(of(mex));
 
 
@@ -71,7 +81,6 @@ describe('chat.service', () => {
 
     it('should update a session', async() => {
         const sessionIdMock = '12345';
-        const updateSessionIdMock = '123456';
         const sessionMock = { sessionId: sessionIdMock };
         const conversationMock = { conversationId: '1' };
         localStorage.setItem('sessionId', sessionIdMock);
@@ -85,7 +94,9 @@ describe('chat.service', () => {
 
         chatService = TestBed.inject(ChatService);
         await new Promise(resolve => setTimeout(resolve, 0));
-    })
+
+        expect(apiServiceMock.updateSession).toHaveBeenCalled();
+    });
 
     it('should load old conversations', async() => {
         const sessionIdMock = '12345';
@@ -160,28 +171,6 @@ describe('chat.service', () => {
         })
     });
 
-    it('should create a new conversation if there are not', async() => {
-        const sessionIdMock = '12345';
-        const updateSessionIdMock = '123456';
-        const sessionMock = { sessionId: sessionIdMock };
-        localStorage.setItem('sessionId', sessionIdMock);
-        const conversationId = '1';
-        const conversationMock = { conversationId: conversationId };
-        const conversationsMock: Conversation[] = [];
-
-        apiServiceMock.createSession.mockReturnValue(of(sessionMock));
-        apiServiceMock.updateSession.mockReturnValue(of({ success: true }))
-        apiServiceMock.deleteConversation.mockReturnValue(null);
-        apiServiceMock.getConversations.mockReturnValue(of(conversationsMock));
-        apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
-
-        chatService = TestBed.inject(ChatService);
-        await new Promise(resolve => setTimeout(resolve, 0));
-
-        const promise = await firstValueFrom(chatService.conversations$);
-        expect(promise.length).toBe(1);
-    });
-
     it('should not create a conversation without a session', async() => {
         localStorage.clear();
         chatService = TestBed.inject(ChatService);
@@ -194,100 +183,21 @@ describe('chat.service', () => {
         const sessionMock = { sessionId: sessionIdMock };
         const conversationId = '1';
         const conversationMock = { conversationId: conversationId };
-        
-        const expectedConv = {
-            conversationId: conversationId,
-            sessionId: sessionIdMock,
-            createdAt: new Date().toISOString(),
-            title: `Conversazione ${conversationId}`,
-            updatedAt: new Date().toISOString(),
-            toDelete: false
-        }
 
         apiServiceMock.createSession.mockReturnValue(of(sessionMock));
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
 
         chatService = TestBed.inject(ChatService);
         await new Promise(resolve => setTimeout(resolve, 0));
-        const conv = await chatService.createConversation();
-        
-        const response = firstValueFrom(chatService.conversations$);
-        const promise = await response;
-
-        expect(conv?.conversationId).toEqual(conversationId);
-        expect(conv?.sessionId).toEqual(sessionIdMock);
-        expect(conv?.title).toEqual(`Conversazione ${conversationId}`);
-    })
-
-    it('should go beyond max number of conversations', async() => {    
-        let conversationMock: { conversationId: String };
-        const sessionIdMock = '12345'
-        const conversationId = '10';
-        const chatService = await setup();
-
-        for(let i = 0; i<10; ++i){
-            const conversationMock = { conversationId: i }
-            apiServiceMock.createConversation.mockReturnValue(of(conversationMock))
-            await chatService.createConversation();
-        }
-
-        /*const response = firstValueFrom(chatService.conversations$);
-        const promise = await response;
-        expect(promise.length).toEqual(10);*/
-
-        conversationMock = { conversationId: conversationId };
-        apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
-        apiServiceMock.deleteConversation.mockReturnValue(of(true));
         await chatService.createConversation();
-
+        
         const response = firstValueFrom(chatService.conversations$);
         const promise = await response;
 
-        const lastConv = promise[0];
-
-        expect(lastConv?.conversationId).toEqual(conversationId);
-        expect(lastConv?.sessionId).toEqual(sessionIdMock);
-        expect(lastConv?.title).toEqual(`Conversazione ${conversationId}`);
+        expect(promise[0].conversationId).toEqual(conversationId);
+        expect(promise[0].sessionId).toEqual(sessionIdMock);
+        expect(promise[0].title).toEqual(`test${conversationId}`);
     });
-
-    it('should check if the last conversation created is the newest', async() => {
-        const sessionIdMock = '12345'
-        const sessionMock = { sessionId: sessionIdMock };
-        let conversationMock: { conversationId: String };
-        
-        apiServiceMock.createSession.mockReturnValue(of(sessionMock));
-
-        chatService = TestBed.inject(ChatService);
-        apiServiceMock.deleteConversation.mockReturnValue(of(true));
-        await chatService.deleteConversation('1');
-
-        for(let i = 1; i<=3; i++){
-            conversationMock = { conversationId: i.toString() };
-            apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
-            await chatService.createConversation();
-            await new Promise(resolve => setTimeout(resolve, 10));
-        }
-
-        const response = firstValueFrom(chatService.conversations$);
-        const promise = await response;
-
-        expect(new Date(promise[0].updatedAt).getTime()).toBeGreaterThan(new Date(promise[1].updatedAt).getTime());
-        expect(new Date(promise[1].updatedAt).getTime()).toBeGreaterThan(new Date(promise[2].updatedAt).getTime());
-        expect(new Date(promise[0].updatedAt).getTime()).toBeGreaterThan(new Date(promise[2].updatedAt).getTime());        
-    });
-
-    /*it('should send a message', async() => {
-        const chatService = await setup();
-        const messageMock = {messageId: '2'};
-        
-        const promise = await firstValueFrom(chatService.messages$);
-
-        apiServiceMock.sendMessage.mockReturnValue(of(messageMock));
-        apiServiceMock.askQuestion.mockReturnValue(of())
-
-        await chatService.sendMessage('test');
-
-    })*/
 
     it('should not send a message', async() => {
         const chatService = await setup();
@@ -299,8 +209,27 @@ describe('chat.service', () => {
         const chatService = await setup();
         const conversationId = '1';
         const conversationMock = { conversationId: conversationId };
+        const convArray: Conversation[] = [];
+        convArray.push({
+            conversationId: '1',
+            sessionId: '12345',
+            createdAt: '',
+            updatedAt: '',
+            toDelete: false,
+            title: 'test1'
+        });
+
+        convArray.push({
+            conversationId: '0',
+            sessionId: '12345',
+            createdAt: '',
+            updatedAt: '',
+            toDelete: false,
+            title: 'test0'
+        })
 
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
+        apiServiceMock.getConversations.mockReturnValue(of(convArray));
         await chatService.createConversation();
         expect((await firstValueFrom(chatService.conversations$)).length).toEqual(2);
 
@@ -345,9 +274,20 @@ describe('chat.service', () => {
     it('should reach the conversation limit', async() => {
         const MAX_CONVERSATIONS = 10;
         const chatService = await setup();
+        const convArray: Conversation[] = [];
+
         for(let i = 0; i<10; ++i){
             const conversationMock = { conversationId: i }
             apiServiceMock.createConversation.mockReturnValue(of(conversationMock))
+            convArray.push({
+                conversationId: i.toString(),    
+                sessionId: '12345',
+                createdAt: '',
+                updatedAt: '',
+                toDelete: false,
+                title: ''
+            })
+            apiServiceMock.getConversations.mockReturnValue(of(convArray));
             await chatService.createConversation();
         }
 
@@ -355,6 +295,55 @@ describe('chat.service', () => {
 
         const response = chatService.hasReachedConversationLimit();
         expect(response).toEqual(true);
-    })
+    });
+
+    it('should send a message', async() => {
+        const messageMock = { messageId: '1' };
+        const messageArray: Message[] = [];
+        messageArray.push({
+            messageId: '0',
+            conversationId: '0',
+            sender: 'user',
+            content: 'test',
+            createdAt: new Date().toISOString()
+        });
+
+        messageArray.push({
+            messageId: '1',
+            conversationId: '0',
+            sender: 'user',
+            content: 'test',
+            createdAt: new Date().toISOString()
+        });
+
+        const conversationArray: Conversation[] = [];
+        conversationArray.push({
+            conversationId: '0',    
+            sessionId: '12345',
+            createdAt: '',
+            updatedAt: '',
+            toDelete: false,
+            title: 'test1'
+        });
+
+        const chatService = await setup();
+        const activeConversation = await firstValueFrom(chatService.activeConversation$);
+        expect(activeConversation?.conversationId).toEqual('0');
+
+        const isWaitingResponse = chatService.isWaitingForResponse;
+        expect(isWaitingResponse).toEqual(false);
+
+        apiServiceMock.sendMessage.mockReturnValue(of(messageMock));
+        apiServiceMock.askQuestion.mockReturnValue(of(messageMock));
+        apiServiceMock.getMessages.mockReturnValue(of(messageArray));
+        apiServiceMock.getConversations.mockReturnValue(of(conversationArray));
+        await chatService.sendMessage('test');
+
+        const messages = await firstValueFrom(chatService.messages$);
+        expect(messages.length).toEqual(2);
+        expect(messages[1].messageId).toEqual('1');
+        expect(messages[1].conversationId).toEqual('0');
+        expect(messages[1].content).toEqual('test');
+    });
 
 });

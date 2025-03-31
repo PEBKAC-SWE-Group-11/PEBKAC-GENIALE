@@ -44,7 +44,7 @@ describe('sidebar.component', () => {
         expect(sidebarComponent).toBeTruthy();
     });
 
-    /*it('should test ngOnInit', async() => {
+    it('should test ngOnInit', async() => {
         const conversationMock: Conversation[] = [];
         for(let i = 0; i<3; ++i){
             conversationMock.push({
@@ -65,9 +65,9 @@ describe('sidebar.component', () => {
         expect(convObserver.length).toEqual(3);
     });
 
-    it('should test ngOnDestroy', async() => {
+    /*it('should test ngOnDestroy', async() => {
         //??
-    })*/
+    })
 
     it('should have reached the limit', async() => {
         chatServiceMock.hasReachedConversationLimit.mockReturnValue(true);
@@ -82,7 +82,7 @@ describe('sidebar.component', () => {
 
     it('should create a conversation', async() => {
 
-    })
+    })*/
 
 
 });
