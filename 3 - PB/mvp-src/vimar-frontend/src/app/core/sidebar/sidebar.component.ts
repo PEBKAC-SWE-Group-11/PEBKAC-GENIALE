@@ -41,27 +41,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return this.chatService.hasReachedConversationLimit();
   }
   
-  // Getter per verificare se l'applicazione è in attesa di una risposta
   get isWaitingForResponse(): boolean {
     return this.chatService.isWaitingForResponse;
   }
 
   createNewConversation(): void {
-    // Non creare nuove conversazioni se in attesa
     if (this.isWaitingForResponse) return;
-
-    // Mostra alert se è stato raggiunto il limite massimo di conversazioni
     if (this.hasReachedLimit) {
       const confirmDelete = window.confirm(
         `Hai raggiunto il limite massimo di ${this.MAX_CONVERSATIONS} conversazioni. ` +
         `Premendo OK verrà eliminata la conversazione più vecchia per fare spazio a quella nuova.`
       );
-      
       if (!confirmDelete) {
-        return; // L'utente ha annullato l'operazione
+        return;
       }
-    }
-    
+    }    
     this.chatService.createConversation()
       .then(() => {
         this.newConversationCreated.emit();
@@ -72,26 +66,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   selectConversation(conversation: Conversation, event?: Event): void {
-    // Non cambiare conversazione se in attesa
     if (this.isWaitingForResponse) {
-      // Previeni l'azione predefinita se viene fornito un evento
       if (event) event.preventDefault();
       return;
     }
-    
     this.chatService.setActiveConversation(conversation);
-    
-    // Emettere evento quando si seleziona una conversazione
     this.conversationSelected.emit();
   }
 
   deleteConversation(event: Event, conversationId: string): void {
-    // Ferma la propagazione per evitare di selezionare la conversazione mentre viene eliminata
     event.stopPropagation();
-    
-    // Non eliminare conversazioni se in attesa
     if (this.isWaitingForResponse) return;
-    
     this.chatService.deleteConversation(conversationId);
   }
 

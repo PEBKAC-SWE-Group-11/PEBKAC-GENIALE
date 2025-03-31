@@ -56,7 +56,17 @@ def apiCreateSession():
     except Exception as e:
         logging.error(f"Errore nella creazione della sessione: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
+    
+@flaskApp.route('/api/session/<sessionId>', methods=['GET'])
+@requireAPIKey
+def apiReadSession(sessionId):
+    try:
+        session = conversationService.readSession(sessionId)
+        return jsonify(session), 200
+    except Exception as e:
+        logging.error(f"Errore nel recupero della sessione: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    
 @flaskApp.route('/api/session/<sessionId>', methods=['PUT'])
 @requireAPIKey
 def apiUpdateSession(sessionId):
@@ -95,10 +105,10 @@ def apiReadConversations():
         logging.error(f"Errore nel recupero delle conversazioni: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flaskApp.route('/api/conversation/<conversationId>', methods=['GET'])
-@requireAPIKey
-def apiReadConversationById(conversationId):
-    return jsonify(conversationService.readConversationById(conversationId)), 200
+#@flaskApp.route('/api/conversation/<conversationId>', methods=['GET'])
+#@requireAPIKey
+#def apiReadConversationById(conversationId):
+#    return jsonify(conversationService.readConversationById(conversationId)), 200
 
 @flaskApp.route('/api/conversation/<conversationId>', methods=['DELETE'])
 @requireAPIKey
@@ -112,15 +122,15 @@ def apiDeleteConversation(conversationId):
         print(f"Error deleting conversation with ID: {conversationId} - {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@flaskApp.route('/api/conversation/<conversationId>/update', methods=['PUT'])
-@requireAPIKey
-def apiUpdateConversationTimestamp(conversationId):
-    try:
-        success = conversationService.updateConversationTimestamp(conversationId)
-        return jsonify({"success": success}), 200
-    except Exception as e:
-        logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+#@flaskApp.route('/api/conversation/<conversationId>/update', methods=['PUT'])
+#@requireAPIKey
+#def apiUpdateConversationTimestamp(conversationId):
+#    try:
+#        success = conversationService.updateConversationTimestamp(conversationId)
+#        return jsonify({"success": success}), 200
+#    except Exception as e:
+#        logging.error(f"Errore nell'aggiornamento della conversazione: {str(e)}")
+#        return jsonify({"error": str(e)}), 500
 
 @flaskApp.route('/api/message', methods=['POST'])
 @requireAPIKey
@@ -137,19 +147,19 @@ def apiReadMessages():
     conversationId = request.args.get('conversationId')
     return jsonify(conversationService.readMessages(conversationId)), 200
 
-@flaskApp.route('/api/feedback/<messageId>', methods=['GET'])
-@requireAPIKey
-def apiReadFeedbackByMessageId(messageId):
-    return jsonify(conversationService.readFeedback(messageId)), 200
+#@flaskApp.route('/api/feedback/<messageId>', methods=['GET'])
+#@requireAPIKey
+#def apiReadFeedbackByMessageId(messageId):
+#    return jsonify(conversationService.readFeedback(messageId)), 200
 
 @flaskApp.route('/api/feedback', methods=['POST'])
 @requireAPIKey
 def apiAddFeedback():
     messageId = request.json.get('messageId')
     feedbackValue = request.json.get('feedbackValue')
-    content = request.json.get('content')  # Può essere None
+    content = request.json.get('content') 
     
-    feedbackId = conversationService.addFeedback(messageId, feedbackValue, content)
+    conversationService.addFeedback(messageId, feedbackValue, content)
     return jsonify({"messageId": messageId}), 201
 
 @flaskApp.route('/api/dashboard/numPositive', methods=['GET'])

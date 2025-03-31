@@ -169,7 +169,6 @@
   text-overflow: ellipsis;
 }
 
-/* Media query per schermi piccoli */
 @media (max-width: 576px) {
   .sidebar .header h2 {
     font-size: 1.5rem;
@@ -180,7 +179,7 @@
   }
   
   .sidebar .delete-btn {
-    display: block; /* Sempre visibile su mobile */
+    display: block;
     opacity: 0.7;
   }
 }

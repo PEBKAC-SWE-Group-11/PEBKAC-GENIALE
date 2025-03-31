@@ -37,7 +37,6 @@
     font-weight: 500;
 }
 
-/* Stile per il pulsante toggle della sidebar nel chatbox */
 .sidebar-toggle {
     background-color: #e0a800;
     border: none;
@@ -56,7 +55,11 @@
     background-color: #d39e00;
 }
 
-/* Nascondi il pulsante toggle su desktop */
+.sidebar-toggle:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 @media (min-width: 769px) {
     .sidebar-toggle {
         display: none;
@@ -188,7 +191,6 @@
     cursor: not-allowed;
 }
 
-/* Media queries per responsive design */
 @media (max-width: 768px) {
     .options-title {
         font-size: 1.7rem;
@@ -260,7 +262,6 @@
     }
 }
 
-/* Stili per i pulsanti di feedback */
 .feedback-buttons {
     display: flex;
     gap: 8px;
@@ -322,12 +323,10 @@
     color: #F44336;
 }
 
-/* Nascondi i pulsanti di feedback quando già dato */
 .message-with-feedback .feedback-buttons {
     display: none;
 }
 
-/* Stile per feedback attivo */
 .feedback-given .active {
     opacity: 1;
 }
@@ -336,7 +335,6 @@
     display: none;
 }
 
-/* Stile per l'indicatore di caricamento */
 .loading-indicator {
     display: flex;
     align-items: center;
@@ -363,7 +361,6 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Consolidazione dello stile per il contatore di caratteri */
 .char-counter {
     text-align: right;
     font-size: 0.8rem;
@@ -375,7 +372,6 @@
     color: #f44336;
 }
 
-/* Stili per il popup di feedback */
 .feedback-popup-overlay {
   position: fixed;
   top: 0;
