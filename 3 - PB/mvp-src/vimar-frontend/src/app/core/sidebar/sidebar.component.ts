@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   
   @Output() conversationSelected = new EventEmitter<void>();
   @Output() newConversationCreated = new EventEmitter<void>();
+  @Output() sidebarClosed = new EventEmitter<void>();
 
   readonly MAX_CONVERSATIONS = 10;
 
@@ -72,6 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
     this.chatService.setActiveConversation(conversation);
     this.conversationSelected.emit();
+    this.closeSidebar();
   }
 
   deleteConversation(event: Event, conversationId: string): void {
@@ -82,5 +84,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   isActive(conversation: Conversation): boolean {
     return this.activeConversation?.conversationId === conversation.conversationId;
+  }
+
+  closeSidebar(): void {
+    this.sidebarClosed.emit();
   }
 }

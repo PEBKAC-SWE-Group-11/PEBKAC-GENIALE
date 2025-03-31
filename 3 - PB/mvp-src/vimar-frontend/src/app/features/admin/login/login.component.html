@@ -18,6 +18,7 @@
         type="password" 
         id="password" 
         [(ngModel)]="password"
+        (keyup.enter)="login()"
         [disabled]="isLoading">
     </div>
     

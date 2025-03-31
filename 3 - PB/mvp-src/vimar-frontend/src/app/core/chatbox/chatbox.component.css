@@ -195,6 +195,14 @@
     .options-title {
         font-size: 1.7rem;
     }
+
+    .hidden-on-mobile {
+        display: none !important;
+    }
+    
+    .chatbox.sidebar-open .messages-area {
+        visibility: hidden;
+    }
     
     .options-subtitle {
         font-size: 1.1rem;
