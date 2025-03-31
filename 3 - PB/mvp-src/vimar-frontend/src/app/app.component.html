@@ -7,11 +7,15 @@
       <div class="sidebar-container" [class.visible]="sidebarVisible">
         <app-sidebar 
           (conversationSelected)="closeSidebarOnMobile()" 
-          (newConversationCreated)="closeSidebarOnMobile()">
+          (newConversationCreated)="closeSidebarOnMobile()"
+          (sidebarClosed)="closeSidebarOnMobile()">
         </app-sidebar>
       </div>
       <div class="chatbox-container">
-        <app-chatbox [toggleSidebar]="toggleSidebar.bind(this)"></app-chatbox>
+        <app-chatbox 
+          [toggleSidebar]="toggleSidebar.bind(this)"
+          [isSidebarOpen]="sidebarVisible">
+        </app-chatbox>
       </div>
     </div>
   </div>

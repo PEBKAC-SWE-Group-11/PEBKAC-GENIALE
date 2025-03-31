@@ -1,9 +1,9 @@
-<div class="chatbox">
+<div class="chatbox" [class.sidebar-open]="isSidebarOpen">
    <div class="chat-view">
        <div class="chat-header">
            <button class="sidebar-toggle" 
                    (click)="onToggleSidebar()" 
-                   [disabled]="isWaitingForResponse"
+                   [disabled]="isWaitingResponse"
                    aria-label="Toggle sidebar">
              <i class="bi bi-list"></i>
            </button>
@@ -59,7 +59,7 @@
             </div>
         </div>
         
-        <div class="input-area">
+        <div class="input-area" [class.hidden-on-mobile]="isSidebarOpen">
             <input 
                 type="text" 
                 [(ngModel)]="messageText"
