@@ -214,3 +214,443 @@ Gli strumenti utilizzati per il processo di progettazione sono:
 \end{itemize}
 
 \subsubsection{Codifica}
+\subsubsubsection{Scopo}
+Lo scopo del processo di codifica è trasformare la progettazione dettagliata in codice sorgente eseguibile, utilizzando un linguaggio di programmazione appropriato. Questa fase consiste nello sviluppo effettivo delle funzionalità del sistema, garantendo che il codice sia corretto, efficiente, manutenibile e conforme agli standard di qualità e sicurezza. Inoltre, la codifica deve seguire le specifiche definite nelle fasi precedenti, assicurando che il software soddisfi i requisiti funzionali e non funzionali. Questa sezione ha lo scopo di normare la scrittura del codice al fine di:
+\begin{itemize}
+    \item Rendere il codice più leggibile, uniforme e robusto;
+    \item Semplificare e velocizzare il processo di verifica;
+    \item Agevolare la manutenzione, il debugging e l'estensione del software;
+    \item Migliorare la qualità complessiva del codice.
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in Python}
+\subsubsubsubsection{Organizzazione dei sorgenti}
+La struttura generale di un sorgente Python, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: inclusione dei moduli necessari;
+    \item \textbf{Dichiarazioni di costanti globali}: variabili usate come configurazione;
+    \item \textbf{Definizione di funzioni e classi}: struttura principale del codice;
+    \item \textbf{Blocco principale}: punto di ingresso per l'esecuzione diretta dello script.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione delle classi}
+La struttura generale di una classe Python solitamente include:
+\begin{enumerate}
+    \item \textbf{Lista di classi estese o interfacce implementate}: se la classe eredita da una o più classi, queste vengono elencate tra parentesi nella dichiarazione della classe;
+    \item \textbf{Metodo costruttore}: inizializza gli attributi dell'istanza;
+    \item \textbf{Attributi della classe e dell'istanza}: variabili che contengono lo stato della classe o dell'oggetto;
+    \item \textbf{Metodi della classe}: funzioni che definiscono il comportamento dell'oggetto.
+\end{enumerate}
+Python utilizza il formato Google docstrings per documentare moduli, classi, metodi e funzioni. Le docstring devono essere racchiuse tra tre virgolette doppie (""") e posizionate subito dopo la definizione della funzione, classe o modulo.\\
+Per documentare una classe devono essere presenti le seguenti informazioni:
+\begin{itemize}
+    \item \textbf{Descrizione della classe}: spiega brevemente lo scopo della classe;
+    \item \textbf{Lista degli argomenti del costruttore}: specifica i parametri richiesti;
+    \item \textbf{Attributi della classe}: elenca e descrive gli attributi;
+    \item \textbf{Metodi della classe}: elenca e descrive i metodi.
+\end{itemize}
+Per documentare un metodo devono essere presenti le seguenti informazioni:
+\begin{itemize}
+    \item \textbf{Descrizione del metodo}: spiega brevemente e chiaramente cosa fa il metodo;
+    \item \textbf{Argomenti}: elenca tutti i parametri con descrizione, tipo e, se necessario, il valore predefinito;
+    \item \textbf{Valore restituito}: descrive cosa restituisce il metodo, incluso il tipo di ritorno.
+\end{itemize}
+
+\subsubsubsubsection{Buone pratiche di codifica}
+\begin{itemize}
+    \item \textbf{Scrivere funzioni brevi e modulari}: ogni funzione dovrebbe fare una sola cosa e farla bene;
+    \item \textbf{Usare tipi di dati appropriati}: scegliere i tipi di dati più efficienti per ogni operazione;
+    \item \textbf{Evitare la duplicazione del codice}: centralizzare il codice ripetuto in funzioni o classi riutilizzabili;
+    \item \textbf{Gestire correttamente le eccezioni}: utilizzare i blocchi try/except per intercettare e gestire gli errori in modo elegante, senza interrompere il flusso del programma;
+    \item \textbf{Scrivere docstring per funzioni e classi}: ogni funzione e classe dovrebbe avere una docstring che spiega il suo scopo, i parametri e i risultati;
+    \item \textbf{Ottimizzare solo quando necessario}: scrivere codice semplice e comprensibile prima di preoccuparsi delle ottimizzazioni;
+    \item \textbf{Non accedere direttamente agli attributi di una classe}: evitare di modificare o leggere direttamente gli attributi, ma utilizzare metodi getter/setter per l'accesso;
+    \item \textbf{Usare self per riferirsi ai parametri interni}: utilizzare il riferimento \texttt{self} per accedere agli attributi e ai metodi interni della classe;
+    \item \textbf{Usare la minima visibilità possibile per gli attributi}: limitare l'accesso agli attributi attraverso visibilità minima, preferendo attributi privati o protetti, ove possibile;
+    \item \textbf{Importazioni a inizio script}: le importazioni di moduli devono essere fatte all'inizio del file o modulo;
+    \item \textbf{Evitare importazioni generiche}: evitare l'uso di importazioni con asterisco;
+    \item \textbf{Usare commenti TODO e FIXME}: usare \texttt{TODO} per indicare sezioni di codice da completare e \texttt{FIXME} per sezioni che necessitano di revisione o miglioramenti.
+\end{itemize}
+
+\subsubsubsubsection{Regole di sintassi}
+\begin{itemize}
+    \item \textbf{Nomi autoesplicativi}: scegliere nomi descrittivi per variabili, funzioni e classi in modo che il loro scopo sia chiaro senza dover leggere il codice in dettaglio;
+    \item \textbf{Lingua}: scrivere nomi di variabili, funzioni e classi in inglese, mentre i commenti e le docstring vanno scritte in italiano;
+    \item \textbf{Usare con cautela le abbreviazioni}: evitare abbreviazioni eccessive nei nomi delle variabili e delle funzioni, a meno che non siano di uso comune, per migliorare la leggibilit;
+    \item \textbf{Nomi di variabili e funzioni in camelCase}: utilizzare parole concatenate senza spazi, dove ogni parola successiva alla prima inizia con una lettera maiuscola, per migliorare la leggibilità (ad esempio \texttt{nomeVariabile});
+    \item \textbf{Nomi di classi in PascalCase}: iniziare ogni parola con una lettera maiuscola per distinguere facilmente le classi dagli altri elementi (ad esempio \texttt{NomeClasse});
+    \item \textbf{Costanti in SCREAMING\_SNAKE\_CASE}: dichiarare le costanti in maiuscolo con underscore per indicare che non dovrebbero essere modificate (ad esempio \texttt{NOME\_COSTANTE});
+    \item \textbf{Uso coerente delle virgolette}: utilizzare le virgolette doppie per le stringhe (ad esempio \texttt{"test"});
+    \item \textbf{Indentazione}: usare un'indentazione di una tabulazione per migliorare la leggibilità del codice;
+    \item \textbf{Spaziature attorno agli operatori}: inserire uno spazio prima e dopo gli operatori aritmetici e di assegnazione per aumentare la chiarezza (ad esempio \texttt{ a = b + c });
+    \item \textbf{Evitare spaziature inutili}: non lasciare spazi prima delle parentesi aperte o dopo le parentesi chiuse (ad esempio \texttt{func(arg1, arg2)});
+    \item \textbf{Uso corretto delle parentesi}: usare le parentesi solo quando necessario, evitando di inserirle intorno a espressioni che non lo richiedono (ad esempio \texttt{if x == 5:});
+    \item \textbf{Uso appropriato dei commenti}: i commenti devono essere chiari, pertinenti e aggiornati, evitando spiegazioni ovvie. Usare \texttt{\#} per commenti brevi e docstring per descrizioni più dettagliate;
+    \item \textbf{Lunghezza delle righe}: limitare la lunghezza delle righe di codice a un massimo di 79 caratteri per migliorare la leggibilità su diversi schermi;
+    \item \textbf{Evitare più istruzioni su una riga}: scrivere una sola istruzione per riga, evitando di separarle con punto e virgola per migliorare la leggibilità.
+    \item \textbf{Condizioni e cicli su una sola riga}: evitare di scrivere condizioni o cicli complessi su una sola riga per non compromettere la leggibilità;
+    \item \textbf{Linee vuote tra sezioni di codice}: usare una riga vuota tra funzioni e due tra classi per separare logicamente le sezioni del codice;
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in Angular}
+\subsubsubsubsection{Tipologie dei sorgenti}
+In \textbf{Angular}, esistono diverse tipologie di sorgenti, ognuna con un ruolo specifico per garantire modularità, scalabilità e manutenibilità:
+\begin{itemize}
+    \item \textbf{Componenti (\texttt{*.component.ts})}. definiscono le unità dell’interfaccia utente con logica, template e stili;
+    \item \textbf{Moduli (\texttt{*.module.ts})}: organizzano i componenti, direttive e servizi in unità indipendenti;
+    \item \textbf{Servizi (\texttt{*.service.ts})}: gestiscono la logica di business e la comunicazione con il backend;
+    \item \textbf{Direttive (\texttt{*.directive.ts})}: modificano il comportamento degli elementi HTML senza alterarne la struttura;
+    \item \textbf{Pipe (\texttt{*.pipe.ts})}: trasformano i dati nei template per la formattazione o elaborazione;
+    \item \textbf{Template (\texttt{*.component.html})}: contengono il codice HTML che definisce l’interfaccia utente;
+    \item \textbf{Stili (\texttt{*.component.scss} o \texttt{.css})}: definiscono l’aspetto grafico dei componenti e dell’app;
+    \item \textbf{File di configurazione (\texttt{angular.json}, \texttt{package.json}, \texttt{tsconfig.json})}: contengono impostazioni per compilazione, dipendenze e build;
+    \item \textbf{Main (\texttt{main.ts})}: punto di ingresso dell’applicazione, che si occupa di avviare il modulo principale;
+    \item \textbf{Environments (\texttt{environment.ts})}: gestiscono configurazioni specifiche per diversi ambienti di esecuzione.  
+\end{itemize}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Componenti}
+La struttura generale di un sorgente \texttt{.component.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli e le dipendenze necessarie; 
+    \item \textbf{Decoratore \texttt{@Component}}: contiene i metadati del componente;
+    \item \textbf{Definizione della classe}: la classe TypeScript esportata del componente definisce la logica dell'interfaccia utente:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del componente;
+        \item \textbf{Costruttore}: inizializza il componente e inietta eventuali dipendenze necessarie;
+        \item \textbf{Metodi}: funzionalità definite per gestire eventi, logica di business o manipolazione dei dati.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Moduli}
+La struttura generale di un sorgente \texttt{.module.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: importa i moduli necessari;  
+    \item \textbf{Decoratore \texttt{@NgModule}}: contiene i metadati del modulo:
+    \begin{itemize}
+        \item \textbf{Dichiarazioni}: elenca i componenti, direttive e pipe appartenenti al modulo;
+        \item \textbf{Importazioni}: specifica altri moduli necessari per il funzionamento dell’app;
+        \item \textbf{Provider}: definisce i servizi disponibili all'interno del modulo;
+        \item \textbf{Bootstrap (solo per il modulo principale)}: indica il componente radice avviato dall'applicazione.
+    \end{itemize}
+    \item \textbf{Definizione della classe}: il modulo viene definito come una classe TypeScript esportata.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Servizi}
+La struttura generale di un sorgente \texttt{.service.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli e le dipendenze necessarie;
+    \item \textbf{Decoratore \texttt{@Injectable()}}: indica che la classe è un servizio e può essere iniettata in altri componenti o servizi;
+    \item \textbf{Definizione della classe}: la classe TypeScript esportata che implementa il servizio, contenente la logica centralizzata:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del servizio;
+        \item \textbf{Costruttore}: inizializza il servizio e inietta altri eventuali servizi necessari;
+        \item \textbf{Metodi}: funzionalità fornite dal servizio.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Direttive}
+La struttura generale di un sorgente \texttt{.directive.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli necessari;
+    \item \textbf{Decoratore \texttt{@Directive()}}: definisce il selettore della direttiva, che può essere applicato agli elementi HTML;
+    \item \textbf{Definizione della classe}: definisce la classe esportata che implementa la logica della direttiva:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del servizio;
+        \item \textbf{Costruttore}: inizializza la direttiva e, si possono iniettare \texttt{ElementRef} per accedere all'elemento DOM e \texttt{Renderer2} per manipolarla in modo sicuro;
+        \item \textbf{Gestione degli eventi (\texttt{@HostListener})}: ascolta eventi per eseguire azioni sugli elementi HTML;
+        \item \textbf{Metodi}: funzionalità fornite dalla direttiva.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Pipe}
+La struttura generale di un sorgente \texttt{.pipe.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli necessari;
+    \item \textbf{Decoratore \texttt{@Pipe()}}: definisce il nome della pipe, utilizzato nei template HTML;
+    \item \textbf{Definizione della classe}: la classe esportata implementa l'interfaccia \\ \texttt{PipeTransform} e contiene tutta la logica per la trasformazione dei dati tramite l'implementazione del metodo \texttt{transform()}:
+    \begin{itemize}
+        \item \textbf{Gestione delle trasformazioni}: nel metodo \texttt{transform()}, si applicano le trasformazioni complesse e condizionali sui dati;
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Template}
+La struttura generale di un sorgente \texttt{.component.html} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Markup HTML}: contiene gli elementi HTML che definiscono la struttura della vista;
+    \item \textbf{Binding dei dati}: utilizza la sintassi di binding di Angular per associare variabili e proprietà ai componenti del DOM;
+    \item \textbf{Direttive Angular}: direttive per manipolare il DOM in base a dati dinamici;
+    \item \textbf{Componenti figli}: componenti inclusi all'interno di un template;
+    \item \textbf{Event binding}: sintassi per collegare eventi alle azioni nel componente;
+    \item \textbf{Template reference variables}: variabili di riferimento per accedere agli elementi del DOM o ai componenti figli;
+    \item \textbf{Formattazione e styling}: può includere stili inline o riferimenti a fogli di stile esterni.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Stili}
+La struttura generale di un sorgente \texttt{.component.css o .scss} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Definizioni di variabili}: le variabili CSS vengono usate per centralizzare valori comuni, come colori e dimensioni;
+    \item \textbf{Definizione degli stili locali}: contiene le regole CSS per definire l'aspetto del componente;
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Main}
+La struttura generale di un sorgente \texttt{main.ts} in Angular, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazione di moduli e funzionalità}: importa il modulo \\ \texttt{platformBrowserDynamic} per avviare l'applicazione nel browser e il modulo principale;
+    \item \textbf{Bootstrap del modulo principale}: avvia l'applicazione chiamando \\ \texttt{platformBrowserDynamic().bootstrapModule(AppModule)}.
+\end{enumerate}
+
+\subsubsubsubsection{Buone pratiche di codifica}
+\begin{itemize}
+    \item \textbf{Seguire le convenzioni di naming}: usa nomi significativi e coerenti per componenti, servizi, moduli e variabili;
+    \item \textbf{Usare la modularizzazione}: organizza il codice in moduli Angular separati per gestire diverse funzionalità;
+    \item \textbf{Organizzare il codice in cartelle tematiche}: organizza il codice in base alla funzionalità e non per tipo di file;
+    \item \textbf{Mantenere i componenti piccoli e riutilizzabili}: ogni componente dovrebbe avere una sola responsabilità e dovrebbe essere riutilizzabile;
+    \item \textbf{Separare la logica di presentazione dalla logica di business}: mantieni separata la logica di presentazione (componenti) da quella di business (servizi);
+    \item \textbf{Evita logica complessa nei componenti}: sposta la logica complessa nei servizi, mantenendo i componenti leggeri e facilmente testabili;
+    \item \textbf{Utilizzare i servizi per la gestione della logica e delle chiamate API}: centralizza la logica di business e la gestione delle chiamate alle API nei servizi, e iniettili nei componenti tramite dependency injection;
+    \item \textbf{Usare l'injection di dipendenze}: utilizza l'iniezione di dipendenze per gestire le dipendenze tra componenti e servizi;
+    \item \textbf{Usare i Reactive Forms per una gestione avanzata dei moduli}: usa i Reactive Forms invece dei Template-driven Forms per una gestione avanzata della validazione dei moduli;
+    \item \textbf{Usare il binding unidirezionale quando possibile}: preferisci il binding unidirezionale piuttosto che il binding bidirezionale;
+    \item \textbf{Usare le direttive in modo modulare}: le direttive devono essere piccole, modulari e riutilizzabili;
+    \item \textbf{Usare i pipe per la trasformazione dei dati}: usa le pipe per trasformare i dati nella vista, mantenendo la logica di presentazione fuori dai componenti;
+    \item \textbf{Gestire gli errori in modo appropriato}: utilizza il sistema di gestione degli errori di Angular;
+    \item \textbf{Usare il Lazy Loading per migliorare le performance}: carica solo i moduli necessari all’avvio dell’applicazione usando il Lazy Loading;
+    \item \textbf{Ottimizzare le performance}: usa tecniche per migliorare le performance di rendering;
+    \item \textbf{Usare il CSS scoped}: utilizza il \texttt{ViewEncapsulation} di Angular (scoped CSS) per evitare che gli stili di un componente influenzino altri componenti;
+    \item \textbf{Sfruttare i moduli di terze parti con cautela}: usa librerie di terze parti per risolvere problemi comuni, ma evita di sovraccaricare l'applicazione con dipendenze non necessarie;
+    \item \textbf{Usare commenti TODO e FIXME}: usare TODO per indicare sezioni di codice da completare e FIXME per sezioni che necessitano di revisione o miglioramenti;
+    \item \textbf{Documentare il codice}: Documenta il codice, soprattutto per i servizi, i componenti complessi, e le funzioni critiche. \\ Angular non ha un proprio formato di documentazione, ma si consiglia di utilizzare JSDoc, che è uno degli standard più popolari per la documentazione del codice JavaScript/TypeScript. JSDoc è un formato strutturato che permette di documentare in modo chiaro e coerente, e viene utilizzato in particolare per documentare i seguenti elementi:
+    \begin{itemize}
+        \item \textbf{Classi (componenti, servizi, direttive, pipe, moduli)}: la documentazione delle classi viene utilizzata per:
+        \begin{itemize}
+            \item Descrivere lo scopo della classe e il suo utilizzo;
+            \item Specificare eventuali dipendenze iniettate nel costruttore.
+        \end{itemize}
+        \item \textbf{Metodi e Funzioni}: la documentazione di metodi e funzioni viene utilizzata per:
+        \begin{itemize}
+            \item Spiegare il comportamento del metodo;
+            \item Definire chiaramente i parametri (\texttt{@param});
+            \item Indicare il valore restituito (\texttt{@returns});
+            \item Includere un esempio d'uso (\texttt{@example}) quando necessario.
+        \end{itemize}
+        \item \textbf{Proprietà e Variabili Pubbliche} la documentazione di proprietà e variabili pubbliche viene utilizzata per:
+        \begin{itemize}
+            \item Descrivere il loro ruolo e utilizzo;
+            \item Indicare il tipo di dato (\texttt{@type});
+            \item Specificare se sono opzionali o richieste.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsubsection{Regole di sintassi}
+\begin{itemize}
+    \item \textbf{Nomi autoesplicativi}: scegliere nomi descrittivi per componenti, servizi, moduli e variabili in modo che il loro scopo sia chiaro senza dover leggere il codice in dettaglio;
+    \item \textbf{Lingua}: scrivere nomi di variabili, funzioni e classi in inglese, mentre i commenti e la documentazione possono essere in italiano;
+    \item \textbf{Usare con cautela le abbreviazioni}: evitare abbreviazioni eccessive nei nomi delle variabili e delle funzioni, a meno che non siano di uso comune, per migliorare la leggibilità;
+    \item \textbf{Nomi di componenti, servizi e moduli in PascalCase}: utilizzare parole concatenate dove ogni parola inizia con una lettera maiuscola, seguite dal suffisso appropriato (ad esempio \texttt{UserProfileComponent}, \texttt{AuthService}, \texttt{AppModule});
+    \item \textbf{Nomi di variabili e metodi in camelCase}: iniziare con una lettera minuscola e usare lettere maiuscole per le parole successive (ad esempio \texttt{getUserData});
+    \item \textbf{Costanti in SCREAMING\_SNAKE\_CASE}: dichiarare le costanti in maiuscolo con underscore per indicare che non dovrebbero essere modificate (ad esempio \texttt{API\_BASE\_URL});
+    \item \textbf{Uso coerente delle virgolette}: preferire le virgolette singole (\texttt{'...'}) per le stringhe in TypeScript, a meno che non siano necessarie virgolette doppie (\texttt{"..."}) per nidificazioni;
+    \item \textbf{Indentazione}: usare un'indentazione di una tabulazione per migliorare la leggibilità del codice;
+    \item \textbf{Spaziature attorno agli operatori}: inserire uno spazio prima e dopo gli operatori per aumentare la chiarezza (ad esempio \texttt{a = b + c});
+    \item \textbf{Evitare spaziature inutili}: non lasciare spazi prima delle parentesi aperte o dopo le parentesi chiuse (ad esempio \texttt{myFunction(arg1, arg2)});
+    \item \textbf{Uso corretto delle parentesi}: usare le parentesi solo quando necessario e preferire il formato multilinea per le dichiarazioni lunghe;
+    \item \textbf{Uso appropriato dei commenti}: usare \texttt{//} per commenti brevi e \texttt{/** ... */} per documentazione dettagliata con JSDoc;
+    \item \textbf{Lunghezza delle righe}: limitare la lunghezza delle righe di codice a un massimo di 100 caratteri per migliorare la leggibilità su diversi schermi;
+    \item \textbf{Evitare più istruzioni su una riga}: scrivere una sola istruzione per riga, evitando di separarle con punto e virgola per migliorare la leggibilità;
+    \item \textbf{Linee vuote tra sezioni di codice}: usare una riga vuota tra funzioni e due tra classi per separare logicamente le sezioni del codice;
+    \item \textbf{Organizzazione delle importazioni}: mantenere un ordine chiaro: prima i moduli di Angular, poi le librerie di terze parti, infine le importazioni locali.
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in SQL}
+Per le norme di codifica del linguaggio SQL è stato seguito lo standard ISO/ANSI SQL:2019, adottando ove necessario le norme specifiche applicate da PostgreSQL.
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di codifica sono:
+\begin{itemize}
+    \item Visual Studio Code;
+    \item GitHub.
+\end{itemize}
+
+\subsubsection{Configurazione dell’ambiente di esecuzione}
+\subsubsubsection{Scopo}
+Lo scopo del processo di configurazione dell'ambiente di esecuzione è garantire che l'ambiente in cui il software sarà eseguito sia correttamente predisposto, ottimizzato e sicuro per supportare l'esecuzione dell'applicazione. Questa fase consiste nell'installazione e configurazione di software, strumenti e dipendenze necessarie, come database, server web, linguaggi di programmazione e librerie. Inoltre, è fondamentale assicurarsi che l'ambiente di esecuzione sia conforme agli standard aziendali e alle specifiche del progetto, riducendo al minimo i problemi che potrebbero sorgere durante l'esecuzione del sistema. L'obiettivo principale di questa sezione è di:
+\begin{itemize}
+    \item Creare un ambiente stabile e coerente per l'esecuzione dell'applicazione;
+    \item Ottimizzare le risorse hardware e software per garantire le migliori performance;
+    \item Garantire che tutte le dipendenze siano correttamente configurate e aggiornate;
+    \item Minimizzare gli errori di esecuzione dovuti a configurazioni errate o incompatibilità;
+    \item Facilitare il deployment e la gestione dell'applicazione in ambienti diversi.
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in Docker}
+La creazione dei file Docker è una parte fondamentale del processo di sviluppo del software. Le best practices e le linee guida per la scrittura dei file Docker sono essenziali per assicurare la gestione, la distribuzione e l'efficienza dei container. Di seguito sono riportate alcune linee guida principali:
+\begin{itemize}
+    \item \textbf{Chiarezza e coerenza}:
+    \begin{itemize}
+        \item Utilizzare nomi significativi e descrittivi per le immagini e i container;
+        \item Mantenere una struttura uniforme e organizzata nei file Docker per garantire la coerenza.
+    \end{itemize}
+    \item \textbf{Versionamento}:
+    \begin{itemize}
+        \item Sempre specificare la versione dell'immagine di base per assicurare la riproducibilità dell'ambiente;
+        \item Evitare l'uso del tag "latest" per le immagini di produzione, per evitare incertezze su quale versione venga utilizzata.
+    \end{itemize}
+    \item \textbf{Minimizzazione degli strati (Layering)}:
+    \begin{itemize}
+        \item Ridurre al minimo il numero di istruzioni nel Dockerfile per contenere il numero di strati nell'immagine;
+        \item Raggruppare insieme le istruzioni che possono essere eseguite in una sola fase, per migliorare l'efficienza della cache di Docker.
+    \end{itemize}
+    \item \textbf{Sicurezza}:
+    \begin{itemize}
+        \item Utilizzare immagini ufficiali o verificate per garantire la sicurezza e l'affidabilità;
+        \item Evitare di eseguire processi con privilegi elevati quando non strettamente necessario;
+        \item Parametrizzare le informazioni sensibili tramite l'uso di \texttt{ARG}.
+    \end{itemize}
+    \item \textbf{Ottimizzazione delle risorse}:
+    \begin{itemize}
+        \item Limitare l'uso delle risorse del container (come CPU e memoria) per migliorare l'efficienza;
+        \item Preferire immagini leggere e ottimizzate per l'ambiente di produzione.
+    \end{itemize}
+    \item \textbf{Gestione delle variabili d'ambiente}:
+    \begin{itemize}
+        \item Usare variabili d'ambiente per configurazioni dinamiche;
+        \item Fornire valori di default sensati per le variabili d'ambiente, per facilitare la configurazione.
+    \end{itemize}
+    \item \textbf{Logging e monitoraggio}:
+    \begin{itemize}
+        \item Configurare adeguatamente i container per la gestione dei log;
+        \item Integrare strumenti di monitoraggio, quando necessario, per tenere traccia delle performance.
+    \end{itemize}
+    \item \textbf{Pulizia e riduzione delle dimensioni}:
+    \begin{itemize}
+        \item Rimuovere pacchetti temporanei e file non necessari dopo l'installazione delle dipendenze per mantenere l'immagine leggera;
+        \item Utilizzare i multi-stage builds per ottimizzare le immagini e ridurre le loro dimensioni.
+    \end{itemize}
+    \item \textbf{Documentazione}:
+    \begin{itemize}
+        \item Aggiungere commenti nel Dockerfile per spiegare le scelte di progettazione;
+        \item Fornire documentazione chiara su come utilizzare e configurare il container.
+    \end{itemize}
+    \item \textbf{Testing}:
+    \begin{itemize}
+        \item Implementare test automatizzati per verificare la corretta funzionalità del Dockerfile e dei container.
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di configurazione dell'ambiente di esecuzione sono:
+\begin{itemize}
+    \item Visual Studio Code;
+    \item Docker;
+    \item GitHub.
+\end{itemize}
+
+\subsubsection{Testing del codice}
+\subsubsubsection{Scopo}
+Lo scopo del processo di testing del codice è verificare che il software funzioni correttamente, rispetti i requisiti e sia privo di bug o malfunzionamenti. Questa fase consiste nell'eseguire una serie di test per identificare eventuali errori nel codice, determinare la qualità del sistema e garantire che ogni componente funzioni come previsto. Inoltre, è fondamentale assicurarsi che le modifiche al codice non introducano regressioni o nuovi problemi. L'obiettivo principale di questa sezione è di:
+\begin{itemize}
+    \item Verificare che il codice funzioni come previsto e soddisfi i requisiti funzionali e non funzionali;
+    \item Identificare e correggere eventuali bug o malfunzionamenti nel sistema;
+    \item Assicurare che le modifiche non introducano regressioni o nuovi problemi nel sistema;
+    \item Garantire che il software sia di alta qualità, stabile e privo di errori;
+    \item Facilitare la manutenzione e l'evoluzione del software, riducendo il rischio di problemi futuri.
+\end{itemize}
+
+\subsubsubsection{Tipologie di test}
+I \textit{test\textsubscript{G}} realizzabili possono essere suddivisi in tre categorie principali:
+\begin{itemize}
+    \item \textbf{\textit{Test\textsubscript{G}} di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input\textsubscript{G}, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
+    \item \textbf{\textit{Test\textsubscript{G}} di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
+    \item \textbf{\textit{Test\textsubscript{G}} di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i \textit{requisiti\textsubscript{G}} funzionali e non funzionali, assicurandosi di valutare il sistema nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
+\end{itemize}
+
+\subsubsubsubsection{Test di unità}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei test di unità per il codice. Essi si occupano della loro stesura in ogni fase dello sviluppo del codice per garantire che sia robusto, affidabile e facilmente manutenibile;
+    \item \textbf{Descrizione}: i test di unità, noti anche come unit testing, sono una pratica fondamentale nello sviluppo software che consiste nel verificare il corretto funzionamento delle più piccole parti isolabili del codice, come singole funzioni, metodi o classi. L'obiettivo principale è assicurarsi che ciascuna unità operi secondo le aspettative, facilitando l'identificazione precoce di errori e garantendo una maggiore qualità del software. I test di unità presentano alcune caratteristiche fondamentali che ne garantiscono l'efficacia. Una di queste è l'isolamento, che assicura che ogni test venga eseguito separatamente, senza dipendenze da altre parti del sistema, in modo da attribuire i risultati esclusivamente all'unità in esame. Un'altra caratteristica essenziale è l'automatizzazione, che consente di eseguire i test in modo rapido e frequente, facilitando il processo di integrazione continua e riducendo il rischio di errori durante lo sviluppo;
+    \item \textbf{Tipologie} : esistono due tipologie di test di unità:
+    \begin{itemize}
+        \item \textbf{Test Funzionali (Black Box Testing)}: questi test si concentrano sulla verifica che una specifica unità di codice fornisca l'output corretto in risposta a determinati input, senza considerare l'implementazione interna;
+        \item \textbf{Test Strutturali (White Box Testing)}: questi test valutano l'implementazione interna dell'unità, analizzando il flusso del codice e la copertura delle istruzioni o dei rami.
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsubsection{Test di integrazione}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei test di integrazione per il codice. Essi si occupano della loro stesura dopo la stesura dei test di unità e prima della stesura dei test di sistema;
+    \item \textbf{Descrizione}: i test di integrazione sono una fase cruciale nel ciclo di vita dello sviluppo software, focalizzata sulla verifica dell'interazione tra diversi moduli o componenti di un sistema. Dopo aver eseguito i test di unità su singoli componenti, i test di integrazione combinano progressivamente questi moduli e ne valutano il funzionamento congiunto, assicurandosi che collaborino correttamente per soddisfare i requisiti funzionali e prestazionali dell'applicazione. L'obiettivo principale è identificare e risolvere eventuali problemi che possono sorgere quando le diverse parti del software interagiscono, garantendo così la coerenza e l'affidabilità dell'intero sistema;
+    \item \textbf{Tipologie}: esistono due tipologie di test di integrazione:
+    \begin{itemize}
+        \item \textbf{Test di integrazione Bottom-Up}: questa strategia prevede l'inizio dei test dai moduli di livello più basso nella gerarchia del software. I singoli componenti vengono testati individualmente e, una volta verificata la loro correttezza, vengono integrati progressivamente con i moduli di livello superiore. Questo approccio è particolarmente utile quando lo sviluppo dei moduli di base è completato prima di quelli di livello superiore;
+        \item \textbf{Test di integrazione Top-Down}: in questo approccio, i test iniziano dai moduli di livello più alto e procedono verso il basso. I moduli superiori vengono testati utilizzando "stub" per simulare il comportamento dei moduli inferiori non ancora sviluppati o testati. Man mano che i moduli di livello inferiore diventano disponibili, vengono integrati e testati in combinazione con quelli superiori. Questo metodo è vantaggioso quando l'architettura del sistema è ben definita fin dall'inizio;
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsubsection{Test di sistema}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei test di sistema per il codice. Essi si occupano della loro stesura dopo la stesura dei test di unità e di sistema;
+    \item \textbf{Descrizione}: lo scopo principale dei test di sistema è di fornire una valutazione completa e indipendente del sistema software completato rispetto ai requisiti software definiti, garantendo che il prodotto sia pronto per la fase di collaudo con il cliente. Essi sono funzionali (ovvero black-box), il che significa che si basano sulla specifica dei requisiti software e non richiedono conoscenza della logica interna del software.
+\end{itemize}
+
+\subsubsubsection{Notazione dei test}
+\'E stato decisa come notazione per identificare univocamente i \textit{test\textsubscript{G}} la seguente:
+\begin{center}
+    \textbf{T[Tipologia][Numero]}
+\end{center}
+\textbf{Tipologia} indica la tipologia del \textit{test\textsubscript{G}}:
+\begin{itemize}
+    \item \textbf{U}: di unità;
+    \item \textbf{I}: di integrazione;
+    \item \textbf{S}: di sistema;
+\end{itemize}
+Ogni \textit{test\textsubscript{G}} si trova in uno \textbf{Stato}, che può essere:
+\begin{itemize}
+    \item \textbf{V}: verificato. Questo stato indica che il \textit{test\textsubscript{G}} ha fornito un esito positivo;
+    \item \textbf{NV}: non verificato. Questo stato indica che il \textit{test\textsubscript{G}} ha fornito un esito negativo;
+    \item \textbf{NI}: non implementato. Questo stato indica che il \textit{test\textsubscript{G}} non è ancora stato implementato, e quindi non fornisce nessun esito.
+\end{itemize}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di testing del codice sono:
+\begin{itemize}
+    \item Visual Studio Code;
+    \item GitHub.
+\end{itemize}
+
+\subsubsection{Integrazione software}
+\subsubsubsection{Scopo}
+L'obiettivo dell'integrazione software è costruire e verificare il sistema in modo incrementale, aumentando progressivamente il valore funzionale attraverso l'integrazione di nuove componenti in insiemi già verificati. Questo approccio facilita l'individuazione delle cause di eventuali difetti, poiché è più probabile che derivino dall'ultima integrazione effettuata. Inoltre, assicura che ogni passaggio sia reversibile, permettendo di tornare a uno stato sicuro precedente in caso di problemi.
+
+\subsubsubsection{Branching}
+Il repository è costituito da alcuni branch principali:
+\begin{itemize}
+    \item \textbf{main}: branch che contiene la versione stabile e ufficiale del progetto, pronta per essere rilasciata o distribuita;
+    \item \textbf{develop}: branch di sviluppo principale, in cui vengono integrate le nuove funzionalità prima di essere rilasciate nel branch main;
+    \item \textbf{norme-di-progetto}: branch dedicato alla gestione e all'aggiornamento delle Norme di Progetto;
+    \item \textbf{piano-di-progetto}: branch dedicato alla gestione e all'aggiornamento del Piano di Progetto;
+    \item \textbf{analisi-dei-requisiti}: branch dedicato alla gestione e all'aggiornamento dell'Analisi dei Requisiti;
+    \item \textbf{piano-di-qualifica}: branch dedicato alla gestione e all'aggiornamento del Piano di Qualifica;
+    \item \textbf{specifica-tecnica}: branch dedicato alla gestione e all'aggiornamento della Specifica Tecnica;
+    \item \textbf{manuale-utente}: branch dedicato alla gestione e all'aggiornamento del Manuale Utente;
+    \item \textbf{glossario}: branch dedicato alla gestione e all'aggiornamento del Glossario;
+    \item \textbf{Lettera\_di\_Presentazione}: branch dedicato alla gestione e all'aggiornamento della Lettera di Presentazione alle revisioni del progetto;
+    \item \textbf{poc-develop}: branch utilizzato per lo sviluppo della Proof of Concept (PoC);
+    \item \textbf{mvp-develop}: branch utilizzato per lo sviluppo del Minimum Viable Product (MVP).
+\end{itemize}
+Ogni modifica o nuova funzionalità viene sviluppata in un branch dedicato, generato a partire dal branch in cui dovrà successivamente essere integrato.
+
+\subsubsubsection{Pull request}
+Nel momento in cui una modifica o una nuova funzionalità arrivano alla fine del loro sviluppo, per integrare ciò che è stato fatto in uno dei branch principali, la persona che ha creato il branch apre una pull request e richiede una verifica. \\
+Per assegnare dei titoli significativi alle pull request, abbiamo seguito la seguente denominazione:
+\begin{itemize}
+    \item \textbf{*Titolo*}: Indica una pull request standard, in cui vengono introdotte nuove funzionalità, aggiornamenti o modifiche al codice e alla documentazione. Il titolo deve essere descrittivo e chiaro, in modo da rendere immediatamente comprensibile l'obiettivo della modifica;
+    \item \textbf{HOTFIX-*Titolo*}: utilizzato per pull request relative a correzioni urgenti di bug o problemi critici riscontrati nel codice già rilasciato.
+\end{itemize}
+I verificatori potranno approvare la pull request solamente dopo aver effettuato tutti i test di unità, di integrazione e di sistema e aver ricevuto solamente esiti positivi..
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di testing del codice sono:
+\begin{itemize}
+    \item GitHub.
+\end{itemize}
