@@ -4,7 +4,7 @@ mkdir -p /App/DataProcessing/JsonData
 chmod -R 777 /App/DataProcessing/JsonData
 
 echo "Starting Scrapy spider..."
-scrapy runspider /App/DataProcessing/Scraper/Scraper/spiders/Scraper.py -o /App/DataProcessing/JsonData/Data.json
+scrapy runspider /App/DataProcessing/Scraper/Scraper/spiders/Scraper.py -O /App/DataProcessing/JsonData/Data.json
 
 if [ -f "/App/DataProcessing/JsonData/NewData.json" ]; then
     echo "Scrapy completed successfully. File created: /App/DataProcessing/JsonData/Data.json"
