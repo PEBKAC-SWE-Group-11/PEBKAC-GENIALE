@@ -108,8 +108,8 @@ Seguendo la scia del paragrafo precedente relativo agli scenari, l'analisi dei d
 \end{figure}
 \begin{itemize}
 \item Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
-\item La comunicazione tra il Core e l'ambiente esterno è gestita attraverso i Porti, che definiscono le interfacce di interazione. Questi costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. I Porti rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
-\item Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dai Porti, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
+\item La comunicazione tra il Core e l'ambiente esterno è gestita attraverso le Porte, che definiscono le interfacce di interazione. Queste costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. Le Porte rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
+\item Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dalle Porte, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
 \end{itemize}
 \subsection*{Core - ConversationService}
 Nel core del sistema, la classe \texttt{ConversationService} si occupa principalmente della gestione delle sessioni, delle conversazioni, dei messaggi e dei feedback.
@@ -190,7 +190,7 @@ Inoltre, sono presenti endpoint per la gestione dei feedback:
     \item \texttt{api\_add\_feedback()} permette di aggiungere un feedback.
 \end{itemize}
 
-Infine, il \texttt{Dashboard} espone diversi endpoint per raccogliere statistiche:
+Infine, sono esposti alcuni endpoint per le statistiche della Dashboard:
 \begin{itemize}
     \item \texttt{api\_read\_num\_positive\_feedback()} e \texttt{api\_read\_num\_negative\_feedback()} per ottenere il numero di feedback positivi e negativi.
     \item \texttt{api\_read\_num\_conversations()} per conoscere il numero totale di conversazioni.
@@ -221,15 +221,21 @@ Uno degli aspetti chiave dell'architettura è la gestione del database, che vien
 \subsubsection{Elaborazione dei Dati}
 Una volta stabilita la connessione al database, l'attenzione si sposta sulla fase di elaborazione vera e propria. Diversi moduli si occupano di trasformare i dati e prepararli per l'archiviazione:
 
+\begin{itemize}
+ 
+
 \item \texttt{productsElaboration.py} gestisce la manipolazione e l'analisi dei dati relativi ai prodotti, applicando eventuali filtri o trasformazioni.
 
 \item \texttt{chunkElabotation.py} è particolarmente utile quando si lavora con grandi quantità di dati, poiché divide l'elaborazione in blocchi (chunk) per ottimizzare le prestazioni e ridurre il carico sulla memoria.
 
 \item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti.
 
+\end{itemize}
 \subsubsection{ Dipendenze e Tecnologie Utilizzate}
-\item L’elenco delle dipendenze è definito nel file requirements.txt, che include una serie di librerie fondamentali per il funzionamento del sistema:
+L’elenco delle dipendenze è definito nel file requirements.txt, che include una serie di librerie fondamentali per il funzionamento del sistema:
 
+\begin{itemize}
+    
 \item Flask per la gestione del server web tramite API.
 
 \item Ollama per l’elaborazione del linguaggio naturale,  utilizzato per l'analisi dei testi associati ai prodotti.
@@ -239,3 +245,5 @@ Una volta stabilita la connessione al database, l'attenzione si sposta sulla fas
 \item Librerie per la manipolazione e l'analisi dei dati, come numpy e scikit-learn.
 
 \item pypdf, che indica la funzionalità legata all'elaborazione di documenti PDF.
+
+\end{itemize}
