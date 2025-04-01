@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
-import { Message } from '../models/message.model';
-import { Conversation } from '../models/conversation.model';
-import { ApiService } from './api.service';
+import { Message } from '../models/Message.model';
+import { Conversation } from '../models/Conversation.model';
+import { ApiService } from './Api.service';
 
 @Injectable({
     providedIn: 'root'

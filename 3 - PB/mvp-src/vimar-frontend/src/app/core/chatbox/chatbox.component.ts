@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChatService } from '../../shared/services/chat.service';
-import { Message } from '../../shared/models/message.model';
-import { Conversation } from '../../shared/models/conversation.model';
+import { ChatService } from '../../shared/services/Chat.service';
+import { Message } from '../../shared/models/Message.model';
+import { Conversation } from '../../shared/models/Conversation.model';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chatbox',
-  templateUrl: './chatbox.component.html',
-  styleUrls: ['./chatbox.component.css'],
+  templateUrl: './Chatbox.component.html',
+  styleUrls: ['./Chatbox.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
