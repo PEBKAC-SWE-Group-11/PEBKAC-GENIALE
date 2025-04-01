@@ -336,6 +336,21 @@ describe('api.service', () => {
 
         const promise = await response;
         expect(promise).toEqual(questionMock);
-    })
+    });
+
+    it('should read the session', async() => {
+        const apiUrl = environment.apiUrl;
+        const sessionIdMock = '12345'
+        const sessionMock = { sessionId: sessionIdMock, isActive: true };
+        
+        const response = firstValueFrom(service.readSession(sessionIdMock));
+
+        const req = httpMock.expectOne(`${apiUrl}/api/session/${sessionIdMock}`);
+        expect(req.request.method).toBe('GET');
+
+        req.flush(sessionMock);
+        const promise = await response;
+        expect(promise).toEqual(sessionMock);
+    });
     
 });

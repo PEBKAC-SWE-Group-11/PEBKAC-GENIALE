@@ -19,6 +19,7 @@ describe('chat.service', () => {
         updateConversationTimestamp: jest.fn(),
         sendFeedback: jest.fn(),
         askQuestion: jest.fn(),
+        readSession: jest.fn(),
     };
 
     let chatService: ChatService;
@@ -82,6 +83,7 @@ describe('chat.service', () => {
     it('should update a session', async() => {
         const sessionIdMock = '12345';
         const sessionMock = { sessionId: sessionIdMock };
+        const updateSessionMock = { sessionId: sessionIdMock, isActive: true}
         const conversationMock = { conversationId: '1' };
         localStorage.setItem('sessionId', sessionIdMock);
         const conversationsMock: Conversation[] = [];
@@ -90,7 +92,8 @@ describe('chat.service', () => {
         apiServiceMock.updateSession.mockReturnValue(of({ success: true }))
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
         apiServiceMock.deleteConversation.mockReturnValue(null);
-        apiServiceMock.getConversations.mockReturnValue(of(conversationsMock))
+        apiServiceMock.getConversations.mockReturnValue(of(conversationsMock));
+        apiServiceMock.readSession.mockReturnValue(of(updateSessionMock));
 
         chatService = TestBed.inject(ChatService);
         await new Promise(resolve => setTimeout(resolve, 0));
@@ -100,9 +103,7 @@ describe('chat.service', () => {
 
     it('should load old conversations', async() => {
         const sessionIdMock = '12345';
-        const updateSessionIdMock = '123456';
         const sessionMock = { sessionId: sessionIdMock };
-        localStorage.setItem('sessionId', sessionIdMock);
         const conversationsMock: Conversation[] = [];
 
             conversationsMock.push({
