@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import logging
 import ollama
 from App.Infrastructure.Config.DBConfig import getDatabaseConnection
+from App.Core.Ports.ContextExtractorPort import ContextExtractorPort
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ TOP_SIMILAR_CHUNKS = 3
 TOP_PRODUCTS_FINAL = 5
 EMBEDDING_MODEL = 'mxbai-embed-large'
 
-class ContextExtractorService:
+class ContextExtractorService(ContextExtractorPort):
     def __init__(self):
         self.dbConnection = getDatabaseConnection()
         self.chunks = self.loadChunks()
@@ -141,11 +142,14 @@ class ContextExtractorService:
                 similarProducts[productId] = similarity
         
         similarProducts = sorted(similarProducts.items(), key=lambda x: x[1], reverse=True)
-
+        # return similarProducts[:n]
+        #########################################################################
+        # strategia di "penalizzazione" dei prodotti in base alla loro posizione#
+        #########################################################################
         processedSimilarProducts = {}
         position = 1
         for productId, similarity in similarProducts:
-            processedProduct = similarity / (position)
+            processedProduct = similarity / position # eventualmente incrementare penalizzazione (position**k)
             processedSimilarProducts[productId] = processedProduct
             position += 1
         return dict(list(processedSimilarProducts.items())[:n])

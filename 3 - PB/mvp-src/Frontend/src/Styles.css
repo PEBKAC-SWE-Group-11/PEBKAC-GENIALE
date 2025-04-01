@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .d-none {
+    display: none !important;
+  }
+
+  .d-flex {
+    display: flex !important;
+  }
+
+  @media (max-width: 768px) {
+    .d-md-none {
+      display: none !important;
+    }
+    
+    .d-md-block {
+      display: block !important;
+    }
+    
+    .d-md-flex {
+      display: flex !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .d-sm-none {
+      display: none !important;
+    }
+    
+    .d-sm-block {
+      display: block !important;
+    }
+    
+    .d-sm-flex {
+      display: flex !important;
+    }
+  }

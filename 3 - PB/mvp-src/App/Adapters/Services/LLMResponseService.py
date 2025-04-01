@@ -1,7 +1,8 @@
 import json
 import ollama
+from App.Core.Ports.LLMResponsePort import LLMResponsePort
 
-class LLMResponseService:
+class LLMResponseService(LLMResponsePort):
     def __init__(self, modelName='llama3.1:8b'):
         self.modelName = modelName
 

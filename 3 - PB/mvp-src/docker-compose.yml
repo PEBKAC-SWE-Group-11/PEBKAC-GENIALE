@@ -56,12 +56,14 @@ services:
     networks:
       - app_network
 
-  data_processing:
+  dataProcessing:
     build:
       context: .
-      dockerfile: Dockerfile.data_processing
+      dockerfile: Dockerfile.dataProcessing
+    image: mvp-src-dataprocessing 
     volumes:
-      - ./DataProcessing:/App/DataProcessing
+      - ./DataProcessing:/App/DataProcessing  # Monta l'intera directory
+      - ./DataProcessing/JsonData:/App/DataProcessing/JsonData  # Monta la sottodirectory JsonData
     depends_on:
       db:
         condition: service_healthy
@@ -73,6 +75,8 @@ services:
 volumes:
   postgres_data:
   data_volume:
+  dataprocessing:
+  jsondata:
 
 networks:
   app_network:
