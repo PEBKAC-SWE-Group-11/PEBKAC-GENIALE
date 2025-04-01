@@ -22,8 +22,5 @@ COPY . /DataProcessing
 # Set the PYTHONPATH to include /data_processing
 ENV PYTHONPATH=/DataProcessing
 
-#RUN chmod -R 777 DataProcessing
-#RUN mkdir -p /DataProcessing/JsonData && chmod -R 777 DataProcessing/JsonData
-# Run the main script in the data_processing folder
 RUN mkdir -p /App/DataProcessing/JsonData && chmod -R 777 /App/DataProcessing/JsonData
 CMD ["/Scraper.sh"]
