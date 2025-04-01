@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from './core/sidebar/sidebar.component';
-import { ChatboxComponent } from './core/chatbox/chatbox.component';
+import { SidebarComponent } from './core/sidebar/Sidebar.component';
+import { ChatboxComponent } from './core/chatbox/Chatbox.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  templateUrl: './App.component.html',
+  styleUrls: ['./App.component.css'],
   standalone: true,
   imports: [
     CommonModule,

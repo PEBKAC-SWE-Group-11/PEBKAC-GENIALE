@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../shared/services/api.service';
-import { Feedback } from '../../../shared/models/feedback.model';
+import { ApiService } from '../../../shared/services/Api.service';
+import { Feedback } from '../../../shared/models/Feedback.model';
 import { firstValueFrom } from 'rxjs';
 
 interface FeedbackWithMessage extends Feedback {
@@ -11,8 +11,8 @@ interface FeedbackWithMessage extends Feedback {
 
 @Component({
   selector: 'app-admin-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  templateUrl: './Dashboard.component.html',
+  styleUrls: ['./Dashboard.component.css'],
   standalone: true,
   imports: [CommonModule, RouterModule]
 })

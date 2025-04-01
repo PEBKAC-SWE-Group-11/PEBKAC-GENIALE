@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
-import { Message } from '../models/message.model';
-import { Conversation } from '../models/conversation.model';
-import { environment } from '../../../environments/environment';
+import { Message } from '../models/Message.model';
+import { Conversation } from '../models/Conversation.model';
+import { environment } from '../../../environments/Environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,8 @@ export class ApiService {
       { headers: this.getHeaders() });
   }
 
-  readSession(sessionId: string): Observable<{sessionId: string}> {
-    return this.http.get<{sessionId: string}>(`${this.apiUrl}/api/session/${sessionId}`, {
+  readSession(sessionId: string): Observable<{sessionId: string, isActive: boolean}> {
+    return this.http.get<{sessionId: string, isActive: boolean}>(`${this.apiUrl}/api/session/${sessionId}`, {
       headers: this.getHeaders()
     });
   }

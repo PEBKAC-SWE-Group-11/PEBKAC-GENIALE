@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChatService } from '../../shared/services/chat.service';
-import { Conversation } from '../../shared/models/conversation.model';
+import { ChatService } from '../../shared/services/Chat.service';
+import { Conversation } from '../../shared/models/Conversation.model';
 import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
+  templateUrl: './Sidebar.component.html',
+  styleUrls: ['./Sidebar.component.css'],
   standalone: true,
   imports: [CommonModule]
 })

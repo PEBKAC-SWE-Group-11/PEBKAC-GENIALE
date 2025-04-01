@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from '../../../shared/services/api.service';
+import { ApiService } from '../../../shared/services/Api.service';
 import { RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  templateUrl: './Login.component.html',
+  styleUrls: ['./Login.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule]
 })

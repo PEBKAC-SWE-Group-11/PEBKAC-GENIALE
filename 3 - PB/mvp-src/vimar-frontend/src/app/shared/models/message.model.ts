@@ -1,4 +1,4 @@
-import { Feedback } from './feedback.model';
+import { Feedback } from './Feedback.model';
 
 export interface Message {
   messageId: string;

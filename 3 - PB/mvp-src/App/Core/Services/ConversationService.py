@@ -20,7 +20,7 @@ class ConversationService:
         return sessionId
 
     def readSession(self, sessionId):
-        query = "SELECT * FROM Session WHERE sessionId = %s"
+        query = "SELECT sessionId, isActive FROM Session WHERE sessionId = %s"
         result = self.repository.fetchOne(query, (sessionId,))
         if result:
             return {
