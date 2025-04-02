@@ -6,7 +6,7 @@ chmod -R 777 /App/DataProcessing/JsonData
 echo "Starting Scrapy spider..."
 scrapy runspider /App/DataProcessing/Scraper/Scraper/spiders/Scraper.py -O /App/DataProcessing/JsonData/Data.json
 
-if [ -f "/App/DataProcessing/JsonData/NewData.json" ]; then
+if [ -f "/App/DataProcessing/JsonData/Data.json" ]; then
     echo "Scrapy completed successfully. File created: /App/DataProcessing/JsonData/Data.json"
 else
     echo "Scrapy failed or file not created: /App/DataProcessing/JsonData/Data.json"

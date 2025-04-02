@@ -142,11 +142,14 @@ class ContextExtractorService(ContextExtractorPort):
                 similarProducts[productId] = similarity
         
         similarProducts = sorted(similarProducts.items(), key=lambda x: x[1], reverse=True)
-
+        # return similarProducts[:n]
+        #########################################################################
+        # strategia di "penalizzazione" dei prodotti in base alla loro posizione#
+        #########################################################################
         processedSimilarProducts = {}
         position = 1
         for productId, similarity in similarProducts:
-            processedProduct = similarity / (position)
+            processedProduct = similarity / position # eventualmente incrementare penalizzazione (position**k)
             processedSimilarProducts[productId] = processedProduct
             position += 1
         return dict(list(processedSimilarProducts.items())[:n])
