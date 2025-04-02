@@ -1,0 +1,22 @@
+\section{Riassunto della riunione}
+Nella riuonione SAL odierna abbiamo discusso del completamento del progetto, parlado degli ultimi avanzamenti ottenuti e discutendo brevemente le ultime cose da terminare.
+Inizialmente abbiamo stabilito il calendario per le prossime tappe:
+\begin{itemize}
+    \item 4 aprile 2025: data in cui prevediamo di terminare l'applicativo e la documentazione, in maniera da poterci candidare per la revisione PB il giorno stesso;
+    \item Settimana dal 7 aprile al 16 aprile: revisione PB con il professor Cardin;
+    \item 8 aprile 2025: data in cui eventualmente si terrà una riunione di allineamento con l'azienda per chiarire eventuali dubbi;
+    \item 11 aprile 2025: data in cui si terrà il collaudo finale con il proponente e sarà diviso un due parti: la prima mezz'ora verrà fatta una presentazione agli stakeholder con una demo e 2/3 slide di supporto, mentre nella seconda mezz'ora si svolgerà un retrospettiva dello svolgimento del progetto;
+    \item Settimana dal 14 aprile al 20 aprile: revisione PB con il professor Vardanega.
+\end{itemize}
+Successivamente abbiamo discusso gli avanzamenti riguardo i vari componenti del progetto:
+\begin{itemize}
+    \item Infrastruttura (100\%): abbiamo realizzato un container separato per la componente di scraping, oltre ai container per database, frontend e backend, e tutti questi container vengono buildati con un unico comando \texttt{docker compose};
+    \item Frontend (100\%): abbiamo mantenuto la grafica adottata anche per il PoC, ma abbiamo apportato diverse migliorie. In particolare, durante questa settimana abbiamo implementato la permanenza nel database delle informazioni di conversazioni eliminate per un certo periodo di tempo dopo la loro eliminazione. Non siamo riusciti ad implementare la funzionalità di download delle conversazioni in formato PDF e non siamo riusciti ad implementare lo stream della risposta;
+    \item API (100\%): abbiamo realizzato tutti i test necessari, raggiungendo una coverage del 85-90\%. Come tecnologia per la realizzazione delle API abbiamo mantenuto flask;
+    \item Estrazione dati (100\%): abbiamo implementato la pipeline per automatizzare l'esecuzione di questo componente;
+    \item Database (100\%): abbiamo apportato delle modifiche per poter velocizzare la ricerca dei prodotti e per implementare alcune funzionalità del frontend;
+    \item LLM e indicizzazione (100\%): abbiamo svolto i test con le nuove domande fornite e i risultati ottenuti sono accettabili e hanno ricevuto un feedback positivo anche dal referente aziendale;
+    \item Documentazione (75\%): stiamo scrivendo in parallelo la Specifica Tecnica, il Manuale Utente e il Piano di Qualifica. Una volta terminati questi documenti, verrà realizzato il documento composto dai riferimenti ai vari deliverables.
+\end{itemize}
+Subito dopo abbiamo presentato brevemente l'applicativo terminato. Da questo è emerso che il componente di interrogazione è realizzato in maniera accettabile, ma potrebbe essere migliorato. \\
+Infine l'azienda ha fornito un feedback positivo relativamente al progetto nella sua interezza, dandoci la possibilità di candidarci per la revisione PB.
