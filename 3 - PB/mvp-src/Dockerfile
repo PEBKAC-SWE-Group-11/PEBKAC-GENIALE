@@ -13,6 +13,8 @@ COPY App/ .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+
+ENV PYTHONPATH=/App
 COPY ./Start.sh /Start.sh
 RUN chmod +x /Start.sh && dos2unix /Start.sh
 

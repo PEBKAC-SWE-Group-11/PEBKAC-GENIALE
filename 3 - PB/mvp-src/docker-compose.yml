@@ -6,7 +6,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
     volumes:
       - ./App:/App  
