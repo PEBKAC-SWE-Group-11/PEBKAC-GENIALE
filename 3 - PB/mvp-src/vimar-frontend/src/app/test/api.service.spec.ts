@@ -260,7 +260,7 @@ describe('api.service', () => {
             feedback_id: '1',
             messageId: '1',
             type: 'positive',
-            content: 'contet',
+            content: 'content',
             createdAt: ''
         }];
 

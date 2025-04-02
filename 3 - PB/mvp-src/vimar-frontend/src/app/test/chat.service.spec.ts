@@ -62,7 +62,7 @@ describe('chat.service', () => {
         apiServiceMock.createSession.mockReturnValue(of(sessionMock));
         apiServiceMock.deleteConversation.mockReturnValue(of(null));
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
-        apiServiceMock.getConversations.mockReturnValue(of(conversationArray))
+        apiServiceMock.getConversations.mockReturnValue(of(conversationArray));
         apiServiceMock.getMessages.mockReturnValue(of(mex));
 
 
