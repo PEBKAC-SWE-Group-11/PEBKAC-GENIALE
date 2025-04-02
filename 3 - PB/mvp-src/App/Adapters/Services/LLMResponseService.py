@@ -8,7 +8,7 @@ class LLMResponseService(LLMResponsePort):
 
     def getLlmResponse(self, conversationPile, question, textsToEmbed, etimToEmbed):
         formattedMessages = []
-        for message in conversationPile:
+        for message in conversationPile[:-1]:
             role = "assistant" if message["sender"] == "assistant" else "user"
             formattedMessages.append({
                 "role": role,
