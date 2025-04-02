@@ -1,0 +1,26 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /DataProcessing
+
+RUN apt-get update && apt-get install -y \
+    dos2unix \
+    && apt-get clean
+
+# Copy only the requirements file first
+COPY DataProcessing/requirements.txt /DataProcessing/
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./Scraper.sh /Scraper.sh
+RUN chmod +x /Scraper.sh && dos2unix /Scraper.sh
+
+# Copy the rest of the application code
+COPY . /DataProcessing
+
+# Set the PYTHONPATH to include /data_processing
+ENV PYTHONPATH=/DataProcessing
+
+RUN mkdir -p /App/DataProcessing/JsonData && chmod -R 777 /App/DataProcessing/JsonData
+CMD ["/Scraper.sh"]

@@ -26,6 +26,7 @@ COPY Config/Nginx/Nginx.conf /etc/nginx/conf.d/
 # Copy the build output to Nginx's HTML folder
 COPY --from=build /App/dist/frontend/browser/ /usr/share/nginx/html
 
+
 # Expose the port Nginx runs on
 EXPOSE 4200
 

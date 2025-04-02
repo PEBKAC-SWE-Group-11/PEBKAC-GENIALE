@@ -23,7 +23,7 @@ def removeTranslations(products):
         if 'documentation' in prod:  # Check if 'documentation' key exists
             for doc in prod['documentation']:
                 docNames = doc.split("/")[-1]
-                if not any(lang in docNames for lang in ['FR', 'EN', 'DE', 'ES', 'EL', 'AR']) and docNames[-4:] != '.mp4':
+                if not any(lang in docNames for lang in ['FR', 'EN', 'DE', 'ES', 'EL', 'AR']) and docNames.lower().endswith('.pdf'):
                     cleaned['documentation'].append(doc)
 
     return cleanedProducts
