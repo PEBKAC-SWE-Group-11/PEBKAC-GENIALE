@@ -6,7 +6,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<any> => {
   if (req.url.includes('/admin/')) {
-    const token = localStorage.getItem('admin_token');
+    const token = localStorage.getItem('adminToken');
     
     if (token) {
       const authReq = req.clone({
