@@ -195,14 +195,7 @@ const config = {
   // watchman: true,
 };
 
-/*module.exports = config;
-
 module.exports = {
-  preset: "jest-preset-angular",
-  setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
-}*/
-
-export default {
   preset: 'jest-preset-angular',
   globalSetup: 'jest-preset-angular/global-setup',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
