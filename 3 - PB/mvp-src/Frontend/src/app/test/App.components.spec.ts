@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { AppComponent } from "../App.component";
 import { Router } from "@angular/router";
 
-describe('app.components', () => {
+describe('App.components', () => {
     let appComponent: AppComponent;
 
     let routerMock = {
@@ -35,5 +35,5 @@ describe('app.components', () => {
         window.innerWidth = 768
         appComponent.closeSidebarOnMobile();
         expect(appComponent.sidebarVisible).toEqual(false);
-    })
-})
+    });
+});

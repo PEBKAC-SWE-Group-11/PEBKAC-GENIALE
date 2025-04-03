@@ -3,10 +3,10 @@ import { TestBed } from "@angular/core/testing";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { Conversation } from '../Shared/Models/Conversation.model';
 import { Message } from '../Shared/Models/Message.model';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../Environment/Environment';
 
-describe('api.service', () => {   
+describe('Api.service', () => {   
     let service: ApiService;
     let httpMock: HttpTestingController;
 
@@ -81,7 +81,7 @@ describe('api.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test'
-        })
+        });
 
         conversationsMock.push({
             conversationId: '2',
@@ -90,7 +90,7 @@ describe('api.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test2'
-        })
+        });
 
         conversationsMock.push({
             conversationId: '3',
@@ -99,7 +99,7 @@ describe('api.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test3'
-        })
+        });
 
         const response = firstValueFrom(service.getConversations(sessionId));
 
@@ -309,5 +309,4 @@ describe('api.service', () => {
         const promise = await response;
         expect(promise).toEqual(sessionMock);
     });
-    
 });

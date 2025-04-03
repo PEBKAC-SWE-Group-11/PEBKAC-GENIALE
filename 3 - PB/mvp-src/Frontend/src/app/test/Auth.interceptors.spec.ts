@@ -2,7 +2,7 @@ import { of, Observable, firstValueFrom } from "rxjs";
 import { AuthInterceptor } from "../Core/Interceptors/Auth.interceptor";
 import { HttpRequest, HttpResponse, HttpEvent } from "@angular/common/http";
 
-describe('auth.interceptors', () => {
+describe('Auth.interceptors', () => {
     beforeEach(() => {
         localStorage.clear();
     });
@@ -16,7 +16,6 @@ describe('auth.interceptors', () => {
             return of();
         });
 
-        
         const result = AuthInterceptor(req, nextMock);
 
         const modifiedRequest = nextMock.mock.calls[0][0] as HttpRequest<unknown>;

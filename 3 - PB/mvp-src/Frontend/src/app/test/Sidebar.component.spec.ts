@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ChatService } from '../Shared/Services/Chat.service';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Message } from '../Shared/Models/Message.model';
 import { Conversation } from '../Shared/Models/Conversation.model';
 import { SidebarComponent } from '../Core/Sidebar/Sidebar.component';
 
-describe('sidebar.component', () => {
+describe('Sidebar.component', () => {
     let sidebarComponent: SidebarComponent;
 
     let chatServiceMock = { 

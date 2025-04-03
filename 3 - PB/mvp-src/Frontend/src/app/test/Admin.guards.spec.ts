@@ -1,10 +1,8 @@
-import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CanActivateFn } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { AdminGuard } from '../Core/Guards/Admin.guard';
 
-describe('admin.guards', () => {
+describe('Admin.guards', () => {
     let routerMock = {
         navigate: jest.fn(),
     }

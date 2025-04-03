@@ -4,7 +4,7 @@ import { ApiService } from "../Shared/Services/Api.service";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
 
-describe('dashboard.component', () => {
+describe('Dashboard.component', () => {
     let loginComponent: AdminLoginComponent;
     
     let apiServiceMock = {

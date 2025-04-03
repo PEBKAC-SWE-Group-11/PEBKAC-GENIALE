@@ -2,11 +2,10 @@ import { ChatboxComponent } from "../Core/Chatbox/Chatbox.component";
 import { Message } from "../Shared/Models/Message.model";
 import { Conversation } from "../Shared/Models/Conversation.model";
 import { ChatService } from "../Shared/Services/Chat.service";
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { TestBed } from "@angular/core/testing";
-import { of } from 'rxjs';
 
-describe('chatbox.component', () => {
+describe('Chatbox.component', () => {
     let chatboxComponent: ChatboxComponent;
 
     let chatServiceMock = {
@@ -39,8 +38,6 @@ describe('chatbox.component', () => {
     it('should create a chatbox', () => {
         expect(chatboxComponent).toBeTruthy();
     });
-
-    //ngOnInit
 
     it('should update messaes$', async() => {
         const messageMock: Message[] = [];
@@ -92,9 +89,6 @@ describe('chatbox.component', () => {
         expect(mexObserver.length).toEqual(0);
     });
 
-
-    //ngAfterViewChecked
-
     it('should scroll to bottom', async() => {
         const messageMock: Message[] = [];
         for(let i = 0; i<3; ++i){
@@ -125,9 +119,6 @@ describe('chatbox.component', () => {
 
         expect(scrollSpy).toHaveBeenCalled();
     });
-
-    
-    //sendMessage
 
     it('should send a message', async() => {
         chatboxComponent.ngOnInit();
@@ -174,9 +165,6 @@ describe('chatbox.component', () => {
         expect(chatServiceMock.sendMessage).not.toHaveBeenCalled();
     });
 
-
-    //sendPositiveFeedback
-
     it('should send a positive feedback', async() => {
         const feedbackMessageIdMock = '0';
         const feedbackIsPositiveMock = true;
@@ -192,9 +180,6 @@ describe('chatbox.component', () => {
         expect(chatboxComponent.showFeedbackPopup).toEqual(showFeedbackPopupMock);
     });
 
-
-    //sendNegativeFeedback
-
     it('should send a negative feedback', async() => {
         const feedbackMessageIdMock = '0';
         const feedbackIsPositiveMock = false;
@@ -209,9 +194,6 @@ describe('chatbox.component', () => {
         expect(chatboxComponent.feedbackContent).toEqual(feedbackContentMock);
         expect(chatboxComponent.showFeedbackPopup).toEqual(showFeedbackPopupMock);
     });
-
-
-    //submitFeedback
 
     it('should submit a feedback', async() => {
         chatboxComponent.ngOnInit();
@@ -232,9 +214,6 @@ describe('chatbox.component', () => {
         expect(chatServiceMock.sendFeedback).not.toHaveBeenCalled();
     });
 
-
-    //closeFeedbackPopup
-
     it('should call closeFeedbackPopup', async() => {
         chatboxComponent.ngOnInit();
         chatboxComponent.showFeedbackPopup = true;
@@ -244,9 +223,6 @@ describe('chatbox.component', () => {
         expect(chatboxComponent.showFeedbackPopup).toEqual(false);
         expect(chatboxComponent.feedbackMessageId).toBeNull();
     });
-
-
-    //remainingFeedbackChars
 
     it('should calculate remaining feedback chars', () => {
         chatboxComponent.feedbackContent = 'test';

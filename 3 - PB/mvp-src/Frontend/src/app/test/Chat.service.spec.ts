@@ -7,7 +7,7 @@ import { Conversation } from '../Shared/Models/Conversation.model';
 import { Message } from '../Shared/Models/Message.model';
 import { of } from 'rxjs';
 
-describe('chat.service', () => {
+describe('Chat.service', () => {
     let apiServiceMock = {
         createSession: jest.fn(),
         deleteConversation: jest.fn(),
@@ -51,13 +51,14 @@ describe('chat.service', () => {
             toDelete: false,
             title: 'test1'
         });
+
         const mex = {
             messageId: '0',
             conversationId: conversationId,
             sender: 'user',
             content: 'ciao',
             createdAt: new Date().toISOString
-        }
+        };
 
         apiServiceMock.createSession.mockReturnValue(of(sessionMock));
         apiServiceMock.deleteConversation.mockReturnValue(of(null));
@@ -151,7 +152,7 @@ describe('chat.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test1'
-        })
+        });
 
         expect(promise[1]).toEqual({
             conversationId: '2',
@@ -160,7 +161,7 @@ describe('chat.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test2'
-        })
+        });
 
         expect(promise[2]).toEqual({
             conversationId: '3',
@@ -169,7 +170,7 @@ describe('chat.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test3'
-        })
+        });
     });
 
     it('should not create a conversation without a session', async() => {
@@ -227,7 +228,7 @@ describe('chat.service', () => {
             updatedAt: '',
             toDelete: false,
             title: 'test0'
-        })
+        });
 
         apiServiceMock.createConversation.mockReturnValue(of(conversationMock));
         apiServiceMock.getConversations.mockReturnValue(of(convArray));
@@ -346,5 +347,4 @@ describe('chat.service', () => {
         expect(messages[1].conversationId).toEqual('0');
         expect(messages[1].content).toEqual('test');
     });
-
 });

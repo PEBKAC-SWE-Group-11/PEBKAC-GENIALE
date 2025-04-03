@@ -4,7 +4,7 @@ import { AdminDashboardComponent } from "../Features/Admin/Dashboard/Dashboard.c
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
-describe('dashboard.component', () => {
+describe('Dashboard.component', () => {
     let dashboard: AdminDashboardComponent;
     
     let apiServiceMock = {
@@ -25,7 +25,7 @@ describe('dashboard.component', () => {
 
     let routerMock = {
         navigate: jest.fn(),
-    }
+    };
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe('dashboard.component', () => {
         });
 
         dashboard = new AdminDashboardComponent(apiServiceMock as any, routerMock as any);
-    })
+    });
 
     it('should build an instance', async() => {
         expect(dashboard).toBeTruthy();
@@ -144,7 +144,5 @@ describe('dashboard.component', () => {
         const formattedDate = dashboard.formatDate(date.toString());
 
         expect(formattedDate).toEqual(date.toLocaleString('it-IT'));
-    })
-    
-
-})
+    });
+});
