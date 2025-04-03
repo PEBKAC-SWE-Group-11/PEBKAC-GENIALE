@@ -20,7 +20,7 @@ class TestEmbeddingService(unittest.TestCase):
         result = service.get_embeddings(prompt)
 
         self.assertEqual(result, [0.1, 0.2, 0.3])
-        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "nomic-embed-text", "prompt": prompt})
+        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "mxbai-embed-large", "prompt": prompt})
 
     @patch('app.adapters.services.embedding_service.requests.post')
     def test_get_embeddings_no_embedding(self, mock_post):
@@ -37,7 +37,7 @@ class TestEmbeddingService(unittest.TestCase):
             service.get_embeddings(prompt)
 
         self.assertEqual(str(context.exception), "Failed to generate embedding for the query.")
-        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "nomic-embed-text", "prompt": prompt})
+        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "mxbai-embed-large", "prompt": prompt})
 
     @patch('app.adapters.services.embedding_service.requests.post')
     def test_get_embeddings_failure(self, mock_post):
@@ -54,7 +54,7 @@ class TestEmbeddingService(unittest.TestCase):
             service.get_embeddings(prompt)
 
         self.assertEqual(str(context.exception), "Failed to get embedding: 500 - Internal Server Error")
-        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "nomic-embed-text", "prompt": prompt})
+        mock_post.assert_called_once_with(OLLAMA_EMBED_URL, json={"model": "mxbai-embed-large", "prompt": prompt})
 
 if __name__ == '__main__':
     unittest.main()

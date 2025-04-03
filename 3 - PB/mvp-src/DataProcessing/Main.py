@@ -1,8 +1,8 @@
 import logging
 import os
-from ConnectionDB import getDBConnection
-from CreateTable import createTables
-from DataSaving import writeProductsInDb
+from DataProcessing.ConnectionDB import getDBConnection
+from DataProcessing.CreateTable import createTables
+from DataProcessing.DataSaving import writeProductsInDb
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

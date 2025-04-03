@@ -1,12 +1,12 @@
 import json
 import logging
-from ConnectionDB import getDBConnection
+from DataProcessing.ConnectionDB import getDBConnection
 import re
 import os
 from typing import Any
 from psycopg2.extensions import connection as pgConnection
-import ProductsElaboration
-from ChunkElaboration import processLinksToChunks
+import DataProcessing.ProductsElaboration
+from DataProcessing.ChunkElaboration import processLinksToChunks
 
 # Configura il logging
 logging.basicConfig(level=logging.INFO)
@@ -77,11 +77,7 @@ def insertChunksFromLinks(cursor: Any, links: list) -> None:
         # Inserisce i chunk nel database
         for i, chunk in enumerate(chunks, 1):
             print(f"Inserimento chunk {i}/{len(chunks)}: {chunk['chunk'][:30]}...")
-            cursor.execute("""
-                INSERT INTO Chunk (filename, chunk, embedding)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (filename, chunk) DO NOTHING;
-            """, (
+            cursor.execute("""INSERT INTO Chunk (filename, chunk, embedding) VALUES (%s, %s, %s) ON CONFLICT (filename, chunk) DO NOTHING;""", (
                 chunk.get('filename', 'unknown'),
                 chunk['chunk'],
                 chunk['vector']

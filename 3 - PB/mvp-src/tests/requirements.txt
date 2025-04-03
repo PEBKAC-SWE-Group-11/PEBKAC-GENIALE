@@ -1,0 +1,9 @@
+flask
+ollama
+psycopg2-binary
+requests
+flask-cors
+numpy
+pypdf
+scikit-learn
+coverage

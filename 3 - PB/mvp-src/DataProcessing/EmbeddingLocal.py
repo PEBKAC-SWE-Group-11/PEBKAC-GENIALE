@@ -22,4 +22,4 @@ def getEmbedding(text):
             
     except Exception as e:
         logger.error(f"Errore durante la generazione dell'embedding: {e}")
-        raise 
+        raise Exception("Errore durante la generazione dell'embedding") from e

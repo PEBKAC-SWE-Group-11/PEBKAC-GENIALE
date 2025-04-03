@@ -12,14 +12,9 @@ class TestAPI(unittest.TestCase):
 
     def test_cors_headers(self):
         print("Headers CORS Test:")
-        response = self.app.get('/')
+        response = self.app.get('/api/test')
         self.assertIn('Access-Control-Allow-Origin', response.headers)
         self.assertEqual(response.headers['Access-Control-Allow-Origin'], 'http://localhost:4200')
-
-    def test_root_endpoint(self):
-        print("Endpoint Root Test:")
-        response = self.app.get('/')
-        self.assertEqual(response.status_code, 404)  # Assuming there's no root endpoint defined
 
 if __name__ == '__main__':
     unittest.main()

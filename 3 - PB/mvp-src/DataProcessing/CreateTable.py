@@ -1,6 +1,6 @@
 import logging
 from psycopg2.extensions import connection as pgConnection
-from EmbeddingLocal import getEmbedding
+from DataProcessing.EmbeddingLocal import getEmbedding
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
