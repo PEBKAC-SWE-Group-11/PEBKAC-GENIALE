@@ -46,11 +46,7 @@ class ConversationService:
 
     def readConversations(self, sessionId):
         try:
-            query = """
-                SELECT * FROM Conversation 
-                WHERE sessionId = %s AND (toDelete = FALSE OR toDelete IS NULL) 
-                ORDER BY updatedAt DESC
-            """
+            query = """ SELECT * FROM Conversation WHERE sessionId = %s AND (toDelete = FALSE OR toDelete IS NULL) ORDER BY updatedAt DESC """
             results = self.repository.fetchAll(query, (sessionId,))
             
             formattedConversations = []
