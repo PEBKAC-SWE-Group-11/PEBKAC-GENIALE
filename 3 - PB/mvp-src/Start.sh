@@ -17,4 +17,6 @@ until pg_isready -h db -p 5432 -U postgres; do
   sleep 1
 done
 
-python /App/Main.py
+
+# Avvia l'applicazione Flask con Gunicorn
+gunicorn -w 4 -b 0.0.0.0:5001 Main:flaskApp
