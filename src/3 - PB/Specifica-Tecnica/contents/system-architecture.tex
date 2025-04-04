@@ -18,6 +18,13 @@ Gli \textbf{adapters\textsubscript{G}} formano il livello più esterno dell'appl
     \item Output Adapters\textsubscript{G}: invocano operazioni sulle Outbound Port, traducendo le azioni del core\textsubscript{G} in operazioni comprensibili per il mondo esterno.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/HEX.png}
+    \caption{Rappresentazione dell'architettura esagonale}
+    \label{fig:architettura}
+\end{figure}
+
 \subsection{Componenti}
 L'architettura del sistema è suddivisa in:
 \begin{itemize}
@@ -165,7 +172,8 @@ Seguendo la scia del paragrago precedente relativo agli scenari, l'analisi dei d
  Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
 \newline La comunicazione tra il Core e l'ambiente esterno è gestita attraverso le Porte, che definiscono le interfacce di interazione. Queste costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. Le Porte rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
 \newline Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dalle Porte, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
-\subsubsubsection{Core - ConversationService}
+\subsubsubsection{Componenti}
+\subsubsubsubsection{CORE - ConversationService}
 Nel core del sistema, la classe \texttt{ConversationService} si occupa principalmente della gestione delle sessioni, delle conversazioni, dei messaggi e dei feedback.
 
 \subsubsection*{Gestione delle Sessioni}
@@ -202,7 +210,7 @@ Infine, la gestione dei feedback si articola in diversi metodi:
     \item \texttt{readFeedbackWithComments()} recupera tutti i feedback che contengono anche dei commenti.
 \end{itemize}
 
-\subsubsubsection{Adattatori - DBRepository}
+\subsubsubsubsection{ADAPTER - DBRepository}
 Gli adattatori sono responsabili della comunicazione tra il core del sistema e il database. In particolare, \texttt{DBRepository} si occupa dell'esecuzione delle query SQL e della gestione dei risultati:
 \begin{itemize}
     \item \texttt{executeQuery(query, params)} esegue una query SQL passando i parametri necessari.
@@ -211,8 +219,51 @@ Gli adattatori sono responsabili della comunicazione tra il core del sistema e i
     \item \texttt{close()} chiude la connessione al database.
 \end{itemize}
 
-\subsubsubsection{Adattatori - APIController}
-Gli adattatori includono anche il \texttt{APIController}, che gestisce gli endpoint delle API esposte dal sistema. Esistono vari endpoint per ciascuna delle operazioni descritte, a partire da quelli di test:
+
+
+\subsubsubsubsection{ADAPTER - ContextExtractorService}
+Il \texttt{ContextExtractorService} ha il compito di individuare i prodotti e le porzioni di documentazione (chunk) presenti nel database che risultano più pertinenti e coerenti con il prompt fornito dall'utente.\\ Il processo di ricerca \`e stato diviso in 2 macro-operazioni:
+\begin{enumerate}
+    \item Ricerca prodotti pi\`u coerenti;
+    \item Ricerca chunk pi\`u coerenti, tra quelli che appartengono ai prodotti selezionati.
+\end{enumerate}
+All'interno del file \texttt{ContextExtractorService.py} ci sono delle costanti che possono essere modificate per ``scalare" la soluzione (ad esempio, avendo a disposizione pi\`u potenza di calcolo):
+\begin{enumerate}
+    \item \texttt{SIMILARITY\_THRESHOLD} \`e la soglia sotto la quale un prodotto non viene considerato;
+    \item \texttt{TOP\_SIMILAR\_CHUNKS} \`e il numero di chunk che vengono inseriti come contesto del prompt;
+    \item \texttt{TOP\_PRODUCTS\_FINAL} \`e il numero di prodotti ``coerenti" dai quali documenti saranno estratti i \texttt{TOP\_SIMILAR\_CHUNKS}.
+\end{enumerate}
+\texttt{ContextExtractorService} contiene i seguenti metodi:
+\begin{itemize}
+    \item \texttt{processUserInput(userInput)} \`e il metodo principale della classe e orchestra l'estrazione dei dati coerenti dal Database.\\ \texttt{userInput} \`e il testo del prompt fatto dall'utente.
+    \item \texttt{getStructuredProducts()} estrae dal Database le informazioni riguardanti id, titolo, descrizione di ogni prodotto, insieme a 3 vettori che rappresentano rispettivamente l'informazione di ``id prodotto", ``id e titolo prodotto" e ``id, titolo e descrizione prodotto".
+    \item \texttt{findTopNSimilarProducts(prodList, promptVector, n)} trova gli \texttt{n} prodotti pi\`u simili al prompt, utilizzando i vettori sopra citati.
+    \item \texttt{aggregateSimilarities(similarProducts)} aggrega le informazioni estratte da \texttt{findTopNSimilarProducts}, in questo modo per ogni prodotto si avr\`a un unico punteggio di similarit\`a.
+    \item \texttt{selectChunksEmbeddings(chunks, aggregatedSimilarProduct)} seleziona i chunk dei documenti associati ai prodotti pi\`u simili, restituendo i vettori di embedding per il confronto.
+    \item \texttt{findTopNSimilar(chunksEmbeddings, userEmbeddings, n)} trova gli \texttt{n} chunk pi\`u simili rispetto al prompt utente confrontando gli embedding tramite similarit\`a coseno.
+    \item \texttt{extractEtim()} estrae dal Database l'informazione relativa agli ETIM (dati tecnici) dei prodotti.
+    \item \texttt{selectEtim(etim, textsToEmbed)} associa le informazioni ETIM ai chunk selezionati come contesto, restituendo un dizionario che mappa gli identificativi di prodotto ai relativi codici ETIM.
+    \item \texttt{getEmbedding(prompt)} utilizza il modello di embedding \texttt{mxbai-embed-large} per generare un vettore di embedding a partire dal testo del prompt.
+    \item \texttt{getDocumentsByProductId(productId)} recupera dal Database i documenti associati a un determinato prodotto, includendo il titolo del prodotto e il titolo del documento.
+    \item \texttt{loadChunks()} estrae dal Database tutti i chunk di documentazione, inclusi gli embedding associati, per consentire la ricerca di contenuti pertinenti.
+\end{itemize}
+\subsubsubsubsection{ADAPTER - LLMResponseService}
+Il \texttt{LLMResponseService} ha il compito di interfacciarsi con un modello di linguaggio per ottenere una risposta contestualizzata basata su una conversazione in corso, una domanda utente e un insieme di informazioni di contesto estratte dal Database.
+Negli attributi della classe \`e possibile configurare il modello di linguaggio, il default \`e \texttt{llama3.1:8b}.
+\texttt{LLMResponseService} contiene il seguente metodo:
+\begin{itemize}
+    \item \texttt{getLlmResponse(conversationPile, question, textsToEmbed, etimToEmbed)} si occupa di formattare i messaggi della conversazione, aggregare il contesto rilevante e inviare la richiesta al modello LLM per ottenere una risposta.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/BackendUML.png}
+    \caption{Schema delle classi utilizzate nel backend}
+    \label{fig:architettura}
+\end{figure}
+
+\end{itemize}
+
+\subsubsubsubsection{API - APIController}
+Gli adattatori includono anche \texttt{APIController}, che gestisce gli endpoint delle API esposte dal sistema. Esistono vari endpoint per ciascuna delle operazioni descritte, a partire da quelli di test:
 \begin{itemize}
     \item \texttt{testApi()} che consente di verificare il funzionamento generale del sistema.
 \end{itemize}
@@ -253,78 +304,89 @@ Gli adattatori includono anche il \texttt{APIController}, che gestisce gli endpo
 
 Gli endpoint sono protetti da un sistema di sicurezza, con il decoratore \texttt{requireAPIKey(f)} che garantisce l’autenticazione tramite chiave API. Inoltre, la configurazione di CORS permette di gestire le richieste provenienti dal frontend.
 
-\subsubsubsection{Adattatori - ContextExtractorService}
-Il \texttt{ContextExtractorService} ha il compito di individuare i prodotti e le porzioni di documentazione (chunk) presenti nel database che risultano più pertinenti e coerenti con il prompt fornito dall'utente.\\ Il processo di ricerca \`e stato diviso in 2 macro-operazioni:
-\begin{enumerate}
-    \item Ricerca prodotti pi\`u coerenti;
-    \item Ricerca chunk pi\`u coerenti, tra quelli che appartengono ai prodotti selezionati.
-\end{enumerate}
-All'interno del file \texttt{ContextExtractorService.py} ci sono delle costanti che possono essere modificate per ``scalare" la soluzione (ad esempio, avendo a disposizione pi\`u potenza di calcolo):
-\begin{enumerate}
-    \item \texttt{SIMILARITY\_THRESHOLD} \`e la soglia sotto la quale un prodotto non viene considerato;
-    \item \texttt{TOP\_SIMILAR\_CHUNKS} \`e il numero di chunk che vengono inseriti come contesto del prompt;
-    \item \texttt{TOP\_PRODUCTS\_FINAL} \`e il numero di prodotti ``coerenti" dai quali documenti saranno estratti i \texttt{TOP\_SIMILAR\_CHUNKS}.
-\end{enumerate}
-\texttt{ContextExtractorService} contiene i seguenti metodi:
-\begin{itemize}
-    \item \texttt{processUserInput(userInput)} \`e il metodo principale della classe e orchestra l'estrazione dei dati coerenti dal Database.\\ \texttt{userInput} \`e il testo del prompt fatto dall'utente.
-    \item \texttt{getStructuredProducts()} estrae dal Database le informazioni riguardanti id, titolo, descrizione di ogni prodotto, insieme a 3 vettori che rappresentano rispettivamente l'informazione di ``id prodotto", ``id e titolo prodotto" e ``id, titolo e descrizione prodotto".
-    \item \texttt{findTopNSimilarProducts(prodList, promptVector, n)} trova gli \texttt{n} prodotti pi\`u simili al prompt, utilizzando i vettori sopra citati.
-    \item \texttt{aggregateSimilarities(similarProducts)} aggrega le informazioni estratte da \texttt{findTopNSimilarProducts}, in questo modo per ogni prodotto si avr\`a un unico punteggio di similarit\`a.
-    \item \texttt{selectChunksEmbeddings(chunks, aggregatedSimilarProduct)} seleziona i chunk dei documenti associati ai prodotti pi\`u simili, restituendo i vettori di embedding per il confronto.
-    \item \texttt{findTopNSimilar(chunksEmbeddings, userEmbeddings, n)} trova gli \texttt{n} chunk pi\`u simili rispetto al prompt utente confrontando gli embedding tramite similarit\`a coseno.
-    \item \texttt{extractEtim()} estrae dal Database l'informazione relativa agli ETIM (dati tecnici) dei prodotti.
-    \item \texttt{selectEtim(etim, textsToEmbed)} associa le informazioni ETIM ai chunk selezionati come contesto, restituendo un dizionario che mappa gli identificativi di prodotto ai relativi codici ETIM.
-    \item \texttt{getEmbedding(prompt)} utilizza il modello di embedding \texttt{mxbai-embed-large} per generare un vettore di embedding a partire dal testo del prompt.
-    \item \texttt{getDocumentsByProductId(productId)} recupera dal Database i documenti associati a un determinato prodotto, includendo il titolo del prodotto e il titolo del documento.
-    \item \texttt{loadChunks()} estrae dal Database tutti i chunk di documentazione, inclusi gli embedding associati, per consentire la ricerca di contenuti pertinenti.
-\end{itemize}
-\subsubsubsection{Adattatori - LLMResponseService}
-Il \texttt{LLMResponseService} ha il compito di interfacciarsi con un modello di linguaggio per ottenere una risposta contestualizzata basata su una conversazione in corso, una domanda utente e un insieme di informazioni di contesto estratte dal Database.
-Negli attributi della classe \`e possibile configurare il modello di linguaggio, il default \`e \texttt{llama3.1:8b}.
-\texttt{LLMResponseService} contiene il seguente metodo:
-\begin{itemize}
-    \item \texttt{getLlmResponse(conversationPile, question, textsToEmbed, etimToEmbed)} si occupa di formattare i messaggi della conversazione, aggregare il contesto rilevante e inviare la richiesta al modello LLM per ottenere una risposta.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/BackendUML.png}
-    \caption{Schema delle classi utilizzate nel backend}
-    \label{fig:architettura}
-\end{figure}
-
-\end{itemize}
-
 \subsubsection{Database}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/productER.er.jpg}
-    \includegraphics[width=\textwidth]{images/MessagesER.er.jpg}
+    \includegraphics[width=\textwidth]{images/DB.png}
     \caption{Modello Entit\`a-Relazione}
     \label{fig:Diagramma ER}
 \end{figure}
 
+Nel database relazionale sono presenti sette tabelle per la persistenza delle informazioni da utilizzare nella RAG e delle conversazioni degli utenti.
+\newline
+Per quanto riguarda i dati relativi ai prodotti da utilizzare nelle fasi di ricerca del contesto per il modello di linguaggio ci sono tre tabelle di seguito descritte.
 \begin{itemize}
-\item Il file principale è \texttt{}{Main.py}, che funge da punto di ingresso per l'applicazione. Qui vengono orchestrate le operazioni principali, come l'inizializzazione del database e il caricamento dei dati.
+    \item \textbf{Product}: immagazzina le informazioni primarie prelative ai prodotti disponibili nel sito web
+    \begin{itemize}
+        \item id: l'id del prodotto, in formato testuale;
+        \item title: il titolo o nome del prodotto;
+        \item description: la breve descrizione del prodotto presente nella pagina web dedicata;
+        \item etim: i dati tecnici del prodotto presenti nella pagina web dedicata, sottoforma di stringa ("key: value;") a causa della variabilità dei dati disponibili a seconda del tipo di prodotto;
+        \item idVector: la vettorizzazione dell'id del prodotto per le ricerche;
+        \item idTitleVector: la vettorizzazione dell'id insieme al titolo del prodotto per le ricerche;
+        \item idTitleDescrVector: la vettorizzazione dell'insieme di id, titolo e descrizione del prodotto per le ricerche.
+    \end{itemize}
+    \item \textbf{Document}: immagazzina le informazioni dei documenti estratti dalle pagine web dei prodotti
+     \begin{itemize}
+        \item id: id univoco;
+        \item title: il titolo del documento;
+        \item productId: l'id del prodotto a cui fa riferimento.
+    \end{itemize}
+    \item \textbf{Chunk}: immagazzina le informazioni dei chunk creati a partire dai documenti
+     \begin{itemize}
+        \item id: id univoco;
+        \item filename: il titolo del documento da cui è stato estratto il chunk;
+        \item chunk: il testo del chunk;
+        \item embedding: la vettorizzazione del chunk per le ricerche.
+    \end{itemize} 
 \end{itemize}
-Uno degli aspetti chiave dell'architettura è la gestione del database, che viene affidata a diversi moduli:
+Per quanto riguarda invece il salvataggio e la permanenza delle conversazioni degli utenti vengono usate quattro tabelle di seguito descritte.
+\begin{itemize}
+    \item \textbf{Session}: contiene le sessioni, ovvero le connessioni degli utenti
+    \begin{itemize}
+        \item sessionId: id univoco che identifica la sessione dell'utente;
+        \item createdAt: data e ora della creazione della sessione;
+        \item updatedAt: data e ora dell'ultima modifica alla sessione;
+        \item isActive: valore booleano che indica se la sessione sia ancora attiva o meno, di default a true, diventa automaticamente false dopo 30 giorni di inattività.
+    \end{itemize} 
+    \item \textbf{Conversation}: contiene le conversazioni degli utenti
+    \begin{itemize}
+        \item conversationId: id univoco;
+        \item sessionId: id della sessione a cui appartiene;
+        \item createdAt: data e ora della creazione della conversazione;
+        \item updatedAt: data e ora dell'ultima modifica alla conversazione;
+        \item toDelete: valore booleano che indica se la conversazione vada eliminata o meno, può diventare true su scelta dell'utente o allo scadere della sessione associata.
+    \end{itemize} 
+    \item \textbf{Message}: contiene tutti i messaggi inviati sia dagli utenti che dal modello LLM
+    \begin{itemize}
+        \item messageId: id univoco;
+        \item conversationId: id della conversazioen a cui appartiene;
+        \item sender: indica se il messaggio è stato inviato dall'utente o è una risposta del modello;
+        \item content: il contenuto del messaggio stesso;
+        \item createdAt: data e ora della creazione del messaggio.
+    \end{itemize} 
+    \item \textbf{Feedback}: contiene i feedback lasciati dagli utenti
+    \begin{itemize}
+        \item feedbakcId: id univoco;
+        \item messageId: id del messaggio su cui è stato creato il feedback;
+        \item isHelpful: booleano, indica un feedback positivo o negativo;
+        \item content: il contenuto del feedback qualora l'utente desiderasse lasciarlo;
+        \item createdAt: data e ora della creazione del feedback.
+    \end{itemize} 
+\end{itemize}
 
-\texttt{connectionDB.py} si occupa di stabilire e gestire la connessione con il database PostgreSQL.
-
-\texttt{createTable.py} definisce la struttura delle tabelle e ne gestisce la creazione, assicurando che il database sia pronto per accogliere i dati.
-
-\texttt{dataSaving.py} si occupa invece di inserire i dati elaborati nelle tabelle del database.
 
 \subsubsection{Elaborazione dei Dati}
-Una volta stabilita la connessione al database, l'attenzione si sposta sulla fase di elaborazione vera e propria. Diversi moduli si occupano di trasformare i dati e prepararli per l'archiviazione:
-
+Una  componente essenziale per il funzionamento del prodotto è la raccolta dei dati dal sito web di Vimar e la loro elaborazione e salvataggio nel database. Queste attività sono ad opera del container  \texttt{dataProcessing} al cui avvio parte lo scraping del sito web che salva i dati dei prodotti in un file json. Successivamente lo stesso file è il punto di partenza per l'elaborazione dei dati e la generazione dei chunk a partire dai documenti associati ai prodotti, infine vi è il salvataggio nel database.  
+Nel dettaglio:
 \begin{itemize}
- 
+\item \texttt{productsElaboration.py} gestisce la manipolazione e l'analisi dei dati relativi ai prodotti, applicando eventuali filtri o trasformazioni;
+\item \texttt{chunkElabotation.py} è particolarmente utile quando si lavora con grandi quantità di dati, poiché divide l'elaborazione in blocchi (chunk) per ottimizzare le prestazioni e ridurre il carico sulla memoria;
+\item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti:
+\item \texttt{dataSaving.py} è il modulo che si occupa del salvataggio dei dati nel database.
+\end{itemize}
 
-\item \texttt{productsElaboration.py} gestisce la manipolazione e l'analisi dei dati relativi ai prodotti, applicando eventuali filtri o trasformazioni.
-
-\item \texttt{chunkElabotation.py} è particolarmente utile quando si lavora con grandi quantità di dati, poiché divide l'elaborazione in blocchi (chunk) per ottimizzare le prestazioni e ridurre il carico sulla memoria.
-
-\item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti.
+L'esecuzione di questo container, che può richiedere diversi minuti, anche ore per la generazione dei chunck, si conclude dopo il salvataggio dei dati nel database.
 
 \begin{figure}[H]
     \centering
@@ -333,7 +395,7 @@ Una volta stabilita la connessione al database, l'attenzione si sposta sulla fas
     \label{fig:architettura}
 \end{figure}
 
-\end{itemize}
+
 \subsubsection{ Dipendenze e Tecnologie Utilizzate}
 L’elenco delle dipendenze è definito nel file requirements.txt, che include una serie di librerie fondamentali per il funzionamento del sistema:
 
