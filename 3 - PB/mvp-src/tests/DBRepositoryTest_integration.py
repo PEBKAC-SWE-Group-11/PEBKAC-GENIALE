@@ -1,6 +1,6 @@
 import unittest
 import psycopg2
-from app.adapters.repositories.db_repository import DBRepository
+from App.Adapters.Repositories.DBRepository import DBRepository
 
 class TestDBRepositoryIntegration(unittest.TestCase):
 
@@ -36,42 +36,42 @@ class TestDBRepositoryIntegration(unittest.TestCase):
     def setUp(self):
         self.repository = DBRepository()
         # Svuota la tabella di test prima di ogni test
-        self.repository.execute_query('DELETE FROM test_table;')
+        self.repository.executeQuery('DELETE FROM test_table;')
 
     def tearDown(self):
         self.repository.close()
 
-    def test_execute_query(self):
-        print("Test di integrazione per il metodo execute_query: Verifica che una query venga eseguita correttamente")
+    def testExecuteQuery(self):
+        print("Test di integrazione per il metodo executeQuery: Verifica che una query venga eseguita correttamente")
         query = "INSERT INTO test_table (name) VALUES (%s) RETURNING id;"
         params = ('test_name',)
-        cursor = self.repository.execute_query(query, params)
+        cursor = self.repository.executeQuery(query, params)
         result = cursor.fetchone()
         self.assertIsNotNone(result)
         self.assertIsInstance(result[0], int)
 
-    def test_fetch_one(self):
-        print("Test di integrazione per il metodo fetch_one: Verifica che una query venga eseguita correttamente e restituisca un solo risultato")
+    def testFetchOne(self):
+        print("Test di integrazione per il metodo fetchOne: Verifica che una query venga eseguita correttamente e restituisca un solo risultato")
         query = "INSERT INTO test_table (name) VALUES (%s) RETURNING id;"
         params = ('test_name',)
-        self.repository.execute_query(query, params)
+        self.repository.executeQuery(query, params)
 
         query = "SELECT * FROM test_table WHERE name = %s;"
         params = ('test_name',)
-        result = self.repository.fetch_one(query, params)
+        result = self.repository.fetchOne(query, params)
         self.assertIsNotNone(result)
         self.assertEqual(result[1], 'test_name')
 
-    def test_fetch_all(self):
-        print("Test di integrazione per il metodo fetch_all: Verifica che una query venga eseguita correttamente e restituisca tutti i risultati")
+    def testFetchAll(self):
+        print("Test di integrazione per il metodo fetchAll: Verifica che una query venga eseguita correttamente e restituisca tutti i risultati")
         query = "INSERT INTO test_table (name) VALUES (%s);"
         params = ('test_name_1',)
-        self.repository.execute_query(query, params)
+        self.repository.executeQuery(query, params)
         params = ('test_name_2',)
-        self.repository.execute_query(query, params)
+        self.repository.executeQuery(query, params)
 
         query = "SELECT * FROM test_table;"
-        results = self.repository.fetch_all(query)
+        results = self.repository.fetchAll(query)
         self.assertEqual(len(results), 2)
         self.assertEqual(results[0][1], 'test_name_1')
         self.assertEqual(results[1][1], 'test_name_2')

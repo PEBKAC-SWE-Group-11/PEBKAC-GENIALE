@@ -145,11 +145,7 @@ def insertDocumentsFromLinks(cursor: Any, links: dict) -> None:
             logger.info(f"Salvataggio documento {i}/{totalLinks}")
             doc = re.search(r'(?<=DOCUMENT/)(.*)(?=\.)', value.get('link')).group(0)
             for productId in value['ids']:
-                cursor.execute("""
-                    INSERT INTO Document (title, productId)
-                    VALUES (%s, %s)
-                    ON CONFLICT (title, productId) DO NOTHING;
-                """, (
+                cursor.execute("""INSERT INTO Document (title, productId) VALUES (%s, %s) ON CONFLICT (title, productId) DO NOTHING;""", (
                     doc,
                     productId
                 ))
