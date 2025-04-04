@@ -97,9 +97,9 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         products: lista di prodotti da inserire
     """
     try:
-        cleanedProducts = ProductsElaboration.removeTranslations(products)
-        links = ProductsElaboration.extractLinks(cleanedProducts)
-        processedProducts = ProductsElaboration.processProducts(cleanedProducts)
+        cleanedProducts = DataProcessing.ProductsElaboration.removeTranslations(products)
+        links = DataProcessing.ProductsElaboration.extractLinks(cleanedProducts)
+        processedProducts = DataProcessing.ProductsElaboration.processProducts(cleanedProducts)
         logger.info(f"Trovati {len(processedProducts)} prodotti da inserire")
         
         for i, product in enumerate(processedProducts, 1):
