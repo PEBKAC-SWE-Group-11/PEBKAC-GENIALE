@@ -31,7 +31,8 @@ In particolare sono stati prodotti i seguenti container:
 \begin{itemize}
     \item pgvector: espone l'istanza del database sulla porta 5432, permettendo al backend di accedere ai relativi dati;
     \item app: espone la componente di backend sulla porta 5001, dando al frontend la possibilità di accedere ai servizi offerti;
-    \item frontend: espone l'applicazione web sulla porta 4200, dando la possibilità all'utente di connettersi e interagire col sistema.
+    \item frontend: espone l'applicazione web sulla porta 4200, dando la possibilità all'utente di connettersi e interagire col sistema;
+    \item data processing: responsabile dello scraping, dell'indicizzazione e salvataggio nel DB.
 \end{itemize}
 \subsection{Struttura del sistema}
 \subsubsection{Frontend}
@@ -159,13 +160,11 @@ Seguendo la scia del paragrago precedente relativo agli scenari, l'analisi dei d
         \item AuthInterceptor aggiunge token alle richieste admin.
     \end{itemize}
 \end{itemize}
-
+\newpage
 \subsubsection{Backend}
-\begin{itemize}
-\item Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
-\item La comunicazione tra il Core e l'ambiente esterno è gestita attraverso le Porte, che definiscono le interfacce di interazione. Queste costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. Le Porte rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
-\item Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dalle Porte, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
-\end{itemize}
+ Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
+\newline La comunicazione tra il Core e l'ambiente esterno è gestita attraverso le Porte, che definiscono le interfacce di interazione. Queste costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. Le Porte rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
+\newline Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dalle Porte, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
 \subsubsubsection{Core - ConversationService}
 Nel core del sistema, la classe \texttt{ConversationService} si occupa principalmente della gestione delle sessioni, delle conversazioni, dei messaggi e dei feedback.
 
@@ -293,7 +292,9 @@ Negli attributi della classe \`e possibile configurare il modello di linguaggio,
     \label{fig:architettura}
 \end{figure}
 
-\end{itemize}\subsection{Database}
+\end{itemize}
+
+\subsubsection{Database}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/productER.er.jpg}
