@@ -4,9 +4,8 @@ I \textit{test\textsubscript{G}} realizzabili possono essere suddivisi in quattr
 \begin{itemize}
     \item \textbf{\textit{Test\textsubscript{G}} di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input\textsubscript{G}, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
     \item \textbf{\textit{Test\textsubscript{G}} di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
-    \item \textbf{\textit{Test\textsubscript{G}} di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i \textit{requisiti\textsubscript{G}} funzionali e non funzionali, assicurandosi di valutare il sistema nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
-%    \item \textbf{\textit{Test\textsubscript{G}} End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
-    \item \textbf{\textit{Test\textsubscript{G}} di accettazione}: verificano se un sistema o una parte di esso soddisfa i \textit{requisiti\textsubscript{G}} e le aspettative degli utenti o del cliente, venendo eseguiti prima del \textit{rilascio\textsubscript{G}} del \textit{software\textsubscript{G}} per confermare che il prodotto finale sia pronto per l'uso e conforme alle specifiche concordate.
+    \item \textbf{\textit{Test\textsubscript{G}} End-to-End}: verificano il funzionamento complessivo di un sistema eseguendo casi d'uso dall'inizio alla fine, comprese le interazioni con altri sistemi o applicazioni esterne, per garantire il corretto funzionamento di tutti gli elementi insieme, simulando l'esperienza dell'utente in un contesto realistico.
+    
 \end{itemize}
 
 \subsection{Notazione dei test}
@@ -246,195 +245,22 @@ I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsu
    \caption{Stato dei \textit{test\textsubscript{G}} di unità}
 \end{table}
 
-\subsection{\textit{Test\textsubscript{G}} di sistema}
-I \textit{test\textsubscript{G}} di sistema sono una tipologia di \textit{test\textsubscript{G}} attraverso la quale vengono testati il comportamento e la funzionalità di un sistema completo nel suo insieme. Viene eseguito dopo che tutti i componenti o moduli sono stati integrati e serve a garantire che il sistema soddisfi i \textit{requisiti\textsubscript{G}} funzionali e non funzionali specificati. I \textit{test\textsubscript{G}} di sistema valutano il \textit{software\textsubscript{G}} in un ambiente il più possibile vicino a quello reale, simulando gli utenti di tale \textit{software\textsubscript{G}}. Le caratteristiche chiave dei \textit{test\textsubscript{G}} di sistema sono:
-\begin{itemize}
-    \item Verifica dei \textit{requisiti\textsubscript{G}} funzionali: assicurarsi che il sistema fornisca le funzionalità previste;
-    \item Verifica dei \textit{requisiti\textsubscript{G}} non funzionali: verifica di prestazioni, sicurezza, usabilità, scalabilità...
-    \item \textit{Test\textsubscript{G}} End-to-End: valutazione di flussi di lavoro completi, inclusa l'interazione con altri sistemi o applicazioni esterne;
-    \item Valutazione della conformità: garantire che il sistema aderisca a specifici standard o regolamenti.
-\end{itemize}
-%TODO: Inserire i test
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{\textit{Requisito\textsubscript{G}}} & \textbf{Stato} \\
-        \hline
-TS-1 & Il sistema deve permettere al modulo \textit{AI\textsubscript{G}} di interrogare il \textit{database\textsubscript{G}} in modo efficace per recuperare informazioni sui prodotti. Le informazioni restituite devono essere corrette, coerenti e aggiornate, garantendo che gli utenti ottengano risposte utili per le loro domande. & RF.O.026, RF.O.027 & NI \\
-\hline
-TS-2 & Deve essere garantita l'integrazione fluida tra il \textit{frontend\textsubscript{G}} e il \textit{backend\textsubscript{G}}, con l'elaborazione delle richieste degli utenti tramite \textit{GUI\textsubscript{G}} e la restituzione di risposte tempestive e accurate nella stessa interfaccia. & UC1, UC6 & NI \\
-\hline
-TS-3 & Quando l'utente inserisce una domanda che supera il limite di caratteri predefinito, il sistema deve gestire questa situazione restituendo un messaggio di errore chiaro e comprensibile. & RF.O.009, UC7 & NI \\
-\hline
-TS-4 & La \textit{pipeline\textsubscript{G}} di estrazione automatizzata dei dati dal sito Vimar deve raccogliere e indicizzare in modo efficiente le informazioni, rendendole disponibili per le interrogazioni degli utenti. & RF.O.020, RF.O.025 & NI \\
-\hline
-TS-5 & Il sistema deve essere avviabile tramite \textit{Docker Compose\textsubscript{G}} e garantire che tutti i componenti dell'infrastruttura containerizzata funzionino correttamente in un ambiente scalabile e portabile. & RV.O.002, RV.O.007 & NI \\
-\hline
-TS-6 & La \textit{dashboard\textsubscript{G}} amministrativa deve fornire agli amministratori una panoramica chiara e aggiornata sull'utilizzo del sistema, incluse statistiche dettagliate sulle richieste effettuate dagli utenti. & RF.O.003, UC14 & NI \\
-\hline
-TS-7 & La \textit{pipeline\textsubscript{G}} di indicizzazione automatizzata deve operare senza interventi manuali, consentendo l'aggiornamento continuo delle informazioni nel \textit{database\textsubscript{G}} in base ai nuovi dati raccolti. & RF.O.025, RF.O.026 & NI \\
-\hline
-TS-8 & Deve essere possibile estrarre correttamente informazioni utili dai file \textit{PDF\textsubscript{G}}, inclusi schemi elettrici e manuali tecnici, rendendoli disponibili per la consultazione e il download. & RF.O.023, RF.D.022 & NI \\
-\hline
-TS-9 & Il sistema deve identificare e gestire richieste relative a argomenti proibiti, restituendo un messaggio appropriato che informa l'utente della restrizione. & RF.O.005, UC15 & NI \\
-\hline
-\end{tabularx}
- \end{table}
- \begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{\textit{Requisito\textsubscript{G}}} & \textbf{Stato} \\
-        \hline
-TS-10 & L'infrastruttura del sistema deve supportare la scalabilità, consentendo l'esecuzione simultanea su più nodi senza compromettere le prestazioni o l'affidabilità. & RQ.O.002, RV.O.007 & NI \\
-\hline
-TS-11 & Il sistema deve funzionare correttamente su tutti i browser compatibili specificati, garantendo un'esperienza utente coerente e priva di errori. & RV.O.012 - RV.O.016 & NI \\
-\hline
-TS-12 & Le \textit{API\textsubscript{G}} devono essere protette con meccanismi di autenticazione adeguati, come le \textit{API-Key\textsubscript{G}}, per garantire accessi sicuri e controllati ai servizi del sistema. & RV.O.006, RF.O.027 & NI \\
-\hline
-TS-13 & Il \textit{database\textsubscript{G}} deve essere aggiornabile con nuove informazioni sui prodotti in modo che il sistema possa fornire risposte aggiornate e precise agli utenti. & RF.O.021, RF.O.024 & NI \\
-\hline
-TS-14 & La \textit{dashboard\textsubscript{G}} deve mostrare statistiche aggiornate in tempo reale, consentendo agli amministratori di monitorare l'utilizzo del sistema con una visione dinamica e dettagliata. & RF.P.016, UC14.3 & NI \\
-\hline
-TS-15 & Il sistema deve supportare sessioni multiple di utenti simultanei, garantendo l'isolamento delle sessioni e l'integrità dei dati per ciascun utente. & RQ.D.001, UC1 & NI \\
-\hline
-TS-16 & Il sistema deve essere in grado di rispondere accuratamente a domande poste in lingua italiana, utilizzando il modello \textit{AI\textsubscript{G}} per generare risposte appropriate. & RF.O.001, UC16 & NI \\
-\hline
-TS-17 & Le \textit{sessioni\textsubscript{G}} di conversazione devono poter essere salvate e recuperate senza perdita di dati, consentendo agli utenti di riprendere le interazioni da dove erano state interrotte. & RF.O.012, UC3 & NI \\
-\hline
-TS-18 & Le risposte del sistema devono includere immagini o schemi tecnici, quando richiesto, garantendo la loro corretta visualizzazione nell'interfaccia utente. & RF.O.027, UC17 & NI \\
-\hline
-TS-19 & La \textit{dashboard\textsubscript{G}} amministrativa deve fornire statistiche dettagliate sui \textit{feedback\textsubscript{G}} ricevuti dagli utenti, inclusi conteggi di risposte positive e negative. & RF.D.019, UC14.5 & NI \\
-\hline
-TS-20 & Gli utenti devono poter ricercare e recuperare conversazioni salvate in precedenza, garantendo l'accesso a tutte le informazioni contenute nelle conversazioni archiviate. & RF.P.040, UC9 & NI \\
-\hline
-\end{tabularx}
- \end{table}
- \begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.3\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|>{\hsize=0.2\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{\textit{Requisito\textsubscript{G}}} & \textbf{Stato} \\
-\hline
-TS-21 & Il sistema deve gestire la situazione in maniera corretta e mostrare un messaggio di errore chiaro e dettagliato nel caso in cui un utente tenti di salvare una conversazione senza che ne sia stata creata alcuna. & UC4, RF.O.034 & NI \\
-\hline
-TS-22 & Il sistema deve consentire all'installatore di visualizzare la data e l'ora di invio di ogni messaggio nella cronologia delle conversazioni. & RF.P.041, RF.P.042 & NI \\
-\hline
-TS-23 & Il sistema deve consentire agli amministratori di azzerare il conteggio dei \textit{feedback\textsubscript{G}} positivi e negativi ricevuti, mostrando un messaggio di conferma. & RF.P.044, RF.P.045 & NI \\
-\hline
-TS-24 & Il sistema supporta correttamente la creazione di nuove \textit{sessioni\textsubscript{G}} di conversazione, garantendo che siano archiviate e accessibili successivamente. & RF.O.035, UC1 & NI \\
-\hline
-TS-25 & Il sistema consente agli utenti di accedere al contenuto dei documenti di interesse direttamente dalla risposta fornita. & RF.P.043, UC17 & NI \\
-\hline
-TS-26 & L'interfaccia utente del sistema deve essere completamente \textit{responsive\textsubscript{G}}, adattandosi a diversi dispositivi senza errori di layout. & RQ.D.001 & NI \\
-\hline
-TS-27 & Il sistema deve inviare un avviso in caso di errore durante l'indicizzazione automatica dei dati provenienti dal sito Vimar. & RF.O.025, RF.O.026 & NI \\
-\hline
-TS-28 & Il sistema deve includere una funzione di "ripristino" per le \textit{sessioni\textsubscript{G}} interrotte a causa di errori tecnici, garantendo che nessun dato venga perso. & UC3, RF.O.012 & NI \\
-\hline
-TS-29 & Il sistema deve mostrare un messaggio chiaro quando l'utente cerca di accedere alla \textit{dashboard\textsubscript{G}} con credenziali errate. & UC13 & NI \\
-\hline
-TS-30 & Il sistema deve restituire un messaggio specifico quando non esistono messaggi pregressi nella cronologia della conversazione selezionata. & UC10 & NI \\
-\hline
-TS-31 & Il sistema deve restituire un messaggio chiaro e dettagliato quando si tenta di accedere a una funzionalità riservata agli amministratori senza aver effettuato l'accesso. & UC12 & NI \\
-\hline
-TS-32 & Il sistema deve garantire che, durante la ricerca di informazioni, vengano restituiti solo prodotti pertinenti alla categoria selezionata dall’installatore. & UC6 & NI \\
-    \end{tabularx}
-    \caption{Stato dei \textit{test\textsubscript{G}} di sistema}
-\end{table}
 
-%\subsection{\textit{Test\textsubscript{G}} End-to-End}
-%I \textit{test\textsubscript{G}} End-to-End sono una tipologia di \textit{test\textsubscript{G}} che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di \textit{test\textsubscript{G}} riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i \textit{requisiti\textsubscript{G}} funzionali e contribuisca a una buona esperienza utente.
-%I \textit{test\textsubscript{G}} End-to-End, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari all'80\%.
-%TODO: Inserire i test
-%\begin{table}[H]
-%    \centering
-%    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
-%        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
-%        \hline
-%        TE-1 &  &  & NI \\
-%        \hline
-%        TE-2 &  &  & NI \\
-%        \hline
-%        TE-3 &  &  & NI \\
-%    \end{tabularx}
-%    \caption{Stato dei \textit{test\textsubscript{G}} End-to-End}
-%\end{table}
 
-\subsection{\textit{Test\textsubscript{G}} di accettazione}
-I \textit{test\textsubscript{G}} di accettazione sono una tipologia di \textit{test\textsubscript{G}} che verifica che un sistema o un'applicazione soddisfi \textit{requisiti\textsubscript{G}} ed aspettative concordate con il cliente o contro l'utente finale. Normalmente, questi \textit{test\textsubscript{G}} sono condotti sul ciclo finale del processo di sviluppo, prima della pubblicazione o della consegna del prodotto. Questi \textit{test\textsubscript{G}} hanno l'obiettivo di:
-\begin{itemize}
-    \item Confermare la conformità ai \textit{requisiti\textsubscript{G}} funzionali: verificare che il sistema realizzi le funzionalità richieste;
-    \item Verificare che sia appropriato per l'utilizzo nel mondo reale: assicurarsi che il sistema sia pronto per un ambiente di produzione.
-    \item Dare all'ente proprietario la capacità di approvare o rifiutare il sistema: un \textit{test\textsubscript{G}} di accettazione di successo è proprio l'ultimo passo di approvazione per il \textit{rilascio\textsubscript{G}}.
-\end{itemize}
+\subsection{\textit{Test\textsubscript{G}} End-to-End}
+I \textit{test\textsubscript{G}} End-to-End sono una tipologia di \textit{test\textsubscript{G}} che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di \textit{test\textsubscript{G}} riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i \textit{requisiti\textsubscript{G}} funzionali e contribuisca a una buona esperienza utente.
+I \textit{test\textsubscript{G}} End-to-End, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari all'80\%.
 %TODO: Inserire i test
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arrayslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
-        \hline
-        TA-1 & Il sistema deve consentire a un installatore di inserire una richiesta tramite conversazione libera e ricevere informazioni dettagliate, incluse descrizioni dei prodotti, schemi elettrici e manuali tecnici. & UC6 & NI \\
-        \hline
-        TA-2 & Un amministratore deve poter accedere alla \textit{dashboard\textsubscript{G}} inserendo credenziali corrette, garantendo l'accesso solo a utenti autorizzati. & UC12 & NI \\
-        \hline
-        TA-3 & Gli utenti devono poter fornire \textit{feedback\textsubscript{G}} sull'accuratezza delle risposte ricevute, e il sistema deve registrare correttamente tali \textit{feedback\textsubscript{G}}. & UC11 & NI \\
-        \hline
-        TA-4 & Il sistema deve consentire agli utenti di salvare le conversazioni e confermare che il salvataggio sia avvenuto con successo. & UC3 & NI \\
-        \hline
-        TA-5 & Le richieste relative a argomenti non pertinenti devono essere bloccate, e il sistema deve restituire un messaggio di cortesia senza fornire ulteriori risposte. & UC15 & NI \\
-        \hline
-        TA-6 & Gli utenti devono poter visualizzare lo storico delle conversazioni in corso, con tutte le risposte mostrate in ordine cronologico. & UC9 & NI \\
-        \hline
-        TA-7 & Deve essere possibile eliminare una conversazione salvata, con conferma visibile dell'avvenuta cancellazione. & UC5 & NI \\
-        \hline
-        TA-8 & Nel caso in cui venga superato il limite massimo di conversazioni consentite, il sistema deve notificare l'utente con un messaggio chiaro. & UC2 & NI \\
-        \hline
-    \end{tabularx}
-\end{table}
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
         \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
         \hline
-TA-9 & Gli amministratori devono poter accedere a statistiche di utilizzo tramite la \textit{dashboard\textsubscript{G}}, con informazioni dettagliate su tutte le richieste effettuate. & UC14 & NI \\
-\hline
-TA-10 & Gli amministratori devono poter visualizzare il numero di richieste effettuate tramite conversazione libera, direttamente dalla \textit{dashboard\textsubscript{G}}. & UC14.1 & NI \\
-\hline
-TA-11 & Gli utenti devono confermare l'eliminazione delle conversazioni salvate prima che queste vengano definitivamente rimosse dal sistema. & UC5 & NI \\
-\hline
-TA-12 & Il sistema deve fornire risposte dettagliate e accurate relative a prodotti appartenenti agli impianti Smart, su richiesta dell'utente. & UC6 & NI \\
-\hline
-TA-13 & Gli utenti devono ricevere risposte chiare e precise per prodotti relativi agli impianti Domotici, con tutte le informazioni pertinenti. & UC6 & NI \\
-\hline
-TA-14 & Il sistema deve estrarre automaticamente informazioni dal sito di Vimar e indicizzarle correttamente per consentire interrogazioni rapide. & UC6 & NI \\
-\hline
-TA-15 & Deve essere garantita la gestione di richieste per prodotti non presenti, con un messaggio di cortesia che informa l'utente dell'assenza di dati. & UC8 & NI \\
-\hline
-TA-16 & Gli utenti devono poter scaricare documenti \textit{PDF\textsubscript{G}}, come manuali tecnici, direttamente dal sistema. & UC17 & NI \\
-\hline
-TA-17 & Nel caso di superamento del limite massimo di caratteri consentiti in una domanda, il sistema deve notificare l'errore in modo chiaro. & UC7 & NI \\
-\hline
-\end{tabularx}
-\end{table}
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
-        \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
+       TE-1 &  &  & NI \\
         \hline
-TA-18 & Utilizzando un menù guidato, gli utenti devono poter accedere facilmente alle informazioni sui prodotti di loro interesse. & UC18 & NI \\
-\hline
-TA-19 & Il sistema deve restituire risposte che includano immagini, come schemi elettrici, garantendo la loro corretta visualizzazione nell'interfaccia utente. & UC17 & NI \\
-\hline
-TA-20 & Gli amministratori devono avere accesso a statistiche relative ai \textit{feedback\textsubscript{G}} positivi ricevuti, visualizzandole nella \textit{dashboard\textsubscript{G}} in modo dettagliato. & UC14.4 & NI \\
-\hline
-TA-21 & Gli installatori devono ricevere un messaggio di conferma visibile quando forniscono \textit{feedback\textsubscript{G}} sul sistema. & UC11 & NI \\
-\hline
-TA-22 & Gli installatori devono poter recuperare una lista delle loro conversazioni salvate, con possibilità di visualizzare il contenuto completo di ciascuna. & UC9 & NI \\
-\hline
-TA-23 & Gli amministratori devono poter visualizzare il numero di richieste effettuate tramite conversazione libera, direttamente dalla \textit{dashboard\textsubscript{G}}. & UC14.2 & NI \\
-\hline
-TA-24 & Gli utenti devono poter interrompere una conversazione guidata e tornare al menu principale senza perdere lo storico delle interazioni effettuate fino a quel momento. & UC5 & NI \\
-\hline
-TA-25 & Gli amministratori devono poter visualizzare le statistiche aggiornate sul numero di parole utilizzate nelle richieste, direttamente dalla \textit{dashboard\textsubscript{G}}. & UC14.3 & NI \\
+        TE-2 &  &  & NI \\
+        \hline
+        TE-3 &  &  & NI \\
     \end{tabularx}
-    \caption{Stato dei \textit{test\textsubscript{G}} di accettazione}
+    \caption{Stato dei \textit{test\textsubscript{G}} End-to-End}
 \end{table}
