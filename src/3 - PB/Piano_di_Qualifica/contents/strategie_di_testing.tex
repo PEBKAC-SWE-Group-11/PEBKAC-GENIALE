@@ -175,6 +175,158 @@ TODO: Inserire i test
         TU-60 & Verifica che i link vengano estratti correttamente dai prodotti e raggruppati per ID & V \\
         \hline
         TU-61 & Verifica che i prodotti vengano elaborati correttamente e che vengano generati i vettori di embedding & V \\
+        \hline
+        TU-62 & Verifica che venga fatta una richiesta di creare una sessione & V \\ 
+        \hline
+        TU-63 & Verifica che venga fatta una richiesta di aggiornamento della sessione & V \\
+        \hline
+        TU-64 & Verifica che venga fatta una richiesta per creare una conversazione & V \\
+        \hline
+        TU-65 & Verifica che venga fatta una richiesta per recuperare le conversazioni  & V \\
+        \hline
+        TU-66 & Verifica che venga fatta una richiesta per eliminare una conversazione secondo l'id  & V \\
+        \hline
+        TU-67 & Verifica che venga fatta una richiesta per inviare un messaggio & V \\
+        \hline
+        TU-68 & Verifica che venga fatta una richiesta per recuperare i messaggi  & V \\
+        \hline
+        TU-69 & Verifica che venga fatta una richiesta per inviare un feedback & V \\
+        \hline
+        TU-70 & Verifica che venga fatta una richiesta per recuperare il commento relativo al feedback & V \\
+        \hline
+        TU-71 & Verifica che venga fatta una richiesta per verificare che la password sia corretta & V \\
+        \hline
+        TU-72 & Verifica che venga fatta una richiesta per recuperare le statistiche degli admin & V \\
+        \hline
+        TU-73 & Verifica che la funzione askQuestion() funzioni correttamente & V \\
+        \hline
+        TU-74 & Verifica che la funzione readSession() funzioni correttamente & V \\
+        \hline
+        TU-75 & Verifica che venga creata un istanza di ChatService senza errori & V \\
+        \hline
+        TU-76 & Verifica che la sessione possa essere aggiornata correttamente & V \\
+        \hline
+        TU-77 & Verifica che le conversazioni possano essere correttamente recuperate& V \\
+        \hline
+        TU-78 & Verifica che non venga creata una conversazione senza la creazione di una sessione & V \\
+        \hline
+        TU-79 & Verifica che venga creata correttamente una conversazione & V \\
+        \hline
+        TU-90 & Verifica che non venga eliminata una conversazione attiva & V \\
+        \hline
+        TU-91 & Verifica che non venga eliminata alcuna conversazione senza la presenza di una sessione& V \\
+        \hline
+        TU-92 & Verifica che venga correttamente inviato un feedback & V \\
+        \hline
+        TU-93 & Verifica che non venga inviato un feedback senza la presenza di una sessione& V \\
+        \hline
+        TU-94 & Verifica del raggiungimento del limite di conversazioni& V \\
+        \hline
+        TU-95 & Verifica che venga inviato un messaggio & V \\
+        \hline
+        TU-96 & Verifica che venga creata correttamente un'istanza della componente Sidebar & V \\
+        \hline
+        \end{tabularx}
+    \end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}        
+        TU-97 & Verifica che l'implementazione di ngOnInit() istanzi attributi e membri privati del componente Sidebar& V \\
+        \hline
+        TU-98 & Verifica che la funzione hasReachedLimit() segua il comportamento aspettato & V \\
+        \hline
+        TU-99 & Verifica che venga creata una conversazione nella Sidebar& V \\
+        \hline
+        TU-100 & Verifica che se l'app è in attesa di una risposta, non venga creata una nuova conversazione & V \\
+        \hline
+        TU-101 & Verifica che al raggiungimento del limite di conversazioni venga visualizzato un avviso interno al browser che notifica il problema all'utente & V \\
+        \hline
+        TU-102 & Verifica che l'app non si trovi nello stato in cui non sta aspettando una risposta dal LLM & V \\
+        \hline
+        TU-103 & Verifica che l'app si trovi nello stato in cui non sta aspettando una risposta dal LLM & V \\
+        \hline
+        TU-104 & Verifica che si possa selezionare una conversazione & V \\
+        \hline
+        TU-105 & Verifica che se l'app sta aspettando una risposta, non venga selezionata alcuna conversazione oltre a quella attiva c& V \\
+        \hline
+        TU-106 & Verifica che possa essere possibile eliminare una conversazione & V \\
+        \hline
+        TU-107 & Verifica che selezionando una conversazione essa diventi effettivamente quella attiva& V \\
+        \hline
+        TU-108 & Verifica che venga creata una istanza della componente Chatbox & V \\
+        \hline
+        TU-109 & Verifica che il metodo ngOnInit() inserisca dei messaggi fittizzi nella variabile messages & V \\
+        \hline
+        TU-110 & Verifica che il metodo ngOnInit() inserisca un vettore di messaggi vuoto nella variabile messages & V \\
+        \hline
+        TU-111 & Verifica che il metodo ngAfterViewChecked() assuma il comportamento atteso & V \\
+        \hline
+        TU-112 & Verifica che venga correttamente inviato un messaggio & V \\
+        \hline
+        TU-113 & Verifica che un messaggio vuoto non venga inviato & V \\ 
+        \hline
+        TU-114 & Verifica che un messaggio che sorpassa il limite di caratteri non venga inviato & V \\ 
+        \hline
+        TU-115 & Verifica che se l'app è in attesa di risposta, non venga inviato un messaggio & V \\
+        \hline        
+        TU-116 & Verifica che venga inviato un feedback positivo & V \\ 
+        \hline
+        TU-117 & Verifica che venga inviato un feedback negativo & V \\ 
+        \hline
+        TU-118 & Verifica che venga effettivamente inviato un messaggio di feedback & V \\ 
+        \hline
+        TU-119 & Verifica che non venga inviato un feedback senza che la variabile feedbackMessageId abbia un valore & V \\ 
+        \hline
+        TU-120 & Verifica che venga eseguito il metodo closeFeedbackPopup() & V \\ 
+        \hline
+        TU-121 & Verifica il numero di caratteri rimanenti per il messaggio di feedback & V \\ 
+        \hline
+        TU-122 & Verifica che venga creata correttame un'istanza della componente AdminDashboard & V \\ 
+        \hline
+        TU-123 & Verifica che l'implementazione del metodo ngOnInit() inizializzi statistiche e commenti di feedback & V \\ 
+        \hline
+        \end{tabularx}
+    \end{table}
+\begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}             
+        
+        TU-124 & Verifica che avvenga il calcolo del rapporto di soddisfazione & V \\ 
+        \hline
+        TU-125 & Verifica che il calcolo del rapporto di soddisfazione sia uguale a 0 & V \\ 
+        \hline
+        TU-126 & Verifica che senza alcuna statistica caricata, il rapporto di soddisfazione sia uguale a 0 & V \\ 
+        \hline
+        TU-127 & Verifica che il metodo formatDate() funzioni correttamente & V \\ 
+        \hline
+        TU-128 & Verifica che venga creata una istanza della componente AdminLogin & V \\ 
+        \hline
+        TU-129 & Verifica che la password fornita venga sottoposta ad un processo di crittografia secondo hash & V \\ 
+        \hline
+        TU-130 & Verifica che il login avvenga correttamente & V \\ 
+        \hline
+        TU-131 & Verifica che il login non avvenga se non è presente la password & V \\ 
+        \hline
+        TU-132 & Verifica che con una risposta negativa da parte della relatica API, non venga effettuato il login & V \\ 
+        \hline
+        TU-133 & Verifica che il token dell'admin sia autenticato & V \\ 
+        \hline
+        TU-134 & Verifica che la guardia abbia un token e che esso sia autenticato & V \\ 
+        \hline
+        TU-135 & Verifica che la guardia ritorni false se non vi è alcun token& V \\ 
+        \hline
+        TU-136 & Verifica del corretto funzionamento di AuthInterceptor  & V \\ 
+        \hline
+        TU-137 &  & V \\ 
+        \hline
+        TU-138 & Verifica che venga creata correttamente un'istanza di AppComponent & V \\ 
+        \hline
+        TU-139 & Verifica che venga correttamente attivata la componente Sidebar & V \\ 
+        \hline
+        TU-140 & Verifica che venga correttamente chiusa la Sidebar entro una dimensione della finestra su dispositivi mobili & V \\ 
+        \hline
+        
+        
         
    \end{tabularx}
    \caption{Stato dei \textit{test\textsubscript{G}} di unità}
