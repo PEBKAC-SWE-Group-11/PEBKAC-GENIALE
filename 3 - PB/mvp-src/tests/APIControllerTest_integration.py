@@ -21,13 +21,16 @@ class TestAPIController(unittest.TestCase):
     @patch('App.Adapters.Controllers.APIController.conversationService')
     @patch('App.Adapters.Controllers.APIController.llmResponse')
     @patch('App.Adapters.Controllers.APIController.contextExtractor')
-    def testAskQuestion(self, mockEmbeddingService, mockConversationService):
+    def testAskQuestion(self, mockContextExtractor, mockLlmResponse, mockConversationService):
         print("Test per l'endpoint /api/question/1: Verifica che l'endpoint gestisca correttamente una richiesta di domanda")
-        mockConversationService.readMessages.return_value = []
-        mockEmbeddingService.get_embeddings.return_value = "embedded_text"
-        mockConversationService.get_llm_response.return_value = "response"
-        mockConversationService.add_message.return_value = "messageId"
+        
+        # Configura i mock
+        mockContextExtractor.processUserInput.return_value = (["text1", "text2"], ["etim1", "etim2"])
+        mockConversationService.readMessages.return_value = [{"messageId": "1", "content": "Hello"}]
+        mockLlmResponse.getLlmResponse.return_value = "response"
+        mockConversationService.addMessage.return_value = "messageId"
 
+        # Esegui la richiesta
         response = self.app.post(
             '/api/question/1',
             headers={'x-api-key': API_KEY},
@@ -35,8 +38,20 @@ class TestAPIController(unittest.TestCase):
             content_type='application/json'
         )
 
+        # Asserzioni
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"messageId": "messageId"})
+
+        # Verifica che i mock siano stati chiamati correttamente
+        mockContextExtractor.processUserInput.assert_called_once_with("What is AI?")
+        mockConversationService.readMessages.assert_called_once_with("1")
+        mockLlmResponse.getLlmResponse.assert_called_once_with(
+            [{"messageId": "1", "content": "Hello"}],
+            "What is AI?",
+            ["text1", "text2"],
+            ["etim1", "etim2"]
+        )
+        mockConversationService.addMessage.assert_called_once_with("1", "assistant", "response")
 
     @patch('App.Adapters.Controllers.APIController.conversationService')
     def testApiCreateConversation(self, mockConversationService):
