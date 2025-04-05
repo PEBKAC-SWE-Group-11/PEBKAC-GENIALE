@@ -1,9 +1,9 @@
 import unittest
-from data_processing.embeddingLocal import getEmbedding
+from DataProcessing.EmbeddingLocal import getEmbedding
 
 class TestEmbeddingLocalIntegration(unittest.TestCase):
 
-    def test_getEmbedding_valid_input(self):
+    def testGetEmbeddingValidInput(self):
         """
         Testa il comportamento reale di getEmbedding con un input valido.
         """
@@ -13,7 +13,7 @@ class TestEmbeddingLocalIntegration(unittest.TestCase):
         self.assertGreater(len(result), 0)
         self.assertTrue(all(isinstance(x, float) for x in result))
 
-    def test_getEmbedding_empty_input(self):
+    def testGetEmbeddingEmptyInput(self):
         """
         Testa il comportamento reale di getEmbedding con un input vuoto.
         """
@@ -22,13 +22,13 @@ class TestEmbeddingLocalIntegration(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), 0)
 
-    def test_getEmbedding_large_input(self):
+    def testGetEmbeddingLargeInput(self):
         """
         Testa il comportamento reale di getEmbedding con un input molto grande.
         """
-        print("Test per la funzione getEmbedding: Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding validoVerifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido")
-        large_input = "large input " * 1000
-        result = getEmbedding(large_input)
+        print("Test per la funzione getEmbedding: Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido")
+        largeInput = "large input " * 1000
+        result = getEmbedding(largeInput)
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
         self.assertTrue(all(isinstance(x, float) for x in result))

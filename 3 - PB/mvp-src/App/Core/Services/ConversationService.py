@@ -46,11 +46,7 @@ class ConversationService:
 
     def readConversations(self, sessionId):
         try:
-            query = """
-                SELECT * FROM Conversation 
-                WHERE sessionId = %s AND (toDelete = FALSE OR toDelete IS NULL) 
-                ORDER BY updatedAt DESC
-            """
+            query = """SELECT * FROM Conversation WHERE sessionId = %s AND (toDelete = FALSE OR toDelete IS NULL) ORDER BY updatedAt DESC"""
             results = self.repository.fetchAll(query, (sessionId,))
             
             formattedConversations = []
@@ -99,17 +95,7 @@ class ConversationService:
 
     def readMessages(self, conversationId):
         try:
-            query = """
-                SELECT m.*, 
-                      f.feedbackId,
-                      f.isHelpful,
-                      f.content as feedbackContent,
-                      f.createdAt as feedbackCreatedAt
-                FROM Message m 
-                LEFT JOIN Feedback f ON m.messageId = f.messageId
-                WHERE m.conversationId = %s 
-                ORDER BY m.createdAt ASC
-            """
+            query = """SELECT m.*, f.feedbackId, f.isHelpful,f.content as feedbackContent, f.createdAt as feedbackCreatedAt FROM Message m LEFT JOIN Feedback f ON m.messageId = f.messageId WHERE m.conversationId = %s ORDER BY m.createdAt ASC"""
             results = self.repository.fetchAll(query, (conversationId,))
             
             formattedMessages = []

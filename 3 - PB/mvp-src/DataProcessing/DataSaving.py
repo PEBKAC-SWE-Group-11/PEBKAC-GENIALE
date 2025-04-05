@@ -97,18 +97,14 @@ def insertProductsFromFile(cursor: Any, products: list) -> None:
         products: lista di prodotti da inserire
     """
     try:
-        cleanedProducts = ProductsElaboration.removeTranslations(products)
-        links = ProductsElaboration.extractLinks(cleanedProducts)
-        processedProducts = ProductsElaboration.processProducts(cleanedProducts)
+        cleanedProducts = DataProcessing.ProductsElaboration.removeTranslations(products)
+        links = DataProcessing.ProductsElaboration.extractLinks(cleanedProducts)
+        processedProducts = DataProcessing.ProductsElaboration.processProducts(cleanedProducts)
         logger.info(f"Trovati {len(processedProducts)} prodotti da inserire")
         
         for i, product in enumerate(processedProducts, 1):
             logger.info(f"Elaborazione prodotto {i}/{len(processedProducts)}")
-            cursor.execute("""
-                INSERT INTO Product (id, title, description, etim, idVector, idTitleVector, idTitleDescrVector)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (id) DO NOTHING;
-            """, (
+            cursor.execute("""INSERT INTO Product (id, title, description, etim, idVector, idTitleVector, idTitleDescrVector) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING;""", (
                 product['productId'],
                 product['title'],
                 product['description'],
@@ -145,11 +141,7 @@ def insertDocumentsFromLinks(cursor: Any, links: dict) -> None:
             logger.info(f"Salvataggio documento {i}/{totalLinks}")
             doc = re.search(r'(?<=DOCUMENT/)(.*)(?=\.)', value.get('link')).group(0)
             for productId in value['ids']:
-                cursor.execute("""
-                    INSERT INTO Document (title, productId)
-                    VALUES (%s, %s)
-                    ON CONFLICT (title, productId) DO NOTHING;
-                """, (
+                cursor.execute("""INSERT INTO Document (title, productId) VALUES (%s, %s) ON CONFLICT (title, productId) DO NOTHING;""", (
                     doc,
                     productId
                 ))

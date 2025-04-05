@@ -7,3 +7,4 @@ flask-cors
 coverage
 scikit-learn
 gunicorn
+scikit-learn

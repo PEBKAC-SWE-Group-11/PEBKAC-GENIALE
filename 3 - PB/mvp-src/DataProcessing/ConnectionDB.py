@@ -20,7 +20,7 @@ def getDBConnection():
         "port": "5432",
         "connect_timeout": 10,
         "client_encoding": 'UTF8',
-        "application_name": 'data_processing'
+        "application_name": 'dataProcessing'
     }
 
     for attempt in range(retries):

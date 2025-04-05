@@ -4,26 +4,26 @@ import psycopg2
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from data_processing.connectionDB import getDBConnection
+from DataProcessing.ConnectionDB import getDBConnection
 
-class TestConnectionDB(unittest.TestCase):
+class TestConnectionDb(unittest.TestCase):
 
     @patch('psycopg2.connect')
-    def test_getDBConnection_success(self, mock_connect):
+    def testGetDbConnectionSuccess(self, mockConnect):
         print("Test per la funzione getDBConnection: Verifica che la connessione al database venga stabilita correttamente")
-        mock_connect.return_value = MagicMock()
+        mockConnect.return_value = MagicMock()
         connection = getDBConnection()
         self.assertIsNotNone(connection)
-        mock_connect.assert_called_once()
+        mockConnect.assert_called_once()
 
     @patch('psycopg2.connect', side_effect=psycopg2.OperationalError("Connection failed"))
     @patch('time.sleep', return_value=None)
-    def test_getDBConnection_failure(self, mock_sleep, mock_connect):
+    def testGetDbConnectionFailure(self, mockSleep, mockConnect):
         print("Test per la funzione getDBConnection: Verifica che venga gestito correttamente un errore di connessione al database con tentativi multipli")
         with self.assertRaises(psycopg2.OperationalError):
             getDBConnection()
-        self.assertEqual(mock_connect.call_count, 10)
-        self.assertEqual(mock_sleep.call_count, 9)
+        self.assertEqual(mockConnect.call_count, 10)
+        self.assertEqual(mockSleep.call_count, 9)
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,7 +4,7 @@ import json
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from data_processing.dataSaving import (
+from DataProcessing.DataSaving import (
     insertChunksFromLinks,
     insertProductsFromFile,
     insertDocumentsFromLinks,
@@ -13,7 +13,7 @@ from data_processing.dataSaving import (
 
 class TestDataSaving(unittest.TestCase):
 
-    @patch('data_processing.dataSaving.processLinksToChunks', return_value=[{'filename': 'file1', 'chunk': 'chunk1', 'vector': [0.1, 0.2, 0.3]}])
+    @patch('DataProcessing.DataSaving.processLinksToChunks', return_value=[{'filename': 'file1', 'chunk': 'chunk1', 'vector': [0.1, 0.2, 0.3]}])
     def test_insertChunksFromLinks(self, mock_processLinksToChunks):
         print("Test per la funzione insertChunksFromLinks: Verifica che i chunk vengano inseriti correttamente nel database")
         mock_cursor = MagicMock()
@@ -25,19 +25,19 @@ class TestDataSaving(unittest.TestCase):
             ('file1', 'chunk1', [0.1, 0.2, 0.3])
         )
 
-    @patch('data_processing.productsElaboration.removeTranslations', return_value=[{'product_id': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}])
-    @patch('data_processing.productsElaboration.extractLinks', return_value={'1': {'link': 'http://example.com/doc1.pdf', 'ids': ['1']}})
-    @patch('data_processing.productsElaboration.processProducts', return_value=[{'product_id': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1', 'id_vector': [0.1, 0.2, 0.3], 'idtitle_vector': [0.1, 0.2, 0.3], 'idtitledescr_vector': [0.1, 0.2, 0.3]}])
-    @patch('data_processing.dataSaving.insertChunksFromLinks')
-    @patch('data_processing.dataSaving.insertDocumentsFromLinks')
+    @patch('DataProcessing.ProductsElaboration.removeTranslations', return_value=[{'productId': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}])
+    @patch('DataProcessing.ProductsElaboration.extractLinks', return_value={'1': {'link': 'http://example.com/doc1.pdf', 'ids': ['1']}})
+    @patch('DataProcessing.ProductsElaboration.processProducts', return_value=[{'productId': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1', 'idVector': [0.1, 0.2, 0.3], 'idTitleVector': [0.1, 0.2, 0.3], 'idTitleDescrVector': [0.1, 0.2, 0.3]}])
+    @patch('DataProcessing.DataSaving.insertChunksFromLinks')
+    @patch('DataProcessing.DataSaving.insertDocumentsFromLinks')
     def test_insertProductsFromFile(self, mock_insertDocumentsFromLinks, mock_insertChunksFromLinks, mock_processProducts, mock_extractLinks, mock_removeTranslations):
         print("Test per la funzione insertProductsFromFile: Verifica che i prodotti vengano elaborati e inseriti correttamente nel database")
         mock_cursor = MagicMock()
-        products = [{'product_id': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}]
+        products = [{'productId': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}]
         insertProductsFromFile(mock_cursor, products)
         self.assertEqual(mock_cursor.execute.call_count, 1)
         mock_cursor.execute.assert_called_with(
-            """INSERT INTO Product (id, title, description, etim, id_vector, idtitle_vector, idtitledescr_vector) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING;""",
+            """INSERT INTO Product (id, title, description, etim, idVector, idTitleVector, idTitleDescrVector) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING;""",
             ('1', 'title1', 'desc1', 'etim1', [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3])
         )
 
@@ -49,14 +49,14 @@ class TestDataSaving(unittest.TestCase):
         insertDocumentsFromLinks(mock_cursor, links)
         self.assertEqual(mock_cursor.execute.call_count, 1)
         mock_cursor.execute.assert_called_with(
-            """INSERT INTO Document (title, product_id) VALUES (%s, %s) ON CONFLICT (title, product_id) DO NOTHING;""",
+            """INSERT INTO Document (title, productId) VALUES (%s, %s) ON CONFLICT (title, productId) DO NOTHING;""",
             ('doc1', '1')
         )
 
     @patch('builtins.open', new_callable=mock_open, read_data='[{"product_id": "1", "title": "title1", "description": "desc1", "etim": "etim1"}]')
     @patch('json.load', return_value=[{'product_id': '1', 'title': 'title1', 'description': 'desc1', 'etim': 'etim1'}])
-    @patch('data_processing.dataSaving.insertProductsFromFile')
-    @patch('data_processing.dataSaving.getDBConnection')
+    @patch('DataProcessing.DataSaving.insertProductsFromFile')
+    @patch('DataProcessing.DataSaving.getDBConnection')
     def test_writeProductsInDb(self, mock_getDBConnection, mock_insertProductsFromFile, mock_json_load, mock_open):
         print("Test per la funzione writeProductsInDb: Verifica che i prodotti vengano letti da un file JSON e scritti correttamente nel database")
         mock_connection = MagicMock()
