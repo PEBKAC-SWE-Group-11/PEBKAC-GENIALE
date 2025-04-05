@@ -43,130 +43,105 @@ In particolare sono stati prodotti i seguenti container:
 \end{itemize}
 \subsection{Struttura del sistema}
 \subsubsection{Frontend}
-\subsubsubsection{Introduzione}
-L'approccio adottato per lo sviluppo del front-end\textsubscript{G} si basa su una combinazione flessibile di pattern e pratiche tipiche del framework Angular\textsubscript{G}, senza aderire rigidamente a un unico schema architetturale come MVC\textsubscript{G} o MVVM\textsubscript{G}. Questa scelta consente di bilanciare modularità, scalabilità e semplicità nella gestione dello stato, adattandosi alle specifiche esigenze del progetto. 
-\newline \newline La struttura dell'applicazione si articola in due aree funzionali ben distinte (utente e amministrativa), basate su componenti standalone\textsubscript{G} — come SidebarComponent, ChatboxComponent e AppComponent per l'area utente; AdminLoginComponent e AdminDashboardComponent per l'area amministrativa — supportati da servizi dedicati quali ApiService e ChatService. I componenti sono responsabili della presentazione, mentre i servizi gestiscono la comunicazione con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G} (nel caso di ApiService) e centralizzano la logica di business e lo stato (come in ChatService). 
-\newline \newline In questo modo, operazioni quali la creazione di conversazioni, l'invio di messaggi o la gestione dei feedback vengono delegate ai servizi, rendendo i componenti più leggeri e riutilizzabili. La gestione dello stato è un elemento chiave dell'architettura: l'introduzione di un servizio come ChatService, che utilizza il pattern Observer\textsubscript{G} tramite BehaviorSubject\textsubscript{G} di RxJS\textsubscript{G} per centralizzare conversazioni, messaggi e conversazione attiva, consente ai componenti di reagire dinamicamente ai cambiamenti attraverso gli observable. Questo garantisce un'interfaccia utente\textsubscript{G} reattiva e fluida, resa possibile grazie a strumenti asincroni come async/await\textsubscript{G} e firstValueFrom\textsubscript{G}.
-\newline \newline La sicurezza è gestita attraverso meccanismi appropriati al contesto: sessioni utente anonime persistenti tramite localStorage\textsubscript{G} per l'area chat, e autenticazione basata su hash SHA-256\textsubscript{G} con token JWT\textsubscript{G} per l'area amministrativa, implementata tramite interceptor HTTP\textsubscript{G}.
+\begin{itemize}
+\item L'approccio adottato per lo sviluppo del front-end\textsubscript{G} si basa su una combinazione flessibile di pattern e pratiche tipiche del framework Angular\textsubscript{G}, senza aderire rigidamente a un unico schema architetturale come MVC\textsubscript{G} o MVVM\textsubscript{G}. Questa scelta consente di bilanciare modularità, scalabilità e semplicità nella gestione dello stato, adattandosi alle specifiche esigenze del progetto. 
+\item La struttura dell'applicazione si articola in due aree funzionali ben distinte (utente e amministrativa), basate su componenti standalone\textsubscript{G} — come SidebarComponent, ChatboxComponent e AppComponent per l'area utente; AdminLoginComponent e AdminDashboardComponent per l'area amministrativa — supportati da servizi dedicati quali ApiService e ChatService. I componenti sono responsabili della presentazione, mentre i servizi gestiscono la comunicazione con il back-end\textsubscript{G} tramite API RESTful\textsubscript{G} (nel caso di ApiService) e centralizzano la logica di business e lo stato (come in ChatService). 
+\item In questo modo, operazioni quali la creazione di conversazioni, l'invio di messaggi o la gestione dei feedback vengono delegate ai servizi, rendendo i componenti più leggeri e riutilizzabili. La gestione dello stato è un elemento chiave dell'architettura: l'introduzione di un servizio come ChatService, che utilizza il pattern Observer\textsubscript{G} tramite BehaviorSubject\textsubscript{G} di RxJS\textsubscript{G} per centralizzare conversazioni, messaggi e conversazione attiva, consente ai componenti di reagire dinamicamente ai cambiamenti attraverso gli observable. Questo garantisce un'interfaccia utente\textsubscript{G} reattiva e fluida, resa possibile grazie a strumenti asincroni come async/await\textsubscript{G} e firstValueFrom\textsubscript{G}.
+\item La sicurezza è gestita attraverso meccanismi appropriati al contesto: sessioni utente anonime persistenti tramite localStorage\textsubscript{G} per l'area chat, e autenticazione basata su hash SHA-256\textsubscript{G} con token JWT\textsubscript{G} per l'area amministrativa, implementata tramite interceptor HTTP\textsubscript{G}.
+\end{itemize}
+\subsubsubsection{Componenti Principali}
+\subsubsubsection*{AppComponent}
+Si tratta del componente padre che gestisce la corretta comunicazioni tra i due componenti figli SidebarComponent e ChatboxComponent (i quali fanno parte dei Componenti Principali). Coordina l'interfaccia grafica utente principale e gestisce la visibilità della Sidebar nella situazione in cui l'applicativo viene utilizzato da mobile attraverso:
+\begin{itemize}
+    \item \texttt{toggleSidebar()} - pulsante visibile solo in modalità mobile che permette la visualizzazione della lista di conversazioni;
+    \item \texttt{closeSidebarOnMobile()} - funzione che si attiva in seguito alla selezione di una delle conversazioni presenti nella lista o in seguito alla creazione di una nuova conversazione, lasciando spazio allo spazio dedicato ai messaggi. 
+\end{itemize}
+\subsubsubsection*{ChatboxComponent}
+Primo dei due componenti figli di AppComponent il cui ruolo principale è quello di fornire all'utente la corretta visualizzazione e invio dei messaggi e dei feedback. Questo è possibile grazie ai metodi:
+\begin{itemize}
+    \item \texttt{sendMessage()} - responabile dell'invio di un messaggio valido da parte dell'utente, ovvero un messaggio che non superi i caratteri limite o che non sia vuoto;
+    \item \texttt{sendPositiveFeedback()} - gestione dei feedback positivi;
+    \item \texttt{sendNegativeFeedback()} - gestione dei feedback negativi;
+    \item \texttt{submitFeedback()} - conferma del feedback che si intende mandare, il quale può essere positivo o negativo, vuoto o commentato.
+\end{itemize}
+\subsubsubsection*{SidebarComponent}
+Componente responsabile della gestione e visualizzazione della lista di conversazioni. I metodi che permettono ciò sono i seguenti:
+\begin{itemize}
+    \item \texttt{createNewConversation()} - crea una nuova conversazione e può essere invocato in due situazioni: quando si vuole creare una conversazione nuovo tramite il pulsante dedicato oppure quando si cerca di cancellare una conversazione attiva, ovvero una conversazione che l'utente sta utilizzando o visualizzando nel momento della sua cancellazione. Dunque, al posto della conversazione eliminata viene creata di default una nuova conversazione;
+    \item \texttt{selectConversation()} - selezione di una conversazione esistente nella lista, la quale dopo la sua selezione viene contrassegnata come 'attivia';
+    \item \texttt{deleteConversation()} - cancellazione di una delle conversazioni esistenti (il comportamento della funzione quando si cerca di cancellare una conversazione attiva è già stato descritto sopra)
+\end{itemize}
+I metodi descritti in questo paragrafo sono tutti gestiti dai servizi implementati nel frontend.
+\subsubsubsection{Servizi}
+\subsubsubsection*{ChatService}
+Come anticipato precedentemente, i metodi utilizzati nei componenti figli sono implementati in ChatService, che ha il compito di gestire la comunicazione tra le richieste dei componenti del frontend e il backend. I metodi principali sono:
+\begin{itemize}
+    \item \texttt{initializeFromStorage()} - metodo chiave grazie al quale è possibile l'inizializzazione dell'applicativo attraverso il controlla della presenza o meno di un ID di sessione nel localStorage. Se questo è già presente allora vengono recuperate tutte informazioni dipendenti dal ID conservato grazie a \texttt{readSession(sessionId)} e viene aggiornata la data di accesso con \texttt{updateSession(sessionId)}, altrimenti se ne genera una nuova conversazione con \texttt{createNewSession()};
+    \item le altre funzioni sono già state discusse precedentemente.
+\end{itemize}
+\subsubsubsection*{ApiService}
+Mentre ChatService contiene l'implementazione dei metodi utilizzati dai componenti figli, ApiService contiene le chiamate HTTP ai metodi CRUD presenti nel backend. Infatti, ApiService è iniettato in ChatService, e fa da tramite tra frontend e backend attraverso le API che mantengono una forma compattibile con le API scritte nel backend. Come si può intuire le chiamte principali gestiscono sessione, messaggi e feedback, e la maggior parte di queste sono già state discusse precedentemente. Tuttavia, ce ne sono alcune da analizzare:
+\begin{itemize}
+    \item \texttt{askQuestion(conversationId, question)} - viene chiamata all'interno del metodo \texttt{sendMessage()} in ChatService. Il suo scopo è quello di collegarsi all'algoritmo che genera la risposta nel backend. Si resta in attesa e non appena viene ritornata, si può visualizzare nella sezione dei messaggi della conversazione interessata;
+    \item Admin 
+    \newline \newline Le seguenti chiamate HTTP sono tutte necessarie per l'area riservata dell'amministratore
+    \begin{itemize}
+        \item \texttt{adminLogin(password)} - responsabile dell'autenticazione tramite password da parte dell'amministrazione per poter accedere alla Dashboard. Si specifica che si tratta di un'implementazione mock, accordata con il proponente. Tale argomento verrà trattato più approfonditamente successivamente;
+        \item \texttt{getAdminStats()} - richiede dal backend i dati relativi al totale delle conversazioni e dei feedback creati dagli utenti. Si tratta quindi del recupero delle statistiche necessarie all'amministratore per comprendere l'andamento dell'applicativo;
+        \item \texttt{getFeedbackWithComments} - funzionalità necessaria a recuperare i feedback dei messaggi che sono stati inviati con un commento annesso. Necessario agli svliuppatori in una fase iniziale in cui si prende atto delle osservazioni degli utenti con lo scopo di migliorare il prodotto in fasi successive. Feedback con messaggio e commento sono visibili nella Dashboard insieme alle statistice.
+    \end{itemize}
+\end{itemize}
+\subsubsubsection{Area Amministratore}
+\subsubsubsection*{LoginComponent}
+Per raggiungere questa sezione dell'applciativo è necessario modificare l'URL aggiungendo \texttt{/admin/login} che porta l'amministratore all'interfaccia grafica dedicata all'autenticazione dove basta inserire la password per poter accedere in seguito alla Dashboard (\texttt{/admin/dashboard}). Le funzioni principali sono:
+\begin{itemize}
+    \item \texttt{login()} - verifica la password inserita e autentica l'utente;
+    \item \texttt{hashPassword} - calcolo dell'hash della password per la verifica.
+\end{itemize}
+Una volta autenticato, nel localStorage viene salvato il token generato durante l'accesso alla Dashboard.
+\subsubsubsection*{DashboardComponent}
+Come già discusso, nelle Dashboard si possono visualizzare le statisctiche amministrative e i feedback commentati degli utenti. Ciò è possibili grazie a:
+\begin{itemize}
+    \item \texttt{loadStats()} - carica le statistiche;
+    \item \texttt{loadFeedbackComments} - carica i feedback commentati;
+    \item \texttt{calcSatisfactionRate} - calcolo del tasso di soddisfazione degli utenti. 
+\end{itemize}
+Dalla Dashboard si possono fare due azioni, ritornare all'area utilizzata da un utente generico, ovvero alle conversazioni, tramite pulsante specifico, ma così facendo il token generato durante l'autenticazione è ancora presente nel localStorage, quindi l'amministratore in momemnti successivi può accedere all Dashboard senza dover ripetere la fase di autenticazione. Altrimenti, tramite pulsante specifico può fare 'Logout', così rimuovendo il token dal localStorage.
+\subsubsubsection*{AuthInterceptor}
+Intercetta le richieste HTTP per aggiungere token di autenticazione. Attraverso \texttt{intercept()} aggiunge l'header di autorizzazione alle richieste verso le rotte amministrative. È utilizzato globalmente per proteggere le rotte amministrative.
+\subsubsubsection*{AdminGuard}
+Protegge le rotte amministrative verificando l'autenticazione. Controlla se l'utente è autenticato prima di permettere l'accesso a una rotta attraverso \texttt{canActivate()}. È utilizzato nelle definizioni delle rotte per proteggere le sezioni amministrative.
 \subsubsubsection{Design Pattern}
 L'applicazione front-end implementa specifici pattern di progettazione software che ne definiscono l'architettura complessiva. La scelta di questi pattern si allinea con le best practice di Angular e con le esigenze progettuali.
-\subsubsubsubsection{Pattern Creazionali}
+\subsubsection*{Patern Creazionali}
 \begin{itemize}
     \item Singleton
     \newline\newline L'intero sistema di dependency injection\textsubscript{G} di Angular implementa implicitamente questo pattern. Tutti i servizi (ApiService e ChatService) sono dichiarati con @Injectable{providedIn: 'root'}, garantendo un'unica istanza per l'intera applicazione. Grazie a questo sistema si riesce la centralizzazione dello stato dell'applicazione, la prevenzione di inconsistenze e l'ottimizzazione delle risorse attraverso il riuso delle istanze di servizio. 
 \end{itemize}
-\subsubsubsubsection{Pattern Strutturali}
+\subsubsection*{Pattern Strutturali}
 \begin{itemize}
     \item Decorator
     \newline\newline Si usa il sistema nativo di decoratori TypeScript/Angular\textsubscript{G} (@Component, @Injectable, @Input e @Output) per estendere dinamicamente il comportamento delle classi e di AuthInterceptor per decorare le richieste HTTP. Così facendo si separano le responsabilità e si riutilizza il codice.
     \item Façade
     \newline\newline ApiService astrae le complessità delle chiamate HTTP e ChatService nasconde i dettagli implementativi della gestione delle conversazioni. Il vantaggio è il disaccoppiamento tra logica di business e interfaccia utente. 
 \end{itemize}
-\subsubsubsubsection{Pattern Comportamentali}
+\subsubsection*{Pattern Comportamentali}
 \begin{itemize}
     \item Observer
     \newline\newline Uso estensivo di BehaviorSubject e Observable di RxJS per gestire flussi di dati asincroni e aggiornamenti dell'interfaccia utente. 
     \item Mediator
     \newline\newline AppComponent funge da mediatore per la comunicazione tra componenti figli come SidebarComponent e ChatboxComponent. 
 \end{itemize}
-\subsubsubsection{Scenari}
-Il front-end\textsubscript{G} presenta un’area pubblica e un’area riservata all’admin come richiesto dal capitolato\textsubscript{G}. La prima può essere utilizzata da un utente generico, e non è previsto un sistema di autenticazione\textsubscript{G}, mentre la seconda come si può intuire è riservata all’amministratore e sono richieste delle credenziali di accesso.
-\subsubsubsubsection{Scenari Pubblici}
-\begin{itemize}
-    \item Inizializzazione: 
-    \newline \newline Viene verificato se esista già una sessione\textsubscript{G} salvata nel localStorage\textsubscript{G} del dispositivo dal quale si intende usufruire dell’applicativo. Se esiste allora vengono recuperate le conversazioni con i rispettivi messaggi, altrimenti viene creata una nuova sessione di cui si tiene traccia tramite un ID di sessione generato in maniera univoca. Inoltre, nel caso di una sessione nuova viene generata una conversazione di default che permette all'utente di interagire con l'assistente digitale\textsubscript{G}. 
-    \item Gestione Conversazioni:
-    \begin{itemize}
-        \item L'utente può aggiungere conversazioni tramite un pulsante dedicato, ed è previsto un limite di 10 conversazioni; 
-        \item L'utente può selezionare una qualsiasi delle conversazioni presenti così recuperando lo storico di messaggi;
-        \item L'utente puù eliminare qualsiasi conversazioni desideri, qualora eliminasse la conversazione attiva, al suo posto viene generata automaticamente una nuova conversazione. 
-    \end{itemize}
-     \item Gestione Messaggi:
-     \begin{itemize}
-         \item L'utente può inviare messaggi, con limite di 500 caratteri, per i quali è previsto un messaggio di risposta dall'assistente digitale;
-         \item L'utente può valutare la qualità di risposta tramite un sistema di feedback\textsubscript{G} positivi e negativi visibili sotto ogni messaggio dell’assistente;
-         \item I feedback inviati vengono registrati ma non possono essere modificati successivamente.
-     \end{itemize}
-\end{itemize}
-\subsubsubsubsection{Scenari Admin}
-\begin{itemize}
-    \item Accesso:
-    \newline \newline L'admin accede tramite un URL\textsubscript{G} dedicato (/admin) e vede la schermata di login\textsubscript{G}. Inserisce la password che viene trasformata in hash SHA-256 lato client prima di essere inviata al server. Con credenziali corrette, l'admin entra nel dashboard\textsubscript{G} (/admin/dashboard), altrimenti riceve un messaggio di errore. I tentativi di accesso non autorizzati al dashboard vengono bloccati e reindirizzati al login attraverso un Guard Angular\textsubscript{G}.
-    \item Funzionalità:
-    \begin{itemize}
-        \item Totale conversazioni;
-        \item Totale feedback positivi;
-        \item Totale feedback negativi;
-        \item Tasso di soddisfazione.
-    \end{itemize}
-\end{itemize}
-\subsubsubsection{Diagrammi delle Classi}
-Seguendo la scia del paragrago precedente relativo agli scenari, l'analisi dei diagrammi delle classi\textsubscript{G} è ralazionato ai scenari pubblici e scenari admin. Ogni scenario sarà associato alle classi principali coinvolte e alle loro relazioni.
-\subsubsubsubsection{Scenari Pubblici}
-\begin{itemize}
-    \item Inizializzazione
-    \begin{itemize}
-        \item Classi Coinvolte:
-        \begin{itemize}
-            \item AppComponent coordina l'inizializzazione dell'applicativo;
-            \item SidebarComponent gestisce la lisa delle conversazioni;
-            \item ChatboxComponent mostra la conversazione attiva e i relativi messaggi;
-            \item ApiService gestisce le chiamate API RESTful\textsubscript{G} al back-end\textsubscript{G};
-            \item ChatService gestisce lo stato delle conversazioni e dei messaggi.
-        \end{itemize}
-        \item Relazioni:
-        \begin{itemize}
-            \item AppComponent contiene SidebarComponent e ChatboxComponent come componenti figli;
-            \item SidebarComponent e ChatboxComponent dipendonon da ChatService per accedere allo stato;
-            \item ChatService usa ApiService per recuperare i dati iniziali dal back-end.
-        \end{itemize}
-    \end{itemize}
-    \item Creazione di una Nuova Conversazione
-    \begin{itemize}
-        \item Classi Coinvolte:
-        \begin{itemize}
-            \item SidebarComponent contiene il pulsante per avviare la creazione;
-            \item ChatService crea la conversazione e aggiorna lo stato;
-            \item ApiService invial la richiesta HTTP al back-end per creare la conversazione.
-        \end{itemize}
-        \item Relazioni:
-        \begin{itemize}
-            \item ChatService invoca ApiService.createConversation() per la comunicazione con il back-end;
-            \item ChatService notifica i componenti dell’aggiornamento tramite BehaviorSubject;
-            \item AppComponent coordina la comunicazione tra SidebarComponent e ChatboxComponent tramite eventi (@Output) quando viene creata una nuova conversazione.
-        \end{itemize}
-    \end{itemize}
-    \item Gestione Feedback
-    \begin{itemize}
-        \item Classi Coinvolte:
-        \begin{itemize}
-            \item ChatboxComponent visualizza e gestisce i pulsanti per i feedback;
-            \item ChatService elabora e memorizza temporaneamente il feedback;
-            \item ApiService invia il feedback al back-end.
-        \end{itemize}
-        \item Relazioni:
-        \begin{itemize}
-            \item ChatboxComponent invoca ChatService.sendFeedback() quando l’utente clicca un pulsante;
-            \item ChatService invoca ApiService.sendFeedback() per inviare al backend.
-        \end{itemize}
-    \end{itemize}
-\end{itemize}
-\subsubsubsubsection{Scenari Admin}
-\begin{itemize}
-    \item Classi Coinvolte:
-    \begin{itemize}
-        \item AdminLoginComponent gestisce l'autenticazione;
-        \item AdminDashboardComponent visualizza le statistiche;
-        \item ApiService comunica con il backend;
-        \item AuthInterceptor intercetta e modifica le richieste HTTP.
-    \end{itemize}
-    \item Relazioni:
-    \begin{itemize}
-        \item AdminLoginComponent usa ApiService per l’autenticazione;
-        \item AdminDashboardComp usa ApiService per recuperare statistiche;
-        \item AuthInterceptor aggiunge token alle richieste admin.
-    \end{itemize}
-\end{itemize}
+
+\subsubsubsection{Diagramma delle Classi}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/FrontendUML.png}
+    \caption{Schema delle classi utilizzate nel frontend}
+    \label{fig:architettura}
+\end{figure}
+
 \newpage
 \subsubsection{Backend}
  Il sistema è architettato secondo il pattern esagonale (Ports and Adapters), dove il Core costituisce il dominio centrale dell'applicazione. Questa componente rappresenta il nucleo del sistema, caratterizzato da un isolamento completo dalle dipendenze esterne. Al suo interno sono contenute le regole di business fondamentali e le entità che definiscono i concetti chiave del dominio: le conversazioni, i messaggi e le sessioni. Il Core opera come un'unità autonoma, implementando la logica di business in modo indipendente dalle modalità di input/output dei dati.
