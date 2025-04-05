@@ -1,27 +1,27 @@
 \section{Introduzione}
 \subsection{Scopo del documento}
-Il presente documento ha l’obiettivo di definire in maniera esaustiva e comprensibile gli aspetti tecnici chiave del progetto "Vimar GENIALE". Il fine principale di questsa risorsa è fornire una descrizione dettagliata e approfondita dell'architettura\textsubscript{G} implementativa del sistema\textsubscript{G}. \\
+Il presente documento ha l’obiettivo di definire in maniera esaustiva e comprensibile gli aspetti tecnici chiave del progetto ``Vimar GENIALE". Il fine principale di questa risorsa è fornire una descrizione dettagliata e approfondita dell'architettura\textsubscript{G} implementativa del sistema\textsubscript{G}. \\
 Nel contesto dell'architettura\textsubscript{G} è prevista un'analisi approfondita che si estenda anche al livello di design più basso, includendo la definizione e la spiegazione dei design pattern\textsubscript{G} e dei linguaggi usati nel progetto.
-Gli obiettivi del presente documento sono tre: motivare le scelte di sviluppo adottate, fornire al gruppo una guida fondamentale per l'attività di codifica e monitorare la copertura dei requisiti identificari nel documento Analisi dei Requisiti V2.0.0.
+Gli obiettivi del presente documento sono tre: motivare le scelte di sviluppo adottate, fornire al gruppo una guida fondamentale per l'attività di codifica e monitorare la copertura dei requisiti identificati nel documento Analisi dei Requisiti V2.0.0.
 
 \subsection{Scopo del prodotto}
 Il progetto ``Vimar GENIALE" mira a sviluppare un'applicazione intelligente che supporti installatori elettrici nell'uso di dispositivi Vimar\textsubscript{G}, facilitando l'accesso alle informazioni tecniche sui prodotti, rispondendo a domande poste in linguaggio naturale.
 La tecnologia alla base prevede l'uso di modelli di LLM\textsubscript{G} e di tecniche RAG\textsubscript{G}, con una struttura di gestione basata su container\textsubscript{G} e integrata in un ambiente cloud\textsubscript{G}.
-Il sistema include tre componenti principali: una applicativo web responsive\textsubscript{G}, un applicativo server\textsubscript{G} e un'infrastruttura cloud-ready\textsubscript{G}. 
+Il sistema include tre componenti principali: un applicativo web responsive\textsubscript{G}, un applicativo server\textsubscript{G} e un'infrastruttura cloud-ready\textsubscript{G}. 
 \subsection{Glossario}
 Per evitare ambiguità relative al linguaggio utilizzato nei documenti, viene fornito il Glossario V2.0.0, nel quale si possono trovare tutte le definizioni di termini che hanno un significato specifico che vuole essere disambiguato. Tali termini sono marcati con una G a pedice. 
 \subsection{Riferimenti}
 \subsubsection{Riferimenti normativi}
 \begin{itemize}
-    \item Regolamento del progetto didattico\\ \href{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf} \\ (Ultimo accesso 2024-11-14)
-    \item ISO/IEC 12207:1995 Information technology - Software life cycle processes \\ \href{https://www.math.unipd.it/~tullio/IS-1/2010/Approfondimenti/A03.pdf}{https://www.math.unipd.it/~tullio/IS-1/2010/Approfondimenti/A03.pdf}\\ (Ultimo accesso 2024-11-14)
+    \item Regolamento del progetto didattico\\ \href{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf} \\ (Ultimo accesso 2024-11-20)
+    \item ISO/IEC 12207:1995 Information technology - Software life cycle processes \\ \href{https://www.math.unipd.it/~tullio/IS-1/2010/Approfondimenti/A03.pdf}{https://www.math.unipd.it/~tullio/IS-1/2010/Approfondimenti/A03.pdf}\\ (Ultimo accesso 2025-02-22)
 
 \end{itemize}
 
 \subsubsection{Riferimenti informativi}
 \begin{itemize}
-    \item Capitolato C2 \\ \href{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}\\ (Ultimo accesso 2024-11-14)
-    \item Capitolato C2 - slides \\ \href{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}{https://www.math.unipd.it/~tullio/IS-1/2024/Dispense/PD1.pdf}\\ (Ultimo accesso 2024-11-14)
+    \item Capitolato C2 \\ \href{https://www.math.unipd.it/~tullio/IS-1/2024/Progetto/C2.pdf}{https://www.math.unipd.it/~tullio/IS-1/2024/Progetto/C2.pdf}\\ (Ultimo accesso 2025-03-26)
+    \item Capitolato C2 - slides \\ \href{http://math.unipd.it/~tullio/IS-1/2024/Progetto/C2p.pdf}{http://math.unipd.it/~tullio/IS-1/2024/Progetto/C2p.pdf}\\ (Ultimo accesso 2024-12-19)
     \item Documentazione\textsubscript{G} GitHub\textsubscript{G} \\ \href{https://docs.github.com/en}{https://docs.github.com/en}\\ (Ultimo accesso 2024-11-14)
     
 \end{itemize}

@@ -49,7 +49,7 @@ In particolare sono stati prodotti i seguenti container:
 \item In questo modo, operazioni quali la creazione di conversazioni, l'invio di messaggi o la gestione dei feedback vengono delegate ai servizi, rendendo i componenti più leggeri e riutilizzabili. La gestione dello stato è un elemento chiave dell'architettura: l'introduzione di un servizio come ChatService, che utilizza il pattern Observer\textsubscript{G} tramite BehaviorSubject\textsubscript{G} di RxJS\textsubscript{G} per centralizzare conversazioni, messaggi e conversazione attiva, consente ai componenti di reagire dinamicamente ai cambiamenti attraverso gli observable. Questo garantisce un'interfaccia utente\textsubscript{G} reattiva e fluida, resa possibile grazie a strumenti asincroni come async/await\textsubscript{G} e firstValueFrom\textsubscript{G}.
 \item La sicurezza è gestita attraverso meccanismi appropriati al contesto: sessioni utente anonime persistenti tramite localStorage\textsubscript{G} per l'area chat, e autenticazione basata su hash SHA-256\textsubscript{G} con token JWT\textsubscript{G} per l'area amministrativa, implementata tramite interceptor HTTP\textsubscript{G}.
 \end{itemize}
-\subsubsubsection{Componenti Principali}
+\subsubsubsection{Componenti principali}
 \subsubsubsection*{AppComponent}
 Si tratta del componente padre che gestisce la corretta comunicazioni tra i due componenti figli SidebarComponent e ChatboxComponent (i quali fanno parte dei Componenti Principali). Coordina l'interfaccia grafica utente principale e gestisce la visibilità della Sidebar nella situazione in cui l'applicativo viene utilizzato da mobile attraverso:
 \begin{itemize}
@@ -91,7 +91,7 @@ Mentre ChatService contiene l'implementazione dei metodi utilizzati dai componen
         \item \texttt{getFeedbackWithComments} - funzionalità necessaria a recuperare i feedback dei messaggi che sono stati inviati con un commento annesso. Necessario agli svliuppatori in una fase iniziale in cui si prende atto delle osservazioni degli utenti con lo scopo di migliorare il prodotto in fasi successive. Feedback con messaggio e commento sono visibili nella Dashboard insieme alle statistice.
     \end{itemize}
 \end{itemize}
-\subsubsubsection{Area Amministratore}
+\subsubsubsection{Area amministratore}
 \subsubsubsection*{LoginComponent}
 Per raggiungere questa sezione dell'applciativo è necessario modificare l'URL aggiungendo \texttt{/admin/login} che porta l'amministratore all'interfaccia grafica dedicata all'autenticazione dove basta inserire la password per poter accedere in seguito alla Dashboard (\texttt{/admin/dashboard}). Le funzioni principali sono:
 \begin{itemize}
@@ -113,19 +113,19 @@ Intercetta le richieste HTTP per aggiungere token di autenticazione. Attraverso 
 Protegge le rotte amministrative verificando l'autenticazione. Controlla se l'utente è autenticato prima di permettere l'accesso a una rotta attraverso \texttt{canActivate()}. È utilizzato nelle definizioni delle rotte per proteggere le sezioni amministrative.
 \subsubsubsection{Design Pattern}
 L'applicazione front-end implementa specifici pattern di progettazione software che ne definiscono l'architettura complessiva. La scelta di questi pattern si allinea con le best practice di Angular e con le esigenze progettuali.
-\subsubsection*{Patern Creazionali}
+\subsubsection*{Pattern creazionali}
 \begin{itemize}
     \item Singleton
     \newline\newline L'intero sistema di dependency injection\textsubscript{G} di Angular implementa implicitamente questo pattern. Tutti i servizi (ApiService e ChatService) sono dichiarati con @Injectable{providedIn: 'root'}, garantendo un'unica istanza per l'intera applicazione. Grazie a questo sistema si riesce la centralizzazione dello stato dell'applicazione, la prevenzione di inconsistenze e l'ottimizzazione delle risorse attraverso il riuso delle istanze di servizio. 
 \end{itemize}
-\subsubsection*{Pattern Strutturali}
+\subsubsection*{Pattern strutturali}
 \begin{itemize}
     \item Decorator
     \newline\newline Si usa il sistema nativo di decoratori TypeScript/Angular\textsubscript{G} (@Component, @Injectable, @Input e @Output) per estendere dinamicamente il comportamento delle classi e di AuthInterceptor per decorare le richieste HTTP. Così facendo si separano le responsabilità e si riutilizza il codice.
     \item Façade
     \newline\newline ApiService astrae le complessità delle chiamate HTTP e ChatService nasconde i dettagli implementativi della gestione delle conversazioni. Il vantaggio è il disaccoppiamento tra logica di business e interfaccia utente. 
 \end{itemize}
-\subsubsection*{Pattern Comportamentali}
+\subsubsection*{Pattern comportamentali}
 \begin{itemize}
     \item Observer
     \newline\newline Uso estensivo di BehaviorSubject e Observable di RxJS per gestire flussi di dati asincroni e aggiornamenti dell'interfaccia utente. 
@@ -133,7 +133,7 @@ L'applicazione front-end implementa specifici pattern di progettazione software 
     \newline\newline AppComponent funge da mediatore per la comunicazione tra componenti figli come SidebarComponent e ChatboxComponent. 
 \end{itemize}
 
-\subsubsubsection{Diagramma delle Classi}
+\subsubsubsection{Diagramma delle classi}
 
 \begin{figure}[H]
     \centering
@@ -148,55 +148,55 @@ L'applicazione front-end implementa specifici pattern di progettazione software 
 \newline La comunicazione tra il Core e l'ambiente esterno è gestita attraverso le Porte, che definiscono le interfacce di interazione. Queste costituiscono i contratti formali attraverso i quali il Core stabilisce le modalità di comunicazione desiderate, astraendosi dalle implementazioni concrete. Le Porte rappresentano le specifiche tecniche che definiscono come il Core intende interagire con l'esterno, delegando la responsabilità dell'implementazione alle componenti periferiche.
 \newline Il sistema è completato dagli Adattatori, che formano un layer periferico attorno al Core. Questi componenti implementano le interfacce definite dalle Porte, fungendo da intermediari tra il Core e le risorse esterne. Gli Adattatori si occupano della traduzione dei dati e delle richieste tra il dominio e l'ambiente esterno, garantendo che il Core rimanga isolato dalle specifiche implementative delle interfacce esterne.
 \subsubsubsection{Componenti}
-\subsubsubsubsection{CORE - ConversationService}
+\subsubsubsubsection{Core - ConversationService}
 Nel core del sistema, la classe \texttt{ConversationService} si occupa principalmente della gestione delle sessioni, delle conversazioni, dei messaggi e dei feedback.
 
-\subsubsection*{Gestione delle Sessioni}
+\subsubsection*{Gestione delle sessioni}
 Il servizio offre diversi metodi per la gestione delle sessioni:
 \begin{itemize}
-    \item \texttt{createSession()} permette di creare una nuova sessione.
-    \item \texttt{readSession(sessionId)} recupera una sessione esistente dato un identificativo specifico.
+    \item \texttt{createSession()} permette di creare una nuova sessione;
+    \item \texttt{readSession(sessionId)} recupera una sessione esistente dato un identificativo specifico;
     \item \texttt{updateSession(sessionId)} consente di aggiornare il timestamp di una sessione.
 \end{itemize}
 
-\subsubsection*{Gestione delle Conversazioni}
+\subsubsection*{Gestione delle conversazioni}
 Per quanto riguarda le conversazioni, il servizio gestisce:
 \begin{itemize}
-    \item \texttt{createConversation(sessionId)} crea una nuova conversazione associata a una sessione esistente.
-    \item \texttt{readConversations(sessionId)} restituisce tutte le conversazioni relative a una sessione specifica.
-    \item \texttt{readConversationById(conversationId)} permette di recuperare una conversazione in base al suo ID.
-    \item \texttt{deleteConversation(conversationId)} consente di eliminare una conversazione (o marcarla come eliminata).
+    \item \texttt{createConversation(sessionId)} crea una nuova conversazione associata a una sessione esistente;
+    \item \texttt{readConversations(sessionId)} restituisce tutte le conversazioni relative a una sessione specifica;
+    \item \texttt{readConversationById(conversationId)} permette di recuperare una conversazione in base al suo ID;
+    \item \texttt{deleteConversation(conversationId)} consente di eliminare una conversazione (o marcarla come eliminata);
     \item \texttt{updateConversationTimestamp(conversationId)} aggiorna il timestamp di una conversazione.
 \end{itemize}
 
-\subsubsection*{Gestione dei Messaggi}
+\subsubsection*{Gestione dei messaggi}
 Il sistema offre anche funzionalità per la gestione dei messaggi all’interno delle conversazioni:
 \begin{itemize}
-    \item \texttt{addMessage(conversationId, sender, content)} consente di aggiungere un nuovo messaggio a una conversazione esistente.
+    \item \texttt{addMessage(conversationId, sender, content)} consente di aggiungere un nuovo messaggio a una conversazione esistente;
     \item \texttt{readMessages(conversationId)} restituisce tutti i messaggi di una determinata conversazione.
 \end{itemize}
 
-\subsubsection*{Gestione dei Feedback}
+\subsubsection*{Gestione dei feedback}
 Infine, la gestione dei feedback si articola in diversi metodi:
 \begin{itemize}
-    \item \texttt{readFeedback(messageId)} recupera il feedback associato a un messaggio specifico.
-    \item \texttt{addFeedback(messageId, feedback, content)} permette di aggiungere un feedback a un messaggio esistente.
-    \item \texttt{readNumPositiveFeedback()} e \texttt{readNumNegativeFeedback()} forniscono il conteggio dei feedback positivi e negativi.
+    \item \texttt{readFeedback(messageId)} recupera il feedback associato a un messaggio specifico;
+    \item \texttt{addFeedback(messageId, feedback, content)} permette di aggiungere un feedback a un messaggio esistente;
+    \item \texttt{readNumPositiveFeedback()} e \texttt{readNumNegativeFeedback()} forniscono il conteggio dei feedback positivi e negativi;
     \item \texttt{readFeedbackWithComments()} recupera tutti i feedback che contengono anche dei commenti.
 \end{itemize}
 
-\subsubsubsubsection{ADAPTER - DBRepository}
+\subsubsubsubsection{Adapter - DBRepository}
 Gli adattatori sono responsabili della comunicazione tra il core del sistema e il database. In particolare, \texttt{DBRepository} si occupa dell'esecuzione delle query SQL e della gestione dei risultati:
 \begin{itemize}
-    \item \texttt{executeQuery(query, params)} esegue una query SQL passando i parametri necessari.
-    \item \texttt{fetchOne(query, params)} recupera un singolo risultato dalla query.
-    \item \texttt{fetchAll(query, params)} restituisce tutti i risultati di una query.
+    \item \texttt{executeQuery(query, params)} esegue una query SQL passando i parametri necessari;
+    \item \texttt{fetchOne(query, params)} recupera un singolo risultato dalla query;
+    \item \texttt{fetchAll(query, params)} restituisce tutti i risultati di una query;
     \item \texttt{close()} chiude la connessione al database.
 \end{itemize}
 
 
 
-\subsubsubsubsection{ADAPTER - ContextExtractorService}
+\subsubsubsubsection{Adapter - ContextExtractorService}
 Il \texttt{ContextExtractorService} ha il compito di individuare i prodotti e le porzioni di documentazione (chunk) presenti nel database che risultano più pertinenti e coerenti con il prompt fornito dall'utente.\\ Il processo di ricerca \`e stato diviso in 2 macro-operazioni:
 \begin{enumerate}
     \item Ricerca prodotti pi\`u coerenti;
@@ -210,19 +210,19 @@ All'interno del file \texttt{ContextExtractorService.py} ci sono delle costanti 
 \end{enumerate}
 \texttt{ContextExtractorService} contiene i seguenti metodi:
 \begin{itemize}
-    \item \texttt{processUserInput(userInput)} \`e il metodo principale della classe e orchestra l'estrazione dei dati coerenti dal Database.\\ \texttt{userInput} \`e il testo del prompt fatto dall'utente.
-    \item \texttt{getStructuredProducts()} estrae dal Database le informazioni riguardanti id, titolo, descrizione di ogni prodotto, insieme a 3 vettori che rappresentano rispettivamente l'informazione di ``id prodotto", ``id e titolo prodotto" e ``id, titolo e descrizione prodotto".
-    \item \texttt{findTopNSimilarProducts(prodList, promptVector, n)} trova gli \texttt{n} prodotti pi\`u simili al prompt, utilizzando i vettori sopra citati.
-    \item \texttt{aggregateSimilarities(similarProducts)} aggrega le informazioni estratte da \texttt{findTopNSimilarProducts}, in questo modo per ogni prodotto si avr\`a un unico punteggio di similarit\`a.
-    \item \texttt{selectChunksEmbeddings(chunks, aggregatedSimilarProduct)} seleziona i chunk dei documenti associati ai prodotti pi\`u simili, restituendo i vettori di embedding per il confronto.
-    \item \texttt{findTopNSimilar(chunksEmbeddings, userEmbeddings, n)} trova gli \texttt{n} chunk pi\`u simili rispetto al prompt utente confrontando gli embedding tramite similarit\`a coseno.
-    \item \texttt{extractEtim()} estrae dal Database l'informazione relativa agli ETIM (dati tecnici) dei prodotti.
-    \item \texttt{selectEtim(etim, textsToEmbed)} associa le informazioni ETIM ai chunk selezionati come contesto, restituendo un dizionario che mappa gli identificativi di prodotto ai relativi codici ETIM.
-    \item \texttt{getEmbedding(prompt)} utilizza il modello di embedding \texttt{mxbai-embed-large} per generare un vettore di embedding a partire dal testo del prompt.
-    \item \texttt{getDocumentsByProductId(productId)} recupera dal Database i documenti associati a un determinato prodotto, includendo il titolo del prodotto e il titolo del documento.
+    \item \texttt{processUserInput(userInput)} \`e il metodo principale della classe e orchestra l'estrazione dei dati coerenti dal Database.\\ \texttt{userInput} \`e il testo del prompt fatto dall'utente;
+    \item \texttt{getStructuredProducts()} estrae dal Database le informazioni riguardanti id, titolo, descrizione di ogni prodotto, insieme a 3 vettori che rappresentano rispettivamente l'informazione di ``id prodotto", ``id e titolo prodotto" e ``id, titolo e descrizione prodotto";
+    \item \texttt{findTopNSimilarProducts(prodList, promptVector, n)} trova gli \texttt{n} prodotti pi\`u simili al prompt, utilizzando i vettori sopra citati;
+    \item \texttt{aggregateSimilarities(similarProducts)} aggrega le informazioni estratte da \texttt{findTopNSimilarProducts}, in questo modo per ogni prodotto si avr\`a un unico punteggio di similarit\`a;
+    \item \texttt{selectChunksEmbeddings(chunks, aggregatedSimilarProduct)} seleziona i chunk dei documenti associati ai prodotti pi\`u simili, restituendo i vettori di embedding per il confronto;
+    \item \texttt{findTopNSimilar(chunksEmbeddings, userEmbeddings, n)} trova gli \texttt{n} chunk pi\`u simili rispetto al prompt utente confrontando gli embedding tramite similarit\`a coseno;
+    \item \texttt{extractEtim()} estrae dal Database l'informazione relativa agli ETIM (dati tecnici) dei prodotti;
+    \item \texttt{selectEtim(etim, textsToEmbed)} associa le informazioni ETIM ai chunk selezionati come contesto, restituendo un dizionario che mappa gli identificativi di prodotto ai relativi codici ETIM;
+    \item \texttt{getEmbedding(prompt)} utilizza il modello di embedding \texttt{mxbai-embed-large} per generare un vettore di embedding a partire dal testo del prompt;
+    \item \texttt{getDocumentsByProductId(productId)} recupera dal Database i documenti associati a un determinato prodotto, includendo il titolo del prodotto e il titolo del documento;
     \item \texttt{loadChunks()} estrae dal Database tutti i chunk di documentazione, inclusi gli embedding associati, per consentire la ricerca di contenuti pertinenti.
 \end{itemize}
-\subsubsubsubsection{ADAPTER - LLMResponseService}
+\subsubsubsubsection{Adapter - LLMResponseService}
 Il \texttt{LLMResponseService} ha il compito di interfacciarsi con un modello di linguaggio per ottenere una risposta contestualizzata basata su una conversazione in corso, una domanda utente e un insieme di informazioni di contesto estratte dal Database.
 Negli attributi della classe \`e possibile configurare il modello di linguaggio, il default \`e \texttt{llama3.1:8b}.
 \texttt{LLMResponseService} contiene il seguente metodo:
@@ -230,7 +230,7 @@ Negli attributi della classe \`e possibile configurare il modello di linguaggio,
     \item \texttt{getLlmResponse(conversationPile, question, textsToEmbed, etimToEmbed)} si occupa di formattare i messaggi della conversazione, aggregare il contesto rilevante e inviare la richiesta al modello LLM per ottenere una risposta.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/BackendUML.png}
+    \includegraphics[width=\textwidth]{images/BackendUML.jpeg}
     \caption{Schema delle classi utilizzate nel backend}
     \label{fig:architettura}
 \end{figure}
@@ -243,37 +243,37 @@ Gli adattatori includono anche \texttt{APIController}, che gestisce gli endpoint
     \item \texttt{testApi()} che consente di verificare il funzionamento generale del sistema.
 \end{itemize}
 
-\subsubsection*{Gestione delle Sessioni}
+\subsubsection*{Gestione delle sessioni}
 \begin{itemize}
-    \item \texttt{apiCreateSession()} per creare una nuova sessione.
+    \item \texttt{apiCreateSession()} per creare una nuova sessione;
     \item \texttt{apiUpdateSession(sessionId)} per aggiornare una sessione esistente.
 \end{itemize}
 
-\subsubsection*{Gestione delle Conversazioni}
+\subsubsection*{Gestione delle conversazioni}
 \begin{itemize}
-    \item \texttt{apiCreateConversation()} per creare una conversazione.
-    \item \texttt{apiReadConversations()} per ottenere tutte le conversazioni di una sessione.
-    \item \texttt{apiReadConversationById(conversationId)} per ottenere una conversazione specifica.
-    \item \texttt{apiDeleteConversation(conversationId)} per eliminare una conversazione.
+    \item \texttt{apiCreateConversation()} per creare una conversazione;
+    \item \texttt{apiReadConversations()} per ottenere tutte le conversazioni di una sessione;
+    \item \texttt{apiReadConversationById(conversationId)} per ottenere una conversazione specifica;
+    \item \texttt{apiDeleteConversation(conversationId)} per eliminare una conversazione;
     \item \texttt{apiUpdateConversationTimestamp(conversationId)} per aggiornare il timestamp della conversazione.
 \end{itemize}
 
-\subsubsection*{Gestione dei Messaggi}
+\subsubsection*{Gestione dei messaggi}
 \begin{itemize}
-    \item \texttt{apiAddMessage()} per aggiungere un nuovo messaggio.
+    \item \texttt{apiAddMessage()} per aggiungere un nuovo messaggio;
     \item \texttt{apiReadMessages()} per recuperare i messaggi di una conversazione.
 \end{itemize}
 
-\subsubsection*{Gestione dei Feedback}
+\subsubsection*{Gestione dei feedback}
 \begin{itemize}
-    \item \texttt{apiReadFeedbackByMessageId(messageId)} recupera il feedback associato a un messaggio.
+    \item \texttt{apiReadFeedbackByMessageId(messageId)} recupera il feedback associato a un messaggio;
     \item \texttt{apiAddFeedback()} permette di aggiungere un feedback.
 \end{itemize}
 
-\subsubsection*{Gestione della Dashboard}
+\subsubsection*{Gestione della dashboard}
 \begin{itemize}
-    \item \texttt{apiReadNumPositiveFeedback()} e \texttt{apiReadNumNegativeFeedback()} per ottenere il numero di feedback positivi e negativi.
-    \item \texttt{apiReadNumConversations()} per conoscere il numero totale di conversazioni.
+    \item \texttt{apiReadNumPositiveFeedback()} e \texttt{apiReadNumNegativeFeedback()} per ottenere il numero di feedback positivi e negativi;
+    \item \texttt{apiReadNumConversations()} per conoscere il numero totale di conversazioni;
     \item \texttt{apiReadFeedbackWithComments()} per ottenere feedback che includono commenti.
 \end{itemize}
 
@@ -335,7 +335,7 @@ Per quanto riguarda invece il salvataggio e la permanenza delle conversazioni de
     \item \textbf{Message}: contiene tutti i messaggi inviati sia dagli utenti che dal modello LLM
     \begin{itemize}
         \item messageId: id univoco;
-        \item conversationId: id della conversazioen a cui appartiene;
+        \item conversationId: id della conversazione a cui appartiene;
         \item sender: indica se il messaggio è stato inviato dall'utente o è una risposta del modello;
         \item content: il contenuto del messaggio stesso;
         \item createdAt: data e ora della creazione del messaggio.
@@ -351,38 +351,38 @@ Per quanto riguarda invece il salvataggio e la permanenza delle conversazioni de
 \end{itemize}
 
 
-\subsubsection{Elaborazione dei Dati}
+\subsubsection{Elaborazione dei dati}
 Una  componente essenziale per il funzionamento del prodotto è la raccolta dei dati dal sito web di Vimar e la loro elaborazione e salvataggio nel database. Queste attività sono ad opera del container  \texttt{dataProcessing} al cui avvio parte lo scraping del sito web che salva i dati dei prodotti in un file json. Successivamente lo stesso file è il punto di partenza per l'elaborazione dei dati e la generazione dei chunk a partire dai documenti associati ai prodotti, infine vi è il salvataggio nel database.  
 Nel dettaglio:
 \begin{itemize}
 \item \texttt{productsElaboration.py} gestisce la manipolazione e l'analisi dei dati relativi ai prodotti, applicando eventuali filtri o trasformazioni;
 \item \texttt{chunkElabotation.py} è particolarmente utile quando si lavora con grandi quantità di dati, poiché divide l'elaborazione in blocchi (chunk) per ottimizzare le prestazioni e ridurre il carico sulla memoria;
-\item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti:
+\item \texttt{embeddingLocal.py} è un modulo che si occupa della generazione di embedding locali,  utilizzati per analisi semantiche avanzate o per un sistema di raccomandazione basato su similarità tra prodotti;
 \item \texttt{dataSaving.py} è il modulo che si occupa del salvataggio dei dati nel database.
 \end{itemize}
 
-L'esecuzione di questo container, che può richiedere diversi minuti, anche ore per la generazione dei chunck, si conclude dopo il salvataggio dei dati nel database.
+L'esecuzione di questo container, che può richiedere diversi minuti, anche ore per la generazione dei chunk, si conclude dopo il salvataggio dei dati nel database.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/flussoSalvataggioDati.png}
-    \caption{Diagramma delle attivit\`a del flusso di Elaborazione Dati}
+    \caption{Diagramma delle attivit\`a del flusso di Elaborazione dati}
     \label{fig:architettura}
 \end{figure}
 
 
-\subsubsection{ Dipendenze e Tecnologie Utilizzate}
+\subsubsection{Dipendenze e tecnologie utilizzate}
 L’elenco delle dipendenze è definito nel file requirements.txt, che include una serie di librerie fondamentali per il funzionamento del sistema:
 
 \begin{itemize}
     
-\item Flask per la gestione del server web tramite API.
+\item Flask per la gestione del server web tramite API;
 
-\item Ollama per l’elaborazione del linguaggio naturale,  utilizzato per l'analisi dei testi associati ai prodotti.
+\item Ollama per l’elaborazione del linguaggio naturale,  utilizzato per l'analisi dei testi associati ai prodotti;
 
-\item PostgreSQL come database relazionale, scelto per la sua affidabilità e capacità di gestione di grandi volumi di dati.
+\item PostgreSQL come database relazionale, scelto per la sua affidabilità e capacità di gestione di grandi volumi di dati;
 
-\item Librerie per la manipolazione e l'analisi dei dati, come numpy e scikit-learn.
+\item Librerie per la manipolazione e l'analisi dei dati, come numpy e scikit-learn;
 
 \item pypdf, che indica la funzionalità legata all'elaborazione di documenti PDF.
 
