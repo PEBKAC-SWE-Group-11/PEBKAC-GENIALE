@@ -37,7 +37,6 @@ I \textit{test\textsubscript{G}} di unità sono una tipologia di \textit{test\te
 \end{itemize}
 Per la realizzazione di questa categoria di \textit{test\textsubscript{G}} per questo progetto sarà utilizzato il \textit{framework\textsubscript{G}} \textit{unittest\textsubscript{G}} per Python, dato che quest'ultimo è il linguaggio scelto per la realizzazione del \textit{backend\textsubscript{G}}.\\
 I \textit{test\textsubscript{G}} di unità, insieme ai \textit{test\textsubscript{G}} di integrazione, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari al 75\% (opzionalmente un \textit{coverage\textsubscript{G}} minimo pari al 90\%).
-TODO: Inserire i test
 \begin{table}[H]
 \centering
 \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
@@ -317,7 +316,7 @@ TODO: Inserire i test
         \hline
         TU-136 & Verifica del corretto funzionamento di AuthInterceptor  & V \\ 
         \hline
-        TU-137 &  & V \\ 
+        TU-137 & Verifica del corretto funzionamento di AuthInterceptor senza la presenza di un token & V \\
         \hline
         TU-138 & Verifica che venga creata correttamente un'istanza di AppComponent & V \\ 
         \hline
@@ -361,11 +360,7 @@ I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsu
        TI-7 & Verifica che l'endpoint aggiunga correttamente un nuovo messaggio a una conversazione & V \\
        \hline
        TI-8 & Verifica che l'endpoint recuperi correttamente tutti i messaggi associati a una conversazione & V \\
-       \end{tabularx}
-    \end{table}
-\begin{table}[H]
-   \centering
-   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
+       \hline
        TI-9 & Verifica che l'endpoint restituisca correttamente il messaggio di successo & V \\
        \hline
        TI-10 & Verifica che l'endpoint gestisca correttamente una richiesta di domanda & V \\
@@ -394,7 +389,7 @@ I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsu
        \hline
        TI-22 & Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido & V \\
    \end{tabularx}
-   \caption{Stato dei \textit{test\textsubscript{G}} di unità}
+   \caption{Stato dei \textit{test\textsubscript{G}} di integrazione}
 \end{table}
 
 
@@ -408,11 +403,17 @@ I \textit{test\textsubscript{G}} End-to-End, come richiesto nel capitolato, devo
     \begin{tabularx}{\textwidth}{>{\hsize=0.4\hsize}>{\centering\arraybackslash}X|X|>{\centering\arraybackslash}X|>{\hsize=0.3\hsize}>{\centering\arraybackslash}X}
         \textbf{Codice} & \textbf{Descrizione} & \textbf{Casi d'uso} & \textbf{Stato} \\
         \hline
-       TE-1 &  &  & NI \\
+       TE-1 & Verifica della creazione di una nuova conversazione e dell'invio di una domanda con successiva visualizzazione della risposta & UC1, UC5 & V \\
         \hline
-        TE-2 &  &  & NI \\
+        TE-2 & Verifica della visualizzazione dello storico dei messaggi all'interno di una conversazione & UC3.4 & V \\
         \hline
-        TE-3 &  &  & NI \\
+        TE-3 & Verifica della possibilità di fare richieste in italiano e di ottenere risposte pertinenti & UC5, UC8  & V \\
+        \hline
+        TE-4 & Verifica della possibilità di fornire un feedback sulla risposta fornita dal sistema & UC10 & V \\
+        \hline
+        TE-5 & Verifica della funzionalità di eliminazione di una conversazione &  UC11 & V \\
+        \hline
+        TE-6 & Verifica dell'accesso al cruscotto informativo per amministratori e della visualizzazione delle informazioni nel cruscotto informativo& UC14, UC15, UC16 & V \\
     \end{tabularx}
     \caption{Stato dei \textit{test\textsubscript{G}} End-to-End}
 \end{table}

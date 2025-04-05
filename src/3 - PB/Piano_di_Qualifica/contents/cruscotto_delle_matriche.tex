@@ -7,12 +7,12 @@
     \caption{Earned Value, Actual Cost, Planned Value}
 \end{figure}
 \subsubsubsection*{Analisi}
-Queste metriche indicano un buon andamento essendo sempre abbastanza sovrapposte su tutti gli \textit{sprint\textsubscript{G}}, anche se si nota un graduale distaccamento verso il quarto \textit{sprint\textsubscript{G}} a causa dell'aumento dei costi per il raggiungimento degli obiettivi.
+Queste metriche indicano un buon andamento essendo sempre abbastanza sovrapposte su tutti gli \textit{sprint\textsubscript{G}}, anche se si nota un graduale distaccamento negli ultimi periodi dovuto alle imprecisioni nei costi preventivati.
 
 \subsubsection{Estimated To Completion, Estimated At Completion}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{./images/ETC-EAC.png}
+    \includegraphics[width=0.8\textwidth]{images/ETC-EAC-BAC.png}
     \caption{Estimated To Completion, Estimated At Completion}
 \end{figure}
 \subsubsubsection*{Analisi}
@@ -25,7 +25,7 @@ Dopo un inizio non ottimale è possibile notare un riallineamento. L'Estimation 
     \caption{Estimated To Completion, Estimated At Completion}
 \end{figure}
 \subsubsubsection*{Analisi}
-Anche se la Budget Variance è sempre rimasta nei limiti ammissibili, è evidente come nel quarto \textit{sprint\textsubscript{G}}, dove la variazione è notevole, le ore preventivate fossero insufficienti e questo deve spingere a una più corretta pianificazione basata sulle retrospettive precedenti.
+La Budget Variance non sempre è rimasta nei limiti ammissibili come è evidente come nel quarto, quinto e sesto \textit{sprint\textsubscript{G}}. La variazione è stata notevole essendo le ore preventivate  insufficienti e questo è stato un forte segnale di allarme per il gruppo che ha reagito adeguatamente come si può vedere dai due successivi periodo.
 
 \subsubsection{Cost Variance, Schedule Variance}
 \begin{figure}[H]
@@ -34,7 +34,7 @@ Anche se la Budget Variance è sempre rimasta nei limiti ammissibili, è evident
     \caption{Cost Variance, Schedule Variance}
 \end{figure}
 \subsubsubsection*{Analisi}
-Per quanto i valori, soprattutto della Schedule Variance, siano praticamente sempre rimasti accettabili, non si notano dei netti miglioramenti, ma anzi un peggioramento, come in altre metriche, nel corso del quarto \textit{sprint\textsubscript{G}}. Questo deve spingere a una migliore gestione delle \textit{risorse\textsubscript{G}} per il raggiungimento degli obiettivi entro i costi preventivati.
+Per quanto i valori non si notano dei netti miglioramenti, ma anzi un peggioramento, a cui il gruppo ha cercato di fare fronte, riuscendoci in parte. Questo indica una not ottimale gestione delle \textit{risorse\textsubscript{G}} per il raggiungimento degli obiettivi entro i costi preventivati.
 
 \subsubsection{Cost Performance Index}
 \begin{figure}[H]
@@ -43,17 +43,17 @@ Per quanto i valori, soprattutto della Schedule Variance, siano praticamente sem
     \caption{Cost Performance Index}
 \end{figure}
 \subsubsubsection*{Analisi}
-È evidente come il Cost Performance Index sia migliorato nel corso degli \textit{sprint\textsubscript{G}}, fino a rientrare nei limiti ammissibili, l'obiettivo deve essere quello di seguire il trend attuale per puntare al valore ideale.
+È evidente come il Cost Performance Index sia migliorato nel corso degli \textit{sprint\textsubscript{G}}, fino a rientrare nei limiti ammissibili e successivamente il gruppo è riuscito a mantenerlo entro tali limiti.
 
 \subsection{Qualità di processo - Documentazione}
 \subsubsection{Indice di Gulpease}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{./images/gulpease.png}
+    \includegraphics[width=0.8\textwidth]{./images/GULPEASE.png}
     \caption{Indice di Gulpease}
 \end{figure}
 \subsubsubsection*{Analisi}
-Al termine del secondo \textit{sprint\textsubscript{G}} tutti i documenti erano in lavorazione ed entro i limiti minimi di leggibilità, si nota peraltro un miglioramento nella leggibilità di tutti i documenti ad esclusione del Piano di Progetto, sul quale il gruppo dovrà concentrarsi di più per garantire una scrittura comprensibile.
+Non solo tutti i documenti rientrano nei limiti accessibili, ma sono anche praticamente tutti in miglioramento nel corso degli ultimi periodi, per quanto il Piano di Progetto che era il documento più carente è rimasto tale. Si nota invece un buon inizio per gli ultimi due documenti creati.
 
 \subsection{Qualità di processo - Gestione della qualità}
 \subsubsection{Metriche non soddisfatte}
@@ -63,20 +63,36 @@ Al termine del secondo \textit{sprint\textsubscript{G}} tutti i documenti erano 
     \caption{Metriche non soddisfatte}
 \end{figure}
 \subsubsubsection*{Analisi}
-La metrica che non risulta mai soddisfatta è EAC per la quale si rimanda all'analisi specifica. Altre metriche che risultano non soddisfatte sono ETC (primi due \textit{sprint\textsubscript{G}}), CPI (primo \textit{sprint\textsubscript{G}}) e CV (quarto \textit{sprint\textsubscript{G}} per il quale si rimanda all'analisi specifica).
+La metrica che non risulta mai soddisfatta è EAC per la quale si rimanda all'analisi specifica. Altre metriche che risultano non soddisfatte sono ETC (primi due \textit{sprint\textsubscript{G}}), CPI (primo \textit{sprint\textsubscript{G}}) ed infine CV ed SV (dal quinto \textit{sprint\textsubscript{G}} per i quali si rimanda all'analisi specifica).
+
+\subsection{Qualità di processo - Sviluppo}
+\subsubsection{Statement Coverage}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/SC.png}
+    \caption{Statement Coverage}
+\end{figure}
+\subsubsubsection*{Analisi}
+ L’incremento della SC indica che non solo vengono testate le funzioni più evidenti, ma si stanno anche affrontando dettagli e scenari più complessi, garantendo che il codice sia eseguito e validato in ogni sua parte.
 
 \subsection{Qualità di prodotto - Funzionalità}
 \subsubsection{Requisiti soddisfatti}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{./images/requisitisoddisfatti.png}
+    \includegraphics[width=0.8\textwidth]{./images/REQ.png}
     \caption{Requisiti soddisfatti}
 \end{figure}
 \subsubsubsection*{Analisi}
-Il progetto fino ad ora si è concentrato sulla creazione di un \textit{Proof of Concept\textsubscript{G}}, e non su prodotto finale con il quale soddisfare i \textit{requisiti\textsubscript{G}}, per cui è normale che nel cruscotto non risulti soddisfatto alcun \textit{requisito\textsubscript{G}}.
+La copertura dei requisiti obbligatori\textsubscript{G} è del 100\%, a conferma del pieno rispetto dei criteri minimi di accettazione e dei vincoli progettuali.
+I requisiti desiderabili\textsubscript{G} risultano soddisfatti al 42\%, indicando un buon livello di implementazione oltre la soglia minima, con margini di miglioramento per potenziare ulteriormente il valore del prodotto.
+I requisiti opzionali\textsubscript{G} hanno una copertura del 11\%, coerente con la loro natura non prioritaria; rappresentano possibili spunti per evoluzioni future.
 
-\subsection{Considerazioni finali in vista della revisione RTB}
-Sin dalle prime fasi del progetto il gruppo si è posto l'obiettivo di avere un \textit{Way of Working\textsubscript{G}} chiaro e puntuale, anche se di natura incrementale, in quanto questo deve essere gradualmente ampliato e raffinato con il passare del tempo. Nonostante il \textit{Way of Working\textsubscript{G}} sia progressivamente migliorato con l’avanzare del progetto, alcune aree necessitano di essere ancora migliorate per far sì che la qualità di processo si rifletta positivamente sulla qualità di prodotto. \\
-La comunicazione, all'interno del team e con il Proponente\textsubscript{G} è stata fin da subito stabile e costruttiva, sia in modalità sincrona, permettendo riunioni efficaci di durata non eccessiva, che asincrona, permettendo una buona organizzazione del lavoro. \\
-Il processo di automiglioramento che il gruppo si è impegnato ad assumere si è concentrato, e continuerà a concentrarsi, anche sulle modalità di gestione delle difficoltà e degli imprevisti, per escogitare contromisure efficaci che permettano di non sprecare \textit{risorse\textsubscript{G}}. \\
-Un obiettivo di vitale importanza per il gruppo nel corso dei prossimi \textit{sprint\textsubscript{G}} è l'aggiornamento rigoroso e puntuale del Piano di Progetto e del Piano di Qualifica con i dati rilevanti ed aggiornati, al fine da poter essere sfruttati al meglio. \\
+\subsection{Qualità di prodotto - Affidabilità}
+\subsubsection{PTCP, CC}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/PTCP-CC.png}
+    \caption{Passed Test Cases Percentage, Code Coverage}
+\end{figure}
+\subsubsubsection*{Analisi}
+Nei primi periodi di lavoro sull'MVP, ci sono stati molti test falliti (probabile fase di sviluppo iniziale), ma il miglioramento in seguito dimostra un’ottima gestione dei bug e la crescita della stabilità del codice. Anche la copertura è migliorata notevolmente, questo suggerisce che, a partire dal periodo VI, si è iniziato a testare in modo più sistematico, coprendo le feature principali.
