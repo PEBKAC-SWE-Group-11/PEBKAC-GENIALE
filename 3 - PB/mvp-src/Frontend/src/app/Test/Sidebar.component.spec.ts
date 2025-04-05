@@ -76,7 +76,7 @@ describe('Sidebar.component', () => {
         expect(chatServiceMock.createConversation).toHaveBeenCalled();
     });
 
-    it('should should not create a conversation if it is waiting for a resposne', async() => {
+    it('should not create a conversation if it is waiting for a resposne', async() => {
         sidebarComponent.ngOnInit();
         chatServiceMock.hasReachedConversationLimit.mockReturnValue(false);
         chatServiceMock.createConversation.mockResolvedValue(undefined);
@@ -198,7 +198,6 @@ describe('Sidebar.component', () => {
         
         jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
         chatServiceMock.setActiveConversation.mockReturnValue(conversationMock[0]);
-        const conversationSelectedSpy = jest.spyOn(sidebarComponent.conversationSelected, 'emit');
 
         sidebarComponent.selectConversation(conversationMock[0]);
         

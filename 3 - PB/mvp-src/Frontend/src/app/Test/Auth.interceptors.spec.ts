@@ -7,20 +7,22 @@ describe('Auth.interceptors', () => {
         localStorage.clear();
     });
 
-    it('should test auth interceptors', () => {
+    it('should test auth interceptors', async() => {
         localStorage.setItem('adminToken', 'token');
         const req = new HttpRequest('GET', 'https://api.example.com/admin/stats');
         const mockResponse = new HttpResponse({ status: 200, body: 'Success' });
 
         const nextMock = jest.fn((req: HttpRequest<unknown>): Observable<HttpEvent<unknown>> => {
-            return of();
+            return of(mockResponse);
         });
 
-        const result = AuthInterceptor(req, nextMock);
+        const result = await firstValueFrom(AuthInterceptor(req, nextMock));
 
         const modifiedRequest = nextMock.mock.calls[0][0] as HttpRequest<unknown>;
 
         expect(modifiedRequest.headers.get('Authorization')).toBe('Bearer token');
+        expect(nextMock).toHaveBeenCalledWith(modifiedRequest); 
+        expect(result).toEqual(mockResponse);
     });
 
     it('should return next', async() => {

@@ -15,7 +15,7 @@ describe('Admin.guards', () => {
         localStorage.clear();
     });
 
-    it('should check if token there is token and if it is authenticated', async() => {
+    it('should check if there is a token and if it is authenticated', async() => {
         localStorage.setItem("adminToken", 'token');
         localStorage.setItem("adminAuthenticated", 'true');
 
