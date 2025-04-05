@@ -1,0 +1,83 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./App:/App  
+      - ./OllamaModels:/root/.ollama/models
+      - ./Start.sh:/Start.sh
+      - ./App/requirements.txt:/App/requirements.txt
+      - data_volume:/App/Data
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.pgvector
+    container_name: postgres_db
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pebkac
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./pgvector/vector_extension.sql:/docker-entrypoint-initdb.d/0-vector_extension.sql
+    networks:
+      - app_network
+
+  angular:
+    build:
+      dockerfile: Dockerfile.angular
+    ports: 
+      - "4200:4200"
+    networks:
+      - app_network
+
+  dataProcessing:
+    build:
+      context: .
+      dockerfile: Dockerfile.dataProcessing
+    image: mvp-src-dataprocessing 
+    volumes:
+      - ./DataProcessing:/App/DataProcessing  # Monta l'intera directory
+      - ./DataProcessing/JsonData:/App/DataProcessing/JsonData  # Monta la sottodirectory JsonData
+    depends_on:
+      db:
+        condition: service_healthy
+      app:
+        condition: service_healthy
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+  data_volume:
+  dataprocessing:
+  jsondata:
+
+networks:
+  app_network:
+    driver: bridge

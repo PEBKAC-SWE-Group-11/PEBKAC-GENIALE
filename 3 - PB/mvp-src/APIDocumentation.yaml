@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  title: PEBKAC-GENIALE API
+  version: 1.0.0
+  description: API per la gestione di conversazioni, sessioni e feedback.
+servers:
+  - url: http://localhost:5001
+    description: Server locale
+
+paths:
+  /api/test:
+    get:
+      summary: Test API
+      description: Endpoint per verificare che l'API sia attiva.
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+
+  /api/question/{conversationId}:
+    post:
+      summary: Fai una domanda
+      description: Invia una domanda e ottieni una risposta dal modello LLM.
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID della conversazione
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                  description: La domanda da inviare
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messageId:
+                    type: string
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/session:
+    post:
+      summary: Crea una sessione
+      description: Crea una nuova sessione.
+      responses:
+        '201':
+          description: Sessione creata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/session/{sessionId}:
+    get:
+      summary: Leggi una sessione
+      description: Recupera i dettagli di una sessione.
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID della sessione
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+    put:
+      summary: Aggiorna una sessione
+      description: Aggiorna i dettagli di una sessione.
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID della sessione
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/conversation:
+    post:
+      summary: Crea una conversazione
+      description: Crea una nuova conversazione associata a una sessione.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+                  description: ID della sessione
+      responses:
+        '201':
+          description: Conversazione creata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversationId:
+                    type: string
+        '400':
+          description: sessionId mancante
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+    get:
+      summary: Leggi conversazioni
+      description: Recupera tutte le conversazioni associate a una sessione.
+      parameters:
+        - name: sessionId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID della sessione
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: sessionId mancante
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/conversation/{conversationId}:
+    delete:
+      summary: Elimina una conversazione
+      description: Elimina una conversazione specifica.
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID della conversazione
+      responses:
+        '204':
+          description: Conversazione eliminata
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/message:
+    post:
+      summary: Aggiungi un messaggio
+      description: Aggiungi un messaggio a una conversazione.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                conversationId:
+                  type: string
+                sender:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Messaggio aggiunto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messageId:
+                    type: string
+        '401':
+          description: Non autorizzato
+    get:
+      summary: Leggi messaggi
+      description: Recupera tutti i messaggi di una conversazione.
+      parameters:
+        - name: conversationId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID della conversazione
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Non autorizzato
+
+  /api/feedback:
+    post:
+      summary: Aggiungi un feedback
+      description: Aggiungi un feedback a un messaggio.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messageId:
+                  type: string
+                feedbackValue:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Feedback aggiunto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messageId:
+                    type: string
+        '401':
+          description: Non autorizzato
+
+  /api/dashboard/numPositive:
+    get:
+      summary: Numero di feedback positivi
+      description: Recupera il numero totale di feedback positivi.
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numPositiveFeedback:
+                    type: integer
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/dashboard/numNegative:
+    get:
+      summary: Numero di feedback negativi
+      description: Recupera il numero totale di feedback negativi.
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numNegativeFeedback:
+                    type: integer
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/dashboard/numConversations:
+    get:
+      summary: Numero di conversazioni
+      description: Recupera il numero totale di conversazioni.
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numConversations:
+                    type: integer
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /api/dashboard/feedbackComments:
+    get:
+      summary: Feedback con commenti
+      description: Recupera tutti i feedback che contengono commenti.
+      responses:
+        '200':
+          description: Successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server

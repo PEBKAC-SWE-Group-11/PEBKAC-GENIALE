@@ -1,0 +1,10 @@
+FROM python:3.12
+
+WORKDIR /test
+
+COPY App/requirements.txt /test/requirements.txt
+
+RUN pip install --upgrade pip
+RUN pip install -r tests/requirements.txt
+
+COPY . /test

@@ -1,0 +1,16 @@
+FROM postgres:latest AS pgvector-builder
+
+RUN apt-get update && \
+    apt-get install -y build-essential git postgresql-server-dev-all && \
+    apt-get clean
+
+WORKDIR /Tmp
+RUN git clone https://github.com/pgvector/pgvector.git
+WORKDIR /Tmp/pgvector
+RUN make
+RUN make install
+
+FROM postgres:latest
+
+COPY --from=pgvector-builder /usr/lib/postgresql/ /usr/lib/postgresql/
+COPY --from=pgvector-builder /usr/share/postgresql/ /usr/share/postgresql/

@@ -2,3 +2,7 @@
 *.svg
 *.png
 *.DS_Store
+__pycache__/
+*.pyc
+ollama_models/blobs/
+ollama_models/manifests/

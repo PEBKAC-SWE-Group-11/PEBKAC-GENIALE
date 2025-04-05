@@ -1,0 +1,12 @@
+flask
+ollama
+psycopg2-binary
+requests
+flask
+flask-cors
+numpy
+pypdf
+typing
+scikit-learn
+cryptography
+scrapy
