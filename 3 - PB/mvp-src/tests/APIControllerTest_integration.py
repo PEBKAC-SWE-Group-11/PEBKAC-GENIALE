@@ -18,8 +18,9 @@ class TestAPIController(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "success"})
 
-    @patch('App.Adapters.Controllers.APIcontroller.conversationService')
-    @patch('App.Adapters.Controllers.APIController.embedding_service')
+    @patch('App.Adapters.Controllers.APIController.conversationService')
+    @patch('App.Adapters.Controllers.APIController.llmResponse')
+    @patch('App.Adapters.Controllers.APIController.contextExtractor')
     def testAskQuestion(self, mockEmbeddingService, mockConversationService):
         print("Test per l'endpoint /api/question/1: Verifica che l'endpoint gestisca correttamente una richiesta di domanda")
         mockConversationService.readMessages.return_value = []

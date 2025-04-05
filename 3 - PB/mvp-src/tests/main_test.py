@@ -7,14 +7,14 @@ from DataProcessing.Main import initDB, importData, main
 
 class TestMain(unittest.TestCase):
 
-    @patch('DataProcessing.Main.CreateTables')
+    @patch('DataProcessing.Main.createTables')
     def testInitDbSuccess(self, mockCreateTables):
         print("Test per la funzione initDB: Verifica che le tabelle vengano create correttamente nel database")
         mockConnection = MagicMock()
         initDB(mockConnection)
         mockCreateTables.assert_called_once_with(mockConnection)
 
-    @patch('DataProcessing.Main.CreateTables', side_effect=Exception("DB Error"))
+    @patch('DataProcessing.Main.createTables', side_effect=Exception("DB Error"))
     def testInitDbFailure(self, mockCreateTables):
         print("Test per la funzione initDB: Verifica che venga gestito correttamente un errore durante la creazione delle tabelle")
         mockConnection = MagicMock()
