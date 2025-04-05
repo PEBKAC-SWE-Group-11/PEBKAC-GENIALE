@@ -113,7 +113,7 @@ describe('Dashboard.component', () => {
         expect(apiServiceMock.adminLogin).not.toHaveBeenCalled();
     });
 
-    it('should not log in without success resposne', async() => {
+    it('should not log in without success response', async() => {
         const adminLoginMock = { success: false };
         loginComponent.password = 'password';
         apiServiceMock.adminLogin.mockReturnValue(of(adminLoginMock));
