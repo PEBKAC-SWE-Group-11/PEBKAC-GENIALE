@@ -331,6 +331,7 @@ I \textit{test\textsubscript{G}} di unità, insieme ai \textit{test\textsubscrip
    \caption{Stato dei \textit{test\textsubscript{G}} di unità}
 \end{table}
 
+\newpage
 \subsection{\textit{Test\textsubscript{G}} di integrazione}
 I \textit{test\textsubscript{G}} di integrazione sono una tipologia di \textit{test\textsubscript{G}} progettata per verificare la capacità di diversi componenti o moduli di un sistema di funzionare insieme. I \textit{test\textsubscript{G}} di integrazione non mirano a testare singoli moduli in modo indipendente, come fa il \textit{test\textsubscript{G}} di unità, che si concentra su unità di codice isolate. Le caratteristiche principali dei \textit{test\textsubscript{G}} di integrazione sono:
 \begin{itemize}
@@ -363,6 +364,7 @@ I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsu
        \hline
        TI-9 & Verifica che l'endpoint restituisca correttamente il messaggio di successo & V \\
        \hline
+
        TI-10 & Verifica che l'endpoint gestisca correttamente una richiesta di domanda & V \\
        \hline
        TI-11 & Verifica che l'endpoint crei correttamente una nuova conversazione & V \\
@@ -371,29 +373,66 @@ I \textit{test\textsubscript{G}} di integrazione, insieme ai \textit{test\textsu
        \hline
        TI-13 & Verifica che l'endpoint recuperi correttamente una conversazione tramite il suo ID & V \\
        \hline
+
        TI-14 & Verifica che l'endpoint elimini correttamente una conversazione & V \\
        \hline
        TI-15 & Verifica che l'endpoint aggiunga correttamente un nuovo messaggio a una conversazione & V \\
        \hline
+                                           \end{tabularx}
+   
+\end{table}
+       \begin{table}[H]
+   \centering
+   \begin{tabularx}{\textwidth}{>{\hsize=0.2\hsize}>{\centering\arraybackslash}X|X|>{\hsize=0.1\hsize}>{\centering\arraybackslash}X}
        TI-16 & Verifica che l'endpoint recuperi correttamente tutti i messaggi associati a una conversazione & V \\
        \hline
        TI-17 & Verifica che una query venga eseguita correttamente & V \\
        \hline
        TI-18 & Verifica che una query venga eseguita correttamente e restituisca un solo risultato & V \\
        \hline
+
        TI-19 & Verifica che una query venga eseguita correttamente e restituisca tutti i risultati & V \\
        \hline
-       TI-20 & Verifica che la funzione restituisca un vettore di embedding valido per un input corretto & V \\
+       TI-20 & Verifica che l'input dell'utente venga processato correttamente & V \\
        \hline
-       TI-21 & Verifica che la funzione gestisca correttamente un input vuoto restituendo un vettore vuoto & V \\
+       TI-21 & Verifica che vengano caricati i prodotti strutturati corretti per la RAG & V \\
        \hline
-       TI-22 & Verifica che la funzione gestisca correttamente un input molto grande restituendo un vettore di embedding valido & V \\
+       TI-22 & Verifica che vengano caricati i chunk corretti per la RAG & V \\
+       \hline
+       TI-23 & Verifica che venga creata correttamente una sessione & V \\
+       \hline
+
+       TI-24 & Verifica che venga utilizzata la sessione corretta & V \\
+       \hline
+       TI-25 & Verifica che venga correttamente aggiornata la sessione & V \\
+       \hline
+       TI-26 & Verifica che venga creata correttamente una conversazione & V \\
+       \hline
+
+       TI-27 & Verifica che venga caricate tutte le conversazioni di una sessione & V \\
+       \hline
+       TI-28 & Verifica che venga salvato correttamente un nuovo messaggio & V \\
+       \hline
+       TI-29 & Verifica che venga caricato il messaggio corretto & V \\
+       \hline
+       TI-30 & Verifica che venga salvato il giusto feedback per il giusto messaggio & V \\
+       \hline
+       TI-31 & Verifica che venga caricato il corretto numero di feedback positivi & V \\
+       \hline
+       TI-32 & Verifica che venga caricato il corretto numero di feedback negativi & V \\
+       \hline
+       TI-33 & Verifica che il modello LLM generi una risposta con input validi& V \\
+       \hline
+       TI-34 & Verifica che il modello LLM generi una risposta con contesto vuoto & V \\
+       \hline
+       TI-35 & Verifica che venga gestito l'utilizzo di un modello non valido & V \\
+       \hline
    \end{tabularx}
    \caption{Stato dei \textit{test\textsubscript{G}} di integrazione}
 \end{table}
 
 
-
+\newpage
 \subsection{\textit{Test\textsubscript{G}} End-to-End}
 I \textit{test\textsubscript{G}} End-to-End sono una tipologia di \textit{test\textsubscript{G}} che valida il funzionamento complessivo di un sistema, testando l'intero flusso dal punto A al punto B. Questo tipo di \textit{test\textsubscript{G}} riguarda l'interazione tra le parti del sistema stesso e con sistemi esterni, per assicurarsi che tutte le parti funzionino correttamente insieme, emulando una situazione online da testare tramite l'utente finale. In questo modo, si garantisce che il sistema sia privo di errori, soddisfi i \textit{requisiti\textsubscript{G}} funzionali e contribuisca a una buona esperienza utente.
 I \textit{test\textsubscript{G}} End-to-End, come richiesto nel capitolato, devono avere un \textit{coverage\textsubscript{G}} minimo pari all'80\%.
