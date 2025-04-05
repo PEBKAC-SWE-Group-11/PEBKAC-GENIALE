@@ -1,0 +1,38 @@
+\subsection{Verifica}
+\subsubsection{Scopo}
+Lo scopo del processo di \textit{verifica}\textsubscript{G} è fornire evidenza oggettiva che le uscite di un particolare segmento dello sviluppo \textit{software}\textsubscript{G} soddisfino tutti i requisiti specificati per esso. In altre parole, la \textit{verifica}\textsubscript{G} si concentra sull'accertarsi che lo sviluppo stia costruendo il \textit{sistema}\textsubscript{G} correttamente.
+La \textit{verifica}\textsubscript{G} mira a ricercare la coerenza, la completezza e la correttezza di queste uscite. Essa fornisce inoltre supporto per la successiva conclusione che il \textit{software}\textsubscript{G} sia validato.
+
+\subsubsection{Descrizione}
+Questo processo viene effettuato almeno una volta prima del rilascio ufficiale di un prodotto in uno dei \textit{branch}\textsubscript{G} principali del \textit{repository}\textsubscript{G}. La \textit{verifica}\textsubscript{G} è affidata ai verificatori, che per garantire un'analisi obiettiva ed efficace, non devono essere gli stessi che hanno partecipato allo sviluppo del prodotto in questione.
+
+\subsubsection{Analisi statica}
+L'analisi statica è una forma di \textit{verifica}\textsubscript{G} del \textit{software}\textsubscript{G} che non richiede l'esecuzione del codice. Invece, esamina il codice sorgente, il codice oggetto o la \textit{documentazione}\textsubscript{G} per accertare la conformità a regole, l'assenza di difetti e la presenza di proprietà desiderate. Questa forma di \textit{verifica}\textsubscript{G} viene utilizzata anche per i documenti testuali. \\
+L'analisi statica include tecniche che si basano sulla revisione manuale dell'oggetto di verifica, che può essere codice sorgente, \textit{documentazione}\textsubscript{G} o altri artefatti del processo di sviluppo. I due metodi di lettura utilizzati sono il walkthrough e l'inspection. \\
+Nelle fasi iniziali è stato adottato l’approccio walkthrough. Tuttavia, man mano che acquisisce esperienza, il team potrà passare all’ispezione, rendendo il processo più rapido e ottimizzando l’uso delle \textit{risorse}\textsubscript{G}.
+
+\subsubsubsection{Walkthrough}
+Il walkthrough si basa su una lettura critica ad ampio spettro dell'oggetto in esame, che può essere codice sorgente, \textit{documentazione}\textsubscript{G} di progetto, specifiche o altri artefatti del processo di sviluppo. Esso coinvolge tipicamente gruppi misti composti da autori e verificatori, con ruoli distinti tra i partecipanti, dato che questa eterogeneità di prospettive aiuta a identificare un'ampia gamma di problemi. \\
+Il processo tipico di un walkthrough si articola in diverse fasi:
+\begin{enumerate}
+    \item \textbf{Pianificazione}: gli autori e i verificatori si coordinano per organizzare la sessione di walkthrough;
+    \item \textbf{Lettura}: i verificatori esaminano l'oggetto in esame individualmente prima della sessione, familiarizzando con il materiale. Durante la sessione, uno dei partecipanti può "guidare" la lettura, illustrando passo dopo passo il codice o il documento;
+    \item \textbf{Discussione}: durante la sessione, i verificatori sollevano dubbi, pongono domande e identificano potenziali difetti o aree di incertezza. Autori e verificatori discutono i punti critici;
+    \item \textbf{Correzione dei difetti}: dopo la sessione, la responsabilità di correggere i difetti identificati ricade sugli autori;
+    \item \textbf{Documentazione}: ogni passo del walkthrough, incluse le attività svolte e i difetti identificati, viene documentato.
+\end{enumerate}
+
+\subsubsubsection{Ispezione}
+L'ispezione è caratterizzata da un esame focalizzato su presupposti, che utilizza liste di controllo predefinite che guidano l'esame verso aree specifiche dove è più probabile trovare difetti, rendendo così non necessaria la completa lettura del prodotto in questione. \\
+Il processo tipico di un'ispezione si articola in diverse fasi:
+\begin{enumerate}
+    \item \textbf{Pianificazione}: viene organizzata la sessione di ispezione e vengono identificati i partecipanti;
+    \item \textbf{Definizione lista di controllo}: viene creata o selezionata una lista di controllo specifica per l'oggetto di verifica. Questa lista elenca gli aspetti specifici da esaminare selettivamente;
+    \item \textbf{Lettura}: i verificatori esaminano l'oggetto di \textit{verifica}\textsubscript{G} individualmente, guidati dalla lista di controllo, annotando i potenziali difetti riscontrati;
+    \item \textbf{Correzione dei difetti}: dopo la fase di ispezione, la responsabilità di correggere i difetti identificati ricade sugli autori dell'oggetto;
+    \item \textbf{Documentazione}: ogni passo dell'ispezione, inclusa la lista di controllo utilizzata e i difetti identificati, viene documentato.
+\end{enumerate}
+
+\subsubsection{Analisi dinamica}
+L'analisi dinamica è una forma di \textit{verifica}\textsubscript{G} del \textit{software}\textsubscript{G} che, a differenza dell'analisi statica, richiede l'esecuzione del codice per osservarne il comportamento ed evidenziare eventuali difetti. Questo processo prevede l'esecuzione di parti del \textit{software}\textsubscript{G} o dell'intero \textit{sistema}\textsubscript{G}, permettendo di valutarne il funzionamento su un insieme finito di casi di prova. Ogni caso di prova specifica i valori di ingresso, lo stato iniziale previsto e l'effetto atteso, che funge da riferimento per determinare l'esito del test. \\
+L'analisi dinamica si realizza principalmente attraverso l'esecuzione di test, spesso automatizzati, per verificare la correttezza del \textit{software}\textsubscript{G} e identificare possibili errori. Questa tecnica è generalmente integrata con l'analisi statica, che esamina il codice senza eseguirlo, fornendo un quadro più completo della qualità del \textit{software}\textsubscript{G}. Esistono diverse tipologie di \textit{test}\textsubscript{G} nell'analisi dinamica, ciascuna con obiettivi specifici: i \textit{test}\textsubscript{G} di unità, i \textit{test}\textsubscript{G} di integrazione e i \textit{test}\textsubscript{G} di \textit{sistema}\textsubscript{G}. Un aspetto cruciale dell'analisi dinamica è la ripetibilità e l'\textit{automazione}\textsubscript{G} dei test, che consentono di eseguire verifiche sistematiche, ridurre i tempi di analisi e garantire coerenza nei risultati. L'\textit{automazione}\textsubscript{G} permette inoltre di eseguire i \textit{test}\textsubscript{G} in modo efficiente, ottimizzando il processo di \textit{verifica}\textsubscript{G} del \textit{software}\textsubscript{G}.

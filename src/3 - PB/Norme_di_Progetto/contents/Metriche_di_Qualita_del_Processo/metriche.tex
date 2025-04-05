@@ -1,0 +1,83 @@
+\section{Metriche di qualità}\label{mdq}
+\subsection{Metriche di qualità del processo}
+\subsubsection{Fornitura}
+\begin{itemize}
+    \item \textbf{CV (Cost Variance):} Misura la deviazione dei costi rispetto al \textit{budget}\textsubscript{G}, se il costo è negativo significa che si è sforato il limite del \textit{budget}\textsubscript{G}(\textit{SPI}\textsubscript{G} \( > \) 1: in anticipo rispetto ai tempi pianificati, \textit{SPI}\textsubscript{G} \( < \) 1: in ritardo rispetto ai tempi pianificati).
+    \\CV = \textit{EV}\textsubscript{G} - AC.
+    \item \textbf{PV (Planed Value):} Il valore pianificato, ovvero il costo stimato del lavoro previsto in un determinato momento del progetto.
+    \item \textbf{\textit{EV}\textsubscript{G} (Earned Value):} Rappresenta il valore guadagnato, che rappresenta il costo stimato del lavoro effettivamente completato in quel momento.
+    \item \textbf{AC (\textit{Actual Cost}\textsubscript{G}):} Rappresenta il costo effettivo, cioè quanto è stato realmente speso fino a quel punto.
+    \item \textbf{CPI (Cost Performance Index\textsubscript{G}):} Indica se il progetto sta spendendo meno o più del previsto (CPI \( > \) 1: sotto \textit{budget}\textsubscript{G}, CPI \( < \) 1: sopra \textit{budget}\textsubscript{G}). \\ La formula è \( \text{CPI} = \frac{\text{\textit{EV}\textsubscript{G}}}{\text{AC}} \).
+    \item \textbf{SPI (Schedule Performance Index\textsubscript{G}):} Rappresenta l'efficienza temporale con cui il lavoro pianificato è stato completato rispetto a quanto programmato.
+    \\ La formula è \( \text{\textit{SPI}\textsubscript{G}} = \frac{\text{\textit{EV}\textsubscript{G}}}{\text{\textit{PV}\textsubscript{G}}} \).
+    \item \textbf{\textit{BAC}\textsubscript{G} (Budget At Completion):} Rappresenta il \textit{budget}\textsubscript{G} totale pianificato per il completamento del progetto.
+    \item \textbf{EAC (\textit{Estimated At Completion}\textsubscript{G}):} Rappresenta l'aggiornamento della stima del valore per la realizzazione del progetto, ovvero il \textit{BAC}\textsubscript{G} ricalcolato in base allo stato attuale del progetto.
+    La formula è \( \text{\textit{EAC}\textsubscript{G}} = \frac{\text{\textit{BAC}\textsubscript{G}}}{\text{CPI}} \).
+    \item \textbf{VAC (Variance At Completion):} Rappresenta la differenza tra il \textit{budget}\textsubscript{G} previsto e quello attuale alla fine del progetto.\\
+    La formula è VAC = \textit{BAC}\textsubscript{G} - \textit{EAC}\textsubscript{G}.
+    \item \textbf{ETC (Estimated To Completion):} Rappresenta la valutazione del costo supplementare richiesto per portare a termine il progetto.\\
+    La formula è ETC = \textit{EAC}\textsubscript{G} - AC.
+    \item \textbf{SV (Schedule Variance):} Indica se le attività pianificate del progetto sono in linea, anticipate o in ritardo rispetto alla programmazione.\\
+    La formula è SV = \textit{EV}\textsubscript{G} - \textit{PV}\textsubscript{G}.
+    \item \textbf{BV (Budget Variance):} Indica se, alla data attuale, le spese sostenute sono superiori o inferiori rispetto a quanto originariamente previsto nel \textit{budget}\textsubscript{G}.\\
+    La formula è BV = \textit{PV}\textsubscript{G} - AC.
+\end{itemize}
+\newpage
+\subsubsection{Sviluppo}
+\begin{itemize}
+    \item \textbf{SC (Statement Coverage):} Rappresenta la percentuale di istruzioni nel codice che vengono eseguite durante i test.
+    La formula è \( \text{SC} = \frac{\text{N Statement eseguiti}}{\text{N Statement totali}}*100 \).
+\end{itemize}
+\subsubsection{Documentazione}
+\begin{itemize}
+    \item \textbf{IG (Indice Gulpease):} Rappresenta un indicatore per analizzare la facilità di lettura di un testo scritto in italiano. L’Indice Gulpease si basa su due variabili linguistiche principali: la lunghezza delle parole e quella delle frasi. \\
+    La formula per determinarlo è: \( \text{IG} = 89+\frac{\text{300*NF-NL}}{\text{NP}} \), dove:
+    \begin{itemize}
+        \item \textbf{NF:} Indica il numero delle frasi.
+        \item \textbf{NL:} Indica il numero delle lettere.
+        \item \textbf{NP:} Indica il numero di parole.
+    \end{itemize}
+    Questo indice fornisce un punteggio che varia da 0 a 100. I possibili punteggi possono essere:
+    \begin{itemize}
+        \item \textbf{0-55:} Testo incomprensibile.
+        \item \textbf{56-70:} Testo molto difficile.
+        \item \textbf{71-80:} Testo difficile.
+        \item \textbf{81-95:} Testo facile.
+        \item \textbf{95-100:} Testo molto facile.
+    \end{itemize}
+    Per calcolarlo viene utilizzato un \textit{software}\textsubscript{G} \textit{online}\textsubscript{G}: \url{https://farfalla-project.org/readability_static/}
+    %\item \textbf{CO (Correttezza Ortografica):} Rappresenta il numero di errori grammaticali ed ortografici che presenta un documento.
+\end{itemize}
+\subsubsection{Gestione delle qualità}
+\begin{itemize}
+    \item \textbf{MNS (Metriche Non Soddisfatte):} Rappresenta le quantità di metriche che il progetto non riesce a soddisfare o mantenere.
+\end{itemize}
+
+\subsection{Metriche per la qualità del prodotto}
+\subsubsection{Funzionalità}
+\begin{itemize}
+    \item \textbf{ROS (Requisiti Obbligatori Soddisfatti):} Rappresenta la percentuale di requisiti obbligatori che sono stati soddisfatti durante la creazione del prodotto.\\
+    La formula è \( \text{ROS} = \frac{\text{requisiti obbligatori soddisfatti}}{\text{requisiti obbligatori totali}}*100 \).
+    \item \textbf{RDS (Requisiti Desiderabili Soddisfatti):} Rappresenta la percentuale di requisiti desiderabili che sono stati soddisfatti durante la creazione del prodotto.\\
+    La formula è \( \text{RDS} = \frac{\text{requisiti desiderabili soddisfatti}}{\text{requisiti desiderabili totali}}*100 \).
+    \item \textbf{RPS (Requisiti Opzionali Soddisfatti):} Rappresenta la percentuale di requisiti opzionali che sono stati soddisfatti durante la creazione del prodotto.\\
+    La formula è \( \text{RPS} = \frac{\text{requisiti opzionali soddisfatti}}{\text{requisiti opzionali totali}}*100 \).
+\end{itemize}
+
+\subsubsection{Affidabilità}
+\begin{itemize}
+    \item \textbf{PTCP (Passed Test Cases Percentage):} Rappresenta la percentuale di casi di \textit{test}\textsubscript{G} completati con successo rispetto al numero totale di casi di \textit{test}\textsubscript{G} pianificati.\\
+    La formula è \( \text{PTCP} = \frac{\text{test superati}}{\text{test totali}}*100 \).
+    \item \textbf{CC (Code Coverage\textsubscript{G}):} Rappresenta il numero di linee di codice Verificate con esito positivo all'interno di un processo di test.\\
+    La formula è \( \text{CC} = \frac{\text{linee di codice scritte}}{\text{linee di codice totali}}*100 \).
+\end{itemize}
+
+\subsubsection{Manutenibilità}
+\begin{itemize}
+    \item \textbf{SFIN (Structure Fan IN):} Rappresenta la quantità di moduli o componenti che interagiscono direttamente o dipendono da un modulo o una funzione specifica. Un valore elevato suggerisce che molte parti del \textit{sistema}\textsubscript{G} fanno affidamento su quel particolare modulo.
+    \item \textbf{SFOUT (Structure Fan Out):} Rappresenta la quantità di connessioni o relazioni che un componente o modulo ha con altri elementi del \textit{sistema}\textsubscript{G}. Questa misura riflette il numero di moduli che interagiscono o su cui si basa un determinato modulo. Un fan-out elevato può segnalare che un modulo è fortemente dipendente da molti altri.
+\end{itemize}
+\subsubsection{Efficienza}
+\begin{itemize}
+    \item \textbf{TDE (Tempo di Elaborazione):} Rappresenta il tempo di risposta dal momento in cui vengono inseriti dati all'interno del prodotto \textit{software}\textsubscript{G} al momento in cui vengono visualizzati dall'utente in questo caso l'installatore.
+\end{itemize}

@@ -1,0 +1,617 @@
+\subsection{Sviluppo}
+\subsubsection{Scopo}
+Il processo di sviluppo rappresenta la serie di attività svolte dal team PEBKAC al fine di implementare il prodotto \textit{software}\textsubscript{G}, rispettando le scadenze e i \textit{requisiti}\textsubscript{G} concordati col Proponente. 
+Il processo è suddiviso nelle seguenti attività:
+\begin{itemize}
+    \item Analisi dei requisiti,
+    \item Progettazione;
+    \item Codifica;
+    \item Testing;
+    \item Integrazione \textit{software}\textsubscript{G}.
+\end{itemize}
+
+\subsubsection{Analisi dei Requisiti}
+\subsubsubsection{Scopo}
+Lo scopo dell'analisi dei requisiti è comprendere e definire in modo chiaro e completo le necessità e le aspettative del Proponente e degli utenti relativamente al prodotto \textit{software}\textsubscript{G}.
+\subsubsubsection{Implementazione}
+L'analisi dei requisiti, raccolta nel documento Analisi dei Requisiti V1.0.0, viene svolta secondo le seguenti fasi:
+\begin{enumerate}
+    \item Studio del \textit{capitolato}\textsubscript{G} e delle esigenze del Proponente;
+    \item Individuazione dei casi d'uso e dei \textit{requisiti}\textsubscript{G};
+    \item Confronto con il Proponente su quanto prodotto;
+    \item Divisione dei \textit{requisiti}\textsubscript{G} nelle categorie individuate e applicazione dei quanto emerso nella discussione col Proponente.
+\end{enumerate}
+
+L'attività di analisi può essere svolta in modo incrementale, quindi le sue fasi possono essere svolte più volte durante lo sviluppo del progetto. 
+\\ \\
+L'Analisi dei Requisiti V1.0.0 contiene:
+\begin{itemize}
+    \item \textbf{Introduzione}: descrive lo scopo del documento, del prodotto e i riferimenti utilizzati;
+    \item \textbf{Descrizione}: esplicita le funzionalità attese del prodotto;
+    \item \textbf{Attori\textsubscript{G}}: descrive gli utilizzatori del prodotto;
+    \item \textbf{Casi d'uso}: individua le possibili interazioni tra gli \textit{attori}\textsubscript{G} e il \textit{sistema}\textsubscript{G};
+    \item \textbf{Requisiti\textsubscript{G}}: elenca le caratteristiche da soddisfare;
+\end{itemize}
+\subsubsubsection{Casi d'uso}
+I casi d’uso sono strutturati nel seguente modo:
+\begin{itemize}
+    \item \textbf{Attore}\textsubscript{G}: l’\textit{attore}\textsubscript{G} che intende compiere lo scopo rappresentato dal caso d’uso;
+    \item \textbf{Precondizioni}: stato in cui il \textit{sistema}\textsubscript{G} si deve trovare prima dell’avvio della funzionalità rappresentata dal caso d’uso;
+    \item \textbf{Postcondizioni}: stato in cui il \textit{sistema}\textsubscript{G} si troverà dopo che l'utente avrà terminato lo scopo rappresentato dal caso d’uso;
+    \item \textbf{Scenario principale}: descrizione della funzionalità rappresentata dal caso d’uso;
+    \item \textbf{Scenari secondari} (se necessario);
+    \item \textbf{Estensioni} (se presenti);
+    \item \textbf{Specializzazioni} (se presenti).
+\end{itemize}
+\subsubsubsubsection{Notazione}
+i casi d'uso seguono la seguente notazione: \textbf{UC[Codice] - [Titolo]} in cui:
+\begin{itemize}
+    \item \textbf{UC} sta per \textit{Use Case}\textsubscript{G};
+    \item \textbf{[Codice]} è l'identificativo univoco del caso d'uso. Si tratta di un numero intero progressivo assegnato in base all'ordine di descrizione, se il caso d'uso non ha padre, altrimenti se si tratta di un sottocaso d'uso si segue la notazione\textbf{ [Codice\_padre]-[Numero\_figlio]}, ricorsivamente senza porre limite alla profondità della gerarchia;
+    \item \textbf{[Titolo]} è il titolo del caso d'uso.
+\end{itemize}
+
+\subsubsubsubsection{Diagrammi UML\textsubscript{G}}
+Un \textit{diagramma dei casi d’uso}\textsubscript{G} è uno strumento di modellazione che rappresenta visivamente le funzionalità di un \textit{sistema}\textsubscript{G} e le modalità con cui gli utenti interagiscono con esso. È particolarmente utile nella progettazione di sistemi poiché offre una rappresentazione intuitiva delle dinamiche operative e delle interazioni tra \textit{attori}\textsubscript{G} e \textit{sistema}\textsubscript{G}, senza entrare nei dettagli implementativi.
+I componenti principali di un \textit{diagramma dei casi d’uso}\textsubscript{G} sono: 
+\begin{enumerate}
+    \item \textbf{Attori}\textsubscript{G}: gli \textit{attori}\textsubscript{G} rappresentano entità esterne (umane o meno) che interagiscono con il \textit{sistema}\textsubscript{G} e sono raffigurati con un’icona stilizzata e un’etichetta identificativa. Possono essere generalizzati: un \textit{attore}\textsubscript{G} generico può avere \textit{attori}\textsubscript{G} più specifici che ne ereditano le funzionalità e aggiungono comportamenti contestuali;
+    \item \textbf{Casi d'uso}: un caso d’uso descrive un'operazione che un utente può compiere attraverso il \textit{sistema}\textsubscript{G}. Ogni caso d’uso ha un'identificazione univoca e una breve descrizione della funzione. Può includere sequenze di azioni che illustrano le possibili interazioni con il \textit{sistema}\textsubscript{G} ed è collegato agli \textit{attori}\textsubscript{G} autorizzati tramite linee continue.
+\end{enumerate}
+Nei diagrammi in questione poi possono comparire delle relazioni:
+\begin{enumerate}
+    \item \textbf{Generalizzazioni}: le generalizzazioni possono riguardare sia gli \textit{attori}\textsubscript{G} che i casi d’uso. Gli \textit{attori}\textsubscript{G} o i casi figli ereditano le funzionalità dei genitori, aggiungendo aspetti specifici. La relazione è rappresentata con una freccia continua e un triangolo vuoto bianco;
+    \item \textbf{Inclusioni}: si verificano quando un caso d’uso ne richiama un altro in modo obbligatorio. Questo favorisce la riduzione della duplicazione e il riutilizzo delle strutture. La relazione è indicata con una freccia tratteggiata e l’etichetta “include”;
+    \item \textbf{Estensioni}: rappresentano relazioni condizionali in cui un caso d’uso aggiuntivo viene eseguito solo in circostanze particolari, interrompendo temporaneamente il flusso principale. La relazione è raffigurata con una freccia tratteggiata e l’etichetta “extend”.
+\end{enumerate}
+
+\subsubsubsection{Requisiti}
+\subsubsubsubsection{Notazione}
+Ogni \textit{requisito}\textsubscript{G} analizzato  sarà identificato univocamente da una sigla del tipo \\ \textbf{R[Tipo].[Importanza].[Codice]} nella quale:
+\begin{itemize}
+    \item \textbf{[R]} sta per \textit{Requisito}\textsubscript{G};
+    \item \textbf{[Tipo]} può essere:
+    \begin{itemize}
+        \item \textbf{F} per Funzionale;
+        \item \textbf{Q} per Qualità;
+        \item \textbf{V} per Vincolo.
+    \end{itemize}
+    \item \textbf{[importanza]} classifica i \textit{requisiti}\textsubscript{G} in:
+    \begin{itemize}
+        \item \textbf{O} per Obbligatorio;
+        \item \textbf{D} per Desiderabile;
+        \item \textbf{P} per Opzionale.
+    \end{itemize}
+    \item \textbf{[Codice]} identifica univocamente i \textit{requisiti}\textsubscript{G} per ogni tipologia. È un numero intero progressivo univoco assegnato in ordine di importanza se il \textit{requisito}\textsubscript{G} non ha padre, se invece si tratta di un sotto-\textit{requisito}\textsubscript{G} segue il formato \textbf{[Codice\_padre].[Numero\_figlio]} e trattandosi di una struttura ricorsiva non c'è limite alla profondità della gerarchia.
+\end{itemize}
+
+\subsubsubsubsection{Suddivisione}
+\begin{enumerate}
+    \item \textbf{Requisiti\textsubscript{G} Funzionali}: descrivono le funzionalità del \textit{sistema}\textsubscript{G}, le azioni che il \textit{sistema}\textsubscript{G} può compiere e le informazioni che il \textit{sistema}\textsubscript{G} può fornire. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RF.O - \textit{Requisito}\textsubscript{G} Funzionale Obbligatorio;
+        \item RF.D - \textit{Requisito}\textsubscript{G} Funzionale Desiderabile;
+        \item RF.P - \textit{Requisito}\textsubscript{G} Funzionale Opzionale;
+    \end{itemize}
+     \item \textbf{Requisiti\textsubscript{G} di Qualità}: descrivono come un \textit{sistema}\textsubscript{G} deve essere, o come il \textit{sistema}\textsubscript{G} deve essere visualizzato, per soddisfare le esigenze dell’utente. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RQ.O - \textit{Requisito}\textsubscript{G} di Qualità Obbligatorio;
+        \item RQ.D - \textit{Requisito}\textsubscript{G} di Qualità Desiderabile;
+        \item RQ.P - \textit{Requisito}\textsubscript{G} di Qualità Opzionale;
+    \end{itemize}
+     \item \textbf{Requisiti\textsubscript{G} Funzionali}: descrivono i limiti e le restrizioni normative/legislative che un \textit{sistema}\textsubscript{G} deve rispettare per soddisfare le esigenze dell’utente. Seguendo la notazione sopra riportata, si possono partizionare in:
+    \begin{itemize}
+        \item RV.O - \textit{Requisito}\textsubscript{G} di Vincolo Obbligatorio;
+        \item RV.D - \textit{Requisito}\textsubscript{G} di Vincolo Desiderabile;
+        \item RV.P - \textit{Requisito}\textsubscript{G} di Vincolo Opzionale;
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di sviluppo dell'Analisi dei Requisiti sono:
+\begin{itemize}
+    \item \nameref{Diagrams.net};
+    \item \nameref{StarUML}.
+\end{itemize}
+
+\subsubsection{Progettazione}
+\subsubsubsection{Scopo}
+Lo scopo della progettazione è definire l'architettura del prodotto \textit{software}\textsubscript{G} e fornire i componenti e le interazioni del \textit{sistema}\textsubscript{G} per garantire che funzioni in modo efficiente ed efficace rispetto ai requisiti funzionali e non funzionali determinati durante l'attività di analisi dei requisiti.
+
+\subsubsubsection{Documentazione}
+La progettazione porterà alla redazione del documento di Specifica Tecnica. Questo documento ha principalmente lo scopo di descrivere l'architettura del prodotto \textit{software}\textsubscript{G} e di mettere a disposizione una linea guida per garantire che il \textit{sistema}\textsubscript{G} venga implementato secondo i requisiti del progetto. Gli argomenti trattati in questo documento sono:
+\begin{itemize}
+    \item \textbf{Tecnologie}: espone un'analisi delle tecnologie e dei linguaggi di programmazione utilizzati, delle librerie\textsubscript{G} e dei framework\textsubscript{G} necessari, oltre che delle infrastrutture realizzate, riportando in particolare vantaggi e svantaggi di ognuna;
+    \item \textbf{Architettura di sistema}: descrive la struttura generale del software, la suddivisione in moduli o livelli e le interazioni tra i componenti;
+    \item \textbf{Architettura delle componenti}: fornisce i dettagli dei singoli moduli o componenti del sistema, descrivendone responsabilità, interfacce, flussi di dati, modalità di interazione ed esplicitando eventuali sottocomponenti;
+    \item \textbf{Progettazione di dettaglio}: definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti.
+\end{itemize}
+
+\subsubsubsection{Principi di progettazione dei componenti}
+Per ogni componente devono essere specificati i seguenti punti:
+\begin{enumerate}
+    \item Una breve descrizione delle funzionalità del componente;
+    \item Caratteristiche del componente:
+    \begin{itemize}
+        \item \textbf{Route API}: il percorso dell’endpoint esposto dal componente per interagire con il sistema;
+        \item \textbf{Metodo}: il tipo di richiesta HTTP supportata;
+        \item \textbf{Lista parametri HTTP}: l'elenco dei parametri richiesti o opzionali, inclusi nome, tipo e scopo di ciascun parametro.
+    \end{itemize}
+    \item Una lista che comprenda i possibili risultati dell'esecuzione del componente, accompagnati da:
+    \begin{itemize}
+        \item Il codice che porta al verificarsi di quel particolare esito;
+        \item Una descrizione di quel particolare esito;
+        \item Il messaggio che viene visualizzato nel caso in cui si verifichi quel particolare esito.
+    \end{itemize}
+    \item Un \textit{sistema}\textsubscript{G} che consenta di effettuare il tracciamento dei requisiti soddisfatti;
+    \item Una dichiarazione esaustiva di tutte le sottocomponenti, corredate dal loro scopo.
+\end{enumerate}
+
+\subsubsubsection{Principi di progettazione di dettaglio}
+La sezione dedicata alla progettazione di dettaglio del documento di Specifica Tecnica definisce nel dettaglio gli algoritmi, le strutture dati, i flussi operativi e l'implementazione dei singoli componenti di sistema.\\
+Per ogni componente è necessario realizzare un diagramma delle classi e per ogni classe è necessario elencare le proprietà, che comprendono:
+\begin{itemize}
+    \item \textbf{Attributi}: un elenco degli attributi della classe;
+    \item \textbf{Implementazione}: un campo che specifica se la classe implementa un'interfaccia;
+    \item \textbf{Estensione}: un campo che specifica se la classe estende un'altra classe;
+    \item \textbf{Metodi}: un elenco dei metodi della classe, dove per ogni metodo vengono specificati la firma che lo identifica e una descrizione;
+    \item \textbf{Valori}: un campo che caratterizza le enumerazioni.
+\end{itemize}
+
+\subsubsubsection{Convenzioni nella progettazione di dettaglio}
+\subsubsubsubsection{Convenzioni di denominazione}
+\begin{itemize}
+    \item \textbf{Nomi delle classi}: utilizzano il PascalCase (es. NomeClasse);
+    \item \textbf{Nomi degli attributi}: utilizzano il camelCase (es. nomeAttributo);
+    \item \textbf{Nomi dei metodi}: utilizzano il camelCase con verbi all'infinito (es. nomeMetodo());
+    \item \textbf{Nomi delle costanti}: utilizzano lo SCREAMING\_SNAKE\_CASE (es. NOME\_COSTANTE).
+\end{itemize}
+
+\subsubsubsubsection{Convenzioni di rappresentazione}
+Le classi sono rappresentate con tre sezioni:
+\begin{itemize}
+    \item Nome della classe;
+    \item Attributi, rappresentati come segue:\\
+    \texttt{visibilità nomeAttributo: tipo}
+    \item Metodi, rappresentati con la loro firma come segue:\\
+    \texttt{visibilità nomeMetodo(parametro0: tipo0, parametro1: tipo1): tipo}
+\end{itemize}
+
+\subsubsubsection{Proprietà desiderate dell'architettura}
+Durante l'attività progettazione, i progettisti devono tenere conto e fare in modo che l'architettura abbia le seguenti pproprietà:
+\begin{itemize}
+    \item \textbf{Affidabilità}: capacità di funzionare correttamente e senza interruzioni per lunghi periodi, gestendo errori e guasti;
+    \item \textbf{Basso accoppiamento}: i moduli o i componenti del \textit{sistema}\textsubscript{G} sono indipendenti e interagiscono tra loro attraverso interfacce ben definite, riducendo le dipendenze e facilitando modifiche e manutenzione;
+    \item \textbf{Coesione}: grado in cui i componenti di un modulo sono strettamente correlati e focalizzati su un unico scopo;
+    \item \textbf{Comprensibilità}: la chiarezza e la facilità con cui si possono comprendere la struttura, il funzionamento e i componenti del sistema;
+    \item \textbf{Disponibilità}: capacità del \textit{sistema}\textsubscript{G} di essere operativo e accessibile per gli utenti in modo continuo, minimizzando i tempi di inattività e garantendo un rapido ripristino in caso di guasto;
+    \item \textbf{Efficienza}: ottimizzazione delle \textit{risorse}\textsubscript{G} per garantire prestazioni elevate e ridurre i costi operativi senza compromettere la qualità del sistema;
+    \item \textbf{Flessibilità}: capacità di adattarsi facilmente a nuovi requisiti, modifiche o estensioni senza richiedere una revisione radicale del sistema;
+    \item \textbf{Incapsulazione}: nascondere i dettagli interni di un modulo, esponendo solo le interfacce necessarie;
+    \item \textbf{Modularità}: suddivisione del \textit{sistema}\textsubscript{G} in componenti indipendenti e intercambiabili, facilitando manutenzione, scalabilità e riusabilità;
+    \item \textbf{Riusabilità}: capacità di progettare componenti e moduli in modo che possano essere facilmente riutilizzati in diversi contesti o progetti, riducendo costi di sviluppo e tempi di implementazione;
+    \item \textbf{Robustezza}: capacità di funzionare correttamente anche in condizioni avverse, gestendo errori, \textit{input}\textsubscript{G} imprevisti e guasti senza compromettere stabilità e operatività del sistema;
+    \item \textbf{Safety}: capacità di gestire guasti \textit{hardware}\textsubscript{G} o \textit{software}\textsubscript{G} senza compromettere la disponibilità e l'integrità del sistema;
+    \item \textbf{Security}: capacità di proteggere il \textit{sistema}\textsubscript{G} da accessi non autorizzati, vulnerabilità e attacchi informatici;
+    \item \textbf{Semplicità}: riduzione della complessità non necessaria, privilegiando soluzioni chiare, comprensibili e facili da mantenere senza sacrificare funzionalità o scalabilità;
+    \item \textbf{Sufficienza}: capacità di soddisfare i requisiti attuali senza essere eccessivamente complesso o sovradimensionato rispetto alle necessità effettive.
+\end{itemize}
+
+\subsubsubsection{Fasi della progettazione}
+\subsubsubsubsection{Progettazione logica}
+La fase di progettazione logica consiste nel definire un'architettura che illustra la struttura e il comportamento del \textit{sistema}\textsubscript{G} a un livello astratto, senza preoccuparsi delle tecnologie specifiche. In questa fase bisogna assicurarsi che i componenti siano descritti dettagliatamente e che coprano tutti i requisiti funzionali e non, semplificando così la prossima fase della progettazione.
+
+\subsubsubsubsection{Progettazione di dettaglio}
+La fase di progettazione di dettaglio si concentra sulla definizione precisa di tutti gli aspetti tecnici del sistema, traducendo le specifiche logiche in soluzioni concrete e implementabili. In questa fase, vengono progettati i singoli componenti del sistema, insieme alle loro interfacce, strutture dati, classi e funzioni, e la comunicazione tra i moduli. L'intento è sviluppare una base solida e completa per l'implementazione del \textit{software}\textsubscript{G}, con chiarezza e precisione su tutte le decisioni progettuali.
+
+\subsubsubsection{Diagrammi delle classi}
+I diagrammi delle classi contenuti nel documento di Specifica Tecnica devono rispettare la notazione e le specifiche dalla versione 2.5 di \textit{UML}\textsubscript{G}.
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di progettazione sono:
+\begin{itemize}
+    \item \nameref{StarUML}.
+\end{itemize}
+
+\subsubsection{Codifica}
+\subsubsubsection{Scopo}
+Lo scopo del processo di codifica è trasformare la progettazione dettagliata in codice sorgente eseguibile, utilizzando un linguaggio di programmazione appropriato. Questa fase consiste nello sviluppo effettivo delle funzionalità del sistema, garantendo che il codice sia corretto, efficiente, manutenibile e conforme agli standard di qualità e sicurezza. Inoltre, la codifica deve seguire le specifiche definite nelle fasi precedenti, assicurando che il \textit{software}\textsubscript{G} soddisfi i requisiti funzionali e non funzionali. Questa sezione ha lo scopo di normare la scrittura del codice al fine di:
+\begin{itemize}
+    \item Rendere il codice più leggibile, uniforme e robusto;
+    \item Semplificare e velocizzare il processo di verifica;
+    \item Agevolare la manutenzione, il debugging e l'estensione del \textit{software}\textsubscript{G};
+    \item Migliorare la qualità complessiva del codice.
+\end{itemize}
+
+\subsubsubsection{Nomenclatura di file e cartelle}
+Per garantire una denominazione coerente e leggibile, utilizzeremo la convenzione PascalCase per i nomi di file e cartelle. In PascalCase, ogni parola inizia con una lettera maiuscola e non ci sono spazi o caratteri speciali tra le parole.
+
+\subsubsubsection{Norme di codifica in Python}
+\subsubsubsubsection{Organizzazione dei sorgenti}
+La struttura generale di un sorgente \textit{Python}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: inclusione dei moduli necessari;
+    \item \textbf{Dichiarazioni di costanti globali}: variabili usate come configurazione;
+    \item \textbf{Definizione di funzioni e classi}: struttura principale del codice;
+    \item \textbf{Blocco principale}: punto di ingresso per l'esecuzione diretta dello script.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione delle classi}
+La struttura generale di una classe \textit{Python}\textsubscript{G} solitamente include:
+\begin{enumerate}
+    \item \textbf{Lista di classi estese o interfacce implementate}: se la classe eredita da una o più classi, queste vengono elencate tra parentesi nella dichiarazione della classe;
+    \item \textbf{Metodo costruttore}: inizializza gli attributi dell'istanza;
+    \item \textbf{Attributi della classe e dell'istanza}: variabili che contengono lo stato della classe o dell'oggetto;
+    \item \textbf{Metodi della classe}: funzioni che definiscono il comportamento dell'oggetto.
+\end{enumerate}
+
+\subsubsubsubsection{Buone pratiche di codifica}
+\begin{itemize}
+    \item \textbf{Scrivere funzioni brevi e modulari}: ogni funzione dovrebbe fare una sola cosa e farla bene;
+    \item \textbf{Usare tipi di dati appropriati}: scegliere i tipi di dati più efficienti per ogni operazione;
+    \item \textbf{Evitare la duplicazione del codice}: centralizzare il codice ripetuto in funzioni o classi riutilizzabili;
+    \item \textbf{Gestire correttamente le eccezioni}: utilizzare i blocchi try/except per intercettare e gestire gli errori in modo elegante, senza interrompere il flusso del programma;
+    \item \textbf{Ottimizzare solo quando necessario}: scrivere codice semplice e comprensibile prima di preoccuparsi delle ottimizzazioni;
+    \item \textbf{Non accedere direttamente agli attributi di una classe}: evitare di modificare o leggere direttamente gli attributi, ma utilizzare metodi getter/setter per l'accesso;
+    \item \textbf{Usare self per riferirsi ai parametri interni}: utilizzare il riferimento \texttt{self} per accedere agli attributi e ai metodi interni della classe;
+    \item \textbf{Usare la minima visibilità possibile per gli attributi}: limitare l'accesso agli attributi attraverso visibilità minima, preferendo attributi privati o protetti, ove possibile;
+    \item \textbf{Importazioni a inizio script}: le importazioni di moduli devono essere fatte all'inizio del file o modulo;
+    \item \textbf{Evitare importazioni generiche}: evitare l'uso di importazioni con asterisco;
+    \item \textbf{Usare commenti TODO e FIXME}: usare \texttt{TODO} per indicare sezioni di codice da completare e \texttt{FIXME} per sezioni che necessitano di revisione o miglioramenti.
+\end{itemize}
+
+\subsubsubsubsection{Regole di sintassi}
+\begin{itemize}
+    \item \textbf{Nomi autoesplicativi}: scegliere nomi descrittivi per variabili, funzioni e classi in modo che il loro scopo sia chiaro senza dover leggere il codice in dettaglio;
+    \item \textbf{Lingua}: scrivere nomi di variabili, funzioni e classi in inglese, mentre i commenti e le docstring vanno scritte in italiano;
+    \item \textbf{Usare con cautela le abbreviazioni}: evitare abbreviazioni eccessive nei nomi delle variabili e delle funzioni, a meno che non siano di uso comune, per migliorare la leggibilit;
+    \item \textbf{Nomi di variabili e funzioni in camelCase}: utilizzare parole concatenate senza spazi, dove ogni parola successiva alla prima inizia con una lettera maiuscola, per migliorare la leggibilità (ad esempio \texttt{nomeVariabile});
+    \item \textbf{Nomi di classi in PascalCase}: iniziare ogni parola con una lettera maiuscola per distinguere facilmente le classi dagli altri elementi (ad esempio \texttt{NomeClasse});
+    \item \textbf{Costanti in SCREAMING\_SNAKE\_CASE}: dichiarare le costanti in maiuscolo con underscore per indicare che non dovrebbero essere modificate (ad esempio \texttt{NOME\_COSTANTE});
+    \item \textbf{Uso coerente delle virgolette}: utilizzare le virgolette doppie per le stringhe (ad esempio \texttt{"test"});
+    \item \textbf{Indentazione}: usare un'indentazione di una tabulazione per migliorare la leggibilità del codice;
+    \item \textbf{Spaziature attorno agli operatori}: inserire uno spazio prima e dopo gli operatori aritmetici e di assegnazione per aumentare la chiarezza (ad esempio \texttt{ a = b + c });
+    \item \textbf{Evitare spaziature inutili}: non lasciare spazi prima delle parentesi aperte o dopo le parentesi chiuse (ad esempio \texttt{func(arg1, arg2)});
+    \item \textbf{Uso corretto delle parentesi}: usare le parentesi solo quando necessario, evitando di inserirle intorno a espressioni che non lo richiedono (ad esempio \texttt{if x == 5:});
+    \item \textbf{Uso appropriato dei commenti}: i commenti devono essere chiari, pertinenti e aggiornati, evitando spiegazioni ovvie. Usare \texttt{\#} per commenti brevi e docstring per descrizioni più dettagliate;
+    \item \textbf{Lunghezza delle righe}: limitare la lunghezza delle righe di codice a un massimo di 79 caratteri per migliorare la leggibilità su diversi schermi;
+    \item \textbf{Evitare più istruzioni su una riga}: scrivere una sola istruzione per riga, evitando di separarle con punto e virgola per migliorare la leggibilità.
+    \item \textbf{Condizioni e cicli su una sola riga}: evitare di scrivere condizioni o cicli complessi su una sola riga per non compromettere la leggibilità;
+    \item \textbf{Linee vuote tra sezioni di codice}: usare una riga vuota tra funzioni e due tra classi per separare logicamente le sezioni del codice;
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in Angular}
+\subsubsubsubsection{Tipologie dei sorgenti}
+In \textbf{Angular}\textsubscript{G}, esistono diverse tipologie di sorgenti, ognuna con un \textit{ruolo}\textsubscript{G} specifico per garantire modularità, scalabilità e manutenibilità:
+\begin{itemize}
+    \item \textbf{Componenti (\texttt{*.component.ts})}. definiscono le unità dell’interfaccia utente con logica, template e stili;
+    \item \textbf{Moduli (\texttt{*.module.ts})}: organizzano i componenti, direttive e servizi in unità indipendenti;
+    \item \textbf{Servizi (\texttt{*.service.ts})}: gestiscono la logica di business e la comunicazione con il \textit{backend}\textsubscript{G};
+    \item \textbf{Direttive (\texttt{*.directive.ts})}: modificano il comportamento degli elementi HTML senza alterarne la struttura;
+    \item \textbf{Pipe (\texttt{*.pipe.ts})}: trasformano i dati nei template per la formattazione o elaborazione;
+    \item \textbf{Template (\texttt{*.component.html})}: contengono il codice HTML che definisce l’interfaccia utente;
+    \item \textbf{Stili (\texttt{*.component.scss} o \texttt{.css})}: definiscono l’aspetto grafico dei componenti e dell’app;
+    \item \textbf{File di configurazione (\texttt{angular.json}, \texttt{package.json}, \texttt{tsconfig.json})}: contengono impostazioni per compilazione, dipendenze e build;
+    \item \textbf{Main (\texttt{main.ts})}: punto di ingresso dell’applicazione, che si occupa di avviare il modulo principale;
+    \item \textbf{Environments (\texttt{environment.ts})}: gestiscono configurazioni specifiche per diversi ambienti di esecuzione.  
+\end{itemize}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Componenti}
+La struttura generale di un sorgente \texttt{.component.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli e le dipendenze necessarie; 
+    \item \textbf{Decoratore \texttt{@Component}}: contiene i metadati del componente;
+    \item \textbf{Definizione della classe}: la classe \textit{Typescript}\textsubscript{G} esportata del componente definisce la logica dell'interfaccia utente:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del componente;
+        \item \textbf{Costruttore}: inizializza il componente e inietta eventuali dipendenze necessarie;
+        \item \textbf{Metodi}: funzionalità definite per gestire eventi, logica di business o manipolazione dei dati.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Moduli}
+La struttura generale di un sorgente \texttt{.module.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: importa i moduli necessari;  
+    \item \textbf{Decoratore \texttt{@NgModule}}: contiene i metadati del modulo:
+    \begin{itemize}
+        \item \textbf{Dichiarazioni}: elenca i componenti, direttive e pipe appartenenti al modulo;
+        \item \textbf{Importazioni}: specifica altri moduli necessari per il funzionamento dell’app;
+        \item \textbf{Provider}: definisce i servizi disponibili all'interno del modulo;
+        \item \textbf{Bootstrap (solo per il modulo principale)}: indica il componente radice avviato dall'applicazione.
+    \end{itemize}
+    \item \textbf{Definizione della classe}: il modulo viene definito come una classe \textit{Typescript}\textsubscript{G} esportata.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Servizi}
+La struttura generale di un sorgente \texttt{.service.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli e le dipendenze necessarie;
+    \item \textbf{Decoratore \texttt{@Injectable()}}: indica che la classe è un servizio e può essere iniettata in altri componenti o servizi;
+    \item \textbf{Definizione della classe}: la classe \textit{Typescript}\textsubscript{G} esportata che implementa il servizio, contenente la logica centralizzata:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del servizio;
+        \item \textbf{Costruttore}: inizializza il servizio e inietta altri eventuali servizi necessari;
+        \item \textbf{Metodi}: funzionalità fornite dal servizio.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Direttive}
+La struttura generale di un sorgente \texttt{.directive.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli necessari;
+    \item \textbf{Decoratore \texttt{@Directive()}}: definisce il selettore della direttiva, che può essere applicato agli elementi HTML;
+    \item \textbf{Definizione della classe}: definisce la classe esportata che implementa la logica della direttiva:
+    \begin{itemize}
+        \item \textbf{Dichiarazione delle proprietà}: variabili utilizzate nel template per gestire dati e stato del servizio;
+        \item \textbf{Costruttore}: inizializza la direttiva e, si possono iniettare \texttt{ElementRef} per accedere all'elemento DOM e \texttt{Renderer2} per manipolarla in modo sicuro;
+        \item \textbf{Gestione degli eventi (\texttt{@HostListener})}: ascolta eventi per eseguire azioni sugli elementi HTML;
+        \item \textbf{Metodi}: funzionalità fornite dalla direttiva.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Pipe}
+La struttura generale di un sorgente \texttt{.pipe.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazioni}: si importano i moduli necessari;
+    \item \textbf{Decoratore \texttt{@Pipe()}}: definisce il nome della pipe, utilizzato nei template HTML;
+    \item \textbf{Definizione della classe}: la classe esportata implementa l'interfaccia \\ \texttt{PipeTransform} e contiene tutta la logica per la trasformazione dei dati tramite l'implementazione del metodo \texttt{transform()}:
+    \begin{itemize}
+        \item \textbf{Gestione delle trasformazioni}: nel metodo \texttt{transform()}, si applicano le trasformazioni complesse e condizionali sui dati;
+    \end{itemize}
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Template}
+La struttura generale di un sorgente \texttt{.component.html} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Markup HTML}: contiene gli elementi HTML che definiscono la struttura della vista;
+    \item \textbf{Binding dei dati}: utilizza la sintassi di binding di \textit{Angular}\textsubscript{G} per associare variabili e proprietà ai componenti del DOM;
+    \item \textbf{Direttive Angular}: direttive per manipolare il DOM in base a dati dinamici;
+    \item \textbf{Componenti figli}: componenti inclusi all'interno di un template;
+    \item \textbf{Event binding}: sintassi per collegare eventi alle azioni nel componente;
+    \item \textbf{Template reference variables}: variabili di riferimento per accedere agli elementi del DOM o ai componenti figli;
+    \item \textbf{Formattazione e styling}: può includere stili inline o riferimenti a fogli di stile esterni.
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Stili}
+La struttura generale di un sorgente \texttt{.component.css o .scss} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Definizioni di variabili}: le variabili \textit{CSS}\textsubscript{G} vengono usate per centralizzare valori comuni, come colori e dimensioni;
+    \item \textbf{Definizione degli stili locali}: contiene le regole \textit{CSS}\textsubscript{G} per definire l'aspetto del componente;
+\end{enumerate}
+
+\subsubsubsubsection{Organizzazione dei sorgenti: Main}
+La struttura generale di un sorgente \texttt{main.ts} in \textit{Angular}\textsubscript{G}, di solito, include i seguenti elementi:
+\begin{enumerate}
+    \item \textbf{Importazione di moduli e funzionalità}: importa il modulo \\ \texttt{platformBrowserDynamic} per avviare l'applicazione nel browser e il modulo principale;
+    \item \textbf{Bootstrap del modulo principale}: avvia l'applicazione chiamando \\ \texttt{platformBrowserDynamic().bootstrapModule(AppModule)}.
+\end{enumerate}
+
+\subsubsubsubsection{Buone pratiche di codifica}
+\begin{itemize}
+    \item \textbf{Seguire le convenzioni di naming}: usa nomi significativi e coerenti per componenti, servizi, moduli e variabili;
+    \item \textbf{Usare la modularizzazione}: organizza il codice in moduli \textit{Angular}\textsubscript{G} separati per gestire diverse funzionalità;
+    \item \textbf{Organizzare il codice in cartelle tematiche}: organizza il codice in base alla funzionalità e non per tipo di file;
+    \item \textbf{Mantenere i componenti piccoli e riutilizzabili}: ogni componente dovrebbe avere una sola responsabilità e dovrebbe essere riutilizzabile;
+    \item \textbf{Separare la logica di presentazione dalla logica di business}: mantieni separata la logica di presentazione (componenti) da quella di business (servizi);
+    \item \textbf{Evita logica complessa nei componenti}: sposta la logica complessa nei servizi, mantenendo i componenti leggeri e facilmente testabili;
+    \item \textbf{Utilizzare i servizi per la gestione della logica e delle chiamate API}: centralizza la logica di business e la gestione delle chiamate alle \textit{API}\textsubscript{G} nei servizi, e iniettili nei componenti tramite dependency injection;
+    \item \textbf{Usare l'injection di dipendenze}: utilizza l'iniezione di dipendenze per gestire le dipendenze tra componenti e servizi;
+    \item \textbf{Usare i Reactive Forms per una gestione avanzata dei moduli}: usa i Reactive Forms invece dei Template-driven Forms per una gestione avanzata della \textit{validazione}\textsubscript{G} dei moduli;
+    \item \textbf{Usare il binding unidirezionale quando possibile}: preferisci il binding unidirezionale piuttosto che il binding bidirezionale;
+    \item \textbf{Usare le direttive in modo modulare}: le direttive devono essere piccole, modulari e riutilizzabili;
+    \item \textbf{Usare i pipe per la trasformazione dei dati}: usa le pipe per trasformare i dati nella vista, mantenendo la logica di presentazione fuori dai componenti;
+    \item \textbf{Gestire gli errori in modo appropriato}: utilizza il \textit{sistema}\textsubscript{G} di gestione degli errori di \textit{Angular}\textsubscript{G};
+    \item \textbf{Usare il Lazy Loading per migliorare le performance}: carica solo i moduli necessari all’avvio dell’applicazione usando il Lazy Loading;
+    \item \textbf{Ottimizzare le performance}: usa tecniche per migliorare le performance di rendering;
+    \item \textbf{Usare il \textit{CSS}\textsubscript{G} scoped}: utilizza il \texttt{ViewEncapsulation} di \textit{Angular}\textsubscript{G} (scoped \textit{CSS}\textsubscript{G}) per evitare che gli stili di un componente influenzino altri componenti;
+    \item \textbf{Sfruttare i moduli di terze parti con cautela}: usa librerie di terze parti per risolvere problemi comuni, ma evita di sovraccaricare l'applicazione con dipendenze non necessarie;
+    \item \textbf{Usare commenti TODO e FIXME}: usare TODO per indicare sezioni di codice da completare e FIXME per sezioni che necessitano di revisione o miglioramenti;
+\end{itemize}
+
+\subsubsubsubsection{Regole di sintassi}
+\begin{itemize}
+    \item \textbf{Nomi autoesplicativi}: scegliere nomi descrittivi per componenti, servizi, moduli e variabili in modo che il loro scopo sia chiaro senza dover leggere il codice in dettaglio;
+    \item \textbf{Lingua}: scrivere nomi di variabili, funzioni e classi in inglese, mentre i commenti e la \textit{documentazione}\textsubscript{G} possono essere in italiano;
+    \item \textbf{Usare con cautela le abbreviazioni}: evitare abbreviazioni eccessive nei nomi delle variabili e delle funzioni, a meno che non siano di uso comune, per migliorare la leggibilità;
+    \item \textbf{Nomi di componenti, servizi e moduli in PascalCase}: utilizzare parole concatenate dove ogni parola inizia con una lettera maiuscola, seguite dal suffisso appropriato (ad esempio \texttt{UserProfileComponent}, \texttt{AuthService}, \texttt{AppModule});
+    \item \textbf{Nomi di variabili e metodi in camelCase}: iniziare con una lettera minuscola e usare lettere maiuscole per le parole successive (ad esempio \texttt{getUserData});
+    \item \textbf{Costanti in SCREAMING\_SNAKE\_CASE}: dichiarare le costanti in maiuscolo con underscore per indicare che non dovrebbero essere modificate (ad esempio \texttt{API\_BASE\_URL});
+    \item \textbf{Uso coerente delle virgolette}: preferire le virgolette singole (\texttt{'...'}) per le stringhe in \textit{Typescript}\textsubscript{G}, a meno che non siano necessarie virgolette doppie (\texttt{"..."}) per nidificazioni;
+    \item \textbf{Indentazione}: usare un'indentazione di una tabulazione per migliorare la leggibilità del codice;
+    \item \textbf{Spaziature attorno agli operatori}: inserire uno spazio prima e dopo gli operatori per aumentare la chiarezza (ad esempio \texttt{a = b + c});
+    \item \textbf{Evitare spaziature inutili}: non lasciare spazi prima delle parentesi aperte o dopo le parentesi chiuse (ad esempio \texttt{myFunction(arg1, arg2)});
+    \item \textbf{Uso corretto delle parentesi}: usare le parentesi solo quando necessario e preferire il formato multilinea per le dichiarazioni lunghe;
+    \item \textbf{Lunghezza delle righe}: limitare la lunghezza delle righe di codice a un massimo di 100 caratteri per migliorare la leggibilità su diversi schermi;
+    \item \textbf{Evitare più istruzioni su una riga}: scrivere una sola istruzione per riga, evitando di separarle con punto e virgola per migliorare la leggibilità;
+    \item \textbf{Linee vuote tra sezioni di codice}: usare una riga vuota tra funzioni e due tra classi per separare logicamente le sezioni del codice;
+    \item \textbf{Organizzazione delle importazioni}: mantenere un ordine chiaro: prima i moduli di \textit{Angular}\textsubscript{G}, poi le librerie di terze parti, infine le importazioni locali.
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in SQL}
+Per le norme di codifica del linguaggio \textit{SQL}\textsubscript{G} è stato seguito lo standard ISO/ANSI SQL:2019, adottando ove necessario le norme specifiche applicate da \textit{PostgreSQL}\textsubscript{G}.
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di codifica sono:
+\begin{itemize}
+    \item \nameref{Visual Studio Code};
+    \item \nameref{GitHub}.
+\end{itemize}
+
+\subsubsection{Configurazione dell’ambiente di esecuzione}
+\subsubsubsection{Scopo}
+Lo scopo del processo di configurazione dell'ambiente di esecuzione è garantire che l'ambiente in cui il \textit{software}\textsubscript{G} sarà eseguito sia correttamente predisposto, ottimizzato e sicuro per supportare l'esecuzione dell'applicazione. Questa fase consiste nell'installazione e configurazione di \textit{software}\textsubscript{G}, strumenti e dipendenze necessarie, come \textit{database}\textsubscript{G}, server web, linguaggi di programmazione e librerie. Inoltre, è fondamentale assicurarsi che l'ambiente di esecuzione sia conforme agli standard aziendali e alle specifiche del progetto, riducendo al minimo i problemi che potrebbero sorgere durante l'esecuzione del sistema. L'obiettivo principale di questa sezione è di:
+\begin{itemize}
+    \item Creare un ambiente stabile e coerente per l'esecuzione dell'applicazione;
+    \item Ottimizzare le \textit{risorse}\textsubscript{G} \textit{hardware}\textsubscript{G} e \textit{software}\textsubscript{G} per garantire le migliori performance;
+    \item Garantire che tutte le dipendenze siano correttamente configurate e aggiornate;
+    \item Minimizzare gli errori di esecuzione dovuti a configurazioni errate o incompatibilità;
+    \item Facilitare il deployment e la gestione dell'applicazione in ambienti diversi.
+\end{itemize}
+
+\subsubsubsection{Norme di codifica in Docker}
+La creazione dei file \textit{Docker}\textsubscript{G} è una parte fondamentale del processo di sviluppo del \textit{software}\textsubscript{G}. Le \textit{best practices}\textsubscript{G} e le linee guida per la scrittura dei file \textit{Docker}\textsubscript{G} sono essenziali per assicurare la gestione, la distribuzione e l'efficienza dei \textit{container}\textsubscript{G}. Di seguito sono riportate alcune linee guida principali:
+\begin{itemize}
+    \item \textbf{Chiarezza e coerenza}:
+    \begin{itemize}
+        \item Utilizzare nomi significativi e descrittivi per le immagini e i \textit{container}\textsubscript{G};
+        \item Mantenere una struttura uniforme e organizzata nei file \textit{Docker}\textsubscript{G} per garantire la coerenza.
+    \end{itemize}
+    \item \textbf{Versionamento}:
+    \begin{itemize}
+        \item Sempre specificare la versione dell'immagine di base per assicurare la riproducibilità dell'ambiente;
+        \item Evitare l'uso del tag "latest" per le immagini di produzione, per evitare incertezze su quale versione venga utilizzata.
+    \end{itemize}
+    \item \textbf{Minimizzazione degli strati (Layering)}:
+    \begin{itemize}
+        \item Ridurre al minimo il numero di istruzioni nel Dockerfile per contenere il numero di strati nell'immagine;
+        \item Raggruppare insieme le istruzioni che possono essere eseguite in una sola fase, per migliorare l'efficienza della cache di \textit{Docker}\textsubscript{G}.
+    \end{itemize}
+    \item \textbf{Sicurezza}:
+    \begin{itemize}
+        \item Utilizzare immagini ufficiali o verificate per garantire la sicurezza e l'affidabilità;
+        \item Evitare di eseguire processi con privilegi elevati quando non strettamente necessario;
+        \item Parametrizzare le informazioni sensibili tramite l'uso di \texttt{ARG}.
+    \end{itemize}
+    \item \textbf{Ottimizzazione delle risorse}:
+    \begin{itemize}
+        \item Limitare l'uso delle \textit{risorse}\textsubscript{G} del \textit{container}\textsubscript{G} (come CPU e memoria) per migliorare l'efficienza;
+        \item Preferire immagini leggere e ottimizzate per l'ambiente di produzione.
+    \end{itemize}
+    \item \textbf{Gestione delle variabili d'ambiente}:
+    \begin{itemize}
+        \item Usare variabili d'ambiente per configurazioni dinamiche;
+        \item Fornire valori di default sensati per le variabili d'ambiente, per facilitare la configurazione.
+    \end{itemize}
+    \item \textbf{Logging e monitoraggio}:
+    \begin{itemize}
+        \item Configurare adeguatamente i \textit{container}\textsubscript{G} per la gestione dei log;
+        \item Integrare strumenti di monitoraggio, quando necessario, per tenere traccia delle performance.
+    \end{itemize}
+    \item \textbf{Pulizia e riduzione delle dimensioni}:
+    \begin{itemize}
+        \item Rimuovere pacchetti temporanei e file non necessari dopo l'installazione delle dipendenze per mantenere l'immagine leggera;
+        \item Utilizzare i multi-stage builds per ottimizzare le immagini e ridurre le loro dimensioni.
+    \end{itemize}
+    \item \textbf{Testing}:
+    \begin{itemize}
+        \item Implementare \textit{test}\textsubscript{G} automatizzati per verificare la corretta funzionalità del Dockerfile e dei \textit{container}\textsubscript{G}.
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di configurazione dell'ambiente di esecuzione sono:
+\begin{itemize}
+    \item \nameref{Visual Studio Code};
+    \item \nameref{Docker};
+    \item \nameref{GitHub}.
+\end{itemize}
+
+\subsubsection{Testing del codice}
+\subsubsubsection{Scopo}
+Lo scopo del processo di testing del codice è verificare che il \textit{software}\textsubscript{G} funzioni correttamente, rispetti i requisiti e sia privo di \textit{bug}\textsubscript{G} o malfunzionamenti. Questa fase consiste nell'eseguire una serie di \textit{test}\textsubscript{G} per identificare eventuali errori nel codice, determinare la qualità del \textit{sistema}\textsubscript{G} e garantire che ogni componente funzioni come previsto. Inoltre, è fondamentale assicurarsi che le modifiche al codice non introducano regressioni o nuovi problemi. L'obiettivo principale di questa sezione è di:
+\begin{itemize}
+    \item Verificare che il codice funzioni come previsto e soddisfi i requisiti funzionali e non funzionali;
+    \item Identificare e correggere eventuali \textit{bug}\textsubscript{G} o malfunzionamenti nel sistema;
+    \item Assicurare che le modifiche non introducano regressioni o nuovi problemi nel sistema;
+    \item Garantire che il \textit{software}\textsubscript{G} sia di alta qualità, stabile e privo di errori;
+    \item Facilitare la manutenzione e l'evoluzione del \textit{software}\textsubscript{G}, riducendo il rischio di problemi futuri.
+\end{itemize}
+
+\subsubsubsection{Tipologie di test}
+I \textit{test\textsubscript{G}} realizzabili possono essere suddivisi in tre categorie principali:
+\begin{itemize}
+    \item \textbf{\textit{Test\textsubscript{G}} di unità}: verificano il corretto funzionamento di una singola unità di codice indipendente (ad esempio una funzione), assicurandosi che produca i risultati attesi al variare dei possibili input\textsubscript{G}, e vengono generalmente automatizzati per facilitare l'individuazione degli errori durante la fase di sviluppo;
+    \item \textbf{\textit{Test\textsubscript{G}} di integrazione}: verificano il corretto funzionamento delle interazioni tra diverse unità di codice o componenti di un sistema, assicurandosi che, una volta integrati, i vari moduli lavorino insieme senza problemi, rilevando eventuali errori nelle interfacce e nei flussi di dati tra di essi;
+    \item \textbf{\textit{Test\textsubscript{G}} di sistema}: verificano il comportamento complessivo di un'intera applicazione o sistema, testando tutte le sue componenti integrate per assicurarsi che soddisfi i \textit{requisiti\textsubscript{G}} funzionali e non funzionali, assicurandosi di valutare il \textit{sistema}\textsubscript{G} nel suo insieme simulando l'uso reale per identificare eventuali problemi di performance, sicurezza o compatibilità;
+\end{itemize}
+
+\subsubsubsubsection{Test di unità}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei \textit{test}\textsubscript{G} di unità per il codice. Essi si occupano della loro stesura in ogni fase dello sviluppo del codice per garantire che sia robusto, affidabile e facilmente manutenibile;
+    \item \textbf{Descrizione}: i \textit{test}\textsubscript{G} di unità, noti anche come unit testing, sono una pratica fondamentale nello sviluppo \textit{software}\textsubscript{G} che consiste nel verificare il corretto funzionamento delle più piccole parti isolabili del codice, come singole funzioni, metodi o classi. L'obiettivo principale è assicurarsi che ciascuna unità operi secondo le aspettative, facilitando l'identificazione precoce di errori e garantendo una maggiore qualità del \textit{software}\textsubscript{G}. I \textit{test}\textsubscript{G} di unità presentano alcune caratteristiche fondamentali che ne garantiscono l'efficacia. Una di queste è l'isolamento, che assicura che ogni \textit{test}\textsubscript{G} venga eseguito separatamente, senza dipendenze da altre parti del sistema, in modo da attribuire i risultati esclusivamente all'unità in esame. Un'altra caratteristica essenziale è l'automatizzazione, che consente di eseguire i \textit{test}\textsubscript{G} in modo rapido e frequente, facilitando il processo di integrazione continua e riducendo il rischio di errori durante lo sviluppo;
+    \item \textbf{Tipologie} : esistono due tipologie di \textit{test}\textsubscript{G} di unità:
+    \begin{itemize}
+        \item \textbf{Test Funzionali (Black Box Testing)}: questi \textit{test}\textsubscript{G} si concentrano sulla \textit{verifica}\textsubscript{G} che una specifica unità di codice fornisca l'\textit{output}\textsubscript{G} corretto in risposta a determinati input, senza considerare l'implementazione interna;
+        \item \textbf{Test Strutturali (White Box Testing)}: questi \textit{test}\textsubscript{G} valutano l'implementazione interna dell'unità, analizzando il flusso del codice e la copertura delle istruzioni o dei rami.
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsubsection{Test di integrazione}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei \textit{test}\textsubscript{G} di integrazione per il codice. Essi si occupano della loro stesura dopo la stesura dei \textit{test}\textsubscript{G} di unità e prima della stesura dei \textit{test}\textsubscript{G} di sistema;
+    \item \textbf{Descrizione}: i \textit{test}\textsubscript{G} di integrazione sono una fase cruciale nel ciclo di vita dello sviluppo \textit{software}\textsubscript{G}, focalizzata sulla \textit{verifica}\textsubscript{G} dell'interazione tra diversi moduli o componenti di un sistema. Dopo aver eseguito i \textit{test}\textsubscript{G} di unità su singoli componenti, i \textit{test}\textsubscript{G} di integrazione combinano progressivamente questi moduli e ne valutano il funzionamento congiunto, assicurandosi che collaborino correttamente per soddisfare i requisiti funzionali e prestazionali dell'applicazione. L'obiettivo principale è identificare e risolvere eventuali problemi che possono sorgere quando le diverse parti del \textit{software}\textsubscript{G} interagiscono, garantendo così la coerenza e l'affidabilità dell'intero sistema;
+    \item \textbf{Tipologie}: esistono due tipologie di \textit{test}\textsubscript{G} di integrazione:
+    \begin{itemize}
+        \item \textbf{Test di integrazione Bottom-Up}: questa strategia prevede l'inizio dei \textit{test}\textsubscript{G} dai moduli di livello più basso nella gerarchia del \textit{software}\textsubscript{G}. I singoli componenti vengono testati individualmente e, una volta verificata la loro correttezza, vengono integrati progressivamente con i moduli di livello superiore. Questo approccio è particolarmente utile quando lo sviluppo dei moduli di base è completato prima di quelli di livello superiore;
+        \item \textbf{Test di integrazione Top-Down}: in questo approccio, i \textit{test}\textsubscript{G} iniziano dai moduli di livello più alto e procedono verso il basso. I moduli superiori vengono testati utilizzando "stub" per simulare il comportamento dei moduli inferiori non ancora sviluppati o testati. Man mano che i moduli di livello inferiore diventano disponibili, vengono integrati e testati in combinazione con quelli superiori. Questo metodo è vantaggioso quando l'architettura del \textit{sistema}\textsubscript{G} è ben definita fin dall'inizio;
+    \end{itemize}
+\end{itemize}
+
+\subsubsubsubsection{Test di sistema}
+\begin{itemize}
+    \item \textbf{Redazione}: i verificatori sono responsabili della scrittura e manutenzione dei \textit{test}\textsubscript{G} di \textit{sistema}\textsubscript{G} per il codice. Essi si occupano della loro stesura dopo la stesura dei \textit{test}\textsubscript{G} di unità e di sistema;
+    \item \textbf{Descrizione}: lo scopo principale dei \textit{test}\textsubscript{G} di \textit{sistema}\textsubscript{G} è di fornire una valutazione completa e indipendente del \textit{sistema}\textsubscript{G} \textit{software}\textsubscript{G} completato rispetto ai requisiti \textit{software}\textsubscript{G} definiti, garantendo che il prodotto sia pronto per la fase di collaudo con il cliente. Essi sono funzionali (ovvero black-box), il che significa che si basano sulla specifica dei requisiti \textit{software}\textsubscript{G} e non richiedono conoscenza della logica interna del \textit{software}\textsubscript{G}.
+\end{itemize}
+
+\subsubsubsection{Notazione dei test}
+\'E stato decisa come notazione per identificare univocamente i \textit{test\textsubscript{G}} la seguente:
+\begin{center}
+    \textbf{T[Tipologia][Numero]}
+\end{center}
+\textbf{Tipologia} indica la tipologia del \textit{test\textsubscript{G}}:
+\begin{itemize}
+    \item \textbf{U}: di unità;
+    \item \textbf{I}: di integrazione;
+    \item \textbf{S}: di sistema;
+\end{itemize}
+Ogni \textit{test\textsubscript{G}} si trova in uno \textbf{Stato}, che può essere:
+\begin{itemize}
+    \item \textbf{V}: verificato. Questo stato indica che il \textit{test\textsubscript{G}} ha fornito un esito positivo;
+    \item \textbf{NV}: non verificato. Questo stato indica che il \textit{test\textsubscript{G}} ha fornito un esito negativo;
+    \item \textbf{NI}: non implementato. Questo stato indica che il \textit{test\textsubscript{G}} non è ancora stato implementato, e quindi non fornisce nessun esito.
+\end{itemize}
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di testing del codice sono:
+\begin{itemize}
+    \item \nameref{Visual Studio Code};
+    \item \nameref{GitHub}.
+\end{itemize}
+
+\subsubsection{Integrazione software}
+\subsubsubsection{Scopo}
+L'obiettivo dell'integrazione \textit{software}\textsubscript{G} è costruire e verificare il \textit{sistema}\textsubscript{G} in modo incrementale, aumentando progressivamente il valore funzionale attraverso l'integrazione di nuove componenti in insiemi già verificati. Questo approccio facilita l'individuazione delle cause di eventuali difetti, poiché è più probabile che derivino dall'ultima integrazione effettuata. Inoltre, assicura che ogni passaggio sia reversibile, permettendo di tornare a uno stato sicuro precedente in caso di problemi.
+
+\subsubsubsection{Branching}
+Il \textit{repository}\textsubscript{G} è costituito da alcuni \textit{branch}\textsubscript{G} principali:
+\begin{itemize}
+    \item \textbf{main}: \textit{branch}\textsubscript{G} che contiene la versione stabile e ufficiale del progetto, pronta per essere rilasciata o distribuita;
+    \item \textbf{develop}: \textit{branch}\textsubscript{G} di sviluppo principale, in cui vengono integrate le nuove funzionalità prima di essere rilasciate nel \textit{branch}\textsubscript{G} main;
+    \item \textbf{norme-di-progetto}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento delle Norme di Progetto;
+    \item \textbf{piano-di-progetto}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento del Piano di Progetto;
+    \item \textbf{analisi-dei-requisiti}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento dell'Analisi dei Requisiti;
+    \item \textbf{piano-di-qualifica}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento del Piano di Qualifica;
+    \item \textbf{specifica-tecnica}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento della Specifica Tecnica;
+    \item \textbf{manuale-utente}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento del Manuale Utente;
+    \item \textbf{glossario}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento del Glossario;
+    \item \textbf{Lettera\_di\_Presentazione}: \textit{branch}\textsubscript{G} dedicato alla gestione e all'aggiornamento della Lettera di Presentazione alle revisioni del progetto;
+    \item \textbf{poc-develop}: \textit{branch}\textsubscript{G} utilizzato per lo sviluppo della Proof of Concept (\textit{PoC}\textsubscript{G});
+    \item \textbf{mvp-develop}: \textit{branch}\textsubscript{G} utilizzato per lo sviluppo del Minimum Viable Product (MVP).
+\end{itemize}
+Ogni modifica o nuova funzionalità viene sviluppata in un \textit{branch}\textsubscript{G} dedicato, generato a partire dal \textit{branch}\textsubscript{G} in cui dovrà successivamente essere integrato.
+
+\subsubsubsection{Pull request}
+Nel momento in cui una modifica o una nuova funzionalità arrivano alla fine del loro sviluppo, per integrare ciò che è stato fatto in uno dei \textit{branch}\textsubscript{G} principali, la persona che ha creato il \textit{branch}\textsubscript{G} apre una \textit{pull request}\textsubscript{G} e richiede una verifica. \\
+Per assegnare dei titoli significativi alle \textit{pull request}\textsubscript{G}, abbiamo seguito la seguente denominazione:
+\begin{itemize}
+    \item \textbf{*Titolo*}: Indica una \textit{pull request}\textsubscript{G} standard, in cui vengono introdotte nuove funzionalità, aggiornamenti o modifiche al codice e alla \textit{documentazione}\textsubscript{G}. Il titolo deve essere descrittivo e chiaro, in modo da rendere immediatamente comprensibile l'obiettivo della modifica;
+    \item \textbf{HOTFIX-*Titolo*}: utilizzato per \textit{pull request}\textsubscript{G} relative a correzioni urgenti di \textit{bug}\textsubscript{G} o problemi critici riscontrati nel codice già rilasciato.
+\end{itemize}
+I verificatori potranno approvare la \textit{pull request}\textsubscript{G} solamente dopo aver effettuato tutti i \textit{test}\textsubscript{G} di unità, di integrazione e di \textit{sistema}\textsubscript{G} e aver ricevuto solamente esiti positivi.
+
+\subsubsubsection{Strumenti}
+Gli strumenti utilizzati per il processo di testing del codice sono:
+\begin{itemize}
+    \item \nameref{GitHub}.
+\end{itemize}
