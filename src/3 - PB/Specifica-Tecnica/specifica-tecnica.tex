@@ -1,0 +1,88 @@
+
+\documentclass[12pt, a4paper]{article}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{svg}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+\usepackage{enumitem}
+\usepackage[italian]{babel}
+\usepackage{lastpage}  % Pacchetto per ottenere il numero totale delle pagine
+\usepackage{fancyhdr}  % Pacchetto per personalizzare l'intestazione e il piè di pagina
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{ {images/} {../shared/images/} }
+\definecolor{unipd}{HTML}{B5121B}
+
+\addto\captionsitalian{\renewcommand{\contentsname}{Indice}}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\makeatletter
+\newcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
+\newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\pagestyle{fancy}% Imposta lo stile di pagina su "fancy"
+\fancyhf{}% Cancella intestazioni e piè di pagina
+\fancyfoot[C]{\thepage{} di \pageref{LastPage}} % Imposta il piè di pagina centrale come "numero pagina di totale pagine"
+\renewcommand{\headrulewidth}{0pt} % Imposta la larghezza della linea di intestazione a 0 punti
+
+%\newcommand{\data}{GG mese AAAA}
+\newcommand{\titolo}{Specifica Tecnica}
+%\newcommand{\responsabile}{Responsabile}
+\newcommand{\verificatore}{
+    Tommaso Zocche \\
+    & Derek Gusatto \\
+    & Matteo Piron
+}
+\newcommand{\redattore}{
+    Derek Gusatto \\
+    & Tommaso Zocche \\
+    & Ion Bourosu \\
+    & Alessandro Benin 
+}
+\newcommand{\uso}{Esterno}
+\newcommand{\destinatari }{
+   %& Vimar S.p.A.  \\
+    & Tullio Vardanega  \\
+    & Riccardo Cardin  }
+\newcommand{\abstractcontent}{abstract ...}
+
+\begin{document}
+
+\input{contents/header}
+\input{contents/title}
+\input{contents/document_info}
+\newpage
+\input{contents/versioning}
+\newpage
+\tableofcontents
+\newpage
+% VERBALE
+% \input{contents/info}
+% \newpage
+% \input{contents/summary}
+% \newpage
+% \input{contents/todo}
+
+%LISTA FIGURE
+\listoffigures 
+\newpage
+%LISTA TABELLE
+\listoftables
+\newpage
+
+\input{contents/introduction}
+\newpage
+\input{contents/technologies}
+\newpage
+\input{contents/system-architecture}
+%\newpage
+%\input{contents/component-architecture}
+\newpage
+\input{contents/functional_requirements}
+\end{document}

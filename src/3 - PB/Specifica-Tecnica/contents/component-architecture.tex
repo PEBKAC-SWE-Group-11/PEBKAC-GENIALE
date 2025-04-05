@@ -1,0 +1,78 @@
+\section{Architettura delle compomenenti }
+
+ Ogni componente è eseguito in un container separato, mantenendo indipendenza e flessibilità, garantendo al contempo un ambiente isolato e sicuro.
+
+\subsection{Descrizione dell'Architettura}
+
+L'architettura si compone di quattro container principali, ciascuno con un compito ben definito:
+
+\begin{itemize}
+    \item \textbf{Container App (Flask)}
+    \begin{itemize}
+        \item Espone l'applicazione Flask\textsubscript{G} sulla porta 5001;
+        \item Include un healthcheck che verifica la disponibilità del servizio Ollama\textsubscript{G}.
+        \item Ha accesso ai seguenti volumi:
+        \begin{itemize}
+            \item Directory dell'applicazione
+            \item Modelli Ollama\textsubscript{G}
+            \item Script di avvio
+            \item Requisiti dell'applicazione
+            \item Volume dati condiviso
+        \end{itemize}
+        \item Dipende dal database\textsubscript{G} per il suo funzionamento.
+    \end{itemize}
+
+    \item \textbf{Container Database (PostgreSQL con pgvector)}
+    \begin{itemize}
+        \item Utilizza PostgreSQL\textsubscript{G} con l'estensione \texttt{pgvector} per la gestione dei vettori;
+        \item Espone la porta 54321;
+        \item Imposta le credenziali di accesso;
+        \item Healthcheck per verificare la disponibilità del database;
+        \item Dati persistenti tramite il volume \texttt{postgres\_data};
+        \item Include l'estensione \texttt{vector} preinstallata.
+    \end{itemize}
+
+    \item \textbf{Container Angular}
+    \begin{itemize}
+        \item Ospita l'applicazione frontend Angular;
+        \item Espone la porta 4200;
+        \item Collegato alla rete \texttt{app\_network};
+    \end{itemize}
+
+    \item \textbf{Container Data Processing}
+    \begin{itemize}
+        \item Gestisce l'elaborazione dei dati;
+        \item Accesso alla directory \texttt{data\_processing}\textsubscript{G} tramite un volume dedicato;
+        \item Dipende sia dal database che dall'applicazione principale;
+    \end{itemize}
+\end{itemize}
+
+\subsection{Rete e Persistenza dei Dati}
+
+Tutti i container\textsubscript{G} sono collegati tramite una rete bridge chiamata \texttt{app\_network}, che permette loro di comunicare in modo sicuro e isolato. La persistenza dei dati è garantita da due volumi:
+
+\begin{itemize}
+    \item \texttt{postgres\_data}: Memorizza i dati del database;
+    \item \texttt{data\_volume}: Contiene i dati condivisi dell'applicazione;
+\end{itemize}
+
+\subsection{Diagramma dell'Architettura}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/esagonale.png}
+    \caption{Schema dell'architettura Docker}
+\end{figure}
+
+\subsection{Resilienza e Manutenzione}
+
+Questa architettura offre numerosi vantaggi:
+\begin{itemize}
+    \item \textbf{Scalabilità:} Ogni componente può essere scalato indipendentemente in base al carico.
+    \item \textbf{Isolamento dei Servizi:} Un problema in un container\textsubscript{G} non influenza gli altri.
+    \item \textbf{Portabilità:} Facilità di distribuzione in ambienti diversi.
+    \item \textbf{Resilienza:} I volumi persistenti assicurano che i dati non vadano persi anche in caso di riavvio dei container\textsubscript{G}.
+\end{itemize}
+
+\subsection{Conclusione}
+
+L'architettura Docker\textsubscript{G} proposta è flessibile e scalabile. La separazione dei componenti garantisce sicurezza e affidabilità, mentre l'utilizzo dei container\textsubscript{G} facilita il deployment\textsubscript{G} e la manutenzione del sistema.
