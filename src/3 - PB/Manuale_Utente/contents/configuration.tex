@@ -1,0 +1,34 @@
+\section{Guida all'avvio}
+\subsection{Requisiti}
+L’unico \textit{requisito}\textsubscript{G} tecnico fondamentale da segnalare per garantire un’esperienza d’uso fluida e priva di rallentamenti riguarda la memoria RAM del dispositivo su cui si intende eseguire l’applicativo. \\
+È infatti necessario che il \textit{sistema}\textsubscript{G} disponga di almeno 8 GB di RAM, anche se è fortemente consigliato avere una dotazione superiore, soprattutto durante l’uso prolungato o in fase di sviluppo, dove più \textit{risorse}\textsubscript{G} vengono richieste contemporaneamente. \\
+Un quantitativo di RAM insufficiente potrebbe compromettere le prestazioni generali, rallentando il caricamento dell'interfaccia o causando interruzioni durante l'elaborazione delle richieste da parte dell’assistente digitale.
+
+\subsection{Avvio dell'applicativo}
+Per poter avviare correttamente l’applicazione, è indispensabile disporre di una copia locale del \textit{repository}\textsubscript{G} denominato "PEBKAC-GENIALE". Questo \textit{repository}\textsubscript{G} contiene tutti i file e le configurazioni necessarie al funzionamento dell’applicativo. \\
+Una volta scaricato il progetto, è necessario navigare all'interno della struttura delle cartelle fino a raggiungere la sottocartella appropriata in cui risiede il cuore dell'applicazione. Il percorso da seguire è il seguente:
+\texttt{3 - PB} \> \texttt{mvp-src}. \\
+È proprio nella cartella mvp-src che si trovano i file di configurazione necessari per l'avvio tramite \textit{Docker}\textsubscript{G}. Una volta posizionati in questa directory, si può procedere all’avvio dell’applicazione aprendo un terminale (o prompt dei comandi) e digitando il comando \texttt{docker compose up --build}. \\
+Bisogna assicurarsi che \textit{Docker}\textsubscript{G} sia installato e correttamente avviato sul \textit{sistema}\textsubscript{G} prima di eseguire il comando, altrimenti il processo non potrà essere completato.
+
+\subsection{Accesso all'applicativo}
+Una volta avviato correttamente l’applicativo in locale, l’utente può accedervi semplicemente aprendo un qualsiasi browser web (come Chrome, Firefox, ecc.) e digitando nella barra degli indirizzi l’URL \texttt{localhost:4200}. \\
+Questo indirizzo corrisponde all’ambiente locale su cui l’applicativo è stato messo in esecuzione, con la porta predefinita 4200, comunemente utilizzata da \textit{framework}\textsubscript{G} \textit{frontend}\textsubscript{G} come \textit{Angular}\textsubscript{G} durante lo sviluppo. \\
+Accedendo a questo indirizzo, si apre l’interfaccia grafica dell’applicazione, pronta per l’interazione da parte dell’utente. Non è necessario effettuare ulteriori configurazioni o installazioni: basta che il server locale sia attivo affinché la pagina venga caricata correttamente nel browser.
+
+\subsection{Risoluzioni di eventuali problematiche durante l'avvio}
+Nel caso in cui si verifichino dei problemi e l'applicazione non funzioni correttamente, è possibile risolvere il malfunzionamento utilizzando il terminale precedentemente aperto. Di seguito sono riportati i passaggi da seguire:
+\begin{enumerate}
+    \item \textbf{Fermare l'applicazione in esecuzione}: Eseguire il comando \texttt{docker compose stop app} per fermare l'applicazione attualmente in esecuzione;
+    \item \textbf{Ricostruire l'applicazione}: Eseguire il comando \texttt{docker compose build app} per ricostruire l'applicazione;
+    \item \textbf{Avviare nuovamente l'applicazione}: Eseguire il comando \texttt{docker compose up app -d} per avviare nuovamente l'applicazione.
+\end{enumerate}
+
+\subsection{Spegnimento dell'applicativo}
+Per spegnere l'applicativo, è sufficiente utilizzare il terminale già aperto in precedenza e inviare il comando \texttt{docker compose stop }. Questo comando fermerà l'applicazione in esecuzione, arrestando i relativi \textit{container}\textsubscript{G} \textit{Docker}\textsubscript{G}. Tuttavia, i \textit{container}\textsubscript{G} non verranno eliminati, ma semplicemente fermati, permettendo così di riavviarli successivamente senza doverli ricreare da zero. \\
+Qualora si desideri riavviare l'applicazione, prima di tutto, è necessario aprire un terminale nella stessa directory in cui è stata eseguita la procedura di avvio dell'applicazione e, una volta lì, eseguire i seguenti comandi:
+\begin{enumerate}
+    \item \textbf{Ricostruire l'applicazione}: Eseguire il comando \texttt{docker compose build} per ricostruire l'applicazione;
+    \item \textbf{Avviare nuovamente l'applicazione}: Eseguire il comando \texttt{docker compose up -d} per avviare nuovamente l'applicazione.
+\end{enumerate}
+In questo modo, i \textit{container}\textsubscript{G} verranno avviati nuovamente e l'applicazione sarà pienamente operativa.
