@@ -12,7 +12,6 @@ describe('Auth.interceptors', () => {
         const req = new HttpRequest('GET', 'https://api.example.com/admin/stats');
         const mockResponse = new HttpResponse({ status: 200, body: 'Success' });
 
-        // Creiamo il mock usando jasmine direttamente per evitare problemi con Observable
         const nextMock = jasmine.createSpy('nextFn').and.returnValue(of(mockResponse));
 
         const result = await firstValueFrom(AuthInterceptor(req, nextMock));
@@ -28,7 +27,6 @@ describe('Auth.interceptors', () => {
         const req = new HttpRequest('GET', 'https://api.example.com/admin/stats');
         const mockResponse = new HttpResponse({ status: 200, body: 'Success' });
 
-        // Creiamo il mock usando jasmine direttamente per evitare problemi con Observable
         const nextMock = jasmine.createSpy('nextFn').and.returnValue(of(mockResponse));
         
         const result = await firstValueFrom(AuthInterceptor(req, nextMock));
