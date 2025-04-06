@@ -5,10 +5,16 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
-    ]
+      "jasmine",
+      "jest",
+      "node"
+    ],
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "allowJs": true
   },
   "include": [
+    "src/test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
   ]

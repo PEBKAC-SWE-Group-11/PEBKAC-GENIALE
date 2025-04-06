@@ -8,31 +8,46 @@ import { TestBed } from "@angular/core/testing";
 describe('Chatbox.component', () => {
     let chatboxComponent: ChatboxComponent;
 
+    // Creiamo un oggetto con la proprietà isWaitingForResponse definita correttamente
+    const isWaitingForResponseValue = false;
     let chatServiceMock = {
         conversations$: new BehaviorSubject<Conversation[]>([]),
         activeConversation$: new BehaviorSubject<Conversation | null>(null),
         messages$: new BehaviorSubject<Message[]>([]),
-        createConversation: jest.fn(),
-        setActiveConversation: jest.fn(),
-        loadMessages: jest.fn(),
-        updateConversationTimestamp: jest.fn(),
-        sendMessage: jest.fn(),
-        updateConversationOrder: jest.fn(),
-        deleteConversation: jest.fn(),
-        sendFeedback: jest.fn(),
-        hasReachedConversationLimit: jest.fn(),
-        get isWaitingForResponse(){
-            return false;
+        createConversation: jasmine.createSpy('createConversation').and.returnValue(Promise.resolve()),
+        setActiveConversation: jasmine.createSpy('setActiveConversation'),
+        loadMessages: jasmine.createSpy('loadMessages'),
+        updateConversationTimestamp: jasmine.createSpy('updateConversationTimestamp'),
+        sendMessage: jasmine.createSpy('sendMessage').and.returnValue(Promise.resolve()),
+        updateConversationOrder: jasmine.createSpy('updateConversationOrder'),
+        deleteConversation: jasmine.createSpy('deleteConversation'),
+        sendFeedback: jasmine.createSpy('sendFeedback').and.returnValue(Promise.resolve()),
+        hasReachedConversationLimit: jasmine.createSpy('hasReachedConversationLimit').and.returnValue(false),
+        // Definiamo un valore iniziale per isWaitingForResponse
+        _isWaitingForResponse: isWaitingForResponseValue,
+        // Usiamo get/set per poter modificare il valore nei test
+        get isWaitingForResponse() {
+            return this._isWaitingForResponse;
         },
+        set isWaitingForResponse(value) {
+            this._isWaitingForResponse = value;
+        }
     }
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [{provide: ChatService, usaValue: chatServiceMock}],
+            providers: [{provide: ChatService, useValue: chatServiceMock}],
         });
 
         chatboxComponent = new ChatboxComponent(chatServiceMock as any); 
-        jest.clearAllMocks();
+        
+        // Reset delle spy
+        chatServiceMock.createConversation.calls.reset();
+        chatServiceMock.setActiveConversation.calls.reset();
+        chatServiceMock.deleteConversation.calls.reset();
+        chatServiceMock.sendMessage.calls.reset();
+        chatServiceMock.sendFeedback.calls.reset();
+        chatServiceMock._isWaitingForResponse = false;
     });
 
     it('should create a chatbox', () => {
@@ -114,7 +129,7 @@ describe('Chatbox.component', () => {
         (chatServiceMock.messages$ as BehaviorSubject<Message[]>).next(messageMock);
         chatboxComponent.ngOnInit();
 
-        const scrollSpy = jest.spyOn(chatboxComponent as any, 'scrollToBottom');
+        const scrollSpy = spyOn<any>(chatboxComponent, 'scrollToBottom');
         chatboxComponent.ngAfterViewChecked();  
 
         expect(scrollSpy).toHaveBeenCalled();
@@ -123,8 +138,8 @@ describe('Chatbox.component', () => {
     it('should send a message', async() => {
         chatboxComponent.ngOnInit();
         chatboxComponent.messageText = 'test';
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        chatServiceMock.sendMessage.mockResolvedValue(undefined);
+        chatServiceMock._isWaitingForResponse = false;
+        
         chatboxComponent.sendMessage();
 
         expect(chatServiceMock.sendMessage).toHaveBeenCalled();
@@ -133,9 +148,8 @@ describe('Chatbox.component', () => {
     it('should not send a empty message', async() => {
         chatboxComponent.ngOnInit();
         chatboxComponent.messageText = '';
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
+        chatServiceMock._isWaitingForResponse = false;
         
-        chatServiceMock.sendMessage.mockResolvedValue(undefined);
         chatboxComponent.sendMessage();
 
         expect(chatServiceMock.sendMessage).not.toHaveBeenCalled();
@@ -144,22 +158,20 @@ describe('Chatbox.component', () => {
     it('should not send a message longer than the limit', async() => {
         chatboxComponent.ngOnInit();
         chatboxComponent.messageText = 'a'.repeat(501);
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+        chatServiceMock._isWaitingForResponse = false;
+        const alertSpy = spyOn(window, 'alert');
         
-        chatServiceMock.sendMessage.mockResolvedValue(undefined);
         chatboxComponent.sendMessage();
 
         expect(chatServiceMock.sendMessage).not.toHaveBeenCalled();
-        expect(alertSpy).toHaveBeenCalledWith(`Il messaggio non può superare i ${chatboxComponent.MAX_MESSAGE_LENGTH} caratteri.`)
+        expect(alertSpy).toHaveBeenCalledWith(`Il messaggio non può superare i ${chatboxComponent.MAX_MESSAGE_LENGTH} caratteri.`);
     });
 
     it('should not send a message while waiting', async() => {
         chatboxComponent.ngOnInit();
-        chatboxComponent.messageText = 'test'
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(true);
+        chatboxComponent.messageText = 'test';
+        chatServiceMock._isWaitingForResponse = true;
         
-        chatServiceMock.sendMessage.mockResolvedValue(undefined);
         chatboxComponent.sendMessage();
 
         expect(chatServiceMock.sendMessage).not.toHaveBeenCalled();
@@ -198,7 +210,7 @@ describe('Chatbox.component', () => {
     it('should submit a feedback', async() => {
         chatboxComponent.ngOnInit();
         chatboxComponent.feedbackMessageId = '0';
-        chatServiceMock.sendFeedback.mockResolvedValue(undefined);
+        
         chatboxComponent.submitFeedback();
 
         expect(chatServiceMock.sendFeedback).toHaveBeenCalled();
@@ -208,7 +220,8 @@ describe('Chatbox.component', () => {
 
     it('should not submit a feedback without feedbackMessageId', async() => {
         chatboxComponent.ngOnInit();
-        chatServiceMock.sendFeedback.mockResolvedValue(undefined);
+        chatboxComponent.feedbackMessageId = null;
+        
         chatboxComponent.submitFeedback();
 
         expect(chatServiceMock.sendFeedback).not.toHaveBeenCalled();
@@ -228,4 +241,4 @@ describe('Chatbox.component', () => {
         chatboxComponent.feedbackContent = 'test';
         expect(chatboxComponent.remainingFeedbackChars).toEqual(chatboxComponent.MAX_FEEDBACK_LENGTH - chatboxComponent.feedbackContent.length);
     });
-})
+});

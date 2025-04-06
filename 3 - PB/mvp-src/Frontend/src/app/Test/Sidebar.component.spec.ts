@@ -7,23 +7,31 @@ import { SidebarComponent } from '../Core/Sidebar/Sidebar.component';
 
 describe('Sidebar.component', () => {
     let sidebarComponent: SidebarComponent;
-
+    
+    // Creiamo un oggetto con la proprietà isWaitingForResponse definita correttamente
+    const isWaitingForResponseValue = false;
     let chatServiceMock = { 
         conversations$: new BehaviorSubject<Conversation[]>([]),
         activeConversation$: new BehaviorSubject<Conversation | null>(null),
         messages$: new BehaviorSubject<Message[]>([]),
-        createConversation: jest.fn(),
-        setActiveConversation: jest.fn(),
-        loadMessages: jest.fn(),
-        updateConversationTimestamp: jest.fn(),
-        sendMessage: jest.fn(),
-        updateConversationOrder: jest.fn(),
-        deleteConversation: jest.fn(),
-        sendFeedback: jest.fn(),
-        hasReachedConversationLimit: jest.fn(),
-        get isWaitingForResponse(){
-            return false;
+        createConversation: jasmine.createSpy('createConversation').and.returnValue(Promise.resolve()),
+        setActiveConversation: jasmine.createSpy('setActiveConversation'),
+        loadMessages: jasmine.createSpy('loadMessages'),
+        updateConversationTimestamp: jasmine.createSpy('updateConversationTimestamp'),
+        sendMessage: jasmine.createSpy('sendMessage'),
+        updateConversationOrder: jasmine.createSpy('updateConversationOrder'),
+        deleteConversation: jasmine.createSpy('deleteConversation'),
+        sendFeedback: jasmine.createSpy('sendFeedback'),
+        hasReachedConversationLimit: jasmine.createSpy('hasReachedConversationLimit').and.returnValue(false),
+        // Definiamo un valore iniziale per isWaitingForResponse
+        _isWaitingForResponse: isWaitingForResponseValue,
+        // Usiamo get/set per poter modificare il valore nei test
+        get isWaitingForResponse() {
+            return this._isWaitingForResponse;
         },
+        set isWaitingForResponse(value) {
+            this._isWaitingForResponse = value;
+        }
     };
 
     beforeEach(() =>{
@@ -32,8 +40,13 @@ describe('Sidebar.component', () => {
         });
 
         sidebarComponent = new SidebarComponent(chatServiceMock as any);
-
-        jest.clearAllMocks();
+        
+        // Reset delle spy
+        chatServiceMock.createConversation.calls.reset();
+        chatServiceMock.setActiveConversation.calls.reset();
+        chatServiceMock.deleteConversation.calls.reset();
+        chatServiceMock.hasReachedConversationLimit.calls.reset();
+        chatServiceMock._isWaitingForResponse = false;
     });
 
     it('there should be an instance of sidebar', async() => {
@@ -59,56 +72,61 @@ describe('Sidebar.component', () => {
 
 
     it('should have reached the limit', async() => {
-        chatServiceMock.hasReachedConversationLimit.mockReturnValue(true);
+        chatServiceMock.hasReachedConversationLimit.and.returnValue(true);
         expect(sidebarComponent.hasReachedLimit).toBe(true);
     });
 
 
     it('should create a conversation', async() => {
         sidebarComponent.ngOnInit();
-        chatServiceMock.hasReachedConversationLimit.mockReturnValue(false);
-        chatServiceMock.createConversation.mockResolvedValue(undefined);
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        const emitSpy = jest.spyOn(sidebarComponent.newConversationCreated, 'emit');
+        chatServiceMock.hasReachedConversationLimit.and.returnValue(false);
+        chatServiceMock.createConversation.and.returnValue(Promise.resolve());
+        chatServiceMock._isWaitingForResponse = false;
+        const emitSpy = spyOn(sidebarComponent.newConversationCreated, 'emit');
+        
         sidebarComponent.createNewConversation();
         await Promise.resolve();
+        
         expect(emitSpy).toHaveBeenCalled();
         expect(chatServiceMock.createConversation).toHaveBeenCalled();
     });
 
     it('should not create a conversation if it is waiting for a resposne', async() => {
         sidebarComponent.ngOnInit();
-        chatServiceMock.hasReachedConversationLimit.mockReturnValue(false);
-        chatServiceMock.createConversation.mockResolvedValue(undefined);
-        const conv = sidebarComponent.createNewConversation();
+        chatServiceMock.hasReachedConversationLimit.and.returnValue(false);
+        chatServiceMock.createConversation.and.returnValue(Promise.resolve());
+        chatServiceMock._isWaitingForResponse = true;
+        
+        sidebarComponent.createNewConversation();
         await Promise.resolve();
-        expect(conv).toBeUndefined();
+        
+        expect(chatServiceMock.createConversation).not.toHaveBeenCalled();
     });
 
     it('should have been reached conv limit', async() => {
         sidebarComponent.ngOnInit();
-        chatServiceMock.hasReachedConversationLimit.mockReturnValue(true);
-        chatServiceMock.createConversation.mockResolvedValue(undefined);
-        const emitSpy = jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
-        const conv = sidebarComponent.createNewConversation();
+        chatServiceMock.hasReachedConversationLimit.and.returnValue(true);
+        chatServiceMock._isWaitingForResponse = false;
+        chatServiceMock.createConversation.and.returnValue(Promise.resolve());
+        
+        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        sidebarComponent.createNewConversation();
         await Promise.resolve();
+        
         expect(confirmSpy).toHaveBeenCalledWith(
             `Hai raggiunto il limite massimo di ${sidebarComponent.MAX_CONVERSATIONS} conversazioni. ` +
             `Premendo OK verrà eliminata la conversazione più vecchia per fare spazio a quella nuova.`
         );
-        expect(emitSpy).toHaveBeenCalled();
         expect(chatServiceMock.createConversation).toHaveBeenCalled();
-        confirmSpy.mockRestore();
     });
 
     it('should not be waiting for response', async() => {
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
+        chatServiceMock._isWaitingForResponse = false;
         expect(sidebarComponent.isWaitingForResponse).toEqual(false);
     });
 
     it('should be waiting for a response', async() => {
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(true);
+        chatServiceMock._isWaitingForResponse = true;
         expect(sidebarComponent.isWaitingForResponse).toEqual(true);
     });
 
@@ -126,9 +144,9 @@ describe('Sidebar.component', () => {
         (chatServiceMock.conversations$ as BehaviorSubject<Conversation[]>).next(conversationMock);
         sidebarComponent.ngOnInit();
         
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        chatServiceMock.setActiveConversation.mockReturnValue(conversationMock[0]);
-        const conversationSelectedSpy = jest.spyOn(sidebarComponent.conversationSelected, 'emit');
+        chatServiceMock._isWaitingForResponse = false;
+        chatServiceMock.setActiveConversation.and.returnValue(conversationMock[0]);
+        const conversationSelectedSpy = spyOn(sidebarComponent.conversationSelected, 'emit');
         
         sidebarComponent.selectConversation(conversationMock[0]);
         
@@ -148,8 +166,9 @@ describe('Sidebar.component', () => {
         }
         (chatServiceMock.conversations$ as BehaviorSubject<Conversation[]>).next(conversationMock);
         sidebarComponent.ngOnInit();
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(true);
-        const conversationSelectedSpy = jest.spyOn(sidebarComponent.conversationSelected, 'emit');
+        
+        chatServiceMock._isWaitingForResponse = true;
+        const conversationSelectedSpy = spyOn(sidebarComponent.conversationSelected, 'emit');
         
         sidebarComponent.selectConversation(conversationMock[0]);
         
@@ -158,10 +177,9 @@ describe('Sidebar.component', () => {
 
     it('should delete a conversation', async() => {
         sidebarComponent.ngOnInit();
-        const mockEvent = { stopPropagation: jest.fn() } as unknown as Event;
-        const waitSpy = jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        chatServiceMock.deleteConversation.mockResolvedValue(undefined);
-
+        const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') } as unknown as Event;
+        chatServiceMock._isWaitingForResponse = false;
+        
         sidebarComponent.deleteConversation(mockEvent, '0');
         
         expect(mockEvent.stopPropagation).toHaveBeenCalled();
@@ -170,11 +188,9 @@ describe('Sidebar.component', () => {
 
     it('should not delete a conversation if it is waiting for a response', async() => {
         sidebarComponent.ngOnInit();
-        const mockEvent = { stopPropagation: jest.fn() } as unknown as Event;
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(true);
-        expect(sidebarComponent.isWaitingForResponse).toBe(true);
-        chatServiceMock.deleteConversation.mockResolvedValue(undefined);
-
+        const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') } as unknown as Event;
+        chatServiceMock._isWaitingForResponse = true;
+        
         sidebarComponent.deleteConversation(mockEvent, '0');
         
         expect(mockEvent.stopPropagation).toHaveBeenCalled();
@@ -196,8 +212,8 @@ describe('Sidebar.component', () => {
         (chatServiceMock.activeConversation$ as BehaviorSubject<Conversation>).next(conversationMock[0]);
         sidebarComponent.ngOnInit();
         
-        jest.spyOn(chatServiceMock, 'isWaitingForResponse', 'get').mockReturnValue(false);
-        chatServiceMock.setActiveConversation.mockReturnValue(conversationMock[0]);
+        chatServiceMock._isWaitingForResponse = false;
+        chatServiceMock.setActiveConversation.and.returnValue(conversationMock[0]);
 
         sidebarComponent.selectConversation(conversationMock[0]);
         

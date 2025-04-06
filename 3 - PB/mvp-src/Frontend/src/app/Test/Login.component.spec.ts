@@ -8,24 +8,24 @@ describe('Dashboard.component', () => {
     let loginComponent: AdminLoginComponent;
     
     let apiServiceMock = {
-        createSession: jest.fn(),
-        deleteConversation: jest.fn(),
-        createConversation: jest.fn(),
-        getMessages: jest.fn(),
-        updateSession: jest.fn(),
-        getConversations: jest.fn(),
-        sendMessage: jest.fn(),
-        updateConversationTimestamp: jest.fn(),
-        sendFeedback: jest.fn(),
-        askQuestion: jest.fn(),
-        readSession: jest.fn(),
-        getAdminStats: jest.fn(),
-        getFeedbackWithComments: jest.fn(),
-        adminLogin: jest.fn(),
+        createSession: jasmine.createSpy('createSession'),
+        deleteConversation: jasmine.createSpy('deleteConversation'),
+        createConversation: jasmine.createSpy('createConversation'),
+        getMessages: jasmine.createSpy('getMessages'),
+        updateSession: jasmine.createSpy('updateSession'),
+        getConversations: jasmine.createSpy('getConversations'),
+        sendMessage: jasmine.createSpy('sendMessage'),
+        updateConversationTimestamp: jasmine.createSpy('updateConversationTimestamp'),
+        sendFeedback: jasmine.createSpy('sendFeedback'),
+        askQuestion: jasmine.createSpy('askQuestion'),
+        readSession: jasmine.createSpy('readSession'),
+        getAdminStats: jasmine.createSpy('getAdminStats'),
+        getFeedbackWithComments: jasmine.createSpy('getFeedbackWithComments'),
+        adminLogin: jasmine.createSpy('adminLogin'),
     };
 
     let routerMock = {
-        navigate: jest.fn(),
+        navigate: jasmine.createSpy('navigate')
     }
 
     beforeEach(() => {
@@ -38,7 +38,8 @@ describe('Dashboard.component', () => {
 
         loginComponent = new AdminLoginComponent(apiServiceMock as any, routerMock as any);
 
-        const mockDigest = jest.fn().mockImplementation(() => {
+        // Mock per crypto.subtle.digest
+        const mockDigest = jasmine.createSpy('digest').and.callFake(() => {
             const buffer = new ArrayBuffer(32);
             const view = new Uint8Array(buffer);
             for (let i = 0; i < 32; i++) {
@@ -58,7 +59,10 @@ describe('Dashboard.component', () => {
 
         loginComponent.password = '';
         localStorage.clear();
-        jest.clearAllMocks();
+        
+        // Reset delle spy
+        apiServiceMock.adminLogin.calls.reset();
+        routerMock.navigate.calls.reset();
     });
 
     it('should build an instance', async() => {
@@ -66,7 +70,8 @@ describe('Dashboard.component', () => {
     });
 
     it('should hash the password', async() => {
-        const mockDigest = jest.fn().mockImplementation(() => {
+        // Mock per crypto.subtle.digest
+        const mockDigest = jasmine.createSpy('digest').and.callFake(() => {
             const buffer = new ArrayBuffer(32);
             const view = new Uint8Array(buffer);
             for (let i = 0; i < 32; i++) {
@@ -94,7 +99,7 @@ describe('Dashboard.component', () => {
     it('should log in', async() => {
         const adminLoginMock = { success: true };
         loginComponent.password = 'password';
-        apiServiceMock.adminLogin.mockReturnValue(of(adminLoginMock));
+        apiServiceMock.adminLogin.and.returnValue(of(adminLoginMock));
         
         await loginComponent.login();
 
@@ -105,7 +110,7 @@ describe('Dashboard.component', () => {
     it('should not log in without a password', async() => {
         const adminLoginMock = { success: true };
         loginComponent.password = '';
-        apiServiceMock.adminLogin.mockReturnValue(of(adminLoginMock));
+        apiServiceMock.adminLogin.and.returnValue(of(adminLoginMock));
 
         await loginComponent.login();
 
@@ -116,7 +121,7 @@ describe('Dashboard.component', () => {
     it('should not log in without success response', async() => {
         const adminLoginMock = { success: false };
         loginComponent.password = 'password';
-        apiServiceMock.adminLogin.mockReturnValue(of(adminLoginMock));
+        apiServiceMock.adminLogin.and.returnValue(of(adminLoginMock));
 
         await loginComponent.login();
 
@@ -126,7 +131,7 @@ describe('Dashboard.component', () => {
     it('should authenticate the token', async() => {
         const adminLoginMock = { success: true, token: 'token' };
         loginComponent.password = 'password';
-        apiServiceMock.adminLogin.mockReturnValue(of(adminLoginMock));
+        apiServiceMock.adminLogin.and.returnValue(of(adminLoginMock));
 
         await loginComponent.login();
 
