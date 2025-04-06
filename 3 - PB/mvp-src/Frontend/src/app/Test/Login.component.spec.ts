@@ -38,7 +38,6 @@ describe('Dashboard.component', () => {
 
         loginComponent = new AdminLoginComponent(apiServiceMock as any, routerMock as any);
 
-        // Mock per crypto.subtle.digest
         const mockDigest = jasmine.createSpy('digest').and.callFake(() => {
             const buffer = new ArrayBuffer(32);
             const view = new Uint8Array(buffer);
@@ -60,7 +59,6 @@ describe('Dashboard.component', () => {
         loginComponent.password = '';
         localStorage.clear();
         
-        // Reset delle spy
         apiServiceMock.adminLogin.calls.reset();
         routerMock.navigate.calls.reset();
     });
