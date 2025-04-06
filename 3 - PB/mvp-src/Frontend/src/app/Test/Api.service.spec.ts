@@ -21,7 +21,6 @@ describe('Api.service', () => {
     });
     
     afterEach(() => {
-        // Verificare che non ci siano richieste HTTP in sospeso
         httpMock.verify();
     });
 
