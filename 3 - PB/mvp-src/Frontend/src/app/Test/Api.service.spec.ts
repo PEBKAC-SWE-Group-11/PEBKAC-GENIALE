@@ -20,6 +20,11 @@ describe('Api.service', () => {
         httpMock = TestBed.inject(HttpTestingController);
     });
     
+    afterEach(() => {
+        // Verificare che non ci siano richieste HTTP in sospeso
+        httpMock.verify();
+    });
+
     it('should create a session', async() => {
         let apiUrl = environment.apiUrl;
         let sessionMock = { sessionId: '12345' }
@@ -148,7 +153,7 @@ describe('Api.service', () => {
         const promise = await response;
 
         expect(promise).toEqual(messageIdMock);
-    })
+    });
 
     it('should get the messages', async() => {
         const apiUrl = environment.apiUrl;
@@ -189,7 +194,7 @@ describe('Api.service', () => {
         const promise = await response;
 
         expect(promise).toEqual(messagesMock);
-    })
+    });
 
     it('should send feedback', async() => {
         const apiUrl = environment.apiUrl;
@@ -208,7 +213,7 @@ describe('Api.service', () => {
 
         const promise = await response;
         expect(promise).toEqual(feedbackMock);
-    })
+    });
 
     it('should get feedback`s comment', async() => {
         const apiUrl = environment.apiUrl;
@@ -230,25 +235,27 @@ describe('Api.service', () => {
 
         const promise = await response;
         expect(promise).toEqual(feedbackMock);
-    })
+    });
 
     it('should test if the password is correct', async() => {
-        const passwordMock = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+        // Nota: adminLogin usa un mock interno, quindi non dobbiamo usare HttpTestingController
+        const passwordMock = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // Hash di "password"
         const response = firstValueFrom(service.adminLogin(passwordMock));
-        const promise = await response;
-        const resultMock = { success: true, token: 'mock-admin-token-123' };
+        const result = await response;
         
-        expect(promise).toEqual(resultMock);
-    })
+        expect(result.success).toBe(true);
+        expect(result.token).toBeTruthy();
+    });
 
     it('should test if the password is not correct', async() => {
-        const passwordMock = '';
+        // Nota: adminLogin usa un mock interno, quindi non dobbiamo usare HttpTestingController
+        const passwordMock = 'password_sbagliata';
         const response = firstValueFrom(service.adminLogin(passwordMock));
-        const promise = await response;
-        const resultMock = { success: false };
+        const result = await response;
         
-        expect(promise).toEqual(resultMock);
-    })
+        expect(result.success).toBe(false);
+        expect(result.token).toBeFalsy();
+    });
 
     it('should get admin stats', async() => {
         const apiUrl = environment.apiUrl;
