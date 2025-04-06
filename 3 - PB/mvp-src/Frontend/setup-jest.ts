@@ -1,6 +1,5 @@
 import 'jest-preset-angular/setup-jest';
 
-// Mock per il global environment di Angular
 (global as any).CSS = { supports: () => false };
 
 Object.defineProperty(window, 'CSS', { value: null });
