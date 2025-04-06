@@ -34,7 +34,6 @@ describe('Chat.service', () => {
         httpMock = TestBed.inject(HttpTestingController);
         localStorage.clear();
         
-        // Reset delle spy
         Object.values(apiServiceMock).forEach(spy => spy.calls.reset());
     });
 
@@ -288,10 +287,8 @@ describe('Chat.service', () => {
 
         apiServiceMock.getConversations.and.returnValue(of(conversationsMock));
         
-        // Trigger a reload to ensure the conversations are updated
         await chatService['reloadConversations']();
         
-        // Verifica che le conversazioni siano state aggiornate correttamente
         const conversationsLength = (await firstValueFrom(chatService.conversations$)).length;
         expect(conversationsLength).toBe(10);
         
