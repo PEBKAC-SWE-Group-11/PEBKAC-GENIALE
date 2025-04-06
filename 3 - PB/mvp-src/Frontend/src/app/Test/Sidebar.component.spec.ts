@@ -8,7 +8,6 @@ import { SidebarComponent } from '../Core/Sidebar/Sidebar.component';
 describe('Sidebar.component', () => {
     let sidebarComponent: SidebarComponent;
     
-    // Creiamo un oggetto con la proprietà isWaitingForResponse definita correttamente
     const isWaitingForResponseValue = false;
     let chatServiceMock = { 
         conversations$: new BehaviorSubject<Conversation[]>([]),
@@ -23,9 +22,7 @@ describe('Sidebar.component', () => {
         deleteConversation: jasmine.createSpy('deleteConversation'),
         sendFeedback: jasmine.createSpy('sendFeedback'),
         hasReachedConversationLimit: jasmine.createSpy('hasReachedConversationLimit').and.returnValue(false),
-        // Definiamo un valore iniziale per isWaitingForResponse
         _isWaitingForResponse: isWaitingForResponseValue,
-        // Usiamo get/set per poter modificare il valore nei test
         get isWaitingForResponse() {
             return this._isWaitingForResponse;
         },
@@ -41,7 +38,6 @@ describe('Sidebar.component', () => {
 
         sidebarComponent = new SidebarComponent(chatServiceMock as any);
         
-        // Reset delle spy
         chatServiceMock.createConversation.calls.reset();
         chatServiceMock.setActiveConversation.calls.reset();
         chatServiceMock.deleteConversation.calls.reset();
