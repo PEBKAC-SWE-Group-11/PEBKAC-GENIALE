@@ -12,15 +12,16 @@ describe('Auth.interceptors', () => {
         const req = new HttpRequest('GET', 'https://api.example.com/admin/stats');
         const mockResponse = new HttpResponse({ status: 200, body: 'Success' });
 
-        // Creiamo il mock usando jasmine direttamente per evitare problemi con Observable
-        const nextMock = jasmine.createSpy('nextFn').and.returnValue(of(mockResponse));
+        const nextMock = jest.fn((req: HttpRequest<unknown>): Observable<HttpEvent<unknown>> => {
+            return of(mockResponse);
+        });
 
         const result = await firstValueFrom(AuthInterceptor(req, nextMock));
 
-        const modifiedRequest = nextMock.calls.argsFor(0)[0] as HttpRequest<unknown>;
+        const modifiedRequest = nextMock.mock.calls[0][0] as HttpRequest<unknown>;
 
         expect(modifiedRequest.headers.get('Authorization')).toBe('Bearer token');
-        expect(nextMock).toHaveBeenCalledWith(jasmine.any(Object)); 
+        expect(nextMock).toHaveBeenCalledWith(modifiedRequest); 
         expect(result).toEqual(mockResponse);
     });
 
@@ -28,8 +29,9 @@ describe('Auth.interceptors', () => {
         const req = new HttpRequest('GET', 'https://api.example.com/admin/stats');
         const mockResponse = new HttpResponse({ status: 200, body: 'Success' });
 
-        // Creiamo il mock usando jasmine direttamente per evitare problemi con Observable
-        const nextMock = jasmine.createSpy('nextFn').and.returnValue(of(mockResponse));
+        const nextMock = jest.fn((req: HttpRequest<unknown>): Observable<HttpEvent<unknown>> => {
+            return of(mockResponse);
+        });
         
         const result = await firstValueFrom(AuthInterceptor(req, nextMock));
         expect(nextMock).toHaveBeenCalledWith(req);  
