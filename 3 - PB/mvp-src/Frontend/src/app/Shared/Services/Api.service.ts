@@ -46,7 +46,7 @@ export class ApiService {
   }
 
   createConversation(sessionId: string): Observable<{conversationId: string}> {
-    return this.http.post<{conversationWId: string}>(`${this.apiUrl}/api/conversation`, 
+    return this.http.post<{conversationId: string}>(`${this.apiUrl}/api/conversation`, 
       { sessionId: sessionId },
       { headers: this.getHeaders() });
   }
