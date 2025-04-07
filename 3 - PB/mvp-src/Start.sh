@@ -19,4 +19,4 @@ done
 
 
 # Avvia l'applicazione Flask con Gunicorn
-gunicorn -w 4 -b 0.0.0.0:5001 Main:flaskApp
+gunicorn -w 4 -b 0.0.0.0:5001 --timeout 1000 Main:flaskApp
